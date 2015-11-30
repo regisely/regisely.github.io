@@ -1,10 +1,7 @@
 ---
 layout: page
-title: "Regis A. Ely"
-subtitle: Department of Economics, Federal University of Pelotas
-css: "/css/index.css"
-meta-title: "Regis A. Ely"
-meta-description: "I am a Professor in the Department of Economics at Federal University of Pelotas. I work with applied econometrics, more precisely with time series analysis, finance and recursive macroeconomics."
+title: Recent news
+subtitle: Messages, posts, etc.
 bigimg:
   - "/img/big-imgs/office.jpg" : "Sala L, Decon (UFPel), Pelotas (2013)"
   - "/img/big-imgs/seminario1.jpg" : "Seminário PPGOM, Pelotas (2013)"
@@ -12,13 +9,6 @@ bigimg:
   - "/img/big-imgs/alunos.jpg" : "Alunos do PPGOM, Pelotas (2014)"
   - "/img/big-imgs/corredordecon.jpg" : "Corredores do Decon, Pelotas (2014)"
 ---
-
-<div class="well">
-  <h1>Welcome</h1>
-  <p>This is my site</p>
-</div>
-
-<div class="index-posts-title">Recent news:</div>
 
 <div class="posts-list">
   {% for post in paginator.posts %}
@@ -38,8 +28,8 @@ bigimg:
     </p>
   
     <div class="post-entry">
-      {{ post.content | truncatewords: 50 | strip_html | xml_escape}}
-	  <a href="{{ post.url | prepend: site.baseurl }}" class="post-read-more">[Read&nbsp;More]</a>
+      {{ post.content | truncatewords: 50 | strip_html}}
+	  <a href="{{ post.url | prepend: site.baseurl }}" class="post-read-more">Read More</a>
     </div>
   
    </article>
