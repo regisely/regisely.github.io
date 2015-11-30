@@ -28,8 +28,8 @@ avatar: "/img/regisely.png"
 # List of links in the navigation bar
 navbar-links:
   Home: ""
-  About: "aboutme"
-  CV: "projects"
+  About: "about"
+  CV: "cv"
   Courses: "courses"
   Students: "students"
   Software: "software"
