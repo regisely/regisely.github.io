@@ -28,11 +28,10 @@ avatar: "/img/regisely.png"
 # List of links in the navigation bar
 navbar-links:
   Home: ""
-  About: "about"
-  CV: "cv"
-  Courses: "courses"
-  Students: "students"
-  Software: "software"
+  About: "aboutme"
+  Teaching: "teaching"
+  Softwares: "softwares"
+  Resources: "resources"
 nav-search: "search"
 
 # --- Footer options --- #
