@@ -8,7 +8,7 @@ baseurl: ""
 
 # Brief name and description of the site
 title: Regis A. Ely
-description: "I am a Professor in the Department of Economics at Federal University of Pelotas. I work with applied econometrics, more precisely with time series analysis, finance and recursive macroeconomics."
+description: "A Professor of Economics at Federal University of Pelotas that works with applied econometrics using Emacs, R and LaTeX."
 
 # --- Outputting options --- #
 # More information can be found on Jekyll's site
