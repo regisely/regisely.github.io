@@ -3,7 +3,7 @@ layout: post
 title: "macrodata"
 subtitle: an R package for macroeconometrists
 tags: [macrodata, cross country, macroeconometrics]
-date: 2016-01-12 15:00:00 -0700
+date: 2016-01-13 15:00:00 -0700
 ---
 
 Everyone that works with cross country macroeconomic data and uses R should know [Quandl](http://quandl.com). The [Quandl package for R](https://cran.r-project.org/web/packages/Quandl/) is a nice way to gather data using the Quandl API, but it has some drawbacks. They currently do not suppport panel data and the search function Quandl.search does not allow for specific filters.
