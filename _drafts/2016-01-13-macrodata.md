@@ -128,7 +128,7 @@ head(panel, 20)
 ## 20:     AUS 2009 41170.04      2.5
 ~~~
 
-The **`xtstopanel()`** function returns a data.table object. If you are no familiar to the [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package in R, take a look at this [vignette](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.pdf).
+The **`xtstopanel()`** function returns a data.table object. If you are not familiar to the [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package in R, take a look at this [vignette](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.pdf).
 
 When running the **`xtstopanel()`** function, the following warning message may appear in your console:
 
