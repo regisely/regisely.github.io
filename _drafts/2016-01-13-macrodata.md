@@ -62,7 +62,7 @@ The **`requestQ()`** function also accepts all arguments of the original **`Quan
 Our data variable will now be a list of xts objects, with the first element containing the GDP per capita variable and the second element containing the Time to start a business variable. The rows indicate the year and the columns indicate the countries. This is what the first 5 rows and 5 columns of the GDP variable looks like:
 
 {% highlight r linenos %}
-`head(data[[1]][,1:5])`:
+head(data[[1]][,1:5])
 {% endhighlight %}
 
 ~~~
