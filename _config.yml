@@ -62,7 +62,7 @@ url-pretty: "regisely.com"
 # --- Misc --- #
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-disqus: "regisaely"
+disqus: "regisely-site"
 
 # Fill in your Google Analytics ID to track your website using GA
 google_analytics: ""  # Your Google Analytics ID
