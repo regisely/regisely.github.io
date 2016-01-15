@@ -8,7 +8,7 @@ date: 2016-01-15 10:00:00 -0700
 
 Everyone that works with cross country macroeconomic data and uses R should know [Quandl](http://quandl.com). The [Quandl package for R](https://cran.r-project.org/web/packages/Quandl/) is a nice way to gather data using the Quandl API, but it has some drawbacks. They currently do not suppport panel data and the search function **`Quandl.search()`** does not allow for specific filters.
 
-If one wants to quickly build a cross country panel data using macroeconomic time series variables available through Quandl there is a nice solution that I am developing: the [macrodata](https://github.com/regisely/macrodata) package. The development version currently works for almost all series from World Bank and OECD, and should work for other databases as well, but it is dependent in the pattern of the codes, which may change across datasets.
+If one wants to quickly build a cross country panel data using macroeconomic time series variables available through Quandl there is a nice solution that I am developing: the [macrodata](https://github.com/regisely/macrodata) package. The development version currently works for almost all series from World Bank and OECD, and should work for other databases as well, but it is dependent in the pattern of the codes, which may change across datasets. You can view the documentation [here](/files/macrodata-manual.pdf).
 
 Use the following code in R (>= 3.2.2) to install the development version of the package:
 
