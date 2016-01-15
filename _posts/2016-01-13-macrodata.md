@@ -3,7 +3,7 @@ layout: post
 title: "macrodata"
 subtitle: an R package for macroeconometrists
 tags: [macrodata, cross country, macroeconometrics, Quandl, R]
-date: 2016-01-13 15:00:00 -0700
+date: 2016-01-15 10:00:00 -0700
 ---
 
 Everyone that works with cross country macroeconomic data and uses R should know [Quandl](http://quandl.com). The [Quandl package for R](https://cran.r-project.org/web/packages/Quandl/) is a nice way to gather data using the Quandl API, but it has some drawbacks. They currently do not suppport panel data and the search function **`Quandl.search()`** does not allow for specific filters.
@@ -36,8 +36,8 @@ Remember that you can easily get a key by registering at [quandl.com](http://qua
 First we want to search for two specific time series: *time to start a business* and *gdp per capita*. We will be using the **`searchQ()`** function. This function improves **`Quandl.search()`** function in three ways:
 
 1. It allows more than 100 results per query;
-2. It allows filter for specific country or part of the name of a series;
-3. It allows filter for specific frequencies.
+2. It allows filter by specific countries or part of the name of a series;
+3. It allows filter by specific frequencies.
 
 If you want to build a cross country panel data, the best way to start is to search the variables first for a specific country and then select the variables of interest, requesting them for all countries wanted. You can search one variable at a time or maybe try to find them all in one search. Let's try the second by typing:
 
@@ -46,7 +46,7 @@ search <- searchQ("gdp per capita start business", country = "Brazil",
                   database = "WWDI")
 {% endhighlight %}
 
-Note that I saved the results in the search variable. This is important since you want to refer to that variable when requesting data from other countries. I also used the Wold Bank database by specifying `database = "WWDI"`, and I've filtered the results for the country of Brazil. If you do not filter by a specific country, the search will show the same variable for each country. We don't want that behavior, since we are only interested in selecting the variables of interest at the moment.
+Note that I saved the results in the search variable. This is important since you want to refer to that variable when requesting data from other countries. I also used the World Bank database by specifying `database = "WWDI"`, and I've filtered the results for the country of Brazil. If you do not filter by a specific country, the search will show the same variable for each country. We don't want that behavior, since we are only interested in selecting the variables of interest at the moment.
 
 There are three more arguments to the **`searchQ()`** function. You can specify the frequency as "annual", "quarterly", "monthly" or "daily", e.g. `frequency = "annual"`. You can specify the number of results, e.g. `n = 500` (the default is 300). And you can also use `view = FALSE` if you don't want to view the query after the search, which is the common behavior.
 
@@ -184,7 +184,7 @@ Before running regressions we can check summary statistics for the two variables
 {% highlight r linenos %}
 install.packages("doBy") # install if you don't have it
 library(doBy)
-summaryBy(gdp+business~country, data = panel, FUN=c(mean, sd), na.rm = TRUE)
+summaryBy(gdp + business ~ country, data = panel, FUN = c(mean, sd), na.rm = TRUE)
 {% endhighlight %}
 
 ~~~
@@ -237,7 +237,7 @@ summary(reg1)
 ## F-statistic: 74.36 on 1 and 214 DF,  p-value: 1.466e-15
 ~~~
 
-For each day of delay to start a business there is a decrease of around 200 dollars in GDP. There is a lot of endogeneity problems with our regression, but we can easily estimate better models using the [plm](https://cran.r-project.org/web/packages/plm/index.html) package:  
+For each day of delay to start a business there is a decrease of around 200 dollars in GDP per capita. This is a lot! There is probably some endogeneity problems with our regression, but we can easily estimate better models using the [plm](https://cran.r-project.org/web/packages/plm/index.html) package:  
 
 {% highlight r linenos %}
 install.packages("plm") # install if you don't have it
@@ -344,9 +344,11 @@ stargazer(reg1.1, reg2.1, reg3.1, reg4.1, reg5.1,
 
 And this is the final **[results](/files/macrodata-final.pdf)**! You can access the latex file **[here](/files/macrodata-final.tex)**.
 
+So for each day of delay to start a business there is a decrease of around 30 to 35 dollars in GDP per capita. We always can do better, but that is enough for our exercise.  
+
 ## Limitations and TODO
 
-As we saw in this post, sometimes there are some issues that must be manually addressed in order to the **`macrodata`** package work as expected:
+As we saw in this post, sometimes there are issues that must be manually addressed in order to the **`macrodata`** package work as expected:
 
 1. The **`requestQ()`** function may include countries not requested in the data. You may want to check and exclude countries from the sample manually.
 
