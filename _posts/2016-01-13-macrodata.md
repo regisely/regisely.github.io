@@ -52,7 +52,12 @@ There are three more arguments to the **`searchQ()`** function. You can specify 
 
 ## Requesting cross country data
 
-By looking at our search results we can see that the rows 9 and 11 contain the variables we are interested in. Now we can request all the data from G20 countries using the **`requestQ()`** function:
+By looking at our search results we can see that the variables we are interested in are:
+
+- GDP per capita, PPP (constant 2005 international $)
+- Time required  to start a business (days)
+
+Those variables are in rows 9 and 11, respectively (it may be different for you, so in this case you need to adjust the row numbers in the code below). Now we can request all the data from G20 countries using the **`requestQ()`** function:
 
 {% highlight r linenos %}
 data <- requestQ(search, c(9, 11), countries = "G20")
