@@ -2,7 +2,7 @@
 layout: post
 title: "macrodata"
 subtitle: an R package for macroeconometrists
-tags: [macrodata, cross country, macroeconometrics]
+tags: [macrodata, cross country, macroeconometrics, Quandl, R]
 date: 2016-01-13 15:00:00 -0700
 ---
 

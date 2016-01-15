@@ -65,7 +65,7 @@ url-pretty: "regisely.com"
 disqus: "regisely-site"
 
 # Fill in your Google Analytics ID to track your website using GA
-google_analytics: ""  # Your Google Analytics ID
+google_analytics: "UA-12749227-2"  # Your Google Analytics ID
 
 # --- Don't need to touch anything below here (but you can if you want) --- #
 
