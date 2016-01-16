@@ -44,13 +44,14 @@ author:
   email: "regisaely@gmail.com"
   facebook: regisaely
   github: regisely
+  twitter: regisaely
   
 # Select which links to show in the footer  
 footer-links-active:
   rss: true
   facebook: true
   email: true
-  twitter: false
+  twitter: true
   github: true
   linkedin: false
   stackoverflow: false
