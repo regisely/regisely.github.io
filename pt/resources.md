@@ -2,11 +2,10 @@
 layout: page
 title: Recursos
 subtitle: Recursos sobre economia, estatística e análise de dados
-lang: pt
-categories:
-    - pt
 comments: false
 ---
+
+[English](/resources) \| **Português**
 
 Esta coleção inclui uma lista de links onde você pode conseguir mais informações sobre economia, estatística e análise de dados. O conteúdo serve como referência para estudantes, pesquisadores e profissionais. Esta página está constantemente sendo atualizada.
 

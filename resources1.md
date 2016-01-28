@@ -2,9 +2,10 @@
 layout: page
 title: Resources
 subtitle: Resources about economics, statistics and data analysis
-lang: en
 comments: false
 ---
+
+**English** \| [Português](/pt/resources)
 
 This collection includes a list of links where you can get more information about economics, statistics and data analysis. It is intended as a reference for students, researchers and professionals. This page is actively being updated.
 
