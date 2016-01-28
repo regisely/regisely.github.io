@@ -2,6 +2,7 @@
 layout: page
 title: Resources
 subtitle: Resources about economics, statistics and data analysis
+lang: en
 comments: false
 ---
 

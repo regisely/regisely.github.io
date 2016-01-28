@@ -1,7 +1,10 @@
 ---
 layout: page
-title: Resources
-subtitle: Resources sobre economia, estatística e análise de dados
+title: Recursos
+subtitle: Recursos sobre economia, estatística e análise de dados
+lang: pt
+categories:
+    - pt
 comments: false
 ---
 

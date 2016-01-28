@@ -16,13 +16,9 @@ timezone: "America/Sao_Paulo"
 markdown: kramdown
 highlighter: pygments
 permalink: /blog/:title
+gems: [jekyll-paginate]
 paginate: 5
 paginate_path: "/page:num/"
-
-# --- Multiple languages --- #
-gems: ['jekyll-paginate', 'jekyll-multiple-languages']
-languages: ['en', 'pt']
-language_default: 'en'
 
 # --- Navigation bar options --- #
 
