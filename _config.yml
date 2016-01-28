@@ -16,7 +16,9 @@ timezone: "America/Sao_Paulo"
 markdown: kramdown
 highlighter: pygments
 permalink: /blog/:title
-gems: [jekyll-paginate]
+gems: ['jekyll-paginate', 'jekyll-multiple-languages']
+languages: ['en', 'pt']
+language_default: 'en'
 paginate: 5
 paginate_path: "/page:num/"
 
@@ -45,6 +47,7 @@ author:
   facebook: regisaely
   github: regisely
   twitter: regisaely
+  crossvalidated: "users/101354/regis-a-ely" 
   
 # Select which links to show in the footer  
 footer-links-active:
@@ -54,7 +57,7 @@ footer-links-active:
   twitter: true
   github: true
   linkedin: false
-  stackoverflow: false
+  crossvalidated: true
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
