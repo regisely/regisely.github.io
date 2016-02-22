@@ -8,4 +8,8 @@ subtitle: Estatística (verão)
 
 Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de prova e outras informações para o curso de verão de Estatística do Mestrado em Economia Aplicada do PPGOM/UFPel.
 
+- **[Ementa](/files/statverao-ementa.pdf)**
+
+- **[Aula 1 - Teoria de probabilidade](/files/statverao-aula1.pdf)**
+
 ---
