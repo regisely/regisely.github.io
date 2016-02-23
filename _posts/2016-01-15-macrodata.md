@@ -12,11 +12,11 @@ If one wants to quickly build a cross country panel data using macroeconomic tim
 
 Use the following code in R (>= 3.2.2) to install the development version of the package:
 
-{% highlight r linenos %}
+```r
 install.packages("devtools") # install devtools if you don't have it yet
 library(devtools)
 install_github("regisely/macrodata")
-{% endhighlight %}
+```
 
 # Correlations between Time to start a business and GDP per capita
 
