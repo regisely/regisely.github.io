@@ -15,7 +15,7 @@ description: "A Professor of Economics at Federal University of Pelotas that wor
 timezone: "America/Sao_Paulo"
 markdown: kramdown
 highlighter: rouge
-permalink: /blog/:title
+permalink: /blog/:title/index.html
 gems: [jekyll-paginate]
 paginate: 5
 paginate_path: "/page:num/"
