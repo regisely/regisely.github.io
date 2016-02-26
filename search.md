@@ -4,7 +4,7 @@ title: "Search regisely.github.io"
 css: "/css/search.css"
 ---
 
-# Search regisely.github.io
+# Search regisely.com
 
 ### using Google
 

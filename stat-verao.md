@@ -10,6 +10,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Ementa](/files/statverao-ementa.pdf)**
 
-- **[Aula 1 - Teoria de probabilidade](/files/statverao-aula1.pdf)**
+- **[Notas de aula](/files/statverao-aulas.pdf)**
 
 ---
