@@ -3,7 +3,7 @@ layout: post
 title: "A árvore do impeachment"
 subtitle: Prevendo o resultado do impeachment brasileiro
 tags: [classificação, regressão, árvores, impeachment, previsão]
-date: 2016-03-30 10:00:00 -0300
+date: 2016-04-03 10:00:00 -0300
 ---
 
 ## Cenário do impeachment
