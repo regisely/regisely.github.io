@@ -1,30 +1,30 @@
 ---
 layout: post
-title: "A árvore do impeachment"
-subtitle: Prevendo o resultado do impeachment brasileiro
-tags: [classificação, regressão, árvores, impeachment, previsão]
-date: 2016-04-03 10:00:00 -0300
+title: "A árvore do Impeachment"
+subtitle: Previsão do resultado do Impeachment brasileiro
+tags: [classificação, regressão, árvores, Impeachment, previsão]
+date: 2016-04-01 10:00:00 -0300
 ---
 
-## Cenário do impeachment
+## Cenário do Impeachment
 
-A favor ou contra? Parece que todo cidadão brasileiro já tem uma opinião formada sobre o impeachment, com exceção dos políticos, que estão um tanto indecisos. O site **[vem pra rua](http://mapa.vemprarua.net/br/)** fez um serviço de utilidade pública ao elencar a intenção de voto de todos os deputados e senadores brasileiros. Mas a verdade é que ainda resta muita dúvida sobre qual será o resultado dessa votação. Uma vez que os dados estão disponíveis, podemos tentar realizar uma tarefa quase impossível: tentar prever qual será o desfecho da situação política brasileira. Para isso vamos utilizar um simples modelo de regressão baseado em árvores, utilizando o pacote [`rpart`](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf) no **[R](https://www.r-project.org/)**. Vamos aos fatos:
+A favor ou contra? Parece que todo cidadão brasileiro já tem uma opinião formada sobre o Impeachment, com exceção dos políticos, que estão um tanto indecisos. O site **[vem pra rua](http://mapa.vemprarua.net/br/)** fez um serviço de utilidade pública ao elencar a intenção de voto de todos os deputados e senadores brasileiros. Mas a verdade é que ainda resta muita dúvida sobre qual será o resultado dessa votação. Uma vez que os dados estão disponíveis, podemos tentar realizar uma tarefa quase impossível: prever qual será o desfecho da situação política brasileira. Para isso vamos utilizar um simples modelo de regressão baseado em árvores, implementado no pacote [`rpart`](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf) do **[R](https://www.r-project.org/)**. Primeiro vamos aos fatos:
 
 1. Atualmente temos 513 deputados e 81 senadores no Brasil;
 
-2. Na Câmara dos Deputados ocorre o juízo de admissibilidade do processo de impeachment;
+2. Na Câmara dos Deputados ocorre o juízo de admissibilidade do processo de Impeachment;
 
-3. No Senado Federal ocorre o julgamento do impeachment;
+3. No Senado Federal ocorre o julgamento do Impeachment;
 
 4. Para autorização do processo é necessário votação favorável de dois terços dos Deputados Federais e para a condenação é necessária votação de dois terços dos Senadores;
 
-5. Considerando os números, é necessário que 342 Deputados e 54 Senadores sejam favoráveis ao impeachment para que tenhamos um novo Presidente.
+5. Considerando os números, é necessário que 342 Deputados e 54 Senadores sejam favoráveis ao Impeachment para que tenhamos um novo Presidente.
 
-Para conhecer um pouco mais sobre o processo de impeachment você pode ler a **[legislação](http://presrepublica.jusbrasil.com.br/legislacao/128811/lei-do-impeachment-lei-1079-50)**.
+Para conhecer um pouco mais sobre o processo de Impeachment você pode ler a **[legislação](http://presrepublica.jusbrasil.com.br/legislacao/128811/lei-do-Impeachment-lei-1079-50)**.
 
 ## Obtendo os dados
 
-Como a política brasileira é mais imprevisível que episódio de Game of Thrones, vale a pena automatizar a coleta de dados para podermos atualizar constantemente a previsão - neste exato momento que escrevo o post já ocorrem mudanças na intenção de voto de 2 Deputados. Para isso, escrevi um pequeno script em **[python](http://wiki.python.org.br/)** que coleta os dados do site **[vem pra rua](http://mapa.vemprarua.net/br/)** e grava em um arquivo csv com o nome [`imp.csv`](/files/imp.csv), deixando-o pronto para ser analisado no R. Você ver este script **[aqui](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)**.
+Como a política brasileira é mais imprevisível que episódio de Game of Thrones, vale a pena automatizar a coleta de dados para podermos atualizar constantemente a previsão - neste exato momento em que escrevo este post já ocorreram mudanças na intenção de voto de 2 Deputados. Para isso, escrevi um pequeno script em **[python](https://www.python.org/)** que coleta os dados do site **[vem pra rua](http://mapa.vemprarua.net/br/)** e grava em um arquivo csv com o nome [`imp.csv`](/files/imp.csv), deixando-o pronto para ser analisado no R. Você ver este script **[aqui](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)**.
 
 Uma vez obtidos os dados podemos carregá-lo no R digitando:
 
@@ -50,7 +50,7 @@ Aqui está as primeiras 10 observações:
 
 A variável *Voto* contém três possíveis valores: "A favor", "Contra" ou em branco (indecisos). Já a variável *Senador* é uma dummy que é igual a um quando o político é Senador e zero quando é Deputado. As outras três variáveis são o *Nome*, o *Partido* e o *Estado*.
 
-Para prevermos o resultado do impeachment vamos utilizar o método de regressão com particionamento recursivo, implementado pelo pacote [`rpart`](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf). A ideia é que podemos separar as decisões dos políticos em grupos baseados em seus Partidos e Estados. Esse método é ideal para o caso brasileiro, pois sabemos que existem cisões entre os partidos brasileiros dependendo do Estado.
+Para prevermos o resultado do Impeachment vamos utilizar o método de regressão com particionamento recursivo, implementado pelo pacote [`rpart`](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf). A ideia é que podemos separar as decisões dos políticos em grupos baseados em seus Partidos e Estados. Esse método é ideal para o caso brasileiro, pois sabemos que existem cisões entre os partidos brasileiros dependendo do Estado.
 
 ## Implementação do modelo
 
@@ -77,32 +77,41 @@ train_sen <- na.omit(senadores) # senadores decididos
 test_sen <- senadores[which(is.na(senadores$Voto)),] # senadores indecisos
 ```
 
-Note que chamamos o conjunto dos Senadores e Deputados que já estão decididos de **train**, pois estes serão os dados utilizados para treinar nosso modelo. Posteriormente, aplicaremos os resultados do modelo nos dados denominados **test**, que é o conjunto dos políticos indecisos. A partir daí teremos nossa previsão.
+Note que chamamos o conjunto dos Senadores e Deputados que já estão decididos de **train**, pois estes serão os dados utilizados para treinar nosso modelo. Posteriormente, aplicaremos os resultados do modelo nos dados denominados **test**, que é o conjunto dos políticos indecisos, e então teremos nossa previsão.
 
-Agora podemos treinar o modelo:
+Para estimar o modelo digitamos:
 
 ```r
 # Estimação do modelo
 formula = Voto ~ Partido + Estado # o voto é função do Partido e Estado
 fit_dep = rpart(formula, method = "class", data = train_dep)
 fit_sen = rpart(formula, method = "class", data = train_sen)
-
-# Seleção do modelo com menor erro
-fit_dep <- prune(fit_dep,
-                 cp = fit_dep$cptable[which.min(fit_dep$cptable[,"xerror"]),
-                                      "CP"])
-fit_sen <- prune(fit_sen,
-                 cp = fit_sen$cptable[which.min(fit_sen$cptable[,"xerror"]),
-                                      "CP"])
 fit_dep
 fit_sen
 ```
 
-Após estimar o modelo, você pode utilizar as funções `printcp(fit_dep)` e `plotcp(fit_dep)` para verificar qual a combinação de árvores que gera o menor erro no conjunto de previsão. No código acima, faço essa seleção automaticamente e estimo o modelo novamente com a função `prune`. 
+Ao avaliar os resultados da variável `fit_dep`, obtemos os nódulos de divisão para os Deputados:
 
-## Gerando a árvore de decisão para os decididos
+~~~
+n= 384 
 
-Uma vez que estimamos nosso modelo, podemos verificar na prática qual é a separação entre Partidos e Estados que ele está utilizando. Com isso utilizamos a função `plot` no R. Para construirmos árvores mais bonitas utilizamos a função `text` com alguns argumentos especiais (digite `?plot.rpart` no R para mais informações).
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 384 119 A favor (0.69010417 0.30989583)  
+   2) Partido=DEM,PEN,PHS,PMDB,PP,PPS,PR,PRB,PROS,PSB,PSC,PSD,PSDB,PSL,PTB,PTdoB,PTN,PV,REDE,SD 299  36 A favor (0.87959866 0.12040134)  
+     4) Estado=AC,AL,DF,ES,GO,MG,MS,RJ,RO,RS,SC,SP 174   4 A favor (0.97701149 0.02298851) *
+     5) Estado=AM,AP,BA,CE,MA,MT,PA,PB,PE,PI,PR,RN,RR,SE,TO 125  32 A favor (0.74400000 0.25600000)  
+      10) Partido=DEM,PHS,PPS,PRB,PSB,PSC,PSD,PSDB,PSL,PV,REDE,SD 75   4 A favor (0.94666667 0.05333333) *
+      11) Partido=PEN,PMDB,PP,PR,PROS,PTB,PTdoB,PTN 50  22 Contra (0.44000000 0.56000000)  
+        22) Estado=AM,BA,CE,PE,PR,RN,TO 35  15 A favor (0.57142857 0.42857143)  
+          44) Partido=PEN,PMDB,PR,PTB 20   5 A favor (0.75000000 0.25000000) *
+          45) Partido=PP,PROS,PTdoB,PTN 15   5 Contra (0.33333333 0.66666667) *
+        23) Estado=MA,MT,PA,PB,PI,RR,SE 15   2 Contra (0.13333333 0.86666667) *
+   3) Partido=PCdoB,PDT,PSOL,PT 85   2 Contra (0.02352941 0.97647059) *> fit_dep
+~~~
+
+Parece complicado, mas uma maneira mais fácil de visualizar estes nódulos é graficamente. Para isso utilizamos a função `plot` no R. Para construirmos árvores mais bonitas utilizamos a função `text` com alguns argumentos especiais (digite `?plot.rpart` no R para mais informações).
 
 ```r
 # Plota árvore dos deputados decididos
@@ -120,13 +129,28 @@ text(fit_sen, use.n = TRUE, all = TRUE, cex = .8, pretty = TRUE,
 mtext("Valores são: A favor/Contra", side = 1)
 ```
 
-Este é o resultado das duas árvores, lembrando que elas ainda não incluem os parlamentares indecisos:
+Assim, obtemos os seguintes gráficos:
 
 [![Árvore do Impeachment - Câmara (decididos)]({{ site.url }}/img/tree_dep.png)]({{ site.url }}/img/tree_dep.png)
 
 [![Árvore do Impeachment - Senado (decididos)]({{ site.url }}/img/tree_sen.png)]({{ site.url }}/img/tree_sen.png)
 
+Ainda assim não é tão simples, mas quem disse que a política brasileira era fácil de entender. Vamos primeiro analisar o Congresso. Repare que no primeiro nódulo há uma divisão partidária, com o grupo PCdoB, PDT, PSOL e PT de um lado, sendo que 2 Deputados são a favor e 83 contra o Impeachment. No resto dos partidos, existem divisões de acordo com o Estado. No grupo AC,AL,DF,ES,GO,MG,MS,RJ,RO,RS,SC,SP temos 170 Deputados a favor e apenas 4 contra, mas no restante dos Estados há divisões partidárias e por região. Resumindo, me parece que os partidos estão mais rachados nos Estados do Nordeste. No Senado a divisão é mais simples e parece ser explicada bastante pelo Estado do Senador.
+
 ## Previsão dos votos indecisos
+
+Ao utilizar uma estrutura muito complicada para o nosso modelo, podemos acabar cometendo o erro de *overfitting* em nossa previsão. Para evitar isso, podemos utilizar as funções `printcp(fit_dep)` e `plotcp(fit_dep)` para verificar qual a estrutura de árvores que gera o menor erro de previsão em um conjunto independente, chamado *cross-validated*. No código abaixo faço essa seleção automaticamente e estimo o modelo novamente com a função `prune`. 
+
+
+```r
+# Seleção do modelo com menor erro
+fit_dep <- prune(fit_dep,
+                 cp = fit_dep$cptable[which.min(fit_dep$cptable[,"xerror"]),
+                                      "CP"])
+fit_sen <- prune(fit_sen,
+                 cp = fit_sen$cptable[which.min(fit_sen$cptable[,"xerror"]),
+                                      "CP"])
+```
 
 Uma vez obtido o modelo com o menor erro, podemos utilizar os dados referentes aos parlamentares indecisos para realizar a previsão do voto e calcular o percentual de votos a favor com essas novas previsões:
 
@@ -146,16 +170,31 @@ percentual_dep
 percentual_sen
 ```
 
+E o resultado será:
+
+~~~
+[1] 0.7465887 # Câmara dos Deputados
+[1] 0.5308642 # Senado Federal
+~~~
+
+Parece que na situação atual, o Impeachment passa pela Câmara mas esbarra no Congresso.
+
 # Árvores com previsão
 
+Para finalizar, vamos construir a árvore final que inclui os indecisos e utiliza o modelo simplificado com menor erro de previsão:
+
 ```r
+# Altera os dados originais para incluir a previsão dos indecisos
 new_dep <- deputados
 new_dep[names(prev_dep), "Voto"] <- prev_dep
 new_sen <- senadores
 new_sen[names(prev_sen), "Voto"] <- prev_sen
+
+# Constrõe a árvore com os indecisos
 fit_dep_prev = rpart(formula, method = "class", data = new_dep)
 fit_sen_prev = rpart(formula, method = "class", data = new_sen)
 
+# Plota a árvore dos Deputados com os indecisos
 plot(fit_dep_prev, uniform = TRUE,
     main = "Árvore do Impeachment - Câmara (com previsão de indecisos)",
     margin = 0.2)
@@ -165,6 +204,7 @@ mtext("Valores são: A favor/Contra", side = 1)
 mtext(paste0("Percentual previsto a favor: ",
              round(percentual_dep*100, digits = 2), "%"))
 
+# Plota a árvore dos Senadores com os indecisos
 plot(fit_sen_prev, uniform = TRUE,
     main = "Árvore do Impeachment - Senado (com previsão de indecisos)",
     margin = 0.3)
@@ -175,6 +215,52 @@ mtext(paste0("Percentual previsto a favor: ",
              round(percentual_sen*100, digits=2), "%"))
 ```
 
+O resultado está abaixo:
+
 [![Árvore do Impeachment - Câmara (com previsão de indecisos)]({{ site.url }}/img/tree_dep_prev.png)]({{ site.url }}/img/tree_dep_prev.png)
 
 [![Árvore do Impeachment - Senado (com previsão de indecisos)]({{ site.url }}/img/tree_sen_prev.png)]({{ site.url }}/img/tree_sen_prev.png)
+
+A árvore do Senado Federal nos mostra que a maior resistência ao Impeachment parece ser os partidos do PCdoB, PDT, PMDB, PP, PR, PRB, PSB, PSD, PT e PTB nos Estados AL, AM, AP, BA, MA, PA, PE, PI, PR, RJ, RN, RR, TO. O Impeachment precisa de 54 votos no Senado. Atualmente existem 36 Senadores com intenção de voto a favor e 26 contra. Assim, são necessários 18 votos dos 19 indecisos para a Presidente ser destituída do Cargo, ou então uma mudança no voto dos Senadores que se declararam contra o Impeachment.
+
+Podemos visualizar a lista dos Senadores indecisos segundo o site **[vem pra rua](http://mapa.vemprarua.net/br/)** com o comando:
+
+```r
+senadores[which(is.na(senadores$Voto)), ]
+```
+
+O resultado nos dá:
+
+~~~
+447 <NA>             Acir Gurgacz         PDT     RO       1
+448 <NA> Antonio Carlos Valadares         PSB     SE       1
+449 <NA>            Ciro Nogueira          PP     PI       1
+450 <NA>       Delcidio do Amaral Sem partido     MS       1
+451 <NA>           Douglas Cintra         PTB     PE       1
+452 <NA>            Elmano Ferrer         PTB     PI       1
+453 <NA>  Fernando Bezerra Coelho         PSB     PE       1
+454 <NA>               Helio Jose        PMDB     DF       1
+455 <NA>       Joao Alberto Souza        PMDB     MA       1
+456 <NA>            Jose Maranhao        PMDB     PB       1
+457 <NA>              Lucia Vania         PSB     GO       1
+458 <NA>         Marcelo Crivella         PRB     RJ       1
+459 <NA>                Omar Aziz         PSD     AM       1
+460 <NA>            Raimundo Lira        PMDB     PB       1
+461 <NA>            Roberto Rocha         PSB     MA       1
+462 <NA>                  Romario         PSB     RJ       1
+463 <NA>              Romero Juca        PMDB     RR       1
+464 <NA>             Sandra Braga        PMDB     AM       1
+465 <NA>         Vicentinho Alves          PR     TO       1
+~~~
+
+## Atualizando as previsões
+
+Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e postar aqui.
+
+**Última atualização:** 01/04/2016
+
+**Câmera Federal:** 74,66%
+
+**Senado Federal:** 53,09%
+
+Tem sugestões para melhorar o algoritmo? Tem dúvidas sobre a implementação? Encontrou algum typo no texto? Me avise nos comentários ou por email.
