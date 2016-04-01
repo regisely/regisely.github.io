@@ -11,7 +11,7 @@ css: "/css/search.css"
 <div id="google-custom-search">
 <script>
   (function() {
-    var cx = '008668879081464374344:7obftvjulha';
+    var cx = '015900186563514257827:qd6xe_qeqse';
     var gcse = document.createElement('script');
     gcse.type = 'text/javascript';
     gcse.async = true;
@@ -22,5 +22,5 @@ css: "/css/search.css"
   })();
 </script>
 <gcse:searchbox></gcse:searchbox>
-<gcse:searchresults></gcse:searchresults>
+<gcse:searchresults></gcse:searchresults-only>
 </div>

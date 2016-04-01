@@ -24,10 +24,10 @@ In order to demonstrate the usage of the macrodata package let's check if countr
 
 First load the package, then authenticate the Quandl API: 
 
-{% highlight r linenos %}
+```r
 library(macrodata)
 Quandl.api_key("YOUR_API_HERE")
-{% endhighlight %}
+```
 
 Remember that you can easily get a key by registering at [quandl.com](http://quandl.com) for free.
 
@@ -41,10 +41,10 @@ First we want to search for two specific time series: *time to start a business*
 
 If you want to build a cross country panel data, the best way to start is to search the variables first for a specific country and then select the variables of interest, requesting them for all countries wanted. You can search one variable at a time or maybe try to find them all in one search. Let's try the second by typing:
 
-{% highlight r linenos %}
+```r
 search <- searchQ("gdp per capita start business", country = "Brazil",
                   database = "WWDI")
-{% endhighlight %}
+```
 
 Note that I saved the results in the search variable. This is important since you want to refer to that variable when requesting data from other countries. I also used the World Bank database by specifying `database = "WWDI"`, and I've filtered the results for the country of Brazil. If you do not filter by a specific country, the search will show the same variable for each country. We don't want that behavior, since we are only interested in selecting the variables of interest at the moment.
 
@@ -59,17 +59,17 @@ By looking at our search results we can see that the variables we are interested
 
 Those variables are in rows 9 and 11, respectively (it may be different for you, so in this case you need to adjust the row numbers in the code below). Now we can request all the data from G20 countries using the **`requestQ()`** function:
 
-{% highlight r linenos %}
+```r
 data <- requestQ(search, c(9, 11), countries = "G20")
-{% endhighlight %}
+```
 
 The **`requestQ()`** function also accepts all arguments of the original **`Quandl()`** function. It uses the following arguments as defaults: `type = "xts"`, `order = "asc"` and `collapse = "annual"`. Note that the first two arguments of this function are the result of **`searchQ()`** function and the rows indicating the variables of interest. The argument `countries` can contain any list of countries or specific group of countries such as: Europe, European Union, Euro Area, Eastern Europe, Western Europe, America, Latin America, North America, South America, Asia, Oceania, Africa, MENA, G20 and G7. 
 
 Our data variable will now be a list of xts objects, with the first element containing the GDP per capita variable and the second element containing the Time to start a business variable. The rows indicate the year and the columns indicate the countries. This is what the first 5 rows and 5 columns of the GDP variable looks like:
 
-{% highlight r linenos %}
+```r
 head(data[[1]][,1:5])
-{% endhighlight %}
+```
 
 ~~~
 ##                 MEX      AUS      CAN      CHN      TUR
@@ -83,16 +83,16 @@ head(data[[1]][,1:5])
 
 To see the first 5 rows and 5 columns of the Time to start a business variable you could type `head(data[[2]][,1:5])`. Since the first element of the list is the GDP per capita variable and the second element is the Time to start a business variable, we can rename the list as:
 
-{% highlight r linenos %}
+```r
 names(data) <- c("gdp", "business")
-{% endhighlight %}
+```
 
 If you want to check all the information available from the data that was downloaded through the **`requestQ()`** function, type:
 
-{% highlight r linenos %}
+```r
 View(attributes(data)$meta[1]) # gdp metadata
 View(attributes(data)$meta[2]) # business metadata
-{% endhighlight %}
+```
 
 Note that the **`requestQ()`** function performs a search filtering for each country in G20, but sometimes there is no data available for a particular country, so the search may return a country not present in G20. If you want to be sure that you included only countries from G20 take a look at the name column of the metadata attributes above. If you do that you will see that there was no GDP data for Argentina, and there are two intruders in the G20: Macao and Hong Kong. We actually don't mind about that at the moment, so let's keep going.
 
@@ -100,15 +100,15 @@ Note that the **`requestQ()`** function performs a search filtering for each cou
 
 Before making any regressions, we want to build a panel using the data we have downloaded. What we want is to convert a list of xts objects into a data frame object organized as panel data. Luckily, the macrodata package includes a function that automatically does that: **`xtstopanel()`**.
 
-{% highlight r linenos %}
+```r
 panel <- xtstopanel(data)
-{% endhighlight %}
+```
 
 This is what the first 20 lines of the panel variable looks like:
 
-{% highlight r linenos %}
+```r
 head(panel, 20)
-{% endhighlight %}
+```
 
 ~~~
 ##     country year      gdp business
@@ -147,12 +147,12 @@ When running the **`xtstopanel()`** function, the following warning message may 
 
 As a default behavior, this function will drop countries that are not present in both xts variables. To check which countries were dropped, type:
 
-{% highlight r linenos %}
+```r
 names <- lapply(data, names)
 all_names <- Reduce(union, names)
 common_names <- Reduce(intersect, names)
 setdiff(all_names, common_names)
-{% endhighlight %}
+```
 
 ~~~
 ## [1] "MAC" "ARG"
@@ -160,9 +160,9 @@ setdiff(all_names, common_names)
 
 There was no GDP per capita data from Argentina, so this country was dropped. Macao was also dropped so we got rid of one intruder. If you really want to work only with G20 countries, exclude the other intruder (Hong Kong) by typing:
 
-{% highlight r linenos %}
+```r
 panel <- panel[country != "HKG",]
-{% endhighlight %}
+```
 
 Now we are ready to begin our analysis.
 
@@ -170,11 +170,11 @@ Now we are ready to begin our analysis.
 
 To begin our analysis, we can make a nice scatterplot with the [car](https://cran.r-project.org/web/packages/car/index.html) package: 
 
-{% highlight r linenos %}
+```r
 library(car)
 scatterplotMatrix(~ gdp + business|country, data = panel,
                    main = "Gdp and Time to start a business by country from G20")
-{% endhighlight %}
+```
 
 This is the result:
 
@@ -186,11 +186,11 @@ It seems that countries with highest GDPs broke the barrier of less than 50 days
 
 Before running regressions we can check summary statistics for the two variables using the [doBy](https://cran.r-project.org/web/packages/doBy/index.html) package.
 
-{% highlight r linenos %}
+```r
 install.packages("doBy") # install if you don't have it
 library(doBy)
 summaryBy(gdp + business ~ country, data = panel, FUN = c(mean, sd), na.rm = TRUE)
-{% endhighlight %}
+```
 
 ~~~
 ##     country  gdp.mean business.mean   gdp.sd business.sd
@@ -216,10 +216,10 @@ summaryBy(gdp + business ~ country, data = panel, FUN = c(mean, sd), na.rm = TRU
 
 And now we can try to open a business in Brazil. Nah, just kidding!! Let's run some regressions. First we can run a pooled OLS regression with the **`lm()`** function:
 
-{% highlight r linenos %}
+```r
 reg1 <- lm(gdp ~ business, panel)
 summary(reg1)
-{% endhighlight %}
+```
 
 ~~~
 ## Call:
@@ -244,7 +244,7 @@ summary(reg1)
 
 For each day of delay to start a business there is a decrease of around 200 dollars in GDP per capita. This is a lot! There is probably some endogeneity problems with our regression, but we can easily estimate better models using the [plm](https://cran.r-project.org/web/packages/plm/index.html) package:  
 
-{% highlight r linenos %}
+```r
 install.packages("plm") # install if you don't have it
 library(plm)
 reg2 <- plm(gdp ~ business, panel, model = "within")
@@ -258,7 +258,7 @@ summary(reg4)
 
 reg5 <- plm(gdp ~ business, panel, model = "random", effect = "twoways")
 summary(reg5)
-{% endhighlight %}
+```
 
 That is good enough for our exercise. Let's make a table of results.
 
@@ -266,7 +266,7 @@ That is good enough for our exercise. Let's make a table of results.
 
 We can group all of our regressions in a nice table of results by using latex and the [stargazer](https://cran.r-project.org/web/packages/stargazer/index.html) package:
 
-{% highlight r linenos %}
+```r
 install.packages("stargazer") # install if you don't have it 
 library(stargazer)
 stargazer(reg1, reg2, reg3, reg4, reg5,
@@ -275,7 +275,7 @@ stargazer(reg1, reg2, reg3, reg4, reg5,
                             "Random Effect Two-ways"),
           model.names = FALSE, table.placement = "p!",
           title = "Relation between Time to start a business and GDP per capita")
-{% endhighlight %}
+```
 
 This is the **[result](/files/macrodata-table1.pdf)**!
 
@@ -283,20 +283,20 @@ This is the **[result](/files/macrodata-table1.pdf)**!
 
 Something seems to be missing in those regressions. Often we want to add some macroeconomic control variables in our model. Let's add some more variables such as: consumer price index, human capital and openness.
 
-{% highlight r linenos %}
+```r
 search2 <- searchQ("openness human capital cpi", country = "Brazil")
 data2 <- requestQ(search2, c(3, 17, 28), countries = "G20")
 names(data2) <- c("openness", "human_capital", "cpi")
 panel2 <- xtstopanel(c(data, data2))
-{% endhighlight %}
+```
 
 Note that we built a new panel using the original data and the new one. We can check which countries were included in this new panel, and compare to the old one:
 
-{% highlight r linenos %}
+```r
 oldcountries <- unique(panel$country)
 newcountries <- unique(panel2$country)
 setdiff(oldcountries, newcountries)
-{% endhighlight %}
+```
 
 ~~~
 ## [1] "DEU"
@@ -304,9 +304,9 @@ setdiff(oldcountries, newcountries)
 
 It looks like Germany was dropped from the sample. When you request data with the **`requestQ()`** function, the columns are automatically renamed with the country code. The **`xtstopanel()`** function needs the columns to have the same names (ids). But the codes may change across different databases. If we look at the meta attributes of data2 variable we can see that the openness data comes from PENN World Tables, the human capital data comes from Groningen Growth and Development Centre, and the consumer price index data comes from World Bank. We can investigate what is happening by looking at the names of columns in the data2 variable:
 
-{% highlight r linenos %}
+```r
 names(data2[[1]])
-{% endhighlight %}
+```
 
 ~~~
 ##  [1] "BRA" "ITA" "ARG" "AUS" "MEX" "GER" "IND" "TUR" "CAN" "FRA" "IDN" "JPN"
@@ -315,11 +315,11 @@ names(data2[[1]])
 
 By looking at the first variable (openness), we see that Germany's code is "GER". That is different from "DEU". We can manually change the name and rebuild the panel:
 
-{% highlight r linenos %}
+```r
 names(data2[[1]])[6] <- "DEU"
 panel2 <- xtstopanel(c(data, data2))
 unique(panel2$country)
-{% endhighlight %}
+```
 
 ~~~
 ##  [1] "AUS" "BRA" "CAN" "CHN" "DEU" "FRA" "GBR" "IDN" "IND" "ITA" "JPN" "KOR"
@@ -328,7 +328,7 @@ unique(panel2$country)
 
 Now we are good to go. We need to run all the regressions again including the control variables and make our final table of results:
 
-{% highlight r linenos %}
+```r
 reg1.1 <- plm(gdp ~ business + openness + diff(human_capital) + diff(cpi),
              panel2, model = "pooling")
 reg2.1 <- plm(gdp ~ business + openness + diff(human_capital) + diff(cpi),
@@ -345,7 +345,7 @@ stargazer(reg1.1, reg2.1, reg3.1, reg4.1, reg5.1,
                             "Random Effect Two-ways"),
           model.names = FALSE, table.placement = "p!",
           title = "Relation between Time to start a business and GDP per capita with control variables")
-{% endhighlight %}
+```
 
 And this is the final **[results](/files/macrodata-final.pdf)**! You can access the latex file **[here](/files/macrodata-final.tex)**.
 

@@ -47,10 +47,10 @@ plot(model.predict)
 
 And here is a code without numbering lines:
 
-{% highlight r %}
+```r
 updateColourInput(session, "col", label = "COLOUR:", value = "orange",
   showColour = "background", allowTransparent = TRUE, transparentText = "None")
-{% endhighlight %}
+```
 
 # Methodology {#method}
 
