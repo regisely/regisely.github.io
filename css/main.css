@@ -158,8 +158,8 @@ img::-moz-selection {
 
 @media only screen and (min-width: 768px) {
   .navbar-custom .avatar-container {
-    width: 105px;
-    margin-top: -69px;
+    width: 106px;
+    margin-top: -66px;
   }
   
   .navbar-custom .avatar-container  .avatar-img-border {
