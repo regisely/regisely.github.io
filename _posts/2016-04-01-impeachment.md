@@ -263,6 +263,8 @@ O resultado nos dá:
 
 ## Atualizando as previsões
 
-Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e publicar na tabela do início deste post. 
+Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e publicar na tabela do início deste post.
+
+*Nota:* A Tabela do início do post contém a previsão com os últimos dados, mas os gráficos, arquivo de dados e resultados ao longo do post se referem a data de 1º de abril. Para replicar os dados da tabela atualizada você precisar obter os novos dados a partir **[deste script](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)** escrito em Python.
 
 Tem sugestões para melhorar o algoritmo? Tem dúvidas sobre a implementação? Encontrou algum typo no texto? Me avise nos comentários ou por email.
