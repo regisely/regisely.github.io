@@ -32,7 +32,7 @@ Uma vez obtidos os dados podemos carregá-lo no R digitando:
 data <- read.csv("imp.csv", sep = ";")
 ```
 
-Aqui está as primeiras 10 observações:
+Aqui estão as primeiras 10 observações:
 
 ~~~
       Voto                   Nome Partido Estado Senador
