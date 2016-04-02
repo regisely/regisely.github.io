@@ -12,13 +12,13 @@ A favor ou contra? Parece que todo cidadão brasileiro já tem uma opinião form
 
 1. Atualmente temos 513 deputados e 81 senadores no Brasil;
 
-2. Na Câmara dos Deputados ocorre o juízo de admissibilidade do processo de Impeachment;
+2. O processo de Impeachment pode ser dividido em duas etapas: o juízo de admissibilidade e o julgamento do impedimento;
 
-3. No Senado Federal ocorre o julgamento do Impeachment;
+3. Para o pedido ser admitido é necessário 2/3 de votos favoráveis na Câmara dos Deputados e 1/2 de votos favoráveis no Senado Federal;
 
-4. Para autorização do processo é necessário votação favorável de dois terços dos Deputados Federais e para a condenação é necessária votação de dois terços dos Senadores;
+4. Para o impedimento da Presidente é necessário 2/3 de votos favoráveis no Senado Federal;
 
-5. Considerando os números, é necessário que 342 Deputados e 54 Senadores sejam favoráveis ao Impeachment para que tenhamos um novo Presidente.
+5. Considerando os números, para termos um novo Presidente é necessário que 342 Deputados e 41 Senadores sejam favoráveis a admissibilidade, e que 54 Senadores sejam favoráveis ao impedimento (crédito ao Gabriel Torres por lembrar das recentes mudanças feitas pelo STF).
 
 Para conhecer um pouco mais sobre o processo de Impeachment você pode ler a **[legislação](http://presrepublica.jusbrasil.com.br/legislacao/128811/lei-do-Impeachment-lei-1079-50)**.
 
@@ -177,7 +177,7 @@ E o resultado será:
 [1] 0.5308642 # Senado Federal
 ~~~
 
-Parece que na situação atual, o Impeachment passa pela Câmara mas esbarra no Congresso.
+Parece que na situação atual, o Impeachment passa pela etapa de admissibilidade mas esbarra no julgamento do Senado Federal.
 
 # Árvores com previsão
 
@@ -262,5 +262,9 @@ Como toda previsão é melhor a medida que incorpora a chegada de novas informa�
 **Câmera Federal:** 74,66%
 
 **Senado Federal:** 53,09%
+
+**Resultado da admissibilidade:** A favor
+
+**Resultado do julgamento:** Contra
 
 Tem sugestões para melhorar o algoritmo? Tem dúvidas sobre a implementação? Encontrou algum typo no texto? Me avise nos comentários ou por email.
