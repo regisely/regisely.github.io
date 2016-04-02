@@ -6,6 +6,14 @@ tags: [classificação, regressão, árvores, Impeachment, previsão]
 date: 2016-04-01 10:00:00 -0300
 ---
 
+
+| **Câmera Federal:** | 74,85% |
+| **Senado Federal:** | 53,09% |
+| **Resultado da admissibilidade:** | A favor |
+| **Resultado do julgamento:** | Contra |
+
+> **Última atualização:** 02/04/2016
+
 ## Cenário do Impeachment
 
 A favor ou contra? Parece que todo cidadão brasileiro já tem uma opinião formada sobre o Impeachment, com exceção dos políticos, que estão um tanto indecisos. O site **[vem pra rua](http://mapa.vemprarua.net/br/)** fez um serviço de utilidade pública ao elencar a intenção de voto de todos os deputados e senadores brasileiros. Mas a verdade é que ainda resta muita dúvida sobre qual será o resultado dessa votação. Uma vez que os dados estão disponíveis, podemos tentar realizar uma tarefa quase impossível: prever qual será o desfecho da situação política brasileira. Para isso vamos utilizar um simples modelo de regressão baseado em árvores, implementado no pacote [`rpart`](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf) do **[R](https://www.r-project.org/)**. Primeiro vamos aos fatos:
@@ -255,16 +263,6 @@ O resultado nos dá:
 
 ## Atualizando as previsões
 
-Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e postar aqui.
-
-**Última atualização:** 01/04/2016
-
-**Câmera Federal:** 74,66%
-
-**Senado Federal:** 53,09%
-
-**Resultado da admissibilidade:** A favor
-
-**Resultado do julgamento:** Contra
+Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e publicar na tabela do início deste post. 
 
 Tem sugestões para melhorar o algoritmo? Tem dúvidas sobre a implementação? Encontrou algum typo no texto? Me avise nos comentários ou por email.
