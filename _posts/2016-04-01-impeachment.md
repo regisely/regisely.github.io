@@ -139,7 +139,7 @@ Ainda assim não é tão simples, mas quem disse que a política brasileira era 
 
 ## Previsão dos votos indecisos
 
-Ao utilizar uma estrutura muito complicada para o nosso modelo, podemos acabar cometendo o erro de *overfitting* em nossa previsão. Para evitar isso, podemos utilizar as funções `printcp(fit_dep)` e `plotcp(fit_dep)` para verificar qual a estrutura de árvores que gera o menor erro de previsão em um conjunto independente, chamado *cross-validated*. No código abaixo faço essa seleção automaticamente e estimo o modelo novamente com a função `prune`. 
+Ao utilizar uma estrutura muito complicada para o nosso modelo, podemos acabar cometendo o erro de *overfitting* em nossa previsão. Para evitar isso, vamos utilizar as funções `printcp(fit_dep)` e `plotcp(fit_dep)` para verificar qual a estrutura de árvores que gera o menor erro de previsão em um conjunto independente, chamado *cross-validated*. No código abaixo faço essa seleção automaticamente e estimo o modelo novamente com a função `prune`. 
 
 
 ```r
