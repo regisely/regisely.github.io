@@ -6,7 +6,6 @@ tags: [classificação, regressão, árvores, Impeachment, previsão]
 date: 2016-04-01 10:00:00 -0300
 ---
 
-
 | **Câmera Federal:** | 74,85% |
 | **Senado Federal:** | 53,09% |
 | **Resultado da admissibilidade:** | A favor |
@@ -32,7 +31,7 @@ Para conhecer um pouco mais sobre o processo de Impeachment você pode ler a **[
 
 ## Obtendo os dados
 
-Como a política brasileira é mais imprevisível que episódio de Game of Thrones, vale a pena automatizar a coleta de dados para podermos atualizar constantemente a previsão - neste exato momento em que escrevo este post já ocorreram mudanças na intenção de voto de 2 Deputados. Para isso, escrevi um pequeno script em **[python](https://www.python.org/)** que coleta os dados do site **[vem pra rua](http://mapa.vemprarua.net/br/)** e grava em um arquivo csv com o nome [`imp.csv`](/files/imp.csv), deixando-o pronto para ser analisado no R. Você ver este script **[aqui](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)**.
+Como a política brasileira é mais imprevisível que episódio de Game of Thrones, vale a pena automatizar a coleta de dados para podermos atualizar constantemente a previsão - neste exato momento em que escrevo este post já ocorreram mudanças na intenção de voto de 2 Deputados. Para isso, escrevi um pequeno script em **[Python2.7](https://www.python.org/)** que coleta os dados do site **[vem pra rua](http://mapa.vemprarua.net/br/)** e grava em um arquivo csv com o nome [`imp.csv`](/files/imp.csv), deixando-o pronto para ser analisado no R. Você ver este script **[aqui](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)**.
 
 Uma vez obtidos os dados podemos carregá-lo no R digitando:
 
@@ -265,6 +264,6 @@ O resultado nos dá:
 
 Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e publicar na tabela do início deste post.
 
-*Nota:* A Tabela do início do post contém a previsão com os últimos dados, mas os gráficos, arquivo de dados e resultados ao longo do post se referem a data de 1º de abril, incluindo os nomes dos parlamentares indecisos. Para replicar os dados da tabela atualizada você precisar obter os novos dados a partir **[deste script](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)** escrito em Python. Para verificar a lista atualizada acesse o site [vem pra rua](http://mapa.vemprarua.net/br/).
+*Nota:* A Tabela do início do post contém a previsão com os últimos dados, mas os gráficos, arquivo de dados e resultados ao longo do post se referem a data de 1º de abril, incluindo os nomes dos parlamentares indecisos. Para replicar os dados da tabela atualizada você precisar obter os novos dados a partir **[deste script](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)** escrito em Python2.7. Para verificar a lista atualizada acesse o site [vem pra rua](http://mapa.vemprarua.net/br/).
 
 Tem sugestões para melhorar o algoritmo? Tem dúvidas sobre a implementação? Encontrou algum typo no texto? Me avise nos comentários ou por email.
