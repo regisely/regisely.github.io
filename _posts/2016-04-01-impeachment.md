@@ -6,12 +6,17 @@ tags: [classificação, regressão, árvores, Impeachment, previsão]
 date: 2016-04-01 10:00:00 -0300
 ---
 
-| **Câmera Federal:** | 74,85% |
-| **Senado Federal:** | 53,09% |
-| **Resultado da admissibilidade:** | A favor |
-| **Resultado do julgamento:** | Contra |
+Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões serão atualizadas diariamente e o resultado percentual se refere à proporção de Deputados e Senadores a favor do Impeachment em relação a totalidade dos membros de cada Casa considerando diferentes taxas de abstenção ou ausência. Os parlamentares ausentes foram selecionados aleatoriamente.
+
+| **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
+| **Câmera Federal:** | 74,85% | 72,90% | 70,76% | 68,23% |
+| **Senado Federal:** | 53,09% | 51,85% | 49,38% | 45,68% |
+| **Resultado da admissibilidade:** | A favor | A favor | Contra | Contra |
+| **Resultado do julgamento:** | Contra | Contra | Contra | Contra |
 
 > **Última atualização:** 03/04/2016
+
+**Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, de modo que todos os resultados podem ser replicados com a informação abaixo. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
 
 ## Cenário do Impeachment
 
@@ -145,8 +150,40 @@ Assim, obtemos os seguintes gráficos:
 Ainda assim não é tão simples, mas quem disse que a política brasileira era fácil de entender. Vamos primeiro analisar o Congresso. Repare que no primeiro nódulo há uma divisão partidária, com o grupo PCdoB, PDT, PSOL e PT de um lado, sendo que 2 Deputados são a favor e 83 contra o Impeachment. No resto dos partidos, existem divisões de acordo com o Estado. No grupo AC,AL,DF,ES,GO,MG,MS,RJ,RO,RS,SC,SP temos 170 Deputados a favor e apenas 4 contra, mas no restante dos Estados há divisões partidárias e por região. Resumindo, me parece que os partidos estão mais rachados nos Estados do Nordeste. No Senado a divisão é mais simples e parece ser explicada bastante pelo Estado do Senador.
 
 ## Previsão dos votos indecisos
+ 
+Após estimar o modelo podemos calcular a acurácia do mesmo utilizando as funções `printcp()` e `plotcp()`. Uma maneira rápida de obter a acurácia do modelo no conjunto *train* é digitando:
 
-Ao utilizar uma estrutura muito complicada para o nosso modelo, podemos acabar cometendo o erro de *overfitting* em nossa previsão. Para evitar isso, vamos utilizar as funções `printcp(fit_dep)` e `plotcp(fit_dep)` para verificar qual a estrutura de árvores que gera o menor erro de previsão em um conjunto independente, chamado *cross-validated*. No código abaixo faço essa seleção automaticamente e estimo o modelo novamente com a função `prune`. 
+```r
+prev_class <- table(predict(fit_dep, type="class"), train_dep$Voto)
+sum(diag(class.pred))/sum(class.pred)
+```
+
+O resultado é:
+
+~~~
+[1] 0.9402597 # Deputados
+[1] 0.9032258 # Senadores
+~~~
+
+Entretanto, ao utilizar uma estrutura muito complicada para o nosso modelo, podemos acabar cometendo o erro de *overfitting* em nossa previsão. Para evitar isso, devemos verificar qual a estrutura de árvores que gera o menor erro de previsão em um conjunto independente, chamado *cross-validated*. Para obter a acurácia do modelo de previsão nesse conjunto no caso dos Deputados podemos utilizar a informação da função `printcp(fit_dep)`:
+
+~~~
+Classification tree:
+rpart(formula = formula, data = train_dep, method = "class")
+
+Variables actually used in tree construction:
+[1] Partido
+
+Root node error: 119/385 = 0.30909
+
+n= 385 
+
+       CP nsplit rel error  xerror     xstd
+1 0.67227      0   1.00000 1.00000 0.076197
+2 0.02521      1   0.32773 0.35294 0.051404
+~~~
+
+O taxa de erro do conjunto cross-validated (10-fold) pode ser obtida multiplicando-se o *Root node error* pelo menor valor do *xerror*, que corresponde ao melhor modelo. Assim, obtemos um erro de 0.1090902, o que nos dá uma acurácia de 0.8909098. No código abaixo faço a seleção automática do modelo com menor erro no conjunto cross-validated e estimo-o novamente com a função `prune`. 
 
 
 ```r
@@ -259,6 +296,30 @@ O resultado nos dá:
 464 <NA>             Sandra Braga        PMDB     AM       1
 465 <NA>         Vicentinho Alves          PR     TO       1
 ~~~
+
+## Lidando com os ausentes
+
+A ausência ou a abstenção pode trazer uma influência grande no resultado da votação, visto que o cálculo do percentual é feito sobre a totalidade dos membros e não apenas sobre os presentes (crédito ao Prof. Bruno Speck da USP por lembrar disto). Assim, decidi fazer uma simulação com diferentes taxas de ausência/abstenção, onde os deputados e senadores ausentes são selecionados aleatoriamente. Para criar os novos percentuais, basta digitar:
+
+```r
+# Ausência de 2,5% dos Deputados
+n_dep_pres <- floor(nrow(new_dep) * 0.975)
+dep_pres <- new_dep[sample(seq_len(nrow(new_dep)), n_dep_pres),]
+
+# Ausência de 2,5% dos Senadores
+n_sen_pres <- floor(nrow(new_sen) * 0.975)
+dep_pres <- new_sen[sample(seq_len(nrow(new_sen)), n_sen_pres),]
+
+# Percentual de favoráveis
+n_dep_favor_pres <- length(which(dep_pres == "A favor"))
+n_sen_favor_pres <- length(which(sen_pres == "A favor"))
+percentual_dep_pres <- n_dep_favor_pres/n_dep
+percentual_sen_pres <- n_sen_favor_pres/n_sen
+percentual_dep_pres
+percentual_sen_pres
+```
+
+O percentual de Deputados favoráveis ao Impeachment quando a abstenção é de 2,5% é de 72,90%, e de Senadores é 51,85%. Para realizar a análise com outras taxas de abstenção basta mudar os percentuais. Ainda assim, a acurácia da previsão depende do fato de que a ausência seja aleatória, e não correlacionada com a intenção de voto, Partido ou Estado.
 
 ## Atualizando as previsões
 
