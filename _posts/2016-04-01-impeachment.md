@@ -154,8 +154,13 @@ Ainda assim não é tão simples, mas quem disse que a política brasileira era 
 Após estimar o modelo podemos calcular a acurácia do mesmo utilizando as funções `printcp()` e `plotcp()`. Uma maneira rápida de obter a acurácia do modelo no conjunto *train* é digitando:
 
 ```r
-prev_class <- table(predict(fit_dep, type="class"), train_dep$Voto)
-sum(diag(class.pred))/sum(class.pred)
+# Acurácia no conjunto train para Deputados
+prev_class_dep <- table(predict(fit_dep, type="class"), train_dep$Voto)
+sum(diag(prev_class_dep))/sum(prev_class_dep)
+
+# Acurácia no conjunto train para Senadores
+prev_class_sen <- table(predict(fit_sen, type="class"), train_sen$Voto)
+sum(diag(prev_class_sen))/sum(prev_class_sen)
 ```
 
 O resultado é:
