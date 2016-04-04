@@ -11,7 +11,7 @@ date: 2016-04-01 10:00:00 -0300
 | **Resultado da admissibilidade:** | A favor |
 | **Resultado do julgamento:** | Contra |
 
-> **Última atualização:** 02/04/2016
+> **Última atualização:** 03/04/2016
 
 ## Cenário do Impeachment
 
