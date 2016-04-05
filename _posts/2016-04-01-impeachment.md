@@ -11,7 +11,7 @@ Este post faz um exercício de previsão para o Impeachment brasileiro utilizand
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
 | **Câmera Federal:** | 75,05% | 71,34% | 71,15% | 67,06% |
 | **Senado Federal:** | 54,32% | 53,09% | 50,62% | 49,38% |
-| **Resultado da admissibilidade:** | A favor | A favor | A favor | A favor |
+| **Resultado da admissibilidade:** | A favor | A favor | A favor | Contra |
 | **Resultado do julgamento:** | Contra | Contra | Contra | Contra |
 
 > **Última atualização:** 04/04/2016
