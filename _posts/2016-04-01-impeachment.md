@@ -8,13 +8,15 @@ date: 2016-04-01 10:00:00 -0300
 
 Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões serão atualizadas diariamente e o resultado percentual se refere à proporção de Deputados e Senadores a favor do Impeachment em relação a totalidade dos membros de cada Casa considerando diferentes taxas de abstenção ou ausência. Os parlamentares ausentes foram selecionados aleatoriamente.
 
+> **Última atualização:** 05/04/2016
+
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
-| **Câmara Federal:** | 75,05% | 71,34% | 71,15% | 67,06% |
-| **Senado Federal:** | 54,32% | 53,09% | 50,62% | 49,38% |
-| **Resultado da admissibilidade:** | A favor | A favor | A favor | Contra |
+| **Câmara Federal:** | 75,24% | 71,15% | 71,54% | 68,42% |
+| **Senado Federal:** | 54,32% | 51,85% | 50,61%* | 49,38% |
+| **Resultado da admissibilidade:** | A favor | A favor | Contra | Contra |
 | **Resultado do julgamento:** | Contra | Contra | Contra | Contra |
 
-> **Última atualização:** 04/04/2016
+>\* Para o Impeachment passar pela admissibilidade são necessários 41 votos no Senado, o que corresponde a no mínimo 50,62% dos Senadores. 
 
 **Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, de modo que todos os resultados podem ser replicados com a informação abaixo. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
 
