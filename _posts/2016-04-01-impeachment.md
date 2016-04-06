@@ -10,13 +10,13 @@ Este post faz um exercício de previsão para o Impeachment brasileiro utilizand
 
 *Última atualização:* 05/04/2016
 
-#### Percentuais favoráveis ao Impeachment em diversos cenários de ausência
+#### Previsão com diversas taxas de ausência (percentual favorável)
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
 | **Câmara Federal:** | 75,24% | 71,15% | 71,54% | 68,42% |
 | **Senado Federal:** | 54,32% | 51,85% | 50,61%* | 49,38% |
-| **Resultado da admissibilidade\*:** | A favor | A favor | Contra | Contra |
-| **Resultado do julgamento\*\*:** | Contra | Contra | Contra | Contra |
+| **Admissibilidade\*:** | A favor | A favor | Contra | Contra |
+| **Julgamento\*\*:** | Contra | Contra | Contra | Contra |
 
 \* *Para o Impeachment passar pela admissibilidade são necessários 41 votos no Senado (50,62% dos Senadores), e 342 votos na Câmara (66,67% dos Deputados).*
 
