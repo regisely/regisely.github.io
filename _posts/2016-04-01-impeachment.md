@@ -23,10 +23,12 @@ Este post faz um exercício de previsão para o Impeachment brasileiro utilizand
 \** *Para a Presidente ser destituída é necessário o julgamento favorável de 54 membros do Senado (66,67% dos Senadores).*
 
 #### Evolução da previsão na Câmara (percentual favorável) 
-{% include plotcam.html %}
+{% capture my-include %}{% include plotcam.html %}{% endcapture %}
+{{ my-include | markdownify }}
 
 #### Evolução da previsão no Senado (percentual favorável) 
-{% include plotsen.html %}
+{% capture my-include %}{% include plotsen.html %}{% endcapture %}
+{{ my-include | markdownify }}
 
 **Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, com total transparência sobre a forma de obtenção dos resultados, de modo que as informações abaixo contêm todas as etapas para replicação dos mesmos. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
 
