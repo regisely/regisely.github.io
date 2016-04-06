@@ -8,17 +8,26 @@ date: 2016-04-01 10:00:00 -0300
 
 Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões serão atualizadas diariamente e o resultado percentual se refere à proporção de Deputados e Senadores a favor do Impeachment em relação a totalidade dos membros de cada Casa considerando diferentes taxas de abstenção ou ausência. Os parlamentares ausentes foram selecionados aleatoriamente.
 
-> **Última atualização:** 05/04/2016
+*Última atualização:* 05/04/2016
+
+#### Percentuais favoráveis ao Impeachment em diversos cenários de ausência
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
 | **Câmara Federal:** | 75,24% | 71,15% | 71,54% | 68,42% |
 | **Senado Federal:** | 54,32% | 51,85% | 50,61%* | 49,38% |
-| **Resultado da admissibilidade:** | A favor | A favor | Contra | Contra |
-| **Resultado do julgamento:** | Contra | Contra | Contra | Contra |
+| **Resultado da admissibilidade\*:** | A favor | A favor | Contra | Contra |
+| **Resultado do julgamento\*\*:** | Contra | Contra | Contra | Contra |
 
->\* Para o Impeachment passar pela admissibilidade são necessários 41 votos no Senado, o que corresponde a no mínimo 50,62% dos Senadores. 
+>\* Para o Impeachment passar pela admissibilidade são necessários 41 votos no Senado (50,62% dos Senadores), e 342 votos na Câmara (66,67% dos Deputados). |
+>\** Para a Presidente ser destituída é necessário o julgamento favorável de 54 membros do Senado (66,67% dos Senadores). |
 
-**Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, de modo que todos os resultados podem ser replicados com a informação abaixo. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
+#### Evolução da previsão do percentual favorável ao Impeachment na Câmara 
+{% include plotcam.html %}
+
+#### Evolução da previsão do percentual favorável ao Impeachment no Senado 
+{% include plotsen.html %}
+
+**Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, com total transparência sobre a forma de obtenção dos resultados, de modo que as informações abaixo contêm todas as etapas para replicação dos mesmos. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
 
 ## Cenário do Impeachment
 
