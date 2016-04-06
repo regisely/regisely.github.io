@@ -18,13 +18,14 @@ Este post faz um exercício de previsão para o Impeachment brasileiro utilizand
 | **Resultado da admissibilidade\*:** | A favor | A favor | Contra | Contra |
 | **Resultado do julgamento\*\*:** | Contra | Contra | Contra | Contra |
 
->\* Para o Impeachment passar pela admissibilidade são necessários 41 votos no Senado (50,62% dos Senadores), e 342 votos na Câmara (66,67% dos Deputados). |
->\** Para a Presidente ser destituída é necessário o julgamento favorável de 54 membros do Senado (66,67% dos Senadores). |
+\* *Para o Impeachment passar pela admissibilidade são necessários 41 votos no Senado (50,62% dos Senadores), e 342 votos na Câmara (66,67% dos Deputados).*
 
-#### Evolução da previsão do percentual favorável ao Impeachment na Câmara 
+\** *Para a Presidente ser destituída é necessário o julgamento favorável de 54 membros do Senado (66,67% dos Senadores).*
+
+#### Evolução da previsão na Câmara (percentual favorável) 
 {% include plotcam.html %}
 
-#### Evolução da previsão do percentual favorável ao Impeachment no Senado 
+#### Evolução da previsão no Senado (percentual favorável) 
 {% include plotsen.html %}
 
 **Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, com total transparência sobre a forma de obtenção dos resultados, de modo que as informações abaixo contêm todas as etapas para replicação dos mesmos. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
