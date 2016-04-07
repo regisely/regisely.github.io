@@ -8,7 +8,7 @@ date: 2016-04-01 10:00:00 -0300
 
 Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões serão atualizadas diariamente e o resultado percentual se refere à proporção de Deputados e Senadores a favor do Impeachment em relação a totalidade dos membros de cada Casa considerando diferentes taxas de abstenção ou ausência. Os parlamentares ausentes foram selecionados aleatoriamente.
 
-*Última atualização:* 05/04/2016
+*Última atualização:* 06/04/2016
 
 #### Previsão com diversas taxas de ausência (percentual favorável)
 
