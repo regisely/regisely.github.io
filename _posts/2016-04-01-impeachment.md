@@ -8,23 +8,28 @@ date: 2016-04-01 10:00:00 -0300
 
 Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões serão atualizadas diariamente e o resultado percentual se refere à proporção de Deputados e Senadores a favor do Impeachment em relação a totalidade dos membros de cada Casa considerando diferentes taxas de abstenção ou ausência. Os parlamentares ausentes foram selecionados aleatoriamente.
 
-*Última atualização:* 06/04/2016
+*Última atualização:* 07/04/2016
 
 #### Previsão com diversas taxas de ausência (percentual favorável)
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
-| **Câmara Federal:** | 75,24% | 71,15% | 71,54% | 68,42% |
-| **Senado Federal:** | 54,32% | 51,85% | 50,61%* | 49,38% |
-| **Admissibilidade\*:** | A favor | A favor | Contra | Contra |
-| **Julgamento\*\*:** | Contra | Contra | Contra | Contra |
+| **Câmara Federal:** | 74,46% | 70,76% | 70,76% | 66,47% |
+| **Senado Federal:** | 56,79% | 53,09% | 51,85% | 51,85% |
+| **Admissibilidade na Câmara\*:** | A favor | A favor | A favor | Contra |
+| **Admissibilidade no Senado\*\*:** | A favor | A favor | A favor | A favor |
+| **Julgamento no Senado\*\*\*:** | Contra | Contra | Contra | Contra |
 
-\* *Para o Impeachment passar pela admissibilidade são necessários 41 votos no Senado (50,62% dos Senadores), e 342 votos na Câmara (66,67% dos Deputados).*
+\* *Para o Impeachment passar pela admissibilidade na Câmara são necessários 342 votos (66,67% dos Deputados).*
 
-\** *Para a Presidente ser destituída é necessário o julgamento favorável de 54 membros do Senado (66,67% dos Senadores).*
+\*\* *Para o Impeachment passar pela admissibilidade no Senado são necessários 41 votos (50,62% dos Senadores).*
+
+\*\*\* *Para a Presidente ser destituída é necessário o julgamento favorável de 54 membros do Senado (66,67% dos Senadores).*
 
 #### Evolução da previsão na Câmara (percentual favorável) 
 {% capture my-include %}{% include plotcam.html %}{% endcapture %}
 {{ my-include | markdownify }}
+
+**Nota:** *Entre os dias 06 e 07 de abril houve um aumento de 9 Deputados que se declararam a favor e um aumento de 5 Deputados que se declararam contra o Impeachment. Conforme os parlamentares se manifestam, o algoritmo aumenta sua acurácia, entretanto isso não significa que a previsão acompanhará a tendência de manifestação dos mesmos. Nesse sentido, os gráficos com a evolução da previsão **não** devem ser interpretados como uma tendência na decisão dos parlamentares, e sim como uma convergência para o valor correto da previsão.*
 
 #### Evolução da previsão no Senado (percentual favorável) 
 {% capture my-include %}{% include plotsen.html %}{% endcapture %}
@@ -33,6 +38,8 @@ Este post faz um exercício de previsão para o Impeachment brasileiro utilizand
 **Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, com total transparência sobre a forma de obtenção dos resultados, de modo que as informações abaixo contêm todas as etapas para replicação dos mesmos. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
 
 ## Cenário do Impeachment
+
+**Nota:** *A Tabela do início do post contém a previsão com os últimos dados, mas os gráficos, arquivo de dados e resultados abaixo se referem a data de 1º de abril, incluindo os nomes dos parlamentares indecisos. Para verificar a lista atualizada acesse o site [vem pra rua](http://mapa.vemprarua.net/br/).*
 
 A favor ou contra? Parece que todo cidadão brasileiro já tem uma opinião formada sobre o Impeachment, com exceção dos políticos, que estão um tanto indecisos. O site **[vem pra rua](http://mapa.vemprarua.net/br/)** fez um serviço de utilidade pública ao elencar a intenção de voto de todos os deputados e senadores brasileiros. Mas a verdade é que ainda resta muita dúvida sobre qual será o resultado dessa votação. Uma vez que os dados estão disponíveis, podemos tentar realizar uma tarefa quase impossível: prever qual será o desfecho da situação política brasileira. Para isso vamos utilizar um simples modelo de regressão baseado em árvores, implementado no pacote [`rpart`](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf) do **[R](https://www.r-project.org/)**. Primeiro vamos aos fatos:
 
@@ -344,6 +351,5 @@ O percentual de Deputados favoráveis ao Impeachment quando a abstenção é de 
 
 Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e publicar na tabela do início deste post.
 
-*Nota:* A Tabela do início do post contém a previsão com os últimos dados, mas os gráficos, arquivo de dados e resultados ao longo do post se referem a data de 1º de abril, incluindo os nomes dos parlamentares indecisos. Para replicar os dados da tabela atualizada você precisar obter os novos dados a partir **[deste script](https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d)** escrito em Python2.7. Para verificar a lista atualizada acesse o site [vem pra rua](http://mapa.vemprarua.net/br/).
 
 Tem sugestões para melhorar o algoritmo? Tem dúvidas sobre a implementação? Encontrou algum typo no texto? Me avise nos comentários ou por email.
