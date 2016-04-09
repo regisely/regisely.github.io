@@ -10,14 +10,14 @@ Este post faz um exercício de previsão para o Impeachment brasileiro utilizand
 
 Recentemente a Folha de São Paulo publicou [este artigo](http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml) em que faço projeções do Impeachment com o mesmo modelo abaixo, mas a partir dos dados da Datafolha. Note que todos os números e análises deste post foram realizadas com os dados do site [vem pra rua](http://mapa.vemprarua.net/br/) (o primeiro a disponibilizar estes dados) e por isso devem haver pequenas divergências nos resultados para a Câmara. Para o Senado, os [dados do Datafolha](http://www1.folha.uol.com.br/poder/2016/04/1758777-na-camara-60-dizem-votar-pelo-impeachment-de-dilma-rousseff.shtml) retratam um cenário bem diferente dos obtidos pelo site vem pra rua. Segundo o instituto, há 55% de Senadores a favor do Impeachment e 24% contra, o que corresponderia a cerca de 45 Senadores a favor e 19 contra. Neste instante (dia 09/04), os números do vem pra rua indicam 38 Senadores a favor e 27 Contra. Dada a grande divergência no levantamento de dados, acredito que a previsão para o Senado carece de acurácia no momento.
 
-*Última atualização:* 07/04/2016
+*Última atualização:* 08/04/2016
 
 #### Previsão com diversas taxas de ausência (percentual favorável)
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
-| **Câmara Federal:** | 74,46% | 70,76% | 70,76% | 66,47% |
-| **Senado Federal:** | 56,79% | 53,09% | 51,85% | 51,85% |
-| **Admissibilidade na Câmara\*:** | A favor | A favor | A favor | Contra |
+| **Câmara Federal:** | 73,88% | 70,17% | 69,59% | 67,64% |
+| **Senado Federal:** | 56,79% | 54,32% | 51,85% | 51,85% |
+| **Admissibilidade na Câmara\*:** | A favor | A favor | A favor | A favor |
 | **Admissibilidade no Senado\*\*:** | A favor | A favor | A favor | A favor |
 | **Julgamento no Senado\*\*\*:** | Contra | Contra | Contra | Contra |
 
@@ -27,15 +27,9 @@ Recentemente a Folha de São Paulo publicou [este artigo](http://www1.folha.uol.
 
 \*\*\* *Para a Presidente ser destituída é necessário o julgamento favorável de 54 membros do Senado (66,67% dos Senadores).*
 
-#### Evolução da previsão na Câmara (percentual favorável) 
-{% capture my-include %}{% include plotcam.html %}{% endcapture %}
-{{ my-include | markdownify }}
+#### Evolução histórica da previsão 
 
-**Nota:** *Entre os dias 06 e 07 de abril houve um aumento de 9 Deputados que se declararam a favor e um aumento de 5 Deputados que se declararam contra o Impeachment. Conforme os parlamentares se manifestam, o algoritmo aumenta sua acurácia, entretanto isso não significa que a previsão acompanhará a tendência de manifestação dos mesmos. Nesse sentido, os gráficos com a evolução da previsão **não** devem ser interpretados como uma tendência na decisão dos parlamentares, e sim como uma convergência para o valor correto da previsão.*
-
-#### Evolução da previsão no Senado (percentual favorável) 
-{% capture my-include %}{% include plotsen.html %}{% endcapture %}
-{{ my-include | markdownify }}
+Retirei os gráficos da evolução histórica da previsão por gerar alguns problemas na formatação do post no celular e dificultar a minha manutenção dos resultados atualizados. Caso queira obter o histórico da previsão você pode me solicitar por email. 
 
 **Disclaimer:** *o caráter principal deste post é educativo, e adere a filosofia da pesquisa reproduzível, com total transparência sobre a forma de obtenção dos resultados, de modo que as informações abaixo contêm todas as etapas para replicação dos mesmos. A escolha do modelo de previsão não reflete o estado da arte em previsão, sendo este modelo escolhido principalmente pelos insights que ele gera em relação a estrutura político-partidária e demográfica do Brasil. Muitas sugestões foram dadas no sentido de melhorar a previsão através de modelos mais robustos como Random Forest, Gradient Boosting, entre outros. Entretanto, dada a limitação dos dados, pouco se ganha com a implementação destes modelos. Ademais, deixo a utilização destes modelos para alguma aplicação futura em que eles se mostrarão mais eficazes.*
 
