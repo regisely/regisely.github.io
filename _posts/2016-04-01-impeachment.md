@@ -8,6 +8,8 @@ date: 2016-04-01 10:00:00 -0300
 
 Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões serão atualizadas diariamente e o resultado percentual se refere à proporção de Deputados e Senadores a favor do Impeachment em relação a totalidade dos membros de cada Casa considerando diferentes taxas de abstenção ou ausência. Os parlamentares ausentes foram selecionados aleatoriamente.
 
+Recentemente a Folha de São Paulo publicou [este artigo](http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml) em que faço projeções do Impeachment com o mesmo modelo abaixo, mas a partir dos dados da Datafolha. Note que todos os números e análises deste post foram realizadas com os dados do site [vem pra rua](http://mapa.vemprarua.net/br/) e por isso devem haver pequenas divergências nos resultados para a Câmara. Para o Senado, os [dados do Datafolha](http://www1.folha.uol.com.br/poder/2016/04/1758777-na-camara-60-dizem-votar-pelo-impeachment-de-dilma-rousseff.shtml) retratam um cenário bem diferente dos obtidos pelo site vem pra rua. Segundo o instituto, há 55% de Senadores a favor do Impeachment e 24% contra, o que corresponderia a cerca de 45 Senadores a favor e 19 contra. Neste instante (dia 09/04), os números do vem pra rua indicam 38 Senadores a favor e 27 Contra. Dada a grande divergência no levantamento de dados, acredito que a previsão para o Senado carece de acurácia no momento.
+
 *Última atualização:* 07/04/2016
 
 #### Previsão com diversas taxas de ausência (percentual favorável)
