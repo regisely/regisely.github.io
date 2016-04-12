@@ -22,13 +22,13 @@ Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis a
 
 *Dados obtidos em:* 12/04/2016
 
-#### Previsão com dados do Datafolha (reportagem)
+#### Previsão com dados do Datafolha
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
-| **Estimativa média** | 72% | 71% | 68% | 65% |
+| **Estimativa média** | 71,93% | 68,81% | 68,62% | 64,13% |
 | **Resultado:** | A favor | A favor | A favor | Contra |
 
-*Dados obtidos em:* 08/04/2016
+*Dados obtidos em:* 11/04/2016
 
 #### Interpretação dos resultados
 
