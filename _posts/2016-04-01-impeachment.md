@@ -8,19 +8,19 @@ date: 2016-04-01 10:00:00 -0300
 
 Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões serão atualizadas diariamente e o resultado percentual se refere à proporção de Deputados e Senadores a favor do Impeachment em relação a totalidade dos membros de cada Casa considerando diferentes índices de abstenção ou ausência.
 
-Recentemente a Folha de São Paulo publicou [este artigo](http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml) em que faço projeções do Impeachment com o mesmo modelo abaixo, mas a partir dos dados da Datafolha, divulgados no dia 8 de abril. Note que todos os números e análises deste post foram realizadas com os dados do site [vem pra rua](http://mapa.vemprarua.net/br/) (o primeiro a disponibilizá-los). Por isso devem haver pequenas divergências nos resultados deste post em relação à matéria da Folha. Para a Câmara, os [dados do Datafolha](http://www1.folha.uol.com.br/poder/2016/04/1758777-na-camara-60-dizem-votar-pelo-impeachment-de-dilma-rousseff.shtml) apontam que o Impeachment tem 60% de aprovação, com 19% de indecisos. Se o levantamento estiver correto isso gera uma margem de 60%-79% de votos favoráveis ao Impeachment na etapa de admissibilidade da Câmara. Por fim, os dados referentes a posição dos Senadores parecem não estar sendo atualizados constantemente, de modo que incluo na tabela abaixo apenas os percentuais referentes à Câmara. Os resultados obtidos para o Senado com os dados de 1º de abril podem ser visualizados no decorrer do post, onde explico todas as etapas para obtenção das estimativas.
+Recentemente a Folha de São Paulo publicou [este artigo](http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml) em que faço projeções do Impeachment com o mesmo modelo abaixo, mas a partir dos dados do Datafolha, divulgados no dia 8 de abril. Note que todos os números e análises deste post foram realizadas com os dados do site [vem pra rua](http://mapa.vemprarua.net/br/) (o primeiro a disponibilizá-los). Por isso devem haver pequenas divergências nos resultados deste post em relação à matéria da Folha. Para a Câmara, os [dados do Datafolha](http://www1.folha.uol.com.br/poder/2016/04/1758777-na-camara-60-dizem-votar-pelo-impeachment-de-dilma-rousseff.shtml) apontam que o Impeachment tem 60% de aprovação, com 19% de indecisos. Se o levantamento estiver correto isso gera uma margem de 60%-79% de votos favoráveis ao Impeachment na etapa de admissibilidade da Câmara. Por fim, os dados referentes a posição dos Senadores parecem não estar sendo atualizados constantemente, de modo que incluo na tabela abaixo apenas os percentuais referentes à Câmara. Os resultados obtidos para o Senado com os dados de 1º de abril podem ser visualizados no decorrer do post, onde explico todas as etapas para obtenção das estimativas.
 
 Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis ao Impeachment é calculada a partir de um limite inferior e superior para as previsões considerando diferentes escolhas ótimas de nódulos de divisão Partido/Estado. A escolha destes nódulos é feita através de amostras distintas do conjunto de validação (*cross-validated*). A inclusão desta estimativa média tem por objetivo melhorar a acurácia do modelo na previsão de votos contrários ao Impeachment. Note que a previsão é feita sobre o percentual de votos favoráveis ao Impeachment, e para o mesmo passar pela etapa de admissibilidade na Câmara são necessários 342 votos (66,67% dos Deputados).
 
 #### Previsão com dados do Movimento Brasil Livre
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
-| **Limite superior** | 73,68% | 69,59% | 69,39% | 66,86% |
-| **Limite inferior** | 68,22% | 64,91% | 64,32% | 61,40% |
-| **Estimativa média** | 70,95% | 67,25% | 66,85% | 64,13% |
+| **Limite superior** | 72,71% | 69,01% | 69,01% | 65,30% |
+| **Limite inferior** | 67,84% | 64,33% | 64,33% | 61,40% |
+| **Estimativa média** | 70,28% | 66,67% | 66,67% | 63,35% |
 | **Resultado:** | A favor | A favor | A favor | Contra |
 
-*Dados obtidos em:* 10/04/2016
+*Dados obtidos em:* 12/04/2016
 
 #### Previsão com dados do Datafolha (reportagem)
 
