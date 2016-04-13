@@ -18,7 +18,7 @@ Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis a
 | **Limite superior** | 74,46% | 71,15% | 70,95% | 66,86% |
 | **Limite inferior** | 68,03% | 64,91% | 64,72% | 61,01% |
 | **Estimativa média** | 71,25% | 68,03% | 67,84% | 63,94% |
-| **Resultado:** | A favor | A favor | Contra | Contra |
+| **Resultado:** | A favor | A favor | A favor | Contra |
 
 *Dados obtidos em:* 13/04/2016
 
