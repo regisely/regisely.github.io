@@ -13,12 +13,12 @@ Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis a
 #### Previsão com dados do Movimento Brasil Livre
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
-| **Limite superior** | 74,46% | 70,95% | 69,98% | 67,44% |
-| **Limite inferior** | 69,98% | 67,06% | 66,86% | 63,35% |
-| **Estimativa média** | 72,22% | 69,00% | 68,42% | 65,40% |
-| **Resultado:** | A favor | A favor | A favor | Contra |
+| **Limite superior** | 75,24% | 71,34% | 71,34% | 68,23% |
+| **Limite inferior** | 72,90% | 69,00% | 68,42% | 64,91% |
+| **Estimativa média** | 74,07% | 70,17% | 69,88% | 66,81% |
+| **Resultado:** | A favor | A favor | A favor | A favor |
 
-*Dados obtidos em:* 13/04/2016 às 17:00
+*Dados obtidos em:* 15/04/2016
 
 #### Previsão com dados do Datafolha
 
