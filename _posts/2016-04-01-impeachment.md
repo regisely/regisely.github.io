@@ -30,7 +30,7 @@ Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis a
 
 #### Interpretação dos resultados
 
-No momento, os resultados indicam um percentual de cerca de 72% de votos favoráveis ao Impeachment. De acordo com o levantamento do Estadão, 342 Deputados já se declararam a favor do Impeachment, de modo que os votos já são suficientes para a aprovação do Impeachment na etapa de admissibilidade da Câmara. Nas simulações que faço acima, considero diferentes taxas de ausência dos Deputados para se ter uma ideia do efeito da mesma. Note que os Deputados ausentes são selecionados aleatoriamente entre todos os parlamentares.
+No momento, os resultados indicam um percentual entre 70% a 75% de votos favoráveis ao Impeachment, dependendo da fonte dos dados. De acordo com o levantamento do Estadão, mais de 342 Deputados já se declararam a favor do Impeachment, de modo que os votos já são suficientes para a aprovação do Impeachment na etapa de admissibilidade da Câmara. Nas simulações que faço acima, considero diferentes taxas de ausência dos Deputados para se ter uma ideia do efeito da mesma. Note que os Deputados ausentes são selecionados aleatoriamente entre todos os parlamentares.
 
 ## Cenário do Impeachment
 
