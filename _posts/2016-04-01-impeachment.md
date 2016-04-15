@@ -6,7 +6,7 @@ tags: [classificação, regressão, árvores, Impeachment, previsão]
 date: 2016-04-01 10:00:00 -0300
 ---
 
-Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões estão sendo atualizadas diariamente e o resultado percentual se refere à proporção de Deputados a favor do Impeachment em relação a totalidade dos membros considerando diferentes índices de abstenção ou ausência.
+Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões estão sendo atualizadas diariamente desde o dia 1º de abril e o resultado percentual se refere à proporção de Deputados a favor do Impeachment em relação a totalidade dos membros considerando diferentes índices de abstenção ou ausência.
 
 Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis ao Impeachment é calculada a partir de um limite inferior e superior para as previsões considerando diferentes escolhas ótimas de nódulos de divisão Partido/Estado. A escolha destes nódulos é feita através de amostras distintas do conjunto de validação. Note que a previsão é feita sobre o percentual de votos favoráveis ao Impeachment, e para o mesmo passar pela etapa de admissibilidade na Câmara são necessários 342 votos (66,67% dos Deputados).
 
