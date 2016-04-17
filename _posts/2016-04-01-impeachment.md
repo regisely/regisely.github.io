@@ -10,7 +10,7 @@ Este post faz um exercício de previsão para o Impeachment brasileiro utilizand
 
 Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis ao Impeachment é calculada a partir de um limite inferior e superior para as previsões considerando diferentes escolhas ótimas de nódulos de divisão Partido/Estado. A escolha destes nódulos é feita através de amostras distintas do conjunto de validação. Note que a previsão é feita sobre o percentual de votos favoráveis ao Impeachment, e para o mesmo passar pela etapa de admissibilidade na Câmara são necessários 342 votos (66,67% dos Deputados).
 
-#### Previsão com dados do Movimento Brasil Livre
+#### Previsão com dados do Vem Pra Rua
 
 | **Ausência** | **0%** | **2,5%** | **5%** | **7,5%** | **10%** |
 | **Estimativa final** | 71,73% | 69,20% | 69,00% | 66,67% | 64,91% |
