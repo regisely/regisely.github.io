@@ -6,9 +6,9 @@ tags: [classificação, regressão, árvores, Impeachment, previsão]
 date: 2016-04-01 10:00:00 -0300
 ---
 
-Este post faz um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões estão sendo atualizadas diariamente desde o dia 1º de abril e o resultado percentual se refere à proporção de Deputados a favor do Impeachment em relação a totalidade dos membros considerando diferentes índices de abstenção ou ausência.
+Este post fez um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões foram atualizadas diariamente e o resultado percentual se referia à proporção de Deputados a favor do Impeachment em relação a totalidade dos membros, considerando diferentes índices de ausência. 
 
-Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis ao Impeachment é calculada a partir de um limite inferior e superior para as previsões considerando diferentes escolhas ótimas de nódulos de divisão Partido/Estado. A escolha destes nódulos é feita através de amostras distintas do conjunto de validação. Note que a previsão é feita sobre o percentual de votos favoráveis ao Impeachment, e para o mesmo passar pela etapa de admissibilidade na Câmara são necessários 342 votos (66,67% dos Deputados).
+Com objetivos didáticos, publiquei o modelo no dia 1º de abril e foi o primeiro do gênero que apareceu na internet. Desde o início, as previsões indicavam grande probabilidade de o Impeachment passar pela etapa de julgamento de admissibilidade na Câmara com cerca de 70% a 75% de votos favoráveis, variando de acordo com a mudança dos dados/fonte. A última atualização do modelo e o resultado final podem ser vistos abaixo:
 
 #### Previsão com dados do Vem Pra Rua
 
@@ -18,21 +18,59 @@ Nas tabelas abaixo, a estimativa média do percentual de Deputados favoráveis a
 
 *Dados obtidos em:* 16/04/2016 às 16:00 (último arquivo [aqui](/files/imp_last.csv))
 
-#### Previsão com dados do Datafolha
+**Resultado Final:** 367 de 513 votos favoráveis -> 71,54% (A favor)
 
-| **Ausência** | **0%** | **2,5%** | **5%** | **10%** |
-| **Estimativa média** | 72,81% | 70,08% | 68,91% | 65,99% |
-| **Resultado:** | A favor | A favor | A favor | Contra |
+**Taxa de ausência:** 2 de 513 deputados -> 0,39%
 
-*Dados obtidos em:* 12/04/2016
+Como pode ser visto, a estimativa final indicava cerca de 368 votos favoráveis com taxa próxima de 0% de ausência e o resultado final foi de 367 com taxa de ausência de 0,39%. Assim, apesar das limitações do modelo, ele fez um excelente trabalho em prever o resultado final do processo de Impeachment na Câmara brasileira.
 
-#### Interpretação dos resultados
+O modelo, apesar de parecer complicado, intuitivamente é bem simples, ele apenas considerava a informação partidária e do Estado dos Deputados que já haviam manifestado voto e a partir daí construía uma árvore com as divisões entre partido e Estado para inferir sobre os votos dos indecisos. Muitas limitações foram levantadas a respeito do modelo, as quais, em boa parte, eu concordava. Um exemplo é o fato de ele não captar a barganha e o jogo político por trás das decisões. Entretanto, na semana que antecedeu o Impeachment, a dinâmica da definição dos votos acabou se dando primeiro através de uma deliberação dentro do partido e posteriormente pelo apoio dos Deputados à decisão da maioria, com apenas alguns dissidentes. Como o pressuposto do modelo era de que os Deputados seguiriam a orientação partidária, então ele acabou se mostrando bem eficaz na previsão dos votos. Também o Estado do Deputado teve um peso grande nas manifestações de voto. Afinal, parece que a política brasileira não era tão complicada de se entender!
 
-No momento, os resultados indicam um percentual entre 70% a 75% de votos favoráveis ao Impeachment, dependendo da fonte dos dados. De acordo com o levantamento do Estadão, mais de 342 Deputados já se declararam a favor do Impeachment, de modo que os votos já são suficientes para a aprovação do Impeachment na etapa de admissibilidade da Câmara. Nas simulações que faço acima, considero diferentes taxas de ausência dos Deputados para se ter uma ideia do efeito da mesma. Note que os Deputados ausentes são selecionados aleatoriamente entre todos os parlamentares.
+Após a publicação, o modelo fez bastante sucesso entre estudantes e acadêmicos e acabou ganhando notoriedade na mídia. Conforme as atualizações eram feitas, novas notícias apareciam. Algumas repercussões foram:
+
+**Artigos em jornais**
+
+[Folha de São Paulo 1](http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml) (entre as 5 mais lidas do dia)
+
+[Folha de São Paulo 2](http://www1.folha.uol.com.br/poder/2016/04/1760475-sobe-para-90-a-chance-do-processo-de-impeachment-passar-na-camara.shtml) (entre as 5 mais lidas do dia)
+
+[Folha de São Paulo 3](http://www1.folha.uol.com.br/poder/2016/04/1760838-chance-de-processo-de-impeachment-passar-na-camara-sobe-para-92.shtml) (entre as 5 mais lidas do dia)
+
+[Veja](http://veja.abril.com.br/blog/reinaldo/geral/sobe-para-90-a-chance-do-processo-de-impeachment-passar-na-camara/)
+
+[Jornal O Sul](http://www.osul.com.br/estatistico-preve-72-de-votos-pro-impeachment-de-dilma-rousseff/)
+
+[Folha Política](http://www.folhapolitica.org/2016/04/sobe-para-90-chance-do-processo-de.html)
+
+[Jornal Nexo](https://www.nexojornal.com.br/expresso/2016/04/12/A-aposta-de-estat%C3%ADsticos-e-professores-para-a-vota%C3%A7%C3%A3o-do-impeachment)
+
+**Entrevistas em rádios:**
+
+Rádio Bandeirantes
+
+Rádio Jovem Pan SP
+
+Rádio Canção Nova.
+
+Sobre a votação no Senado, para a admissibilidade é necessário maioria simples, e para o julgamento é necessário 2/3. Decidi por enquanto não manter as atualizações da previsão para o Senado pelos seguintes motivos:
+
+1. Já é praticamente certo que a votação terá maioria simples, pois já há manifestação de mais de 50% da Casa a favor do Impeachment;
+
+2. Após a admissibilidade no Senado passar, a Presidente será destituída por 180 dias antes do julgamento final, o que é um grande período de tempo, podendo ocorrer muitos fatos políticos relevantes até lá;
+
+Caso aparente ser necessário, poderei incluir algumas projeções para o Senado quando o julgamento se aproximar.
+
+Após a publicação deste post, recebi inúmeras sugestões, contribuições e apoio. Gostaria de agradecer principalmente o empenho do Prof. Cláudio Shikida na divulgação, as sugestões dadas pelo Gabriel Torres, Prof. Bruno Speck, membros da comunidade de usuários do R, entre outras pessoas. Ao Fernando Barbosa por me disponibilizar os dados do Estadão através de uma macro em VBA, ao Adriano Filho por traduzir o meu script de coleta dos dados de Python para R. Ao Datafolha por me disponibilizar os dados antecipadamente para análise. E a todas as outras pessoas que ajudaram na divulgação do trabalho. Achei muito gratificante a repercussão que o post teve pois a maior parte dos trabalhos ou consultorias que aparecem na mídia não disponibilizam a metodologia ou as etapas para replicação das projeções feitas. Acredito que estamos em uma nova era da ciência, em que a produção de conhecimento deve estar aberta para o escrutínio do público, possibilitando assim a crítica detalhada do método, e com isso melhorando o resultado e objetivo final do exercício. Entendo que muitas pessoas somente lêem as manchetes, mas pelo menos desta vez havia um link nas reportagens que levava a este post, que mostra as etapas para replicação dos resultados obtidos. Para finalizar, obrigado a todos e aproveitem a leitura!
+
+22 de abril de 2016
+{: style="text-align: right"}
+
+Regis A. Ely
+{: style="text-align: right"}
 
 ## Cenário do Impeachment
 
-**Nota:** *A Tabela do início do post contém a previsão com os últimos dados, mas os gráficos, arquivo de dados e resultados abaixo se referem a data de 1º de abril, incluindo os nomes dos parlamentares indecisos. Para verificar a lista atualizada acesse o site [vem pra rua](http://mapa.vemprarua.net/br/).*
+**Nota:** *A Tabela acima contém a última atualização da previsão feita, mas o post abaixo, bem como todas as informações nele, são referentes a 1º de abril.*
 
 A favor ou contra? Parece que todo cidadão brasileiro já tem uma opinião formada sobre o Impeachment, com exceção dos políticos, que estão um tanto indecisos. O site **[vem pra rua](http://mapa.vemprarua.net/br/)** fez um serviço de utilidade pública ao elencar a intenção de voto de todos os deputados e senadores brasileiros. Mas a verdade é que ainda resta muita dúvida sobre qual será o resultado dessa votação. Uma vez que os dados estão disponíveis, podemos tentar realizar uma tarefa quase impossível: prever qual será o desfecho da situação política brasileira. Para isso vamos utilizar um simples modelo de regressão baseado em árvores, implementado no pacote [`rpart`](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf) do **[R](https://www.r-project.org/)**. Primeiro vamos aos fatos:
 
