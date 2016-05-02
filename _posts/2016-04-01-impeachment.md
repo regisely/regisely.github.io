@@ -44,6 +44,8 @@ Após a publicação, o modelo fez bastante sucesso entre estudantes e acadêmic
 
 [Jornal Nexo](https://www.nexojornal.com.br/expresso/2016/04/12/A-aposta-de-estat%C3%ADsticos-e-professores-para-a-vota%C3%A7%C3%A3o-do-impeachment)
 
+[O Informativo](http://www.informativo.com.br/site/noticia/visualizar/id/79164/?Previsao-aponta-para-aprovacao-do-impeachment-entre-deputados.html)
+
 **Entrevistas em rádios:**
 
 Rádio Bandeirantes
