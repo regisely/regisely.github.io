@@ -44,8 +44,8 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 ## Listas de exercícios
 
-- **[Lista de exercícios 1](/files/statexercicios1.pdf)** - lista de exercícios das aulas 1 a 4.
+- **[Lista de exercícios 1](/files/statexercicios1.pdf)** - lista de exercícios das aulas 1 a 8.
 
-- **[Lista de exercícios 2](/files/statexercicios2.pdf)** - lista de exercícios das aulas 5 a 8.
+- **[Lista de exercícios 2](/files/statexercicios2.pdf)** - lista de exercícios das aulas 9 a 14.
 
 ---
