@@ -29,15 +29,47 @@ Ao realizar qualquer tipo de trabalho em economia e estatística, seja teórico 
 
 - **[Prorum](http://prorum.com/)**
 
+Fórum brasileiro de perguntas e respostas com foco acadêmico. Um dos fundadores é o [Prof. Daniel Cajueiro](http://www.danielcajueiro.unb.br/), do Departamento de Economia da Universidade de Brasília (UnB). As respostas são de excelente qualidade e há muitas perguntas sobre economia, estatística, matemática, computação e ciência de dados.
+
 - **[Stack Exchange](http://stackexchange.com/)**
+
+A melhor rede internacional de fóruns da internet. Lá você irá encontrar fóruns sobre os mais variados tópicos, sendo que profissionais extremamente capacitados participam destes fóruns e respondem perguntas.
 
 - **[Cross Validated](http://stats.stackexchange.com/)**
 
+É o fórum de estatística da Stack Exchange. Um dos fundadores é o [Prof. Rob Hyndman](http://robjhyndman.com/) da Monash University na Austrália. É um fórum de excelente qualidade para tirar dúvidas específicas sobre problemas de estatística.
+
 - **[Stack Overflow](http://stackoverflow.com/)**
+
+É o fórum de computação da Stack Exchange. Uma dos fóruns mais famosos na internet. Se você tem dúvida de como fazer algo no R, python ou outra linguagem e procurar no google, provavelmente irá acabar achando a resposta em uma pergunta do Stack Overflow.
 
 - **[Estouro de Pilha](http://pt.stackoverflow.com/)**
 
+É a versão em português do fórum Stack Overflow.
+
 ## Cursos online {#MOOCs}
+
+Eu sou fã de cursos online em matérias como estatística, matemática e computação. Acredito que uma parte considerável do meu conhecimento técnico obtive através da internet e de cursos online. Para quem trabalha com análise de dados, os cursos online são ainda mais essenciais para atualizar o conhecimento. As plataformas mais recomendadas são:
+
+- **[Data Science Academy](http://www.datascienceacademy.com.br/)**
+
+É o portal pioneiro de ciência de dados no Brasil. Os cursos apresentam excelente qualidade e são voltados a conhecimentos de estatística e computação.
+
+- **[Coursera](https://pt.coursera.org/)**
+
+O Coursera é um dos maiores portais de cursos online. Universidades como Stanford, Johns Hopkins, Pennsylvania, Michigan, San Diego, entre outras, disponibilizam cursos online com a qualidade atestada em diversas áreas do conhecimento.
+
+- **[edX](https://www.edx.org/)**
+
+O edX é um portal de cursos online em diversas áreas do conhecimento. Os cursos contam com o atestado de qualidade de universidades como MIT, Harvard, Berkeley, Boston, entre outras.
+
+- **[Udemy](https://www.udemy.com/)**
+
+O Udemy é um portal com cursos em diversas áreas mas um grande foco em cursos de programação ministrados por profissionais reconhecidos nas áreas. Existem cursos bem técnicos, destinados a públicos específicos, e grande parte deles são pagos.
+
+- **[Stanford Online](http://online.stanford.edu/)**
+
+Este é o portal de cursos online da Universidade de Stanford, uma das universidades mais dedicadas a disponibilizar material gratuito de seus cursos para o resto do mundo.
 
 ## Materiais didáticos {#teaching}
 
