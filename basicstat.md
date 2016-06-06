@@ -42,7 +42,7 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **Aula 14 - Teorema do limite central e lei dos grandes números** - cap. 12, seções 12.1 a 12.4.
 
-* Os capítulos indicados acima se referem ao livro de *Meyer, P. L (1983). Probabilidade: aplicações à estatística. LTC, 2º Ed.*
+Os capítulos indicados acima se referem ao livro de *Meyer, P. L (1983). Probabilidade: aplicações à estatística. LTC, 2º Ed.*
 
 ## Listas de exercícios
 
