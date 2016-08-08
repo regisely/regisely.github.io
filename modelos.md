@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Teaching
-subtitle: Modelos Matemáticos em Economia (Àlgebra Linear)
+subtitle: Modelos Matemáticos em Economia
 ---
 
 [<< Back to Teaching](/teaching)
