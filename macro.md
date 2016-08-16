@@ -12,4 +12,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Leitura 1 - Kaldor (1957)](/files/Kaldor_1957.pdf)**
 
+- **[Leitura 2 - Solow (1956)](/files/Solow1956.pdf)**
+
 ---
