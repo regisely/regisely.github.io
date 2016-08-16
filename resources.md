@@ -72,6 +72,8 @@ Este é o portal de cursos online da Universidade de Stanford, uma das universid
 
 ## Materiais didáticos {#teaching}
 
+Muitas notas de aulas, livros e materiais didáticos podem ser encontrados na internet. Aqui listo alguns de excelente qualidade. Com o tempo vou adicionando mais fontes.
+
 - **[EconPhD](http://econphd.econwiki.com/notes.htm)**
 
 Uma coletânea de notas de aula e outros materiais didáticos em Economia.
@@ -85,6 +87,8 @@ O Prof. John H. Cochrane da Universidade de Chicago tem excelentes notas de aula
 A página do Prof. Ariel Rubinstein da Tel Aviv University tem muito material didático em microeconomia, incluindo o download gratuito de seus livros.
 
 ## Referências científicas {#ref}
+
+Para construir uma boa base bibliográfica para estudar certo tema é necessário pesquisar nos lugares corretos. Aqui listo alguns sites que utilizo constantemente para achar referências sobre temas específicos.
 
 - **[Google Scholar](https://scholar.google.com.br/)**
 
