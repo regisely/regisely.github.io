@@ -14,4 +14,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Leitura 2 - Solow (1956)](/files/Solow1956.pdf)**
 
+- **[Leitura 2 adicional - De Gregorio and Lee (1999)](/files/gregorio.pdf)**
+
 ---
