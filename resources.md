@@ -86,6 +86,10 @@ O Prof. John H. Cochrane da Universidade de Chicago tem excelentes notas de aula
 
 A página do Prof. Ariel Rubinstein da Tel Aviv University tem muito material didático em microeconomia, incluindo o download gratuito de seus livros.
 
+- **[AEA Teaching Resources](http://www.aeaweb.org/rfe/showCat.php?cat_id=91)**
+
+Alguns materiais didáticos reunidos pela American Economic Association.
+
 ## Referências científicas {#ref}
 
 Para construir uma boa base bibliográfica para estudar certo tema é necessário pesquisar nos lugares corretos. Aqui listo alguns sites que utilizo constantemente para achar referências sobre temas específicos.
@@ -106,11 +110,31 @@ O JSTOR é uma plataforma de pesquisa de artigos científicos em excelentes revi
 
 É a ferramenta brasileira para acesso a artigos científicos, desenvolvida pela CAPES/MEC. Inclui uma grande variedade de fontes diferentes, e por isso vale conferir a qualidade e procedência da referência que você está utilizando.
 
+## Blogs {#blogs}
+
+- **[R-bloggers](http://www.r-bloggers.com/)**
+
+O melhor agregador de blogs sobre R. Vale a pena seguir a página deles no Facebook e no Twitter também para se manter informado sobre novas análises e pacotes no R.
+
+- **[Hyndsight](http://robjhyndman.com/hyndsight/)**
+
+Blog do Prof. Rob J. Hyndman da Monash University. Há muito material sobre séries de tempo e previsão no R.
+
+- **[The Grumpy Economist](http://johnhcochrane.blogspot.com.br/)**
+
+Blog do Prof. John Cochrane da University of Chicago. Excelente discussão sobre finanças e macroeconomia.
+
+- **[Greg Mankiw's Blog](http://gregmankiw.blogspot.com.br/)**
+
+Blog do Prof. Gregory Mankiw da Harvard University. Muita discussão sobre macroeconomia e dicas para alunos e acadêmicos de Economia.
+
+- **[Econometrics Beat](http://gregmankiw.blogspot.com.br/)**
+
+Excelente blog sobre econometria e série de tempo do Prof. Dave Giles da University of Victoria.
+
 ## Revistas em Economia, Estatística e Finanças {#journals}
 
 ## Bases de dados {#databases}
-
-## Blogs {#blogs}
 
 ## Centros de pós-graduação em Economia no Brasil {#programs}
 
