@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "O tradeoff entre viés e variância em três gráficos"
-subtitle: Entendendo os conceitos de bias-variance tradeoff, underfitting e overfitting estimando diversos modelos de previsão
+subtitle: Entendendo os conceitos de bias-variance tradeoff, underfitting e overfitting através da estimação de diversos modelos de previsão
 tags: [bias-variance tradeoff, machine learning, forecast, R]
-date: 2016-08-26 10:00:00 -0300
+date: 2016-08-25 10:00:00 -0300
 ---
 
 Ao fazer previsões devemos separar a nossa amostra em uma parte em que estimaremos nosso modelo (train set) e outra parte em que avaliaremos a qualidade da previsão (test set). Quando se trata de escolher o modelo, parâmetros e variáveis a serem utilizadas, nos deparamos com as seguintes opções:
