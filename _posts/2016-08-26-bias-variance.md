@@ -2,7 +2,7 @@
 layout: post
 title: "O tradeoff entre viés e variância em três gráficos"
 tags: [bias-variance tradeoff, machine learning, forecast, R]
-date: 2016-08-24 10:00:00 -0300
+date: 2016-08-26 10:00:00 -0300
 ---
 
 Ao fazer previsões devemos separar a nossa amostra em uma parte em que estimaremos nosso modelo (train set) e outra parte em que avaliaremos a qualidade da previsão (test set). Quando se trata de escolher o modelo, parâmetros e variáveis a serem utilizadas, nos deparamos com as seguintes opções:
