@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "O tradeoff entre viés e variância em três gráficos"
+subtitle: Entendendo os conceitos de bias-variance tradeoff, underfitting e overfitting estimando diversos modelos de previsão
 tags: [bias-variance tradeoff, machine learning, forecast, R]
 date: 2016-08-26 10:00:00 -0300
 ---
@@ -13,15 +14,21 @@ Ao fazer previsões devemos separar a nossa amostra em uma parte em que estimare
 
 Matematicamente, o erro de previsão de um modelo pode ser dado por:
 
-$$E[(y-\hat{f}(x))^2] = Bias[\hat{f}(x)]^2 + Var[\hat{f}(x)] + \sigma^2$$,
+$$
+E[(y-\hat{f}(x))^2] = Bias[\hat{f}(x)]^2 + Var[\hat{f}(x)] + \sigma^2,
+$$
 
 onde,
 
-$$Bias[\hat{f}(x)] = E[\hat{f}(x) - f(x)]$$,
+$$
+Bias[\hat{f}(x)] = E[\hat{f}(x) - f(x)],
+$$
 
 e,
 
-$$Var[\hat{f}(x)] = E[\hat{f}(x)^2] - E[\hat{f}(x)]^2$$.
+$$
+Var[\hat{f}(x)] = E[\hat{f}(x)^2] - E[\hat{f}(x)]^2.
+$$
 
 Assim, a nossa tarefa é escolher a *f(x)*, sendo que tanto o viés quanto a variância aumenta o erro de previsão. Obviamente a escolha entre 1 e 2 é um tradeoff, e o ideal é permanecermos em um meio termo entre um modelo complexo e bem generalizável. Nesse post faremos um exercício de simulação no R e construiremos três gráficos para entender melhor este tradeoff. Para a construção destes gráficos também estimaremos vários modelos de previsão no R. A primeira etapa é carregar os pacotes necessários (instale-os com `install.packages("nomedopacote")` caso não os tenha em seu sistema).
 
@@ -166,6 +173,7 @@ Note que dependendo dos dados, os erros do train e test set podem ser completame
 ```r
 # Estimar e plotar 9 modelos diferentes
 set.panel(3,3)
+
 ## Linear Regression
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
@@ -178,6 +186,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, predict(reg, data.frame(x))), digits = 2)))
+
 ## Regression Tree (CART)
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
@@ -202,6 +211,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, knnfit$pred), digits = 2)))
+
 ## Support vector regression with polynomial kernel
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
@@ -215,6 +225,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, svmpred), digits = 2)))
+
 ## Polynomial regression
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
@@ -227,6 +238,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, predict(polyreg, data.frame(x))), digits = 2)))
+
 ## Thin plate spline with CV (smoothing)
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
@@ -239,6 +251,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, predict(tps, x)), digits = 2)))
+
 ## Random forest
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
@@ -252,6 +265,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, predict(rf, x)), digits = 2)))
+
 ## Extreme gradient boosting trees
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
@@ -264,6 +278,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, predict(xgb, as.matrix(x))), digits = 2)))
+
 ## Interpolating Cubic Spline
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
