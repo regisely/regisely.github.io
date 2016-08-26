@@ -152,7 +152,7 @@ O código com a estimação, previsão e o plot dos gráficos para cada modelo s
 
 1. O primeiro modelo é a **Regressão Linear**, que possui alto viés e baixa variância, de modo que os erros do train e test set são altos mas semelhantes. 
 
-2. O segundo modelo é o **CART**, de regressão com àrvores. A ideia é estimar uma constante para diferentes níveis da variável previsora `x`. Esse modelo diminui um pouco os erros no train e test set, mas ainda assim, no nosso caso, o viés é alto.
+2. O segundo modelo é o **CART**, de regressão com árvores. A ideia é estimar uma constante para diferentes níveis da variável previsora `x`. Esse modelo diminui um pouco os erros no train e test set, mas ainda assim, no nosso caso, o viés é alto.
 
 3. O terceiro modelo é o **K-nearest neighbour** com K=2. Este é um modelo não-paramétrico que calcula a distância do ponto a ser previsto em relação aos outros pontos da amostra, e utiliza a média dos 2 pontos mais próximos como previsor. Este modelo diminui consideravelmente os erros do train e test set, entretanto ele parece não realizar uma boa previsão nos valores extremos de `x`, visto que ao calcular a média dos vizinhos mais próximos a relação polinomial se perde nos extremos.
 
@@ -164,7 +164,7 @@ O código com a estimação, previsão e o plot dos gráficos para cada modelo s
 
 7. O sétimo modelo é um **Random Forest**, que constrõe diversas árvores completas no estilo do modelo CART reordenando os dados através de um algoritmo de bootstrap, e então utiliza a média delas para diminuir a possibilidade de overfitting. A esta estratégia se dá o nome de *Bagging*. Entretanto, no nosso caso, o modelo ainda assim passa do ponto ideal, tendo um erro no test set um pouco maior do que os quatro modelos anteriores, apesar de ter o menor erro no train set. Isso indica que o modelo está incorrendo em overfitting.
 
-8. O oitavo modelo é o **Gradient Boosting Trees**, implementado através do pacote `xgboost` do R. Este é um dos modelos mais utilizados para previsão hoje em dia por sua flexibilidade e adaptabilidade a diferentes problemas. A ideia do modelo é estimar diversas árvores como no modelo CART, mas ao invés de estimar árvores completas e tirar a média como no Random Forest, o modelo começa estimando uma àrvore simples, e então utiliza os pontos em que esta árvore não faz um bom trabalho de previsão para estimar outra árvore simples, e assim por diante. A esta estratégia se dá o nome de *Boosting*. A ideia é diminuir o viés, porém em geral este modelo terá uma variância maior do que Random Forest, podendo facilmente incorrer em overfitting, como acontece no nosso caso, em que o erro no train set é bem baixo, mas no test set é bem maior.
+8. O oitavo modelo é o **Gradient Boosting Trees**, implementado através do pacote `xgboost` do R. Este é um dos modelos mais utilizados para previsão hoje em dia por sua flexibilidade e adaptabilidade a diferentes problemas. A ideia do modelo é estimar diversas árvores como no modelo CART, mas ao invés de estimar árvores completas e tirar a média como no Random Forest, o modelo começa estimando uma árvore simples, e então utiliza os pontos em que esta árvore não faz um bom trabalho de previsão para estimar outra árvore simples, e assim por diante. A esta estratégia se dá o nome de *Boosting*. A ideia é diminuir o viés, porém em geral este modelo terá uma variância maior do que Random Forest, podendo facilmente incorrer em overfitting, como acontece no nosso caso, em que o erro no train set é bem baixo, mas no test set é bem maior.
 
 9. O último modelo é a interpolação com **Spline Cúbico**, que passa exatamente por todos os pontos do train set, zerando o erro de previsão. Entretanto, ao avaliar a qualidade da previsão no test set obtemos um erro bem maior. Esse modelo está ocorrendo em um overfitting extremo, sendo complexo demais para gerar uma boa previsão.
 
@@ -199,6 +199,7 @@ text(4.5, -800, cex = 0.8,
 text(4.5, -1000, cex = 0.8,
      paste("Test RMSE:",
            round(rmse(y_new, predict(tree)), digits = 2)))
+
 ## K-nearest neighbour
 plot(x, y, xlim = c(min(x), max(x)), ylim = c(min(y), max(y)), pch=16,
      cex = 0.5, ylab = "Response", xlab = "Predictor",
