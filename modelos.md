@@ -14,4 +14,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Ementa](/files/modelos.pdf)**
 
+- **[Roteiro de estudo e Lista de exercícios](/files/modelos-rot.pdf)**
+
 ---
