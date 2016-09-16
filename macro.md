@@ -10,6 +10,8 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Ementa](/files/macro-ementa.pdf)**
 
+- **[Lista de exercícios](/files/macro-exs.pdf)**
+
 - **[Leitura 1 - Kaldor (1957)](/files/Kaldor_1957.pdf)**
 
 - **[Leitura 2 - Solow (1956)](/files/Solow1956.pdf)**
@@ -17,5 +19,7 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 - **[Leitura 2 adicional - De Gregorio and Lee (1999)](/files/gregorio.pdf)**
 
 - **[Leitura 3 - Chatterji (1992)](/files/convergence.pdf)**
+
+- **[Leitura 4 - McCall (1970)](/files/jobsearch.pdf)**
 
 ---
