@@ -22,4 +22,8 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Leitura 4 - McCall (1970)](/files/jobsearch.pdf)**
 
+- **[Leitura 5 - Mehra e Prescott (1985)](/files/equity_premium.pdf)**
+
+- **[Leitura 6 - Lucas (1978)](/files/lucas_tree.pdf)**
+
 ---
