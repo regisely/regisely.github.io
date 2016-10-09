@@ -26,4 +26,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Leitura 6 - Lucas (1978)](/files/lucas_tree.pdf)**
 
+- **[Leitura 7 - Stadler (1994)](/files/Stadler1994.pdf)**
+
 ---
