@@ -28,11 +28,12 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Leitura 7 - Stadler (1994)](/files/Stadler1994.pdf)**
 
-- **[Leitura 8 - Ellery \textit{et al.} (2002)](/files/ellery-rbc.pdf)**
+- **[Leitura 8 - Ellery et al. (2002)](/files/ellery-rbc.pdf)**
 
 - **[Leitura 8 adicional 1 - Kydland e Prescott (1982)](/files/timetobuild.pdf)**
 
 - **[Leitura 8 adicional 2 - Diáz-Giménez (1998)](/files/diaz-gimenez.pdf)**
 
 - **[RBC Modelo Básico](/files/rbc_basic_model.zip)**
+
 ---
