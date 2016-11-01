@@ -34,6 +34,8 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Leitura 8 adicional 2 - Diáz-Giménez (1998)](/files/diaz-gimenez.pdf)**
 
+- **[Leitura complementar - Hansen e Prescott - Recursive Methods](/files/recursive.pdf)**
+
 - **[RBC Modelo Básico](/files/rbc_basic_model.zip)**
 
 ---
