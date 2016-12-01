@@ -1,4 +1,5 @@
 ---
+layout: page
 title: "Modelos ARIMA no R"
 author: "Regis Augusto Ely"
 date: "Maio de 2014 - First draft"
@@ -7,6 +8,7 @@ output:
   pdf_document:
     keep_tex: yes
 ---
+
 Modelos ARIMA no R
 ===============================
 
