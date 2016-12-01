@@ -1,12 +1,6 @@
 ---
 layout: page
-title: "Modelos ARIMA no R"
-author: "Regis Augusto Ely"
-date: "Maio de 2014 - First draft"
-output:
-  html_document: default
-  pdf_document:
-    keep_tex: yes
+title: Modelos ARIMA no R
 ---
 
 Modelos ARIMA no R
@@ -502,3 +496,5 @@ plot(prev_ma, include = 100)
 
 
 Note que no MA(1), a previsão converge para a média após o primeiro período, enquanto que no AR, a previsão irá lentamente convergir para a média. Exatamente como vimos em aula quando calculamos isso! :)
+
+---
