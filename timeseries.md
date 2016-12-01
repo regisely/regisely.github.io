@@ -12,6 +12,8 @@ Aqui você encontrará a ementa, lista de exercícios, códigos e outros materia
 
 - **[Lista de exercícios](/files/timeseries-lista.pdf)**
 
+- **[Modelos ARIMA no R](/files/Modelos_ARMA.pdf)**
+
 - **[Simulação e Identificação de Processos ARMA no R](/simulations-arma)**
 
 - **[Estimação, Diagnóstico e Previsão de Processos ARMA no R](/estimations-arma)**
