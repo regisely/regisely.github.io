@@ -19,4 +19,5 @@ Aqui você encontrará a ementa, lista de exercícios, códigos e outros materia
 - **[Modelos VAR no R](/files/var.R)**
 
 - **[Cointegração e Modelo VECM no R](/files/cointegration.R)**
+
 ---
