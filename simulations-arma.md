@@ -6,6 +6,8 @@ subtitle: Econometria II (pós-graduação)
 
 [<< Back to Econometria II](/timeseries)
 
+Este código simula vários processos ARMA reconstruindo a estrutura temporal dos mesmos. As simulações são gravadas em um arquivo `simulations.csv`, e os gráficos, bem como as funções de autocorrelação e autocorrelação parcial são plotadas para cada série.
+
 ```r
 #######################################################
 ### Definição dos parâmetros
