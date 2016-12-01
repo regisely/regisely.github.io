@@ -12,12 +12,12 @@ Aqui você encontrará a ementa, lista de exercícios, códigos e outros materia
 
 - **[Lista de exercícios](/files/timeseries-lista.pdf)**
 
-- **[Simulação e Identificação de Processos ARMA no R](/simulations-arma.md)**
+- **[Simulação e Identificação de Processos ARMA no R](/simulations-arma)**
 
-- **[Estimação, Diagnóstico e Previsão de Processos ARMA no R](/estimations-arma.md)**
+- **[Estimação, Diagnóstico e Previsão de Processos ARMA no R](/estimations-arma)**
 
-- **[Modelos VAR no R](/var.md)**
+- **[Modelos VAR no R](/var)**
 
-- **[Cointegração e Modelo VECM no R](/vecm.md)**
+- **[Cointegração e Modelo VECM no R](/vecm)**
 
 ---
