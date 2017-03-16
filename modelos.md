@@ -18,6 +18,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Lista de exercícios 2](/files/modelos_lista1-2017.doc)**
 
-- **[Conteúdo da aula do dia 13/01/2016](/files/aula1301.pdf)**
+- **[Conteúdo da aula do dia 13/03/2016](/files/aula1301.pdf)**
 
 ---
