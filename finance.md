@@ -18,4 +18,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Lista de exercícios 2](/files/finance-lista2.pdf)**
 
+- **[Lista de exercícios 2 soluções](/files/finance_lista_sol.pdf)**
+
 ---
