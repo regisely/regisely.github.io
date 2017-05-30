@@ -14,6 +14,8 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Ementa](/files/ecobras.pdf)**
 
+- **[A inserção externa e o desenvolvimento](/files/franco.pdf)**
+
 - **Aula 1 - Leitura do cap. 12 de Gremaud et al. EBC.** - Nesta aula veremos alguns fatos estilizados da economia brasileira ao longo do século XX. Para isso, iremos observar o histórico de crescimento, volatilidade do crescimento, inflação, balança comercial, participação relativa dos setores na economia, indicadores sociais, entre outros. Também iremos resumir os diversos modelos de desenvolvimento adotados no Brasil. 
 
 - **Aula 2 - Leitura do cap. 13 de Gremaud et al. EBC.** - Nesta aula veremos as principais características do modelo de economia agroexportadora, que representa uma economia voltada para a exportação de poucos produtos primários, e foi o modelo de desenvolvimento do período de 1500 a 1930 (segundo a nossa classificação) . Também veremos as principais políticas econômicas adotadas para sustentar este modelo.
