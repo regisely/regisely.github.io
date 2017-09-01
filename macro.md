@@ -10,6 +10,8 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Ementa](/files/macro-ementa.pdf)**
 
+- **[Sorteio](/files/sorteio.R)**
+
 - **[Lista de exercícios](/files/macro-exs.pdf)**
 
 - **[Leitura 1 - Kaldor (1957)](/files/Kaldor_1957.pdf)**
