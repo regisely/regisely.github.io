@@ -14,6 +14,8 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Ementa](/files/financas.pdf)**
 
+- **[Matemática Financeira - Parte 1](/files/matfin-parte1.pdf)**
+
 - **[Lista de exercícios 1](/files/finance-lista1.pdf)**
 
 - **[Lista de exercícios 2](/files/finance-lista2.pdf)**
