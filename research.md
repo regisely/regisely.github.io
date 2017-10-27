@@ -1,4 +1,5 @@
---- layout: page
+---
+layout: page
 title: Research
 subtitle: Areas of research, published papers and projects
 comments: false
