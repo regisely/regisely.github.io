@@ -66,10 +66,6 @@ O Udemy é um portal com cursos em diversas áreas mas um grande foco em cursos 
 
 Este é o portal de cursos online da Universidade de Stanford, uma das universidades mais dedicadas a disponibilizar material gratuito de seus cursos para o resto do mundo.
 
-- **[Data Science Academy](http://www.datascienceacademy.com.br/)**
-
-É o portal pioneiro de ciência de dados no Brasil. Os cursos apresentam excelente qualidade e são voltados a conhecimentos de estatística e computação.
-
 ## Materiais didáticos {#teaching}
 
 Muitas notas de aulas, livros e materiais didáticos podem ser encontrados na internet. Aqui listo alguns de excelente qualidade. Com o tempo vou adicionando mais fontes.
