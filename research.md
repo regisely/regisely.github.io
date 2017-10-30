@@ -5,7 +5,7 @@ subtitle: Areas of research, published papers and projects
 comments: false
 ---
 
-My research expertise includes five major areas of economics: applied finance, corporate finance and banking, economic growth and international economics, labor and household economics, and natural resource and agriculture economics. Below you can see a list of published and working papers in each of these areas. Feel free to ask me a copy of the manuscript if it is not available online.
+My research expertise includes five major areas of economics: i) applied finance; ii) corporate finance and banking; iii) economic growth and international economics; iv) labor and household economics; and v) natural resource and agriculture economics. Below you can see a list of published and working papers in each of these areas. Feel free to ask me a copy of the manuscript if it is not available online.
 
 ## Applied Finance
 
