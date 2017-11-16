@@ -1,4 +1,4 @@
-## Carregando série do PIB mensal brasileiro
+## Carregando s?rie do PIB mensal brasileiro
 
 data <- read.csv("pib-brasil.csv", sep = ";", dec = ",")
 pib <- ts(log(data$pib), start = c(1996, 01), end = c(2016, 02), frequency = 4)
@@ -8,7 +8,7 @@ plot(pib.diff)
 decomp <- stl(pib, s.window = "periodic")
 plot(decomp)
 
-## Testes de tendência
+## Testes de tend?ncia
 library(randtests)
 
 ### Wald-Wolfowitz Test
@@ -23,9 +23,9 @@ cox.stuart.test(pib.diff)
 rank.test(pib)
 rank.test(pib.diff)
 
-## Estimação de tendência
+## Estima??o de tend?ncia
 
-### Tendência linear e polinomial
+### Tend?ncia linear e polinomial
 
 trimestre <- seq(1, length(pib))
 trimestre
@@ -37,7 +37,7 @@ ts.plot(reg1$residuals)
 ts.plot(reg2$residuals)
 ts.plot(reg1$fitted.values)
 
-### Média móvel
+### M?dia m?vel
 
 ma5 <- filter(pib, rep(1/5, 5), sides = 2)
 ma5

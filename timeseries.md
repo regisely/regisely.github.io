@@ -16,7 +16,7 @@ Aqui você encontrará a ementa, lista de exercícios, códigos e outros materia
 
 - **[Sazonalidade no R](/files/sazonalidade.R)**
 
-- **[Tendência no R](/files/tendencia.R)**
+- **[Tendência no R](/files/tendencia.R) - [Série do PIB](/files/pib-brasil.csv)**
 
 - **[Modelos ARIMA no R](/files/Modelos_ARMA.pdf)**
 
