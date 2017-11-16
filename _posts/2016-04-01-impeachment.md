@@ -30,11 +30,11 @@ Após a publicação, o modelo fez bastante sucesso entre estudantes e acadêmic
 
 **Artigos em jornais**
 
-[Folha de São Paulo 1](http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml) (entre as 5 mais lidas do dia)
+[Folha de São Paulo 1](http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml)
 
-[Folha de São Paulo 2](http://www1.folha.uol.com.br/poder/2016/04/1760475-sobe-para-90-a-chance-do-processo-de-impeachment-passar-na-camara.shtml) (entre as 5 mais lidas do dia)
+[Folha de São Paulo 2](http://www1.folha.uol.com.br/poder/2016/04/1760475-sobe-para-90-a-chance-do-processo-de-impeachment-passar-na-camara.shtml)
 
-[Folha de São Paulo 3](http://www1.folha.uol.com.br/poder/2016/04/1760838-chance-de-processo-de-impeachment-passar-na-camara-sobe-para-92.shtml) (entre as 5 mais lidas do dia)
+[Folha de São Paulo 3](http://www1.folha.uol.com.br/poder/2016/04/1760838-chance-de-processo-de-impeachment-passar-na-camara-sobe-para-92.shtml)
 
 [Veja](http://veja.abril.com.br/blog/reinaldo/geral/sobe-para-90-a-chance-do-processo-de-impeachment-passar-na-camara/)
 
