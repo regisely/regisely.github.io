@@ -12,4 +12,6 @@ Aqui você encontrará a ementa, lista de exercícios, notas de aula, roteiro de
 
 - **[Notas de aula](/files/statverao-aulas.pdf)**
 
+- **[Gabarito Prova Final de 2018](/files/prova-estatistica-2018.pdf)**
+
 ---
