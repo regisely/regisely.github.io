@@ -1,0 +1,848 @@
+%% LyX 2.3.4.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,english,brazil]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{textcomp}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage[numbers]{natbib}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{Warsaw}
+\newtheorem{thm}{Teorema}[]
+\newtheorem{cor}[]{Corollary}
+\newtheorem{lem}[]{Lema}
+\newtheorem{prop}[]{Proposi\c{c}\~ao}
+\theoremstyle{definition}
+\newtheorem{defn}[]{Definition}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\usepackage{amsthm}\usepackage{amsfonts}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title{\selectlanguage{english}%
+Métodos Estatísticos Básicos}
+\subtitle{Aula 3 - Medidas de tendência central}
+\author{\selectlanguage{english}%
+Prof. Regis Augusto Ely}
+\institute{\selectlanguage{english}%
+Departamento de Economia\\
+Universidade Federal de Pelotas (UFPel)}
+\date{\selectlanguage{english}%
+Abril de 2014}
+\makebeamertitle
+\selectlanguage{brazil}%
+\begin{frame}{Média aritmética}
+
+
+\framesubtitle{Definição}
+\begin{itemize}
+\item As medidas de tendência central são estatísticas que caracterizam
+um conjunto de dados, sendo o valor em torno do qual se agrupam as
+observações.
+\item \textbf{Média aritmética $(\overline{X})$:} é o quociente entre a
+soma dos valores dos nossos dados e o número total de dados, $\bar{X}=\frac{{\sum_{i=1}^{n}X_{i}}}{n}$
+.
+\item Quando temos dados não-agrupados pela frequência das observações,
+calculamos a \textit{\uline{média aritmética simples}}.
+
+Ex: 10, 14, 13, 15, 16, 18, 12.
+
+Logo, $\overline{X}=\frac{(10+14+13+15+16+18+12)}{7}=14$.
+\item \textbf{Desvio em relação à média:} é a diferença entre um elemento
+de um conjunto de valores e a média aritmética desse conjunto, ou
+seja, $d_{i}=X_{i}-\overline{X}.$
+
+Ex: $d_{1}=10-14=-4$; $d_{2}=14-14=0$, etc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Média aritmética}
+
+
+\framesubtitle{Propriedades da média}
+\selectlanguage{english}%
+\begin{enumerate}
+\item A soma algébrica dos desvios em relação à média é nula. Assim,$\overset{n}{\underset{i=1}{\sum}}d_{i}=\overset{n}{\underset{i=1}{\sum}}(Xi-\overline{X})=\overset{n}{\underset{i=1}{\sum}}Xi-n.\overline{X}=0$.
+\item Somando ou subtraindo uma constante c a todos os elementos do nosso
+conjunto de dados, a média aumentará em c. Assim, $\frac{\sum_{i=1}^{n}(Xi+c)}{n}=\frac{\sum_{i=1}^{n}Xi}{n}+\frac{n.c}{n}=\overline{X}+c$.
+\item Multiplicando ou dividindo todos os valores por uma constante c, a
+média fica multiplicada (ou dividida) por c. Assim, $\frac{\sum_{i=1}^{n}(c.Xi)}{n}=\frac{c\sum_{i=1}^{n}Xi}{n}=c.\overline{X}.$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Média aritmética ponderada}
+
+
+\framesubtitle{Dados agrupados sem intervalo de classe}
+\begin{itemize}
+\item Se os dados estiverem agrupados em uma tabela de frequência, devemos
+calcular uma \textit{\uline{média aritmética ponderada}}. $\overline{X}=\frac{\sum_{i=1}^{n}X_{i}f_{i}}{\sum_{i=1}^{n}fi}$.
+Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+Dados & Frequência\tabularnewline
+\hline 
+\hline 
+0 & 2\tabularnewline
+\hline 
+1 & 6\tabularnewline
+\hline 
+2 & 10\tabularnewline
+\hline 
+3 & 12\tabularnewline
+\hline 
+4 & 4\tabularnewline
+\hline 
+Total & 34\tabularnewline
+\hline 
+\end{tabular} 
+\par\end{center}
+
+\begin{center}
+$\overline{X}=\frac{0x2+1x6+2x10+3x12+4x4}{34}=2,3$
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}{Média aritmética ponderada}
+
+
+\framesubtitle{Dados agrupados com intervalos de classe}
+\begin{itemize}
+\item Se os dados estiverem agrupados em intervalos de classe, utilizamos
+a \textit{\uline{média aritmética ponderada}}, definindo Xi como
+o ponto médio da classe i. Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+Estaturas(cm) & Frequência (fi) & Ponto médio (Xi) & Xi.fi\tabularnewline
+\hline 
+\hline 
+$50\vdash54$ & 4 & 52 & 208\tabularnewline
+\hline 
+$54\vdash58$ & 9 & 56 & 504\tabularnewline
+\hline 
+$58\vdash62$ & 11 & 60 & 660\tabularnewline
+\hline 
+$62\vdash66$ & 8 & 64 & 512\tabularnewline
+\hline 
+$66\vdash70$ & 5 & 68 & 340\tabularnewline
+\hline 
+$70\vdash74$ & 3 & 72 & 216\tabularnewline
+\hline 
+Total & 40 &  & 2440\tabularnewline
+\hline 
+\end{tabular} 
+\par\end{center}
+
+\begin{center}
+Assim, $\overline{X}=\frac{2440}{40}=61$
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}{\foreignlanguage{english}{Média geométrica}}
+
+
+\framesubtitle{Definição}
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Média geométrica $(\overline{X_{g}})$:} é a raíz n-ésima
+do produto dos dados, $\bar{X_{g}}=\sqrt[^{n}]{\prod_{i=1}^{n}X_{i}}$,
+onde $\prod_{i=1}^{n}X_{i}=X_{1}.X_{2}....X_{n}$.
+
+Ex: 10,60,360. $\overline{X_{g}}=\sqrt[3]{10.60.360}=60$.
+\selectlanguage{brazil}%
+\item Note que aplicando log, temos $log\overline{X_{g}}=\frac{1}{n}\sum_{i=1}^{n}logX_{i}$,
+de modo que o logaritmo da média geométrica é igual à média aritmética
+dos logaritmos dos valores observados.
+\item Assim, podemos notar que a média geométrica é uma média aritmética
+suavizada. Ela é muita utilizada em finanças e engenharia.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\foreignlanguage{english}{Média geométrica}}
+
+
+\framesubtitle{Relação com a média aritmética}
+\begin{itemize}
+\item Sempre teremos $\overline{X_{g}}\leq\overline{X}$, valendo a igualdade
+apenas se $x_{i}=x_{j}$ para todo $i\neq j,$ ou seja, se todos os
+dados são iguais.
+\item Para provar que $\overline{X_{g}}\leq\overline{X}$ basta observar
+que, para o caso de apenas duas observações, $X_{1}$ e $X_{2}$:
+
+$\overline{X^{2}}-\overline{X_{g}^{2}}=(\frac{X_{1}+X_{2}}{2})^{2}-X_{1}.X_{2}$=\foreignlanguage{english}{\textrm{$\frac{X_{1}^{2}-2.X_{1}.X_{2}+X_{2}^{2}}{4}=(\frac{X_{1}-X_{2}}{2})\text{\texttwosuperior}\geq0$.}}
+
+\selectlanguage{english}%
+Logo, como $\overline{X^{2}}-\overline{X_{g}^{2}}\geq0$, temos $\overline{X_{g}}\leq\overline{X}$.
+\end{itemize}
+\end{frame}
+\selectlanguage{brazil}%
+
+\begin{frame}{Média geométrica ponderada}
+
+
+\framesubtitle{Dados agrupados sem intervalo de classe}
+\selectlanguage{english}%
+\begin{itemize}
+\item Se os dados forem agrupados, calculamos a \textit{\uline{média
+geométrica ponderada}}, $\overline{X_{g}}=\sqrt[\overset{n}{\underset{i=1}{\sum}}fi]{\prod_{i=1}^{n}X_{i}^{f_{i}}}=\sqrt[\overset{n}{\underset{i=1}{\sum}}fi]{X_{1}^{f_{1}}.X_{2}^{f_{2}}...X_{n}^{f_{n}}}$.
+Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+\selectlanguage{brazil}%
+$X_{i}$\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+$f_{i}$\selectlanguage{english}%
+\tabularnewline
+\hline 
+\hline 
+\selectlanguage{brazil}%
+1\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+2\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+3\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+4\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+9\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+2\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+27\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+1\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+Total\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+9\selectlanguage{english}%
+\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+\begin{center}
+$\overline{X_{g}}=\sqrt[9]{1^{2}.3^{4}.9^{2}.27^{1}}=3,8296$
+\par\end{center}
+\begin{itemize}
+\item Se os dados forem agrupados com intervalo de classe o procedimento
+é o mesmo, porém agora $X_{i}$ será o ponto médio de cada classe.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\foreignlanguage{english}{Média harmônica}}
+
+
+\framesubtitle{Definição}
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Média harmônica $(\overline{X}_{h})$:} É o inverso da média
+aritmética dos inversos de cada elemento do conjunto de dados, $\overline{X}_{h}=(\frac{1}{n}.\sum_{i=1}^{n}X_{i}^{-1})^{-1}=\frac{n}{\sum_{i=1}^{n}\frac{1}{X_{i}}}$.
+\item A média harmônica é bastante utilizada na física, quando trabalhamos
+com grandezas que variam inversamente. Ex: velocidade e tempo.
+\item Sempre teremos \textrm{$\overline{X}_{h}\leq\overline{X}_{g}\leq\overline{X}$,
+}valendo a igualdade apenas se todos os dados forem iguais. Podemos
+ver isso para o caso de apenas duas observações, \foreignlanguage{brazil}{$X_{1}$
+e $X_{2}$:}
+
+\textrm{$\overline{X}_{h}=[\frac{1}{2}.(\frac{1}{X_{1}}+\frac{1}{X_{2}})]^{-1}=\frac{2X_{1}.X_{2}}{X_{1}+X_{2}}=\frac{2.\overline{X_{g}^{2}}}{2.\overline{X}}=\frac{\overline{X}_{g}.\overline{X}_{g}}{\overline{X}}$}.
+
+Como $\overline{X}_{g}\leq\overline{X}$, temos $0\leq\frac{\overline{X_{g}}}{\overline{X}}\leq1.$
+Logo, $\overline{X}_{h}\leq\overline{X}_{g}$.
+\end{itemize}
+\end{frame}
+\selectlanguage{brazil}%
+
+\begin{frame}{\foreignlanguage{english}{Média harmônica ponderada}}
+
+
+\framesubtitle{Dados agrupados com intervalo de classe}
+\selectlanguage{english}%
+\begin{itemize}
+\item Se os dados forem agrupados, calculamos a \textit{\uline{média
+harmônica ponderada,}} $\overline{X}_{h}=\frac{\sum_{i=1}^{n}f_{i}}{\sum_{i=1}^{n}\frac{f_{i}}{X_{i}}}$.
+Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+\selectlanguage{brazil}%
+Classes\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+$f_{i}$\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+$X_{i}$\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+$\frac{f_{i}}{X_{i}}$\selectlanguage{english}%
+\tabularnewline
+\hline 
+\hline 
+\selectlanguage{brazil}%
+$1\vdash3$\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+2\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+2\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+2/2=1\selectlanguage{english}%
+\tabularnewline
+\hline 
+\textrm{$3\vdash5$} & \selectlanguage{brazil}%
+4\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+4\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+4/4=1\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+$5\vdash7$\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+8\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+6\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+8/6=1,33\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+$7\vdash9$\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+4\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+8\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+4/8=0,5\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+$9\vdash11$\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+2\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+10\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+2/10=0,2\selectlanguage{english}%
+\tabularnewline
+\hline 
+\selectlanguage{brazil}%
+total\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+20\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+\selectlanguage{english}%
+ & \selectlanguage{brazil}%
+4,03\selectlanguage{english}%
+\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+\begin{center}
+\textrm{$\overline{X_{h}}=\frac{20}{4,03}=4,96$}
+\par\end{center}
+\begin{itemize}
+\item Se os dados forem agrupados sem intervalo de classe o procedimento
+é o mesmo, porém agora $X_{i}$ será o valor de cada elemento do conjunto
+de dados.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\foreignlanguage{english}{Média harmônica}}
+
+
+\framesubtitle{Observações}
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Obs 1:} a média harmônica não aceita valores iguais a zero
+como dados de uma série.
+\selectlanguage{brazil}%
+\item \textbf{Obs 2:} quando os valores da variável não forem muito diferentes,
+verifica-se a seguinte relação,$\overline{X_{g}}=\frac{(\overline{X}+\overline{X_{h}})}{2}$.
+
+Ex: \{10,1; 10,1; 10,2; 10,4; 10,5\}
+
+$\overline{X}=\frac{51,3}{5}=10,2600$
+
+$\overline{X_{h}}=\frac{5}{0,4874}=10,2574$
+
+$\overline{X_{g}}=\frac{10,26+10,2574}{2}=10,2587$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Moda}
+
+
+\framesubtitle{Definição}
+\begin{itemize}
+\item \textbf{Moda $(M_{o})$:} É o valor que ocorre com maior frequência
+em uma série de dados.
+\item Se os dados estiverem não agrupados, devemos procurar o valor que
+mais se repete.
+
+Ex: \{7, 8, 9, 10, 10, 10, 11, 12\}. Temos Mo=10.
+\item Se nenhum valor aparece mais vezes do que outro, chamamos a série
+de amodal.
+
+Ex: \{3, 5, 8, 10, 12\} não apresenta moda. É \textit{\uline{amodal}}.
+\item Se dois ou mais valores repetem o mesmo número de vezes, a série tem
+mais de um valor modal.
+
+Ex: \{2, 3, 4, 4, 4, 5, 6, 7, 7, 7, 8, 9\} tem duas modas, é \textit{\uline{bimodal}}.
+Suas modas são 4 e 7.
+\item O emprego da moda é utilizado apenas em alguns casos específicos,
+pois a média aritmética possui maior estabilidade. Ex: salários.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Moda}
+
+
+\framesubtitle{Dados agrupados}
+\begin{itemize}
+\item \textbf{Sem intervalos de classe:} com os dados agrupados, é possível
+determinar a moda apenas olhando o dado com a maior frequência.
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+Temperatura & Frequência\tabularnewline
+\hline 
+\hline 
+0ºC & 3\tabularnewline
+\hline 
+1ºC & 9\tabularnewline
+\hline 
+2ºC & 12\tabularnewline
+\hline 
+3ºC & 6\tabularnewline
+\hline 
+\end{tabular} 
+\par\end{center}
+
+\begin{center}
+$M_{o}=2\text{ºC}$
+\par\end{center}
+\begin{itemize}
+\item \textbf{Com intervalos de classe:} a classe com a maior frequência
+é a classe modal. A moda será um valor compreendido entre os limites
+da classe moda.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Moda}
+
+
+\framesubtitle{Dados agrupados}
+\begin{itemize}
+\item \textbf{Moda bruta:} $M_{o}=(\frac{l*+L*}{2}),$ onde \foreignlanguage{english}{\textrm{$l*$}}
+é o limite inferior da classe modal e $L*$ o limite superior da classe
+modal.
+\item \textbf{Moda de Czuber: }$M_{c}=l*+(\frac{d_{1}}{d_{1}+d_{2}}).h*,$
+onde $d_{1}$ é a frequência da classe modal menos a frequência da
+classe anterior a modal; $d_{2}$ é a frequência da classe modal menos
+a frequência da classe posterior a modal; e $h*$ é a amplitude da
+classe modal. Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+Classes & Frequências\tabularnewline
+\hline 
+\hline 
+$54\vdash58$ & 9\tabularnewline
+\hline 
+$58\vdash62$ & 11\tabularnewline
+\hline 
+$62\vdash66$ & 8\tabularnewline
+\hline 
+$66\vdash70$ & 5\tabularnewline
+\hline 
+\end{tabular} 
+\par\end{center}
+
+\begin{center}
+A classe modal é $58\vdash62$, logo $M_{o}=\frac{58+62}{2}=60;$
+e $M_{c}=58+\frac{(11-9)}{(11-9)+(11-8)}.4=59,6$
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}{Mediana}
+
+
+\framesubtitle{Definição}
+\begin{itemize}
+\item \textbf{Mediana $(M_{e})$:} é o valor que separa um conjunto de dados
+(dispostos em ordem crescente ou decrescente) em dois subconjuntos
+de mesmo número de elementos.
+\item Se a série tiver número ímpar de termos, a mediana será o elemento
+$\frac{n+1}{2}.$
+\item Se a série tiver numero par de termos, a mediana será a média dos
+elementos $\frac{n}{2}$ e $\frac{n}{2}+1.$
+\item Ex. 1: \{1, 3, 0, 0, 2, 4, 1, 2, 5\}.
+
+1º colocamos a série em ordem crescente \{0, 0, 1, 1, 2, 2, 3, 4,
+5\}.
+
+2º como existem 9 elementos, a mediana será o elemento de número $\frac{n+1}{2}=\frac{10}{2}=5$.
+Assim, $M_{e}=2$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mediana}
+
+
+\framesubtitle{Definição}
+\begin{itemize}
+\item Ex. 2: \{1, 3, 0, 0, 2, 4, 1, 3, 5, 6\}.
+
+1º colocamos a série em ordem crescente \{0, 0, 1, 1, 2, 3, 3, 4,
+5, 6\}.
+
+2º como existem dez elementos, a mediana será a média dos elementos
+de número $\frac{n}{2}=\frac{10}{2}=5$ e $\frac{n}{2}+1=6,$ logo
+$M_{e}=\frac{2+3}{2}=2,5$.
+\item A mediana depende da posição dos valores da série. Ela não se deixa
+influenciar por valores extremos, como é o caso da média. Já a moda,
+depende da frequência. Estes três valores em geral são diferentes.
+\item Ex. 3: \{5, 7, 10, 10, 18\}. $\overline{X}=10$, $M_{o}=10$, \foreignlanguage{english}{\textrm{$M_{e}=10$}}.
+\item Ex. 4: \{5, 5, 10, 13, 67\}. $\overline{X}=20$, $M_{o}=5$, $M_{e}=10$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mediana}
+
+
+\framesubtitle{Dados agrupados sem intervalo de classe}
+\begin{itemize}
+\item Se o somatório das frequências for ímpar, a mediana será o elemento
+$\frac{\sum_{i=1}^{n}fi+1}{2}$.
+\item Identificamos facilmente esse elemento através da frequência acumulada.
+Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+Xi & fi & Fi\tabularnewline
+\hline 
+\hline 
+0 & 2 & 2\tabularnewline
+\hline 
+1 & 6 & 8\tabularnewline
+\hline 
+2 & 9 & 17\tabularnewline
+\hline 
+3 & 13 & 30\tabularnewline
+\hline 
+4 & 5 & 35\tabularnewline
+\hline 
+total & 35 & \tabularnewline
+\hline 
+\end{tabular} 
+\par\end{center}
+
+\begin{center}
+Temos $\frac{\sum fi+1}{2}=\frac{36}{2}=18$. Logo, $M_{e}=3$.
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}{Mediana}
+
+
+\framesubtitle{Dados agrupados sem intervalo de classe}
+\begin{itemize}
+\item Se o somatório das frequências for par, a mediana será a média dos
+termos $\frac{\sum_{i=1}^{n}f_{i}}{2}$ e $\frac{\sum_{i=1}^{n}f_{i}}{2}+1$.
+Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+Xi & fi & Fi\tabularnewline
+\hline 
+\hline 
+12 & 1 & 1\tabularnewline
+\hline 
+14 & 2 & 3\tabularnewline
+\hline 
+15 & 1 & 4\tabularnewline
+\hline 
+16 & 2 & 6\tabularnewline
+\hline 
+17 & 1 & 7\tabularnewline
+\hline 
+20 & 1 & 8\tabularnewline
+\hline 
+total & 8 & \tabularnewline
+\hline 
+\end{tabular} 
+\par\end{center}
+
+\begin{center}
+Temos $\frac{\sum_{i=1}^{n}f_{i}}{2}=\frac{8}{2}=4$ e $\frac{\sum_{i=1}^{n}f_{i}}{2}+1=\frac{8}{2}+1=5$.
+Assim, $M_{e}=\frac{15+16}{2}=15,5$.
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}{Mediana}
+
+
+\framesubtitle{Dados agrupados com intervalo de classe}
+\begin{itemize}
+\item Para calcularmos a mediana de dados agrupados com intervalo de classe,
+seguimos as seguintes etapas:
+
+1º Determinamos as frequências acumuladas.
+
+2º Calculamos $\frac{\overset{n}{\underset{i=1}{\sum}}fi}{2}$.
+
+3º Marcamos a classe correspondente a frequência acumulada imediatamente
+superior a $\frac{\overset{n}{\underset{i=1}{\sum}}fi}{2}$. Essa
+será a classe mediana.
+
+4º Temos que$M_{e}=l^{*}+\frac{[(\frac{\sum_{i=1}^{n}f_{i}}{2}-FAA).h*]}{f*}$,
+onde $l*$ é o limite inferior da classe mediana, $FAA$ é a frequência
+acumulada da classe anterior à classe mediana, $f*$ é a frequência
+simples da classe mediana, e $h*$ é a amplitude do intervalo da classe
+mediana.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mediana}
+
+
+\framesubtitle{Dados agrupados com intervalo de classe}
+\begin{itemize}
+\item Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+Classes & fi & Fi\tabularnewline
+\hline 
+\hline 
+$50\vdash54$ & 4 & 4\tabularnewline
+\hline 
+\selectlanguage{english}%
+\textrm{$54\vdash58$}\selectlanguage{brazil}%
+ & 9 & 13\tabularnewline
+\hline 
+$58\vdash62$ & 11 & 24\tabularnewline
+\hline 
+$62\vdash66$ & 8 & 32\tabularnewline
+\hline 
+$66\vdash70$ & 5 & 37\tabularnewline
+\hline 
+$70\vdash74$ & 3 & 40\tabularnewline
+\hline 
+total & 40 & \tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+\selectlanguage{english}%
+\begin{center}
+\textrm{$\frac{\sum fi}{2}=20$ $\rightarrow$ Classe mediana: $58\vdash62$.}
+\par\end{center}
+
+\begin{center}
+$l*=58$, $FAA=13$, $f*=11$, $h*=4$.
+\par\end{center}
+
+\begin{center}
+$Md=58+\frac{[(20-13)x4]}{11}=58+\frac{28}{11}=60,54$.
+\par\end{center}
+
+\end{frame}
+\selectlanguage{brazil}%
+
+\begin{frame}{\foreignlanguage{english}{Mediana}}
+
+
+\framesubtitle{Possíveis empregos da mediana}
+\selectlanguage{english}%
+\begin{itemize}
+\item Quando desejamos obter o ponto que divide a distribuição em duas partes
+iguais.
+\item Quando há valores extremos que afetam demais a média.
+\item Em variáveis como salário.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Separatrizes}
+
+
+\framesubtitle{Definição}
+\begin{itemize}
+\item Existem outras medidas de posição que não são medidas de tendência
+central, como os quartis, decis e percentis, conhecidas genericamente
+por separatrizes.
+\item \textbf{Quartil:} são os valores que dividem a série em quatro partes
+iguais. Precisamos 3 quartis para dividir a série em quatro partes.
+\item Note que o segundo quartil $(Q_{2})$ será sempre igual a mediana.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quartil}
+
+
+\framesubtitle{Dados não agrupados}
+\begin{itemize}
+\item Ex. 1: \{5, 2, 6, 9, 10, 13, 15\}.
+
+1º ordenamos a série \{2, 5, 6, 9, 10, 13, 15\}.
+
+2º calculamos a mediana, que será o segundo quartil $M_{e}=Q2=9$.
+
+3º dividimos a série em dois grupos \{2, 5, 6\} e \{10, 13, 15\}.
+
+4º calculamos os outros quartis como sendo as medianas desses dois
+grupos $Q_{1}=5$ e $Q_{2}=13$.
+\item Ex. 2: \{1, 1, 2, 3, 5, 5, 6, 7, 9, 9, 10, 13\}.
+
+$M_{e}=Q_{2}=\frac{5+6}{2}=5,5$. Logo, temos \{1, 1, 2, 3, 5, 5\}
+com $Q_{1}=2,5$, e \{6, 7, 9, 9, 10, 13\} com $Q_{3}=9$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quartil}
+
+
+\framesubtitle{Dados agrupados}
+\begin{itemize}
+\item Se os dados forem agrupados sem intervalos de classe, utilizamos $\frac{\sum_{i=1}^{n}f_{i}}{2}$
+e $\frac{\sum_{i=1}^{n}f_{i}}{2}+1$ para calcular as posições dos
+quartis.
+\item Se os dados forem agrupados com intervalos de classe, utilizamos a
+mesma fórmula da mediana para calcular os quartis, entretanto substituímos
+$\frac{\sum_{i=1}^{n}f_{i}}{2}$ por $k\frac{\sum_{i=1}^{n}f_{i}}{4},$
+sendo k o número do quartil:
+
+Q1=$l^{*}+\frac{[(\frac{\sum fi}{4}-FAA).h^{*}]}{f^{*}}$
+
+Q2= $l^{*}+\frac{[(2\frac{\sum fi}{4}-FAA).h^{*}]}{f^{*}}$
+
+Q3=$l^{*}+\frac{[(3\frac{\sum fi}{4}-FAA).h^{*}]}{f^{*}}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quartil}
+
+
+\framesubtitle{Dados agrupados com intervalo de classe}
+\begin{itemize}
+\item Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+Classes & fi & Fi\tabularnewline
+\hline 
+\hline 
+$50\vdash54$ & 4 & 4\tabularnewline
+\hline 
+$54\vdash58$ & 9 & 13\tabularnewline
+\hline 
+$58\vdash62$ & 11 & 24\tabularnewline
+\hline 
+$62\vdash66$ & 8 & 32\tabularnewline
+\hline 
+$66\vdash70$ & 5 & 37\tabularnewline
+\hline 
+$70\vdash74$ & 3 & 40\tabularnewline
+\hline 
+total & 40 & \tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+\begin{center}
+$\frac{\sum fi}{2}=20$ \foreignlanguage{english}{$\rightarrow$ {\footnotesize{}classe
+mediana}: $58\vdash62.$ $l*=58$, $FAA=13$, $f*=11$, $h*=4$}
+\par\end{center}
+
+\begin{center}
+$M_{e}=Q_{2}=58+\frac{[(20-13)x4)}{11}=60,54$.
+\par\end{center}
+
+\begin{center}
+$\frac{\sum fi}{4}=10$ $\rightarrow$ {\footnotesize{}classe mediana
+do 1º grupo}: $54\vdash58$. $Q1=54+\frac{[(10-4)x4]}{9}=56,66$.
+\par\end{center}
+
+\begin{center}
+$\frac{3.\sum fi}{4}=30$ $\rightarrow${\footnotesize{}classe mediana
+do 3º grupo}: $62\vdash66$. $Q3=62+\frac{[(30-24)x4]}{8}=65$.
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}{Decil}
+
+
+\framesubtitle{Definição}
+\begin{itemize}
+\item \textbf{Decil:} são os valores que dividem a série em dez partes iguais.
+Precisamos 9 decis para dividir a série em 10 partes.
+\item O procedimento é análogo, porém agora o 5º decil será igual ao 2º
+quartil, que será igual à mediana.
+\item Ex: calcule o 3º decil da tabela anterior.
+
+Como k=3, temos $3.\frac{\sum fi}{10}=3.\frac{40}{10}=12,$ e a classe
+mediana é $54\vdash58$. Logo, $D_{3}=54+\frac{[(12-4)x4]}{9}=57,55$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Percentil (ou centil)}
+
+\begin{itemize}
+\item Serão os 99 valores que separam a série em 100 partes iguais, de modo
+que $P_{50}=M_{e}$, $P_{25}=Q_{1}$ e $P_{75}=Q_{3}$. O cálculo
+é análogo, mas utilizando$k.\frac{\sum fi}{100}$.
+\end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+
+  <!-- Mathjax Support -->
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>A árvore do Impeachment | Regis A. Ely</title>
+  <meta name="description" content="Este post fez um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões foram atualizadas diariamente e o resulta...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/blog/2016/04/impeachment/">
+  <link rel="alternate" type="application/rss+xml" title="Regis A. Ely" href="http://localhost:4000/feed.xml" />
+<link rel='stylesheet' id='open-sans-css'  href='//fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C300%2C400%2C600&#038;subset=latin%2Clatin-ext&#038;ver=4.2.4' type='text/css' media='all' />
+<link href='http://fonts.googleapis.com/css?family=Roboto:200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Titillium+Web:600italic,600,400,400italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://www.osu.edu/assets/fonts/webfonts.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/academicons-1.8.0/css/academicons.css">
+
+<!-- icon, perhaps -->
+<link rel="icon" type="image/png" href="/images/icon.png">
+<link rel="apple-touch-icon" type="image/png" href="/images/icon-192.png">
+
+
+<!-- OG protocol -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A árvore do Impeachment">
+<meta property="og:description" content="Este post fez um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões foram atualizadas diariamente e o resulta...">
+<meta property="og:url" content="http://localhost:4000/blog/2016/04/impeachment/">
+<meta property="og:site_name" content="Regis A. Ely">
+<meta property="og:image" content="http://localhost:4000/images/buckeyeprotesteriran.jpg">
+
+<meta property="og:image:width" content="637" />
+<meta property="og:image:height" content="403" />
+
+<!-- Twitter cards -->
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@regisaely">
+<meta name="twitter:title" content="A árvore do Impeachment" />
+<meta name="twitter:description" content="Este post fez um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões foram atualizadas diariamente e o resulta..." />
+<meta name="twitter:url" content="http://localhost:4000/blog/2016/04/impeachment/" />
+<meta name="twitter:image" content="http://localhost:4000/images/buckeyeprotesteriran-card.jpg">
+
+
+<link rel="author" href=""/>
+<meta name="google-site-verification" content="S_qmlQRyXu4Qln3eDJ06JJrOuTzltYH1Yryjhj7HFcI" />
+<meta name="msvalidate.01" content="" />
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<meta property="og:image" content="http://course-website.svmiller.com/_images/stand-and-deliver-fb.jpg"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Regis A. Ely</a>
+
+
+    <nav class="site-nav">
+
+      <a href="#" class="menu-icon menu.open">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>  
+
+    <div class="trigger"><h1>Main Navigation</h1>
+
+ <ul class="menu">
+
+    
+    
+     <li><a href="/blog/" class="page-link">Blog</a>
+    
+    </li>
+    
+    
+     <li><a href="/about/" class="page-link">About</a>
+    
+    </li>
+    
+    
+     <li><a href="/cv/" class="page-link">CV</a>
+    
+    </li>
+    
+    
+     <li><a href="/research/" class="page-link">Research</a>
+    
+    </li>
+    
+    
+    <li><a href="/teaching/" class="page-link">Teaching</a>
+    <ul class="sub-menu">
+    
+    <li><a href="/basicstat">Métodos Estatísticos Básicos</a></li>
+    
+    <li><a href="/finance">Fundamentos de Finanças</a></li>
+    
+    <li><a href="/teaching">Estatística (pós)</a></li>
+    
+    <li><a href="/teaching">Macroeconomica (pós)</a></li>
+    
+    <li><a href="/timeseries">Séries de tempo (pós)</a></li>
+    
+    </ul>
+    
+    </li>
+    
+    </ul>
+
+
+     </div>  
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">A árvore do Impeachment</h1>
+    <p class="post-meta">Posted on April 1, 2016 by  Regis  
+
+  in
+  
+  <a href="/categories/#classificação" title="classificação">classificação</a>&nbsp;
+  
+  <a href="/categories/#regressão" title="regressão">regressão</a>&nbsp;
+  
+  <a href="/categories/#árvores" title="árvores">árvores</a>&nbsp;
+  
+  <a href="/categories/#Impeachment" title="Impeachment">Impeachment</a>&nbsp;
+  
+  <a href="/categories/#previsão" title="previsão">previsão</a>&nbsp;
+  
+
+
+</p>
+  </header>
+
+  <article class="post-content">
+    <p>Este post fez um exercício de previsão para o Impeachment brasileiro utilizando um modelo de regressão particionada através do uso de árvores. As previsões foram atualizadas diariamente e o resultado percentual se referia à proporção de Deputados a favor do Impeachment em relação a totalidade dos membros, considerando diferentes índices de ausência.</p>
+
+<p>Com objetivos didáticos, publiquei o modelo no dia 1º de abril e foi o primeiro do gênero que apareceu na internet. Desde o início, as previsões indicavam grande probabilidade de o Impeachment passar pela etapa de julgamento de admissibilidade na Câmara com cerca de 70% a 75% de votos favoráveis, variando de acordo com a mudança dos dados/fonte. A última atualização do modelo e o resultado final podem ser vistos abaixo:</p>
+
+<h4 id="previsão-com-dados-do-vem-pra-rua">Previsão com dados do Vem Pra Rua</h4>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Ausência</strong></td>
+      <td><strong>0%</strong></td>
+      <td><strong>2,5%</strong></td>
+      <td><strong>5%</strong></td>
+      <td><strong>7,5%</strong></td>
+      <td><strong>10%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Estimativa final</strong></td>
+      <td>71,73%</td>
+      <td>69,20%</td>
+      <td>69,00%</td>
+      <td>66,67%</td>
+      <td>64,91%</td>
+    </tr>
+    <tr>
+      <td><strong>Resultado:</strong></td>
+      <td>A favor</td>
+      <td>A favor</td>
+      <td>A favor</td>
+      <td>A favor</td>
+      <td>Contra</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Dados obtidos em:</em> 16/04/2016 às 16:00 (último arquivo <a href="/files/imp_last.csv">aqui</a>)</p>
+
+<p><strong>Resultado Final:</strong> 367 de 513 votos favoráveis -&gt; 71,54% (A favor)</p>
+
+<p><strong>Taxa de ausência:</strong> 2 de 513 deputados -&gt; 0,39%</p>
+
+<p>Como pode ser visto, a estimativa final indicava cerca de 368 votos favoráveis com taxa próxima de 0% de ausência e o resultado final foi de 367 com taxa de ausência de 0,39%. Assim, apesar das limitações do modelo, ele fez um excelente trabalho em prever o resultado final do processo de Impeachment na Câmara brasileira.</p>
+
+<p>O modelo, apesar de parecer complicado, intuitivamente é bem simples, ele apenas considerava a informação partidária e do Estado dos Deputados que já haviam manifestado voto e a partir daí construía uma árvore com as divisões entre partido e Estado para inferir sobre os votos dos indecisos. Muitas limitações foram levantadas a respeito do modelo, as quais, em boa parte, eu concordava. Um exemplo é o fato de ele não captar a barganha e o jogo político por trás das decisões. Entretanto, na semana que antecedeu o Impeachment, a dinâmica da definição dos votos acabou se dando primeiro através de uma deliberação dentro do partido e posteriormente pelo apoio dos Deputados à decisão da maioria, com apenas alguns dissidentes. Como o pressuposto do modelo era de que os Deputados seguiriam a orientação partidária, então ele acabou se mostrando bem eficaz na previsão dos votos. Também o Estado do Deputado teve um peso grande nas manifestações de voto. Afinal, parece que a política brasileira não era tão complicada de se entender!</p>
+
+<p>Após a publicação, o modelo fez bastante sucesso entre estudantes e acadêmicos e acabou ganhando notoriedade na mídia. Conforme as atualizações eram feitas, novas notícias apareciam. Algumas repercussões foram:</p>
+
+<p><strong>Artigos em jornais</strong></p>
+
+<p><a href="http://www1.folha.uol.com.br/poder/2016/04/1759144-estatistico-preve-72-de-votos-favoraveis-a-impeachment-de-dilma.shtml">Folha de São Paulo 1</a></p>
+
+<p><a href="http://www1.folha.uol.com.br/poder/2016/04/1760475-sobe-para-90-a-chance-do-processo-de-impeachment-passar-na-camara.shtml">Folha de São Paulo 2</a></p>
+
+<p><a href="http://www1.folha.uol.com.br/poder/2016/04/1760838-chance-de-processo-de-impeachment-passar-na-camara-sobe-para-92.shtml">Folha de São Paulo 3</a></p>
+
+<p><a href="http://veja.abril.com.br/blog/reinaldo/geral/sobe-para-90-a-chance-do-processo-de-impeachment-passar-na-camara/">Veja</a></p>
+
+<p><a href="http://www.osul.com.br/estatistico-preve-72-de-votos-pro-impeachment-de-dilma-rousseff/">Jornal O Sul</a></p>
+
+<p><a href="http://www.folhapolitica.org/2016/04/sobe-para-90-chance-do-processo-de.html">Folha Política</a></p>
+
+<p><a href="https://www.nexojornal.com.br/expresso/2016/04/12/A-aposta-de-estat%C3%ADsticos-e-professores-para-a-vota%C3%A7%C3%A3o-do-impeachment">Jornal Nexo</a></p>
+
+<p><a href="http://www.informativo.com.br/site/noticia/visualizar/id/79164/?Previsao-aponta-para-aprovacao-do-impeachment-entre-deputados.html">O Informativo</a></p>
+
+<p><strong>Entrevistas em rádios:</strong></p>
+
+<p>Rádio Bandeirantes</p>
+
+<p>Rádio Jovem Pan SP</p>
+
+<p>Rádio Canção Nova.</p>
+
+<p>Sobre a votação no Senado, para a admissibilidade é necessário maioria simples, e para o julgamento é necessário 2/3. Decidi por enquanto não manter as atualizações da previsão para o Senado pelos seguintes motivos:</p>
+
+<ol>
+  <li>
+    <p>Já é praticamente certo que a votação terá maioria simples, pois já há manifestação de mais de 50% da Casa a favor do Impeachment;</p>
+  </li>
+  <li>
+    <p>Após a admissibilidade no Senado passar, a Presidente será destituída por 180 dias antes do julgamento final, o que é um grande período de tempo, podendo ocorrer muitos fatos políticos relevantes até lá;</p>
+  </li>
+</ol>
+
+<p>Caso aparente ser necessário, poderei incluir algumas projeções para o Senado quando o julgamento se aproximar.</p>
+
+<p>Após a publicação deste post, recebi inúmeras sugestões, contribuições e apoio. Gostaria de agradecer principalmente o empenho do Prof. Cláudio Shikida na divulgação, as sugestões dadas pelo Gabriel Torres, Prof. Bruno Speck, membros da comunidade de usuários do R, entre outras pessoas. Ao Fernando Barbosa por me disponibilizar os dados do Estadão através de uma macro em VBA, ao Adriano Filho por traduzir o meu script de coleta dos dados de Python para R. Ao Datafolha por me disponibilizar os dados antecipadamente para análise. E a todas as outras pessoas que ajudaram na divulgação do trabalho. Achei muito gratificante a repercussão que o post teve pois a maior parte dos trabalhos ou consultorias que aparecem na mídia não disponibilizam a metodologia ou as etapas para replicação das projeções feitas. Acredito que estamos em uma nova era da ciência, em que a produção de conhecimento deve estar aberta para o escrutínio do público, possibilitando assim a crítica detalhada do método, e com isso melhorando o resultado e objetivo final do exercício. Entendo que muitas pessoas somente lêem as manchetes, mas pelo menos desta vez havia um link nas reportagens que levava a este post, que mostra as etapas para replicação dos resultados obtidos. Para finalizar, obrigado a todos e aproveitem a leitura!</p>
+
+<p style="text-align: right">22 de abril de 2016</p>
+
+<p style="text-align: right">Regis A. Ely</p>
+
+<h2 id="cenário-do-impeachment">Cenário do Impeachment</h2>
+
+<p><strong>Nota:</strong> <em>A Tabela acima contém a última atualização da previsão feita, mas o post abaixo, bem como todas as informações nele, são referentes a 1º de abril.</em></p>
+
+<p>A favor ou contra? Parece que todo cidadão brasileiro já tem uma opinião formada sobre o Impeachment, com exceção dos políticos, que estão um tanto indecisos. O site <strong><a href="http://mapa.vemprarua.net/br/">vem pra rua</a></strong> fez um serviço de utilidade pública ao elencar a intenção de voto de todos os deputados e senadores brasileiros. Mas a verdade é que ainda resta muita dúvida sobre qual será o resultado dessa votação. Uma vez que os dados estão disponíveis, podemos tentar realizar uma tarefa quase impossível: prever qual será o desfecho da situação política brasileira. Para isso vamos utilizar um simples modelo de regressão baseado em árvores, implementado no pacote <a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf"><code class="highlighter-rouge">rpart</code></a> do <strong><a href="https://www.r-project.org/">R</a></strong>. Primeiro vamos aos fatos:</p>
+
+<ol>
+  <li>
+    <p>Atualmente temos 513 deputados e 81 senadores no Brasil;</p>
+  </li>
+  <li>
+    <p>O processo de Impeachment pode ser dividido em duas etapas: o juízo de admissibilidade e o julgamento do impedimento;</p>
+  </li>
+  <li>
+    <p>Para o pedido ser admitido é necessário 2/3 de votos favoráveis na Câmara dos Deputados e 1/2 de votos favoráveis no Senado Federal;</p>
+  </li>
+  <li>
+    <p>Para o impedimento da Presidente é necessário 2/3 de votos favoráveis no Senado Federal;</p>
+  </li>
+  <li>
+    <p>Considerando os números, para termos um novo Presidente é necessário que 342 Deputados e 41 Senadores sejam favoráveis a admissibilidade, e que 54 Senadores sejam favoráveis ao impedimento (crédito ao Gabriel Torres por lembrar das recentes mudanças feitas pelo STF).</p>
+  </li>
+</ol>
+
+<p>Para conhecer um pouco mais sobre o processo de Impeachment você pode ler a <strong><a href="http://presrepublica.jusbrasil.com.br/legislacao/128811/lei-do-Impeachment-lei-1079-50">legislação</a></strong>.</p>
+
+<h2 id="obtendo-os-dados">Obtendo os dados</h2>
+
+<p>Como a política brasileira é mais imprevisível que episódio de Game of Thrones, vale a pena automatizar a coleta de dados para podermos atualizar constantemente a previsão - neste exato momento em que escrevo este post já ocorreram mudanças na intenção de voto de 2 Deputados. Para isso, escrevi um pequeno script em <strong><a href="https://www.python.org/">Python2.7</a></strong> que coleta os dados do site <strong><a href="http://mapa.vemprarua.net/br/">vem pra rua</a></strong> e grava em um arquivo csv com o nome <a href="/files/imp.csv"><code class="highlighter-rouge">imp.csv</code></a>, deixando-o pronto para ser analisado no R. Você pode ver este script <strong><a href="https://gist.github.com/regisely/caefdf30313503bbf5d0bbae6e2a597d">aqui</a></strong>. Se estiver interessado em um script que faz o mesmo para R, você pode ver a versão feita pelo Adriano Azevedo Filho <a href="http://rpubs.com/adriano/dadosImpP1">aqui</a>.</p>
+
+<p>Uma vez obtidos os dados podemos carregá-lo no R digitando:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"imp.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">";"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Aqui estão as primeiras 10 observações:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      Voto                   Nome Partido Estado Senador
+1  A favor            Aecio Neves    PSDB     MG       1
+2  A favor Aloysio Nunes Ferreira    PSDB     SP       1
+3  A favor            Alvaro Dias      PV     PR       1
+4  A favor             Ana Amelia      PP     RS       1
+5  A favor      Antonio Anastasia    PSDB     MG       1
+6  A favor       Ataides Oliveira    PSDB     TO       1
+7  A favor           Blairo Maggi      PR     MT       1
+8  A favor      Cassio Cunha Lima    PSDB     PB       1
+9  A favor      Cristovam Buarque     PPS     DF       1
+10 A favor          Dalirio Beber    PSDB     SC       1
+</code></pre></div></div>
+
+<p>A variável <em>Voto</em> contém três possíveis valores: “A favor”, “Contra” ou em branco (indecisos). Já a variável <em>Senador</em> é uma dummy que é igual a um quando o político é Senador e zero quando é Deputado. As outras três variáveis são o <em>Nome</em>, o <em>Partido</em> e o <em>Estado</em>.</p>
+
+<p>Para prevermos o resultado do Impeachment vamos utilizar o método de regressão com particionamento recursivo, implementado pelo pacote <a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf"><code class="highlighter-rouge">rpart</code></a>. A ideia é que podemos separar as decisões dos políticos em grupos baseados em seus Partidos e Estados. Esse método é ideal para o caso brasileiro, pois sabemos que existem cisões entre os partidos brasileiros dependendo do Estado.</p>
+
+<h2 id="implementação-do-modelo">Implementação do modelo</h2>
+
+<p>Uma vez carregados os dados na variável <code class="highlighter-rouge">data</code>, vamos ler o pacote <code class="highlighter-rouge">rpart</code>, criar algumas novas variáveis que serão úteis e fazer pequenos ajustes:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">install.packages</span><span class="p">(</span><span class="s2">"rpart"</span><span class="p">)</span><span class="w"> </span><span class="c1"># instale o pacote rpart caso não o tenha feito</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rpart</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Transforma os indecisos em NA</span><span class="w">
+</span><span class="n">data</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">Voto</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="s2">"Voto"</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NA</span><span class="w">
+</span><span class="n">data</span><span class="o">$</span><span class="n">Voto</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">droplevels</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">Voto</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Cria variáveis para os senadores e deputados</span><span class="w">
+</span><span class="n">senadores</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">Senador</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">),]</span><span class="w">
+</span><span class="n">deputados</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">Senador</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">),]</span><span class="w">
+</span><span class="n">n_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">senadores</span><span class="p">)</span><span class="w"> </span><span class="c1"># número de senadores</span><span class="w">
+</span><span class="n">n_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">deputados</span><span class="p">)</span><span class="w"> </span><span class="c1"># número de deputados</span><span class="w">
+
+</span><span class="c1"># Separa deputados indecisos e decididos</span><span class="w">
+</span><span class="n">train_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">na.omit</span><span class="p">(</span><span class="n">deputados</span><span class="p">)</span><span class="w"> </span><span class="c1"># deputados decididos</span><span class="w">
+</span><span class="n">test_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">deputados</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">deputados</span><span class="o">$</span><span class="n">Voto</span><span class="p">)),]</span><span class="w"> </span><span class="c1"># deputados indecisos</span><span class="w">
+</span><span class="n">train_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">na.omit</span><span class="p">(</span><span class="n">senadores</span><span class="p">)</span><span class="w"> </span><span class="c1"># senadores decididos</span><span class="w">
+</span><span class="n">test_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">senadores</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">senadores</span><span class="o">$</span><span class="n">Voto</span><span class="p">)),]</span><span class="w"> </span><span class="c1"># senadores indecisos</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Note que chamamos o conjunto dos Senadores e Deputados que já estão decididos de <strong>train</strong>, pois estes serão os dados utilizados para treinar nosso modelo. Posteriormente, aplicaremos os resultados do modelo nos dados denominados <strong>test</strong>, que é o conjunto dos políticos indecisos, e então teremos nossa previsão.</p>
+
+<p>Para estimar o modelo digitamos:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Estimação do modelo</span><span class="w">
+</span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Voto</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Partido</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Estado</span><span class="w"> </span><span class="c1"># o voto é função do Partido e Estado</span><span class="w">
+</span><span class="n">fit_dep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rpart</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"class"</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_dep</span><span class="p">)</span><span class="w">
+</span><span class="n">fit_sen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rpart</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"class"</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_sen</span><span class="p">)</span><span class="w">
+</span><span class="n">fit_dep</span><span class="w">
+</span><span class="n">fit_sen</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Ao avaliar os resultados da variável <code class="highlighter-rouge">fit_dep</code>, obtemos os nódulos de divisão para os Deputados:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n= 384 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 384 119 A favor (0.69010417 0.30989583)  
+   2) Partido=DEM,PEN,PHS,PMDB,PP,PPS,PR,PRB,PROS,PSB,PSC,PSD,PSDB,PSL,PTB,PTdoB,PTN,PV,REDE,SD 299  36 A favor (0.87959866 0.12040134)  
+     4) Estado=AC,AL,DF,ES,GO,MG,MS,RJ,RO,RS,SC,SP 174   4 A favor (0.97701149 0.02298851) *
+     5) Estado=AM,AP,BA,CE,MA,MT,PA,PB,PE,PI,PR,RN,RR,SE,TO 125  32 A favor (0.74400000 0.25600000)  
+      10) Partido=DEM,PHS,PPS,PRB,PSB,PSC,PSD,PSDB,PSL,PV,REDE,SD 75   4 A favor (0.94666667 0.05333333) *
+      11) Partido=PEN,PMDB,PP,PR,PROS,PTB,PTdoB,PTN 50  22 Contra (0.44000000 0.56000000)  
+        22) Estado=AM,BA,CE,PE,PR,RN,TO 35  15 A favor (0.57142857 0.42857143)  
+          44) Partido=PEN,PMDB,PR,PTB 20   5 A favor (0.75000000 0.25000000) *
+          45) Partido=PP,PROS,PTdoB,PTN 15   5 Contra (0.33333333 0.66666667) *
+        23) Estado=MA,MT,PA,PB,PI,RR,SE 15   2 Contra (0.13333333 0.86666667) *
+   3) Partido=PCdoB,PDT,PSOL,PT 85   2 Contra (0.02352941 0.97647059) *&gt; fit_dep
+</code></pre></div></div>
+
+<p>Parece complicado, mas uma maneira mais fácil de visualizar estes nódulos é graficamente. Para isso utilizamos a função <code class="highlighter-rouge">plot</code> no R. Para construirmos árvores mais bonitas utilizamos a função <code class="highlighter-rouge">text</code> com alguns argumentos especiais (digite <code class="highlighter-rouge">?plot.rpart</code> no R para mais informações).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Plota árvore dos deputados decididos</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_dep</span><span class="p">,</span><span class="w"> </span><span class="n">uniform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Árvore do Impeachment - Câmara (decididos)"</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">fit_dep</span><span class="p">,</span><span class="w"> </span><span class="n">use.n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.8</span><span class="p">,</span><span class="w"> </span><span class="n">pretty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">fancy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">minlength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"yellow"</span><span class="p">)</span><span class="w">
+</span><span class="n">mtext</span><span class="p">(</span><span class="s2">"Valores são: A favor/Contra"</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plota árvore dos senadores decididos</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_sen</span><span class="p">,</span><span class="w"> </span><span class="n">uniform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Árvore do Impeachment - Senado (decididos)"</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">fit_sen</span><span class="p">,</span><span class="w"> </span><span class="n">use.n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.8</span><span class="p">,</span><span class="w"> </span><span class="n">pretty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">fancy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">minlength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"yellow"</span><span class="p">)</span><span class="w">
+</span><span class="n">mtext</span><span class="p">(</span><span class="s2">"Valores são: A favor/Contra"</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Assim, obtemos os seguintes gráficos:</p>
+
+<p><img src="http://localhost:4000/images/tree_dep.png" alt="" /></p>
+
+<p><img src="http://localhost:4000/img/tree_sen.png" alt="" /></p>
+
+<p>Ainda assim não é tão simples, mas quem disse que a política brasileira era fácil de entender. Vamos primeiro analisar o Congresso. Repare que no primeiro nódulo há uma divisão partidária, com o grupo PCdoB, PDT, PSOL e PT de um lado, sendo que 2 Deputados são a favor e 83 contra o Impeachment. No resto dos partidos, existem divisões de acordo com o Estado. No grupo AC,AL,DF,ES,GO,MG,MS,RJ,RO,RS,SC,SP temos 170 Deputados a favor e apenas 4 contra, mas no restante dos Estados há divisões partidárias e por região. Resumindo, me parece que os partidos estão mais rachados nos Estados do Nordeste. No Senado a divisão é mais simples e parece ser explicada bastante pelo Estado do Senador.</p>
+
+<h2 id="previsão-dos-votos-indecisos">Previsão dos votos indecisos</h2>
+
+<p>Após estimar o modelo podemos calcular a acurácia do mesmo utilizando as funções <code class="highlighter-rouge">printcp()</code> e <code class="highlighter-rouge">plotcp()</code>. Uma maneira rápida de obter a acurácia do modelo no conjunto <em>train</em> é digitando:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Acurácia no conjunto train para Deputados</span><span class="w">
+</span><span class="n">prev_class_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="n">fit_dep</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"class"</span><span class="p">),</span><span class="w"> </span><span class="n">train_dep</span><span class="o">$</span><span class="n">Voto</span><span class="p">)</span><span class="w">
+</span><span class="nf">sum</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">prev_class_dep</span><span class="p">))</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">prev_class_dep</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Acurácia no conjunto train para Senadores</span><span class="w">
+</span><span class="n">prev_class_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="n">fit_sen</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"class"</span><span class="p">),</span><span class="w"> </span><span class="n">train_sen</span><span class="o">$</span><span class="n">Voto</span><span class="p">)</span><span class="w">
+</span><span class="nf">sum</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">prev_class_sen</span><span class="p">))</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">prev_class_sen</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>O resultado é:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 0.9402597 # Deputados
+[1] 0.9032258 # Senadores
+</code></pre></div></div>
+
+<p>Entretanto, ao utilizar uma estrutura muito complicada para o nosso modelo, podemos acabar cometendo o erro de <em>overfitting</em> em nossa previsão. Para evitar isso, devemos verificar qual a estrutura de árvores que gera o menor erro de previsão em um conjunto independente, chamado <em>cross-validated</em>. Para obter a acurácia do modelo de previsão nesse conjunto no caso dos Deputados podemos utilizar a informação da função <code class="highlighter-rouge">printcp(fit_dep)</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Classification tree:
+rpart(formula = formula, data = train_dep, method = "class")
+
+Variables actually used in tree construction:
+[1] Partido
+
+Root node error: 119/385 = 0.30909
+
+n= 385 
+
+       CP nsplit rel error  xerror     xstd
+1 0.67227      0   1.00000 1.00000 0.076197
+2 0.02521      1   0.32773 0.35294 0.051404
+</code></pre></div></div>
+
+<p>O taxa de erro do conjunto cross-validated (10-fold) pode ser obtida multiplicando-se o <em>Root node error</em> pelo menor valor do <em>xerror</em>, que corresponde ao melhor modelo. Assim, obtemos um erro de 0.1090902, o que nos dá uma acurácia de 0.8909098. No código abaixo faço a seleção automática do modelo com menor erro no conjunto cross-validated e estimo-o novamente com a função <code class="highlighter-rouge">prune</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Seleção do modelo com menor erro</span><span class="w">
+</span><span class="n">fit_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prune</span><span class="p">(</span><span class="n">fit_dep</span><span class="p">,</span><span class="w">
+                 </span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_dep</span><span class="o">$</span><span class="n">cptable</span><span class="p">[</span><span class="n">which.min</span><span class="p">(</span><span class="n">fit_dep</span><span class="o">$</span><span class="n">cptable</span><span class="p">[,</span><span class="s2">"xerror"</span><span class="p">]),</span><span class="w">
+                                      </span><span class="s2">"CP"</span><span class="p">])</span><span class="w">
+</span><span class="n">fit_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prune</span><span class="p">(</span><span class="n">fit_sen</span><span class="p">,</span><span class="w">
+                 </span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_sen</span><span class="o">$</span><span class="n">cptable</span><span class="p">[</span><span class="n">which.min</span><span class="p">(</span><span class="n">fit_sen</span><span class="o">$</span><span class="n">cptable</span><span class="p">[,</span><span class="s2">"xerror"</span><span class="p">]),</span><span class="w">
+                                      </span><span class="s2">"CP"</span><span class="p">])</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Uma vez obtido o modelo com o menor erro, podemos utilizar os dados referentes aos parlamentares indecisos para realizar a previsão do voto e calcular o percentual de votos a favor com essas novas previsões:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Previsão do modelo</span><span class="w">
+</span><span class="n">prev_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">predict</span><span class="p">(</span><span class="n">fit_dep</span><span class="p">,</span><span class="w"> </span><span class="n">test_dep</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"class"</span><span class="p">)</span><span class="w">
+</span><span class="n">prev_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">predict</span><span class="p">(</span><span class="n">fit_sen</span><span class="p">,</span><span class="w"> </span><span class="n">test_sen</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"class"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Previsão do percentual de votação a favor</span><span class="w">
+</span><span class="n">n_dep_favor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">train_dep</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">train_dep</span><span class="o">$</span><span class="n">Voto</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"A favor"</span><span class="p">),])</span><span class="w">
+</span><span class="n">n_sen_favor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">train_sen</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">train_sen</span><span class="o">$</span><span class="n">Voto</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"A favor"</span><span class="p">),])</span><span class="w">
+</span><span class="n">n_dep_favor_prev</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">which</span><span class="p">(</span><span class="n">prev_dep</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"A favor"</span><span class="p">))</span><span class="w">
+</span><span class="n">n_sen_favor_prev</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">which</span><span class="p">(</span><span class="n">prev_sen</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"A favor"</span><span class="p">))</span><span class="w">
+</span><span class="n">percentual_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">n_dep_favor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n_dep_favor_prev</span><span class="p">)</span><span class="o">/</span><span class="n">n_dep</span><span class="w">
+</span><span class="n">percentual_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">n_sen_favor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n_sen_favor_prev</span><span class="p">)</span><span class="o">/</span><span class="n">n_sen</span><span class="w">
+</span><span class="n">percentual_dep</span><span class="w">
+</span><span class="n">percentual_sen</span><span class="w">
+</span></code></pre></div></div>
+
+<p>E o resultado será:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 0.7465887 # Câmara dos Deputados
+[1] 0.5308642 # Senado Federal
+</code></pre></div></div>
+
+<p>Parece que na situação atual, o Impeachment passa pela etapa de admissibilidade mas esbarra no julgamento do Senado Federal.</p>
+
+<h1 id="árvores-com-previsão">Árvores com previsão</h1>
+
+<p>Para finalizar, vamos construir a árvore final que inclui os indecisos e utiliza o modelo simplificado com menor erro de previsão:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Altera os dados originais para incluir a previsão dos indecisos</span><span class="w">
+</span><span class="n">new_dep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">deputados</span><span class="w">
+</span><span class="n">new_dep</span><span class="p">[</span><span class="nf">names</span><span class="p">(</span><span class="n">prev_dep</span><span class="p">),</span><span class="w"> </span><span class="s2">"Voto"</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prev_dep</span><span class="w">
+</span><span class="n">new_sen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">senadores</span><span class="w">
+</span><span class="n">new_sen</span><span class="p">[</span><span class="nf">names</span><span class="p">(</span><span class="n">prev_sen</span><span class="p">),</span><span class="w"> </span><span class="s2">"Voto"</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prev_sen</span><span class="w">
+
+</span><span class="c1"># Constrõe a árvore com os indecisos</span><span class="w">
+</span><span class="n">fit_dep_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rpart</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"class"</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_dep</span><span class="p">)</span><span class="w">
+</span><span class="n">fit_sen_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rpart</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"class"</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_sen</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plota a árvore dos Deputados com os indecisos</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_dep_prev</span><span class="p">,</span><span class="w"> </span><span class="n">uniform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+    </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Árvore do Impeachment - Câmara (com previsão de indecisos)"</span><span class="p">,</span><span class="w">
+    </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">fit_dep_prev</span><span class="p">,</span><span class="w"> </span><span class="n">use.n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.8</span><span class="p">,</span><span class="w"> </span><span class="n">pretty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">fancy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">minlength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"yellow"</span><span class="p">)</span><span class="w">
+</span><span class="n">mtext</span><span class="p">(</span><span class="s2">"Valores são: A favor/Contra"</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">mtext</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Percentual previsto a favor: "</span><span class="p">,</span><span class="w">
+             </span><span class="nf">round</span><span class="p">(</span><span class="n">percentual_dep</span><span class="o">*</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"%"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Plota a árvore dos Senadores com os indecisos</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_sen_prev</span><span class="p">,</span><span class="w"> </span><span class="n">uniform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+    </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Árvore do Impeachment - Senado (com previsão de indecisos)"</span><span class="p">,</span><span class="w">
+    </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w">
+</span><span class="n">text</span><span class="p">(</span><span class="n">fit_sen_prev</span><span class="p">,</span><span class="w"> </span><span class="n">use.n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.8</span><span class="p">,</span><span class="w"> </span><span class="n">pretty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">fancy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">minlength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">bg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"yellow"</span><span class="p">)</span><span class="w">
+</span><span class="n">mtext</span><span class="p">(</span><span class="s2">"Valores são: A favor/Contra"</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">mtext</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"Percentual previsto a favor: "</span><span class="p">,</span><span class="w">
+             </span><span class="nf">round</span><span class="p">(</span><span class="n">percentual_sen</span><span class="o">*</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s2">"%"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>O resultado está abaixo:</p>
+
+<p><img src="http://localhost:4000/img/tree_dep_prev.png" alt="" /></p>
+
+<p><img src="http://localhost:4000/img/tree_sen_prev.png" alt="" /></p>
+
+<p>A árvore do Senado Federal nos mostra que a maior resistência ao Impeachment parece ser os partidos do PCdoB, PDT, PMDB, PP, PR, PRB, PSB, PSD, PT e PTB nos Estados AL, AM, AP, BA, MA, PA, PE, PI, PR, RJ, RN, RR, TO. O Impeachment precisa de 54 votos no Senado. Atualmente existem 36 Senadores com intenção de voto a favor e 26 contra. Assim, são necessários 18 votos dos 19 indecisos para a Presidente ser destituída do Cargo, ou então uma mudança no voto dos Senadores que se declararam contra o Impeachment.</p>
+
+<p>Podemos visualizar a lista dos Senadores indecisos segundo o site <strong><a href="http://mapa.vemprarua.net/br/">vem pra rua</a></strong> com o comando:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">senadores</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">senadores</span><span class="o">$</span><span class="n">Voto</span><span class="p">)),</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>O resultado nos dá:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>447 &lt;NA&gt;             Acir Gurgacz         PDT     RO       1
+448 &lt;NA&gt; Antonio Carlos Valadares         PSB     SE       1
+449 &lt;NA&gt;            Ciro Nogueira          PP     PI       1
+450 &lt;NA&gt;       Delcidio do Amaral Sem partido     MS       1
+451 &lt;NA&gt;           Douglas Cintra         PTB     PE       1
+452 &lt;NA&gt;            Elmano Ferrer         PTB     PI       1
+453 &lt;NA&gt;  Fernando Bezerra Coelho         PSB     PE       1
+454 &lt;NA&gt;               Helio Jose        PMDB     DF       1
+455 &lt;NA&gt;       Joao Alberto Souza        PMDB     MA       1
+456 &lt;NA&gt;            Jose Maranhao        PMDB     PB       1
+457 &lt;NA&gt;              Lucia Vania         PSB     GO       1
+458 &lt;NA&gt;         Marcelo Crivella         PRB     RJ       1
+459 &lt;NA&gt;                Omar Aziz         PSD     AM       1
+460 &lt;NA&gt;            Raimundo Lira        PMDB     PB       1
+461 &lt;NA&gt;            Roberto Rocha         PSB     MA       1
+462 &lt;NA&gt;                  Romario         PSB     RJ       1
+463 &lt;NA&gt;              Romero Juca        PMDB     RR       1
+464 &lt;NA&gt;             Sandra Braga        PMDB     AM       1
+465 &lt;NA&gt;         Vicentinho Alves          PR     TO       1
+</code></pre></div></div>
+
+<h2 id="lidando-com-os-ausentes">Lidando com os ausentes</h2>
+
+<p>A ausência ou a abstenção pode trazer uma influência grande no resultado da votação, visto que o cálculo do percentual é feito sobre a totalidade dos membros e não apenas sobre os presentes (crédito ao Prof. Bruno Speck da USP por lembrar disto). Assim, decidi fazer uma simulação com diferentes taxas de ausência/abstenção, onde os deputados e senadores ausentes são selecionados aleatoriamente. Para criar os novos percentuais, basta digitar:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ausência de 2,5% dos Deputados</span><span class="w">
+</span><span class="n">n_dep_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">new_dep</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.975</span><span class="p">)</span><span class="w">
+</span><span class="n">dep_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">new_dep</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="nf">seq_len</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">new_dep</span><span class="p">)),</span><span class="w"> </span><span class="n">n_dep_pres</span><span class="p">),]</span><span class="w">
+
+</span><span class="c1"># Ausência de 2,5% dos Senadores</span><span class="w">
+</span><span class="n">n_sen_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">new_sen</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.975</span><span class="p">)</span><span class="w">
+</span><span class="n">dep_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">new_sen</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="nf">seq_len</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">new_sen</span><span class="p">)),</span><span class="w"> </span><span class="n">n_sen_pres</span><span class="p">),]</span><span class="w">
+
+</span><span class="c1"># Percentual de favoráveis</span><span class="w">
+</span><span class="n">n_dep_favor_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">which</span><span class="p">(</span><span class="n">dep_pres</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"A favor"</span><span class="p">))</span><span class="w">
+</span><span class="n">n_sen_favor_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">which</span><span class="p">(</span><span class="n">sen_pres</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"A favor"</span><span class="p">))</span><span class="w">
+</span><span class="n">percentual_dep_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">n_dep_favor_pres</span><span class="o">/</span><span class="n">n_dep</span><span class="w">
+</span><span class="n">percentual_sen_pres</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">n_sen_favor_pres</span><span class="o">/</span><span class="n">n_sen</span><span class="w">
+</span><span class="n">percentual_dep_pres</span><span class="w">
+</span><span class="n">percentual_sen_pres</span><span class="w">
+</span></code></pre></div></div>
+
+<p>O percentual de Deputados favoráveis ao Impeachment quando a abstenção é de 2,5% é de 72,90%, e de Senadores é 51,85%. Para realizar a análise com outras taxas de abstenção basta mudar os percentuais. Ainda assim, a acurácia da previsão depende do fato de que a ausência seja aleatória, e não correlacionada com a intenção de voto, Partido ou Estado.</p>
+
+<h2 id="atualizando-as-previsões">Atualizando as previsões</h2>
+
+<p>Como toda previsão é melhor a medida que incorpora a chegada de novas informações, fiz uma rotina para atualizar os resultados dessa previsão diariamente e publicar na tabela do início deste post.</p>
+
+<p>Tem sugestões para melhorar o algoritmo? Tem dúvidas sobre a implementação? Encontrou algum typo no texto? Me avise nos comentários ou por email.</p>
+
+  </article>
+
+<div id="disqus_thread"></div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'regisely-site';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <div class="wrapper">
+
+      <p style="text-align:left;">
+        <strong>Regis A. Ely</strong>
+        <span style="float:right;">
+		  Departamento de Economia
+        </span> <br />
+        <span style="float:left;">
+          Associate Professor
+        </span>
+        <span style="float:right;">
+		  Universidade Federal de Pelotas
+        </span> <br />
+        <span style="float:left;">
+          <a href="mailto:regisaely@gmail.com">regisaely@gmail.com</a>
+        </span>
+        <span style="float:right;">
+		  Rua Gomes Carneiro nº 1 - 4º andar<br />
+        </span> <br />
+        <span style="float:right;">
+		  Pelotas, RS, Brasil 96010-610<br />
+        </span>
+      </p>
+  </div>
+
+  <p style="text-align:center;">
+    <br />
+    
+    <a href="https://scholar.google.com/citations?user=yjbuYNEAAAAJ">
+      <i class="ai ai-google-scholar" style="color:gray"></i> Google Scholar
+    </a>
+    &nbsp;&nbsp;
+    
+    
+
+    
+    <a href="https://github.com/regisely">
+      <i class="fa fa-github" style="color:gray"></i> Github
+    </a>
+    &nbsp;&nbsp;
+    
+
+    
+    <a href="https://orcid.org/0000-0002-2468-3761">
+      <i class="ai ai-orcid" style="color:gray"></i> ORCID
+    </a>
+    &nbsp;&nbsp;
+    
+
+    
+    <a href="https://twitter.com/regisaely">
+      <i class="fa fa-twitter" style="color:gray"></i> Twitter
+    </a>
+    
+  </p>
+    
+</footer>
+
+		<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-37298398-1']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	</script>
+  </body>
+</html>
+<!-- d.s.m.s.050600.062508.030515.080516.030818; k.050800.101218 | "Baby, I'm Yours" -->
+
