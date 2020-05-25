@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-{% include image.html url="/images/roma.jpg" caption="Me in Rome, Feb 7 2020." width=350 align="right" %}
+{% include image.html url="/images/roma.jpg" caption="Me in Rome, Feb 7 2020." width=340 align="right" %}
 
 I am a Professor of Economics at <a class="tosu" href="http://portal.ufpel.edu.br/">Federal University of Pelotas</a> where I teach basic statistics and finance for undergraduates, and time series and recursive macroeconomics for graduates. 
 
