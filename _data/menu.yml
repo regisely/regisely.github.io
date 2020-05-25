@@ -1,0 +1,25 @@
+- title: "Blog"
+  href: "/blog/"
+
+- title: "About"
+  href: "/about/"
+
+- title: "CV"
+  href: "/cv/"
+
+- title: "Research"
+  href: "/research/"
+
+- title: "Teaching"
+  href: "/teaching/"
+  subcategories:
+    - subtitle: "Métodos Estatísticos Básicos"
+      subhref: "/basicstat"
+    - subtitle: "Fundamentos de Finanças"
+      subhref: "/finance"
+    - subtitle: "Estatística (pós)"
+      subhref: "/teaching"
+    - subtitle: "Macroeconomica (pós)"
+      subhref: "/teaching"
+    - subtitle: "Séries de tempo (pós)"
+      subhref: "/timeseries"

@@ -1,118 +1,56 @@
+<!-- Mathjax Support -->
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 <head>
-  <script type="text/javascript" async
-          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-  </script>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  {% if page.meta-title %}
-  <title>{{ page.meta-title }}</title>
-  {% elsif page.title %}
-  <title>{{ page.title }}</title>
-  {% else %}
-  <title>{{ site.title }}</title>
-  {% endif %}
+  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}">
 
-  <meta name="author" content="{{ site.author.name }}" />
-  
-  {% if page.meta-description %}
-  <meta name="description" content="{{ page.meta-description }}">
-  {% elsif page.subtitle %}
-  <meta name="description" content="{{ page.subtitle }}">
-  {% endif %}
-  
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+  <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
+<link rel='stylesheet' id='open-sans-css'  href='//fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C300%2C400%2C600&#038;subset=latin%2Clatin-ext&#038;ver=4.2.4' type='text/css' media='all' />
+<link href='http://fonts.googleapis.com/css?family=Roboto:200' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Titillium+Web:600italic,600,400,400italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://www.osu.edu/assets/fonts/webfonts.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ "/css/academicons-1.8.0/css/academicons.css" | prepend: site.baseurl }}">
 
-  <!-- everything has to be repeated twice because on 2016-02-01 GitHub pages migrated to jekyll 3; see bug https://github.com/jekyll/jekyll/issues/4439 -->
+<!-- icon, perhaps -->
+<link rel="icon" type="image/png" href="/images/icon.png">
+<link rel="apple-touch-icon" type="image/png" href="/images/icon-192.png">
 
-  {% if page.common-ext-css %}
-    {% for css in page.common-ext-css %}
-      <link rel="stylesheet" href="{{ css }}" />
-    {% endfor %}
-  {% endif %}  
-  {% if layout.common-ext-css %}
-    {% for css in layout.common-ext-css %}
-      <link rel="stylesheet" href="{{ css }}" />
-    {% endfor %}
-  {% endif %}    
-  
-  {% if page.common-css %}
-    {% for css in page.common-css %}
-      <link rel="stylesheet" href="{{ css | prepend: site.baseurl | replace: '//', '/' }}" />
-    {% endfor %}
-  {% endif %}
-  {% if layout.common-css %}
-    {% for css in layout.common-css %}
-      <link rel="stylesheet" href="{{ css | prepend: site.baseurl | replace: '//', '/' }}" />
-    {% endfor %}
-  {% endif %}  
-  
-  {% if page.common-googlefonts %}
-    {% for font in page.common-googlefonts %}
-      <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ font }}" />
-    {% endfor %}
-  {% endif %}
-  {% if layout.common-googlefonts %}
-    {% for font in layout.common-googlefonts %}
-      <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ font }}" />
-    {% endfor %}
-  {% endif %}
 
-  {% if page.ext-css %}
-    {% for css in page.ext-css %}
-      <link rel="stylesheet" href="{{ css }}" />
-    {% endfor %}
-  {% endif %}  
-  {% if layout.ext-css %}
-    {% for css in layout.ext-css %}
-      <link rel="stylesheet" href="{{ css }}" />
-    {% endfor %}
-  {% endif %}  
-  
-  {% if page.css %}
-    {% for css in page.css %}
-      <link rel="stylesheet" href="{{ css | prepend: site.baseurl | replace: '//', '/' }}" />
-    {% endfor %}
-  {% endif %}
-  {% if layout.css %}
-    {% for css in layout.css %}
-      <link rel="stylesheet" href="{{ css | prepend: site.baseurl | replace: '//', '/' }}" />
-    {% endfor %}
-  {% endif %}
-  
-  {% if page.googlefonts %}
-    {% for font in page.googlefonts %}
-      <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ font }}" />
-    {% endfor %}
-  {% endif %}
-  {% if layout.googlefonts %}
-    {% for font in layout.googlefonts %}
-      <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ font }}" />
-    {% endfor %}
-  {% endif %} 
-  
-  <!-- Facebook OpenGraph tags -->
-  {% if page.meta-title %}
-  <meta property="og:title" content="{{ page.meta-title }}" />
-  {% elsif page.title %}
-  <meta property="og:title" content="{{ page.title }}" />
-  {% else %}
-  <meta property="og:title" content="{{ site.title }}" />
-  {% endif %}
-  
-  <meta property="og:type" content="website" />
-  
-  {% if page.id %}
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}/" />
-  {% else %}
-  <meta property="og:url" content="{{ site.url }}{{ page.url | remove: '/index.html' | remove: '.html' }}" />
-  {% endif %}
-  
-  {% if page.fb-img %}
-  <meta property="og:image" content="{{ page.fb-img }}" />
-  {% else %}
-  <meta property="og:image" content="{{ site.url }}{{ site.avatar }}" />
-  {% endif %}
+<!-- OG protocol -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+<meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt  | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:image" content="{% if page.image %}{{ site.url }}/images/{{ page.image }}{% else %}{{ site.url }}/images/buckeyeprotesteriran.jpg{% endif %}">
 
+<meta property="og:image:width" content="637" />
+<meta property="og:image:height" content="403" />
+
+<!-- Twitter cards -->
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="{% if site.twitter_username %}@{{ site.twitter_username }}{% endif %}">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" />
+<meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt  | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}" />
+<meta name="twitter:url" content="{{ site.url }}{{ page.url }}" />
+<meta name="twitter:image" content="{% if page.image %}{{ site.url }}/images/{{ page.image }}{% else %}{{ site.url }}/images/buckeyeprotesteriran-card.jpg{% endif %}">
+
+
+{% if site.google_author %}<link rel="author" href="{{ site.google_author }}"/>{% endif %}
+{% if site.google_site_verification %}<meta name="google-site-verification" content="{{ site.google_site_verification}}" />{% endif %}
+{% if site.bing_webmastertools_id %}<meta name="msvalidate.01" content="{{ site.bing_webmastertools_id }}" />{% endif %}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<meta property="og:image" content="http://course-website.svmiller.com/_images/stand-and-deliver-fb.jpg"/>
 </head>

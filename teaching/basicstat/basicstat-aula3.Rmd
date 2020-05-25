@@ -1,0 +1,101 @@
+---
+title: Métodos Estatísticos Básicos
+subtitle: Aula 3 - Medidas de Tendência Central e de Posição
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: 16 de maio de 2020
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Medidas de tendência central
+### Medidas de tendência central
+
+Medidas de tendência central são estatísticas que representam o ponto central de um conjunto de dados
+
+- **Média**: os tipos mais comuns são a média *aritmética*, *harmônica* e *geométrica*
+- **Mediana** valor que separa a metade maior e a metade menor de um conjunto de dados
+- **Moda**: valor mais frequente de um conjunto de dados
+
+## Média aritmética
+### Média aritmética simples
+
+**Média aritmética**: razão entre a soma dos valores e o número de observações de um conjunto de dados $\bar{X}=\frac{{\sum_{i=1}^{n}X_{i}}}{n}$
+
+Quando temos dados não-agrupados pela frequência das observações, calculamos a média aritmética simples
+
+\begin{theorem*}
+Ex: 10, 14, 13, 15, 16, 18, 12
+\end{theorem*}
+
+Logo, $\overline{X}=\frac{(10+14+13+15+16+18+12)}{7}=14$.
+
+Desvio em relação à média:} é a diferença entre um elemento de um conjunto de valores e a média aritmética desse conjunto, ou seja, $d_{i}=X_{i}-\overline{X}.$
+
+Ex: $d_{1}=10-14=-4$; $d_{2}=14-14=0$, etc.
+
+### Média aritmética ponderada
+
+### Propriedades da média aritmética
+
+## Média geométrica
+### Média geométrica simples
+
+### Média geométrica ponderada
+
+### Propriedades da média geométrica
+
+## Média harmônica
+### Média harmônica simples
+
+### Média harmônica ponderada
+
+### Propriedades da média harmônica
+
+## Moda
+### Moda simples
+
+### Moda com intervalos de classe
+
+## Mediana
+### Mediana simples
+
+### Mediana com intervalos de classe
+
+# Medidas de posição
+### Separatrizes
+
+Medidas de posição são estatísticas que representam a tendência de concentração de um conjunto de dados ao redor de certos pontos\hfill\break
+
+As medidas de posição mais usuais são chamadas *separatrizes* e incluem:
+
+- **Quartil**
+- **Decil**
+- **Percentil**
+
+## Quartil
+### Quartil simples
+
+### Quartil com intervalos de classe
+
+## Decil
+### Decil simples
+
+### Decil com intervalos de classe
+
+## Percentil
+### Decil simples
+
+### Decil com intervalos de classe
+
+# Exemplo no R
+### Exemplo no R

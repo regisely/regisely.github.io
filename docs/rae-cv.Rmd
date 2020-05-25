@@ -1,0 +1,141 @@
+---
+output: 
+  pdf_document:
+    latex_engine: pdflatex
+    template: ~/Dropbox/resources/templates/latex/cv.tex
+geometry: margin=1in
+
+title: "CV"
+author: Regis Augusto Ely
+
+jobtitle: "Associate Professor, Federal University of Pelotas"
+address: "Rua Gomes Carneiro nº 1 - 4º andar · Department of Economics · Pelotas RS, Brazil 96010-610"
+fontawesome: yes
+email: regisaely@gmail.com
+# github: regisely
+# twitter: regisaely
+#osf: "Enter 5 digit osf string here"
+#phone: "+353 1 408 4800"
+web: regisely.com
+updated: no
+
+#keywords: R Markdown, academic CV, template
+
+fontfamily: mathpazo
+fontfamilyoptions: sc, osf
+fontsize: 11pt
+linkcolor: blue
+urlcolor: blue
+---
+
+# Employment\break
+
+***Federal University of Pelotas***
+
+Adjunct Professor \hfill 2012-present
+
+Postgraduate Coordinator (PPGOM/UFPel) \hfill 2019-present
+
+Head of Department (Department of Economics/UFPel) \hfill 2016-2018\break
+
+***Catholic University of Pelotas***
+
+Lecturer (MBE Controladoria e Finanças/UCPEL) \hfill 2017-2018\break
+
+***Federal University of Rio Grande do Sul***
+
+Lecturer (Department of Economics/UFRGS) \hfill  2011\break
+
+***Caixa Econômica Federal***
+
+Bank officer (Credit Management, FCVS and FIES) \hfill  2005-2008\break
+
+# Education\break
+
+*Getulio Vargas Foundation (EPPG/FGV-DF)*, Post-doctoral in Economics \hfill 2019
+
+*Getulio Vargas Foundation (EESP/FGV-SP)*, Post-doctoral in Economics \hfill 2015
+
+*University of Brasilia*, Doctor in Economics \hfill 2012
+
+*University of Brasilia*, Master in Economics \hfill 2009
+
+*Federal University of Rio Grande do Sul*, B.A. in Economics \hfill 2007\break
+
+# Programming skills\hfill\break
+
+*R, Python, Stata, Matlab, LaTeX, Elisp, Jekyll, Shell*\hfill\break
+
+# Grants\break
+
+CNPq Research Productivity Fellowship (*Grant no. 309726/2018-2*) \hfill 2019-present
+
+Programa Cátedras (ENAP) Fellowship \hfill 2020-present
+
+CNPq Post-Doctoral Fellowship (*Grant no. 153270/2018-7*) \hfill 2018-2019
+
+PNPD/CAPES Post-Doctoral Fellowship \hfill 2014-2015
+
+CAPES Doctoral Fellowship \hfill 2010-2012
+
+CAPES Masters Fellowship \hfill 2008-2010\break
+
+# Technical works\hfill\break
+
+Member of the Economic Activity Working Group of the Data Science Committee for COVID-19 of the government of Rio Grande do Sul, 2020.
+
+Research work for Escola Nacional de Administração Pública (ENAP) - *Sinergias entre o programa microempreendedor individual e programas de assistência técnica*, 2020.
+
+Research work for Febraban - *Serviços digitais, reservas compulsórias, política monetária e seus efeitos sobre as atividades bancárias*, 2020.
+
+Research work for Fundação Indigo - *Uma comparação entre programas de transferência condicional de renda na América Latina e suas estratégias de saída*, 2017.
+
+Member of the Committee for scientific initiation scholarships of Federal University of Pelotas (UFPel), 2015-2016.
+
+Organizer of the XVII and XVIII Graduate Meeting of Federal University of Pelotas (UFPel), 2015-2016.
+
+Organizer of the XXIV and XXV Scientific Initiation Congress of Federal University of Pelotas (UFPel), 2015-2016.
+
+Research work for Febraban - *O Impacto da Lei de Falências no Mercado de Crédito Brasileiro*, 2015.
+
+# Selected Publications\hfill\break
+
+This list includes some selected recent publications. For the full list of my publications you can access my [Curriculum Lattes](http://lattes.cnpq.br/3708985718656687).\hfill\break
+
+Ely, Regis A., Benjamin M. Tabak and Anderson M. Teixeira. Forthcoming. "[The transmission mechanisms of macroprudential policies on bank risk](https://www.sciencedirect.com/science/article/abs/pii/S0264999319313379)". *Economic Modelling*, 2020.
+
+Ely, Regis A., Rafael Parfitt, André Carraro and Felipe G. Ribeiro. 2019. "[Rural credit and the time allocation of agricultural households: the case of Pronaf in Brazil](https://onlinelibrary.wiley.com/doi/abs/10.1111/rode.12606)". *Review of Development Economics* 23(4): 1863-1890.
+
+Niquito, Thais W., Regis A. Ely and Felipe G. Ribeiro. 2018. "[Avaliação de Impacto das Técnicas do Sistema S no Mercado de Trabalho](http://bibliotecadigital.fgv.br/ojs/index.php/rbe/article/view/71034)". *Revista Brasileira de Economia* 72(2): 196-216.
+
+Pereira, Camila C., Regis A. Ely and Cláudio D. Shikida. 2018. "[Evidências do prêmio do mês do dividendo no mercado acionário brasileiro](http://bibliotecadigital.fgv.br/ojs/index.php/rbfin/article/view/67406)". *Revista Brasileira de Finanças* 16(4): 611-634.
+
+Barbosa, Klenio, André Carraro, Regis A. Ely and Felipe G. Ribeiro. 2017. "[O Impacto da Nova Lei de Falências no Mercado de Crédito Brasileiro](http://www.revistas.usp.br/ecoa/article/view/139782)". *Economia Aplicada* 21(3): 469-501.
+
+Tabak, Benjamin M., Dimas M. Fazio, Regis A. Ely, Joao M. T. Amaral and Daniel O. Cajueiro. 2017. "[The effects of capital buffers on profitability: An empirical study](http://www.accessecon.com/Pubs/EB/2017/Volume37/EB-17-V37-I3-P133.pdf)". *Economics Bulletin* 37(3): 1468-1473.
+
+Salton, A. and Regis A. Ely. 2017. "[Uncertainty and growth: evidence of emerging and developed countries](http://www.accessecon.com/Pubs/EB/2017/Volume37/EB-17-V37-I2-P115.pdf)". *Economics Bulletin* 37(2): 1274-1280.
+
+Ely, Regis A. 2016. "[Volatility Spillovers and the Risk-Return Relation Between Stock and Foreign Exchange Markets in Brazil](https://www.tandfonline.com/doi/abs/10.1080/10978526.2015.1114868)". *Latin American Business Review* 16(4): 305-325.\break
+
+# Teaching\break
+
+This list includes the current disciplines that I teach. For the full list of my teaching experience you can access my [Curriculum Lattes](http://lattes.cnpq.br/3708985718656687).\hfill\break
+
+***Undergraduates***
+
+Elementary Statistics \hfill 2013-present
+
+Fundamentals of Finance \hfill 2013-present
+
+Introductory Economics \hfill 2011-present\break
+
+***Graduates***
+
+Statistics \hfill 2014-present
+
+Macroeconomics \hfill 2013-present
+
+Econometrics II \hfill 2016-present
+
+Time series analysis \hfill 2014-present

@@ -2,7 +2,8 @@
 layout: post
 title: "A árvore do Impeachment"
 subtitle: Previsão do resultado do Impeachment brasileiro
-tags: [classificação, regressão, árvores, Impeachment, previsão]
+author: "Regis"
+category: [classificação, regressão, árvores, Impeachment, previsão]
 date: 2016-04-01 10:00:00 -0300
 ---
 
@@ -197,9 +198,9 @@ mtext("Valores são: A favor/Contra", side = 1)
 
 Assim, obtemos os seguintes gráficos:
 
-[![Árvore do Impeachment - Câmara (decididos)]({{ site.url }}/img/tree_dep.png)]({{ site.url }}/img/tree_dep.png)
+![]({{ site.url }}/images/tree_dep.png)
 
-[![Árvore do Impeachment - Senado (decididos)]({{ site.url }}/img/tree_sen.png)]({{ site.url }}/img/tree_sen.png)
+![]({{ site.url }}/img/tree_sen.png)
 
 Ainda assim não é tão simples, mas quem disse que a política brasileira era fácil de entender. Vamos primeiro analisar o Congresso. Repare que no primeiro nódulo há uma divisão partidária, com o grupo PCdoB, PDT, PSOL e PT de um lado, sendo que 2 Deputados são a favor e 83 contra o Impeachment. No resto dos partidos, existem divisões de acordo com o Estado. No grupo AC,AL,DF,ES,GO,MG,MS,RJ,RO,RS,SC,SP temos 170 Deputados a favor e apenas 4 contra, mas no restante dos Estados há divisões partidárias e por região. Resumindo, me parece que os partidos estão mais rachados nos Estados do Nordeste. No Senado a divisão é mais simples e parece ser explicada bastante pelo Estado do Senador.
 
@@ -320,9 +321,9 @@ mtext(paste0("Percentual previsto a favor: ",
 
 O resultado está abaixo:
 
-[![Árvore do Impeachment - Câmara (com previsão de indecisos)]({{ site.url }}/img/tree_dep_prev.png)]({{ site.url }}/img/tree_dep_prev.png)
+![]({{ site.url }}/img/tree_dep_prev.png)
 
-[![Árvore do Impeachment - Senado (com previsão de indecisos)]({{ site.url }}/img/tree_sen_prev.png)]({{ site.url }}/img/tree_sen_prev.png)
+![]({{ site.url }}/img/tree_sen_prev.png)
 
 A árvore do Senado Federal nos mostra que a maior resistência ao Impeachment parece ser os partidos do PCdoB, PDT, PMDB, PP, PR, PRB, PSB, PSD, PT e PTB nos Estados AL, AM, AP, BA, MA, PA, PE, PI, PR, RJ, RN, RR, TO. O Impeachment precisa de 54 votos no Senado. Atualmente existem 36 Senadores com intenção de voto a favor e 26 contra. Assim, são necessários 18 votos dos 19 indecisos para a Presidente ser destituída do Cargo, ou então uma mudança no voto dos Senadores que se declararam contra o Impeachment.
 

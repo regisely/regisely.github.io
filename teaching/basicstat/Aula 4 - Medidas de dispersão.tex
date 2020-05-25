@@ -1,0 +1,294 @@
+%% LyX 2.3.4.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,english,brazil]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[numbers]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{Warsaw}
+\newtheorem{thm}{Teorema}[]
+\newtheorem{cor}[]{Corollary}
+\newtheorem{lem}[]{Lema}
+\newtheorem{prop}[]{Proposi\c{c}\~ao}
+\theoremstyle{definition}
+\newtheorem{defn}[]{Definition}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\usepackage{amsthm}\usepackage{amsfonts}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title{\selectlanguage{english}%
+Métodos Estatísticos Básicos}
+\subtitle{Aula 4 - Medidas de dispersão}
+\author{\selectlanguage{english}%
+Prof. Regis Augusto Ely}
+\institute{\selectlanguage{english}%
+Departamento de Economia\\
+Universidade Federal de Pelotas (UFPel)}
+\date{\selectlanguage{english}%
+Abril de 2014}
+\makebeamertitle
+\selectlanguage{brazil}%
+\begin{frame}{Amplitude total}
+
+\begin{itemize}
+\item \textbf{Amplitude total:} $AT=X_{max}-X_{min}$. É a única medida
+de dispersão que não tem na média o ponto de referência.
+\item Para dados agrupados sem intervalos de classe, a fórmula é a mesma
+acima. 
+\item Para dados com intervalos de classe, $AT=L_{max}-l_{min}$, onde $l_{min}$
+é o menor limite inferior das classes e \foreignlanguage{english}{\textrm{$L_{max}$}}
+o maior limite superior.
+\selectlanguage{english}%
+\item Obs: a amplitude total desconsidera valores intermediários.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Desvio quartil}
+
+\begin{itemize}
+\item \textbf{Desvio quartil:} $D_{q}=\frac{(Q3-Q1)}{2}.$ É também chamado
+de amplitude semi-interquartílica.
+\item Usamos o desvio quartil preferencialmente quando a medida de tendência
+central utilizada é a mediana. 
+\item O desvio quartil não é tao afetado por valores extremos.
+
+Ex: \{40, 45, 48, 62, 70\}
+
+$Q1=\frac{40+45}{2}=42,5$ e $Q3=\frac{62+70}{2}=66$
+
+$D_{q}=\frac{66-42,5}{2}=11,75$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Desvio médio absoluto}
+
+\begin{itemize}
+\item \textbf{Desvio médio absoluto:}$D_{m}=\frac{\overset{n}{\underset{i=1}{\sum}}|Xi-\bar{X}|}{n};$
+$D_{me}=\frac{\overset{n}{\underset{i=1}{\sum}}|Xi-Me|}{n}$. É a
+média aritmética dos valores absolutos dos desvios tomados em relação
+à média ou à mediana.
+
+Ex: \{-4, -3, -2, 3, 5\}
+
+$\bar{X}=-0,2$ e $M_{e}=2$.
+
+$D_{m}=\frac{|-4+0,2|+|-3+0,2|+|-2+0,2|+|3+0,2|+|5+0,2|}{5}=3,36$
+
+$D_{me}=\frac{|-4+2|+|-3+2|+|-2+2|+|3+2|+|5+2|}{5}=3$
+\item Para dados agrupados devemos utilizar as frequências, $D_{m}=\frac{\overset{n}{\underset{i=1}{\sum}}fi.(Xi-\bar{X})}{\overset{n}{\underset{i=1}{\sum}}fi},$
+e se tivermos intervalos de classe, então Xi será o ponto médio de
+cada classe.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Diferença média}
+
+\begin{itemize}
+\item \textbf{Diferença média:} $\triangle=\frac{1}{n^{2}}.\overset{n}{\underset{i=1}{\sum}}\overset{n}{\underset{j=1}{\sum}}|Xi-Xj|$.
+É o desvio absoluto em relação a todos os dados entre si.
+\item Essa expressão pode ser simplificada para $\triangle=\frac{4}{n^{2}}.\overset{n}{\underset{i=1}{\sum}}i.Xi-2\bar{X}(1+\frac{1}{n})$
+(ver pag. 51 de \textit{Hoffman}, \textit{R. Estatística para economistas}).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Desvio-padrão}
+
+\begin{itemize}
+\item \textbf{Desvio padrão:} $\sigma=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}(Xi-\overline{X})^{2}}{n}}$.
+É a raíz da média aritmética dos quadrados dos desvios.
+
+Ex: \{-4, -3, -2, 3, 5\}
+
+$\bar{X}=-0,2$ 
+
+$\sigma=\sqrt{\frac{(-4+0,2)^{2}+(-3+0,2)^{2}+(-2+0,2)^{2}+(3+0,2)^{2}+(5+0,2)^{2}}{5}}=\sqrt{12,56}=3,54$.
+\item \textbf{Desvio padrão amostral:} $S=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}(Xi-\bar{X})^{2}}{n-1}}$.
+Utilizamos essa pequena correção no caso de termos apenas uma amostra
+da população completa.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Desvio-padrão}
+
+
+\framesubtitle{Dados agrupados}
+\begin{itemize}
+\item Quando temos dados agrupados, devemos ponderar o desvio padrão pelas
+frequências: 
+
+$\sigma=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}[(Xi-\overline{X})^{2}.fi]}{\overset{n}{\underset{i=1}{\sum}}fi}}$
+quando se trata da população inteira.
+
+$S=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}[(Xi-\overline{X})^{2}.fi]}{\overset{n}{\underset{i=1}{\sum}}fi-1}}$
+quando se trata de uma amostra.
+\item Com intervalos de classe, Xi será o ponto médio da classe.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Desvio-padrão e variância}
+
+
+\framesubtitle{Propriedades}
+\begin{itemize}
+\item As principais propriedades do desvio padrão são:
+\end{itemize}
+\begin{enumerate}
+\item Somando (ou subtraindo) uma constante a todos os valores de uma variável,
+o desvio-padrão não se altera.
+\item Multiplicando (ou dividindo) todos os valores de uma variável por
+uma constante (diferente de zero), o desvio-padrão será multiplicado
+(ou dividido) por essa constante.
+\end{enumerate}
+\begin{itemize}
+\item \textbf{Variância }(\textbf{$\sigma^{2}$}ou $S^{2}$) \textbf{:}
+é o desvio-padrão elevado ao quadrado. A propriedade 1 continua válida
+para a variância, mas a propriedade 2 se altera, pois se multiplicarmos
+todos os valores por uma constante (diferente de zero), a variância
+será multiplicada por essa mesma constante elevada ao quadrado.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Medidas de dispersão relativa}
+
+
+\framesubtitle{Coeficiente de variação de Pearson (CVP)}
+\begin{itemize}
+\item \textbf{Coeficiente de variação de Pearson (CVP): }$CVP=\frac{\sigma}{\bar{X}}\times100$.
+Caracteriza a dispersão dos dados em relação ao seu valor médio.
+\item Um desvio padrão de 2 pode ser grande para dados cuja média é 20,
+mas pequeno se a média é 200. O CVP padroniza as variações, possibilitando
+a comparação entre dados distintos.
+\item Ex:
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+variável & média & desvio\tabularnewline
+\hline 
+\hline 
+altura & 175cm & 5,0cm\tabularnewline
+\hline 
+peso & 68kg & 2,0kg\tabularnewline
+\hline 
+\end{tabular} 
+\par\end{center}
+
+\begin{center}
+Qual série é mais homogênea?
+\par\end{center}
+
+\begin{center}
+=> $CVP_{altura}=\frac{5,0}{175}x100=2,85\%$. <=
+\par\end{center}
+
+\begin{center}
+$CVP_{peso}=\frac{2,0}{68}x100=2,94\%$.
+\par\end{center}
+\begin{itemize}
+\item \textbf{Coeficiente de variação de Thorndike (CVT):} $CVT=\frac{S}{Me}x100$.
+Utilizamos a mediana para o cálculo. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Medidas de assimetria}
+
+\begin{itemize}
+\item \textbf{Distribuição simétrica: }dizemos que os dados tem uma distribuição
+simétrica quando Média = Mediana = Moda.
+\item \textbf{Distribuição assimétrica à esquerda: }é a assimétrica negativa,
+que ocorre quando Média < Mediana < Moda.
+\item \textbf{Distribuição assimétrica à direita: }é a assimétrica positiva,
+que ocorre quando Média > Mediana > Moda.
+\item \textbf{Coeficiente de assimetria de Pearson:} $CAP_{Me}=\frac{3.(\bar{X}-Me)}{\sigma}$
+e $CAP_{Mo}=\frac{\bar{X}-Mo}{\sigma}.$ Compara graus de assimetria
+entre distribuições diferentes. 
+\item \textbf{Classificação:}
+
+\begin{enumerate}
+\item $|CAP|<0,15$ $\Rightarrow$ Assimetria pequena.
+\item $0,15<|CAP|<1\Rightarrow$ Assimetria moderada.
+\item $|CAP|>1\Rightarrow$ Assimetria elevada.
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Medidas de assimetria}
+
+\begin{itemize}
+\item Se $CAP=0$, os dados tem distribuição simétrica. Se $CAP<0$ a assimetria
+é negativa. Se $CAP>0$ a assimetria é positiva.
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.4]{assimetria}
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}{Medidas de curtose}
+
+\begin{itemize}
+\item \textbf{Curtose: }é o grau de achatamento de uma distribuição em relação
+à distribuição normal (em forma de sino).
+\item \textbf{Distribuição leptocúrtica:} apresenta uma distribuição mais
+alongada do que a normal.
+\item \textbf{Distribuição platicúrtica:} apresenta uma distribuição mais
+achatada do que a normal.
+\item \textbf{Distribuição mesocúrtica:} distribuição não é nem achatada
+nem alongada (igual a da normal).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Medidas de curtose}
+
+\begin{itemize}
+\item \textbf{Percentílico de curtose:} $C1=\frac{(Q3-Q1)}{2(P90-P10)}$.
+
+$C1=0,263\Rightarrow$ curva mesocúrtica.
+
+$C1<0,263\Rightarrow$ curva leptocúrtica.
+
+$C1>0,263\Rightarrow$ curva platicúrtica.
+\item \textbf{Momento de curtose:} $K=\frac{\underset{i=1}{\sum}(Xi-\overline{X})^{4}.fi}{\overset{n}{\underset{i=1}{\sum}}fi}\frac{1}{S^{4}}$.
+\item $K=3$ \foreignlanguage{english}{\textrm{$\Rightarrow$}} curva mesocúrtica.
+\item $K>3$ $\Rightarrow$ curva leptocúrtica.
+\item $K<3$ $\Rightarrow$ curva platicúrtica.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Medidas de curtose}
+
+\begin{itemize}
+\item Os valores dos coeficientes de curtose determinam o grau de achatamento
+da distribuição. Graficamente,
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.35]{preview006}
+\par\end{center}
+\end{frame}
+
+\end{document}

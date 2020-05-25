@@ -1,0 +1,208 @@
+%% LyX 2.3.4.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,english,brazil]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{slashed}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[numbers]{natbib}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{Warsaw}
+\newtheorem{thm}{Teorema}[]
+\newtheorem{cor}[]{Corollary}
+\newtheorem{lem}[]{Lema}
+\newtheorem{prop}[]{Proposi\c{c}\~ao}
+\theoremstyle{definition}
+\newtheorem{defn}[]{Definition}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\usepackage{amsthm}\usepackage{amsfonts}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title{\selectlanguage{english}%
+Métodos Estatísticos Básicos}
+\subtitle{Aula 5 - Teoria dos conjuntos}
+\author{\selectlanguage{english}%
+Prof. Regis Augusto Ely}
+\institute{\selectlanguage{english}%
+Departamento de Economia\\
+Universidade Federal de Pelotas (UFPel)}
+\date{\selectlanguage{english}%
+Abril de 2014}
+\makebeamertitle
+\selectlanguage{brazil}%
+\begin{frame}{Definições básicas}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Conjunto:} é uma coleção de objetos, sendo representados por
+letras maiúsculas, A, B, etc.
+
+Ex: A=\{1, 2, 3, 4, 5, 6\} => Resultados possíveis de um lançamento
+de dado.
+
+Ex: B=\{$x/0\leq x\leq1$\} => Composto pelo intervalo {[}0,1{]}.
+\item \textbf{Elementos: }são os objetos que compõem o conjunto.
+
+Ex: $3\in A$, $0,5\in B$,$2\notin B$.
+\item \textbf{Conjunto vazio: }é o conjunto $\textrm{Ø}$, que não contém
+nenhum elemento.
+\item \textbf{Subconjuntos: }se, dados dois conjuntos A e B, $x\in A$ =>
+$x\in B$, então dizemos que A é um subconjunto de B, $A\subset B$.
+Se também vale que $B\subset A$, então os dois conjuntos são iguais,
+$A=B$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definições básicas}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item Dizemos que o conjunto vazio é subconjunto de qualquer outro conjunto,
+ou seja $\textrm{Ø}\subset A$, $\textrm{Ø}\subset B$.
+\item \textbf{Conjunto fundamental}: é o conjunto $U$ de todos os objetos
+que estão sendo estudados, de forma que $A,$$B\subset U$.
+\item Note que para qualquer conjunto A, temos $\oslash\subset A\subset U$.
+
+Ex: $U=\mathbb{R}$, $A=\{x|x^{2}+2x-3=0\}$, $B=\{x|(x-2)(x^{2}+2x-3)=0\}$,
+$C=\{-3,1,2\}.$
+
+Prove que $A\subset B\subset U$ e $B=C$.
+\end{itemize}
+\end{frame}
+\selectlanguage{brazil}%
+
+\begin{frame}{Definições básicas}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item Há duas operações fundamentais sobre os conjuntos, a \textbf{união}
+e a \textbf{interseção}.
+\item C é a união de A e B se $C=\{x|x\in A$ e/ou $x\in B\}$. Assim, $C=A\cup B$.
+\item D é a interseção de A e B se $D=\{x|x\in A$ e $x\in B\}$. Assim,
+$D=A\cap B$.
+\item \textbf{Conjunto complemento: }é o conjunto $\bar{A}$ que contém
+todos os elementos que não estão em A, mas estão no conjunto fundamental
+$U$. Assim, $\bar{A}=\{x\in U|x\notin A\}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\foreignlanguage{english}{Propriedades das operações de conjuntos}}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Leis comutativas:}
+
+a) $A\cup B=B\cup A$.
+
+b) $A\cap B=B\cap A$.
+\item \textbf{Leis associativas:}
+
+c) $A\cup(B\cup C)=(A\cup B)\cup C$. 
+
+d)$A\cap(B\cap C)=(A\cap B)\cap C$.
+\end{itemize}
+\end{frame}
+\selectlanguage{brazil}%
+
+\begin{frame}{\foreignlanguage{english}{Propriedades das operações de conjuntos}}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Outras propriedades: }
+
+e)$A\cup(B\cap C)=(A\cup B)\cap(A\cup C)$. 
+
+f) $A\cap(B\cup C)=(A\cap B)\cup(A\cap C)$. 
+
+g) $A\cap\slashed{O}=\slashed{O}$.
+
+h) $A\cup\slashed{O}=A$.
+
+i) $\overline{(A\cup B)}=\bar{A}\cap\bar{B}$.
+
+j) $\overline{A\cap B}=\overline{A}\cup\bar{B}$.
+
+k) $\overline{\overline{A}}=A$.
+\end{itemize}
+\end{frame}
+\selectlanguage{brazil}%
+
+\begin{frame}{\foreignlanguage{english}{Diagramas de Venn}}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Diagrama de Venn}: representação gráfica das operações de
+conjuntos, sendo a região sombreada o conjunto sob exame.
+\item $A\cup B$ 
+
+\includegraphics[scale=0.15]{1-1}
+\item $A\cap B$ 
+
+\includegraphics[scale=0.15]{2-1}
+\item $\overline{A}$
+
+\includegraphics[viewport=0bp 0bp 400bp 185bp,scale=0.2]{A-}
+\selectlanguage{brazil}%
+\item \textit{Exercício: }demonstre as propriedades e, f, j, i e k com Diagramas
+de Venn.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\foreignlanguage{english}{Produto cartesiano}}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item \textbf{Produto cartesiano: }o produto cartesiano de A e B, é o conjunto
+$A\times B=\{(a,b)|a\in A,b\in B\}$, ou seja, é composto pelos pares
+ordenados nos quais o primeiro elemento é tirado de A e o segundo
+de B.
+
+Ex: $A=\{1,2,3\}$; $B=\{1,2,3,4\}$; $AxB=\{(1,1),(1,2),...,(1,4),(2,1),...,(2,4),(3,1),...,(3,4)\}$.
+\item Note que $A\times B\neq B\times A$.
+\item A noção de produto cartesiano pode ser estendida, de modo que $A_{1}\times A_{2}\times...\times A_{n}=\{(a_{1},a_{2},...,a_{n})|a_{i}\in A_{i}\}.$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\foreignlanguage{english}{Conjuntos enumeráveis}}
+
+\selectlanguage{english}%
+\begin{itemize}
+\item O número de elementos que um conjunto possui será de grande importância
+para nós, pois veremos que em probabilidade, os possíveis resultados
+de um experimento são expressos como elementos de um conjunto.
+\item \textbf{Conjunto finito: }um conjunto A é finito se existir um número
+finito de elementos nele. Ex:$A=\{a_{1},a_{2},...,a_{n}\}$.
+\item \textbf{Conjunto enumerável: }um conjunto B é enumerável, ou infinito
+enumerável, se existir uma correspondência biunívoca entre os elementos
+de B e os números inteiros positivos. Ex: $\mathbb{N=}\{1,2,3,...\}$,
+$B=\{2,4,6,8,...\}.$
+\item \textbf{Conjunto infinito não-enumerável: }um conjunto C é infinito
+não-enumerável se possuir um número infinito de elementos que não
+podem ser enumerados. Ex: $C=\{x|a\leq x\leq b\}$ para quaisquer
+números reais $b>a$. Note que qualquer intervalo (não-degenerado)
+contém mais do que um número contável de pontos.\selectlanguage{brazil}%
+\end{itemize}
+\end{frame}
+
+\end{document}

@@ -2,7 +2,8 @@
 layout: post
 title: "O tradeoff entre viés e variância em três gráficos"
 subtitle: Entendendo os conceitos de bias-variance tradeoff, underfitting e overfitting através da estimação de diversos modelos de previsão
-tags: [bias-variance tradeoff, machine learning, forecast, R]
+author: "Regis"
+category: [bias-variance tradeoff, machine learning, forecast, R]
 date: 2016-08-25 10:00:00 -0300
 ---
 
@@ -55,7 +56,7 @@ y <- 2*x - 0.5*x^2 + x^3 + rnorm(50, 0, 100)
 
 O primeiro gráfico que construiremos é este:
 
-[![Bias-variance tradeoff]({{ site.url }}/img/bias-variance.png)]({{ site.url }}/img/bias-variance.png)
+![]({{ site.url }}/images/bias-variance.png)
 
 Um dos modelos mais simples que podemos estimar é uma regressão linear através de mínimos quadráticos ordinários, que sabemos que é o melhor estimador linear não viesado. Entretanto estimadores lineares em geral possuem alto viés, pois se distanciam bastante das observações da amostra. A regressão linear será o nosso caso extremo para o item 2 acima, ou seja, um modelo muito simples, mas que pode ser generalizável. Assim, o erro de previsão será alto no train set, e será também alto, mas semelhante, no test set. Este é o típico caso de viés alto e variância baixa, ou underfitting.
 
@@ -146,7 +147,7 @@ text(-2, -550, paste("Test RMSE:",
 
 A ideia até aqui é que modelos mais simples tem viés alto mas variância baixa (underfitting), enquanto que modelos mais complexos tem viés baixo mas variância alta (overfitting). Mas o que significa um modelo ser mais complexo? Em geral, a complexidade de um modelo aumenta conforme o número de previsores aumenta, e conforme a capacidade do modelo de captar relações não lineares e interações entre os previsores aumenta. Como nosso exemplo tem apenas um previsor, iremos adicionar complexidade através da não linearidade. Em caso de inúmeros previsores, até mesmo um modelo de regressão linear pode se tornar complexo demais, exigindo técnicas de regularização como LASSO ou Ridge Regression para diminuir a possibilidade de overfitting. Para exemplificar o conceito de tradeoff entre viés e variância, bem como de underfitting e overfitting vamos estimar uma série de modelos com grau crescente de complexidade. O objetivo é gerar o seguinte gráfico:
 
-[![Bias-variance tradeoff for many models]({{ site.url }}/img/rmse-models.png)]({{ site.url }}/img/rmse-models.png)
+![]({{ site.url }}/images/rmse-models.png)
 
 O código com a estimação, previsão e o plot dos gráficos para cada modelo se encontra abaixo. No gráfico, estimamos 9 modelos distintos:
 
@@ -297,7 +298,7 @@ text(4.5, -1000, cex = 0.8,
 
 Por fim, para resumir a relação entre erro de previsão no train e test set com a complexidade do modelo, podemos gerar o seguinte gráfico:
 
-[![Train and test error]({{ site.url }}/img/train_test_error.png)]({{ site.url }}/img/train_test_error.png)
+![]({{ site.url }}/images/train_test_error.png)
 
 Note que aumentando a complexidade do modelo diminuimos o erro no train e test set até o ponto em que o erro no test set começa aumentar. A partir daí o aumento na variância não compensa a diminuição no viés e nosso modelo passa a ter uma má performance em conjuntos novos de dados. A tarefa essencial de previsão é selecionar um modelo que se aproxime do ponto mínimo da curva de erro do test set. O código para gerar o gráfico encontra-se abaixo: 
 

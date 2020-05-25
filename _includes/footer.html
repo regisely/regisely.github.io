@@ -1,103 +1,61 @@
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
+<footer class="site-footer">
 
-          {% if site.author.email and site.footer-links-active.email %}
-          <li>
-            <a href="mailto:{{ site.author.email }}?subject=Hello from {{ site.url-pretty }}" title="Email me">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-          {% if site.author.github and site.footer-links-active.github %}
-          <li>
-            <a href="https://github.com/{{ site.author.github }}" title="GitHub">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
+  <div class="wrapper">
 
-          {% if site.author.twitter and site.footer-links-active.twitter %}
-          <li>
-            <a href="https://twitter.com/{{ site.author.twitter }}" title="Twitter">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
-
-          {% if site.author.facebook and site.footer-links-active.facebook %}
-          <li>
-            <a href="https://www.facebook.com/{{ site.author.facebook }}" title="Facebook">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
-
-          {% if site.author.crossvalidated and site.footer-links-active.crossvalidated %}
-          <li>
-            <a href="https://stats.stackexchange.com/{{ site.author.crossvalidated }}" title="Cross-Validated">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-stack-exchange fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
-
-          {% if site.author.linkedin and site.footer-links-active.linkedin %}
-          <li>
-            <a href="https://linkedin.com/{{ site.author.linkedin }}" title="LinkedIn">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
-
-          {% if site.footer-links-active.rss %}
-          <li>
-            <a href="{{ '/feed.xml' | prepend: site.baseurl }}" title="Subscribe to my blog">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>		
-          {% endif %}
-
-        </ul>
-
-        <p class="copyright text-muted">
-          &copy; {{ site.author.name }}
-          &nbsp;&bull;&nbsp;
-          {{ site.time | date: '%Y' }}
-
-          {% if site.author.email %}
-          &nbsp;&bull;&nbsp;
-          <a href="mailto:{{ site.author.email }}?subject=Hello from {{ site.url-pretty }}">{{ site.author.email }}</a>
-          {% endif %}
-        </p>
-        <p class="theme-by text-muted">
-          Theme by
-          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
-        </p>
-      </div>
-    </div>
+      <p style="text-align:left;">
+        <strong>{{ site.title }}</strong>
+        <span style="float:right;">
+		  Departamento de Economia
+        </span> <br />
+        <span style="float:left;">
+          {{ site.jobtitle }}
+        </span>
+        <span style="float:right;">
+		  Universidade Federal de Pelotas
+        </span> <br />
+        <span style="float:left;">
+          <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+        </span>
+        <span style="float:right;">
+		  Rua Gomes Carneiro nº 1 - 4º andar<br />
+        </span> <br />
+        <span style="float:right;">
+		  Pelotas, RS, Brasil 96010-610<br />
+        </span>
+      </p>
   </div>
+
+  <p style="text-align:center;">
+    <br />
+    {% if site.google_scholar_id %}
+    <a href="https://scholar.google.com/citations?user={{ site.google_scholar_id }}">
+      <i class="ai ai-google-scholar" style="color:gray"></i> Google Scholar
+    </a>
+    &nbsp;&nbsp;
+    {% endif %}
+    
+
+    {% if site.github_username %}
+    <a href="https://github.com/{{ site.github_username }}">
+      <i class="fa fa-github" style="color:gray"></i> Github
+    </a>
+    &nbsp;&nbsp;
+    {% endif %}
+
+    {% if site.orcid_id %}
+    <a href="https://orcid.org/{{ site.orcid_id }}">
+      <i class="ai ai-orcid" style="color:gray"></i> ORCID
+    </a>
+    &nbsp;&nbsp;
+    {% endif %}
+
+    {% if site.twitter_username %}
+    <a href="https://twitter.com/{{ site.twitter_username }}">
+      <i class="fa fa-twitter" style="color:gray"></i> Twitter
+    </a>
+    {% endif %}
+  </p>
+    
 </footer>

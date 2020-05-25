@@ -1,95 +1,30 @@
-# --- Serving options --- #
-
-# url is the full website URL
-# baseurl is the website's URL without the hostname
-
-url: "http://regisely.com"
-baseurl: ""
-
-# Brief name and description of the site
+# Site settings
 title: Regis A. Ely
-description: "A Professor of Economics at Federal University of Pelotas that works with finance, banking, time series analysis and forecasting."
+email: regisaely@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  I am a Professor of Economics at Federal University of Pelotas with research interests in applied economics, finance, banking, time series analysis and forecasting. Topics on my site include teaching materials, research articles, and softwares such as R, Python, LaTeX, Emacs and Github.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://regisely.com" # the base hostname & protocol for your site
+twitter_username: regisaely
+github_username:  regisely
+orcid_id: 0000-0002-2468-3761
+google_scholar_id: yjbuYNEAAAAJ
+githubdir: "regisely/regisely.github.io"
 
-# --- Outputting options --- #
-# More information can be found on Jekyll's site
-timezone: "America/Sao_Paulo"
+# Build settings
 markdown: kramdown
-highlighter: rouge
-permalink: /blog/:title/
-paginate: 5
-paginate_path: "/page:num/"
-gems: [jekyll-paginate]
 
-# --- Navigation bar options --- #
+# Other options
+permalink: blog/:year/:month/:title/
+jobtitle: "Associate Professor"
+excerpt_separator: "<!--more-->"
 
-# Image to show in the navigation bar - image must be a square (width = height)
-# Remove this parameter if you don't want an image in the navbar
-#avatar: "/img/regisely.png"
+# SEO stuff
+google_author: ""
+google_site_verification: "S_qmlQRyXu4Qln3eDJ06JJrOuTzltYH1Yryjhj7HFcI"
+bing_webmastertools_id: ""
 
-# List of links in the navigation bar
-navbar-links:
-  Home: ""
-  About: "aboutme"
-  Teaching: "teaching"
-  Research: "research"
-  Resources: "resources"
-nav-search: "search"
+plugins_dir:
+  - jekyll-sitemap
 
-# --- Footer options --- #
-
-# Change all these values or delete the ones you don't want.
-# Important: you must keep the "name" parameter, everything else you can remove
-author:
-  name: Regis A. Ely
-  email: "regisaely@gmail.com"
-  facebook: regisaely
-  github: regisely
-  twitter: regisaely
-  crossvalidated: "users/101354/regis-a-ely" 
-  
-# Select which links to show in the footer  
-footer-links-active:
-  rss: true
-  facebook: true
-  email: true
-  twitter: true
-  github: true
-  linkedin: false
-  crossvalidated: true
-
-# How to display the link to the website in the footer
-# Remove this if you don't want a link in the footer
-url-pretty: "regisely.com" 
-
-# --- Misc --- #
-
-# Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-disqus: "regisely-site"
-
-# Fill in your Google Analytics ID to track your website using GA
-google_analytics: "UA-12749227-2"  # Your Google Analytics ID
-
-# --- Don't need to touch anything below here (but you can if you want) --- #
-
-# Default YAML values (more information on Jekyll's site)  
-defaults:
-  -
-    scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-      comments: true  # add comments to all blog posts 
-  -
-    scope:
-      path: "" # all files
-    values:
-      layout: "page"
-
-# Exclude these files from production site
-exclude:
-  - CNAME
-  - LICENSE
-  - README.md
-
-# 2fc73a3a967e97599c9763d05e564189
+exclude: ['*.Rmd']

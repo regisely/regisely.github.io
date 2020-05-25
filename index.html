@@ -1,55 +1,16 @@
 ---
-layout: page
-title: "Regis A. Ely"
-subtitle: Department of Economics, Federal University of Pelotas
-css: "/css/index.css"
-meta-title: "Regis A. Ely"
-meta-description: "A Professor of Economics at Federal University of Pelotas that works with finance, banking, time series analysis and forecasting."
-bigimg:
-  - "/img/big-imgs/office.jpg" : "Office, Decon (UFPel), Pelotas"
-  - "/img/big-imgs/corredordecon.jpg" : "Decon (UFPel), Pelotas"
-  - "/img/big-imgs/rooml.jpg" : "Room L, Decon (UFPel), Pelotas"
+layout: default
 ---
 
-<div class="index-posts-title">News:</div>
-
-<div class="posts-list">
-  {% for post in paginator.posts %}
-  <article class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
-	  <h2 class="post-title">{{ post.title }}</h2>
+<div class="home">
 	
-	  {% if post.subtitle %}
-	  <h3 class="post-subtitle">
-	    {{ post.subtitle }}
-	  </h3>
-	  {% endif %}  
-    </a>
+<!-- {% include image.html url="/images/corredordecon.jpg" caption="Department of Economics at Federal University of Pelotas." width=580 align="center" %} -->
+{% include carousel.html height="50" unit="%" duration="7" %}
 
-    <p class="post-meta">
-      Posted on {{ post.date | date: "%B %-d, %Y" }}
-    </p>
-  
-    <div class="post-entry">
-      {{ post.content | truncatewords: 50 | strip_html | xml_escape}}
-	  <a href="{{ post.url | prepend: site.baseurl }}" class="post-read-more">[Read&nbsp;More]</a>
-    </div>
-  
-   </article>
-  {% endfor %}
+<h1>Welcome | Bem-vindo</h1>
+	
+<p>In this academic website you will find my teaching materials, information about my current research and some thoughts and resources. My research focus on the intersection between financial markets and public policies or regulatory interventions. This means that I use applied statistics and econometrics to measure the effects of interventions on financial and credit markets.</p>
+
+<p>Some of the areas that I am also interested on are finance, banking, intervention analysis, public policy analysis, time series and forecasting. Throughout the years I have used many econometric and statistical approaches in my research articles. I intend to share in the <a class="tosu" href="blog">blog</a> section of this website some of the codes and scripts that I've written in languages such as R, Python, LaTeX, Emacs and GitHub.</p>
+
 </div>
-
-{% if paginator.total_pages > 1 %}
-<ul class="pager main-pager">
-  {% if paginator.previous_page %}
-  <li class="previous">
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-  </li>
-  {% endif %}
-  {% if paginator.next_page %}
-  <li class="next">
-    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-  </li>
-  {% endif %}
-</ul>
-{% endif %}

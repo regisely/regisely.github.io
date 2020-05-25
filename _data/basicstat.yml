@@ -1,0 +1,14 @@
+- title: "Ementa"
+  filename: basicstat-ementa
+  dirname: teaching/basicstat
+  tldr: "Programa da disciplina de Métodos Estatísticos Básicos."
+
+- title: "Aula 1 - Conceitos Introdutórios"
+  filename: basicstat-aula1
+  dirname: teaching/basicstat
+  tldr: "Importância da estatística e conceitos introdutórios."
+
+- title: "Aula 2 - Distribuição de frequência"
+  filename: basicstat-aula2
+  dirname: teaching/basicstat
+  tldr: "Distribuição de frequência, intervalos de classe e histogramas."

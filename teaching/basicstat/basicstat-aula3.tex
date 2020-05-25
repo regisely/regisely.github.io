@@ -1,0 +1,371 @@
+\documentclass[12pt,ignorenonframetext,,aspectratio=149]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+% Comment these out if you don't want a slide with just the
+% part/section/subsection/subsubsection title:
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \let\insertsectionnumber\relax
+  \let\sectionname\relax
+  \frame{\sectionpage}
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\title{Métodos Estatísticos Básicos}
+\subtitle{Aula 3 - Medidas de Tendência Central e de Posição}
+\author{Regis A. Ely}
+\date{16 de maio de 2020}
+
+%% Here's everything I added.
+%%--------------------------
+
+\usepackage{graphicx}
+\usepackage{rotating}
+%\setbeamertemplate{caption}[numbered]
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage[normalem]{ulem}
+%\mode<presentation>
+\usepackage{wasysym}
+%\usepackage{amsmath}
+
+
+% Get rid of navigation symbols.
+%-------------------------------
+\setbeamertemplate{navigation symbols}{}
+
+% Optional institute tags and titlegraphic.
+% Do feel free to change the titlegraphic if you don't want it as a Markdown field.
+%----------------------------------------------------------------------------------
+\institute{Departamento de Economia\\
+Universidade Federal de Pelotas}
+
+% \titlegraphic{\includegraphics[width=0.3\paperwidth]{\string~/Dropbox/teaching/clemson-academic.png}} % <-- if you want to know what this looks like without it as a Markdown field. 
+% -----------------------------------------------------------------------------------------------------
+
+
+% Some additional title page adjustments.
+%----------------------------------------
+\setbeamertemplate{title page}[empty]
+%\date{}
+\setbeamerfont{subtitle}{size=\small}
+
+\setbeamercovered{transparent}
+
+% Some optional colors. Change or add as you see fit.
+%---------------------------------------------------
+\definecolor{clemsonpurple}{HTML}{522D80}
+ \definecolor{clemsonorange}{HTML}{F66733}
+\definecolor{uiucblue}{HTML}{003C7D}
+\definecolor{uiucorange}{HTML}{F47F24}
+
+
+% Some optional color adjustments to Beamer. Change as you see fit.
+%------------------------------------------------------------------
+\setbeamercolor{frametitle}{fg=clemsonpurple,bg=white}
+\setbeamercolor{title}{fg=clemsonpurple,bg=white}
+\setbeamercolor{local structure}{fg=clemsonpurple}
+\setbeamercolor{section in toc}{fg=clemsonpurple,bg=white}
+% \setbeamercolor{subsection in toc}{fg=clemsonorange,bg=white}
+\setbeamercolor{footline}{fg=clemsonpurple!50, bg=white}
+\setbeamercolor{block title}{fg=clemsonorange,bg=white}
+
+
+\let\Tiny=\tiny
+
+
+% Sections and subsections should not get their own damn slide.
+%--------------------------------------------------------------
+\AtBeginPart{}
+\AtBeginSection{}
+\AtBeginSubsection{}
+\AtBeginSubsubsection{}
+
+% Suppress some of Markdown's weird default vertical spacing.
+%------------------------------------------------------------
+\setlength{\emergencystretch}{0em}  % prevent overfull lines
+\setlength{\parskip}{0pt}
+
+
+% Allow for those simple two-tone footlines I like. 
+% Edit the colors as you see fit.
+%--------------------------------------------------
+\defbeamertemplate*{footline}{my footline}{%
+    \ifnum\insertpagenumber=1
+    \hbox{%
+        \begin{beamercolorbox}[wd=\paperwidth,ht=.8ex,dp=1ex,center]{}%
+      % empty environment to raise height
+        \end{beamercolorbox}%
+    }%
+    \vskip0pt%
+    \else%
+        \Tiny{%
+            \hfill%
+		\vspace*{1pt}%
+            \insertframenumber/\inserttotalframenumber \hspace*{0.1cm}%
+            \newline%
+            \color{clemsonpurple}{\rule{\paperwidth}{0.4mm}}\newline%
+            \color{clemsonorange}{\rule{\paperwidth}{.4mm}}%
+        }%
+    \fi%
+}
+
+% Various cosmetic things, though I must confess I forget what exactly these do and why I included them.
+%-------------------------------------------------------------------------------------------------------
+\setbeamercolor{structure}{fg=blue}
+\setbeamercolor{local structure}{parent=structure}
+\setbeamercolor{item projected}{parent=item,use=item,fg=clemsonpurple,bg=white}
+\setbeamercolor{enumerate item}{parent=item}
+
+% Adjust some item elements. More cosmetic things.
+%-------------------------------------------------
+\setbeamertemplate{itemize item}{\color{clemsonpurple}$\bullet$}
+\setbeamertemplate{itemize subitem}{\color{clemsonpurple}\scriptsize{$\bullet$}}
+\setbeamertemplate{itemize/enumerate body end}{\vspace{.6\baselineskip}} % So I'm less inclined to use \medskip and \bigskip in Markdown.
+
+% Automatically center images
+% ---------------------------
+% Note: this is for ![](image.png) images
+% Use "fig.align = "center" for R chunks
+
+\usepackage{etoolbox}
+
+\AtBeginDocument{%
+  \letcs\oig{@orig\string\includegraphics}%
+  \renewcommand<>\includegraphics[2][]{%
+    \only#3{%
+      {\centering\oig[{#1}]{#2}\par}%
+    }%
+  }%
+}
+
+% I think I've moved to xelatex now. Here's some stuff for that.
+% --------------------------------------------------------------
+% I could customize/generalize this more but the truth is it works for my circumstances.
+
+\ifxetex
+\setbeamerfont{title}{family=\fontspec{serif}}
+\setbeamerfont{frametitle}{family=\fontspec{serif}}
+\usepackage[font=small,skip=0pt]{caption}
+ \else
+ \fi
+
+% Okay, and begin the actual document...
+
+\begin{document}
+\frame{\titlepage}
+
+\section[]{}
+\frame{\small \frametitle{Conteúdo}
+\tableofcontents}
+
+\hypertarget{medidas-de-tenduxeancia-central}{%
+\section{Medidas de tendência
+central}\label{medidas-de-tenduxeancia-central}}
+
+\begin{frame}{Medidas de tendência central}
+\protect\hypertarget{medidas-de-tenduxeancia-central-1}{}
+Medidas de tendência central são estatísticas que representam o ponto
+central de um conjunto de dados
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Média}: os tipos mais comuns são a média \emph{aritmética},
+  \emph{harmônica} e \emph{geométrica}
+\item
+  \textbf{Mediana} valor que separa a metade maior e a metade menor de
+  um conjunto de dados
+\item
+  \textbf{Moda}: valor mais frequente de um conjunto de dados
+\end{itemize}
+\end{frame}
+
+\hypertarget{muxe9dia-aritmuxe9tica}{%
+\subsection{Média aritmética}\label{muxe9dia-aritmuxe9tica}}
+
+\begin{frame}{Média aritmética simples}
+\protect\hypertarget{muxe9dia-aritmuxe9tica-simples}{}
+\textbf{Média aritmética}: razão entre a soma dos valores e o número de
+observações de um conjunto de dados
+\(\bar{X}=\frac{{\sum_{i=1}^{n}X_{i}}}{n}\)
+
+Quando temos dados não-agrupados pela frequência das observações,
+calculamos a média aritmética simples
+
+\begin{theorem*}
+Ex: 10, 14, 13, 15, 16, 18, 12
+\end{theorem*}
+
+Logo, \(\overline{X}=\frac{(10+14+13+15+16+18+12)}{7}=14\).
+
+Desvio em relação à média:\} é a diferença entre um elemento de um
+conjunto de valores e a média aritmética desse conjunto, ou seja,
+\(d_{i}=X_{i}-\overline{X}.\)
+
+Ex: \(d_{1}=10-14=-4\); \(d_{2}=14-14=0\), etc.
+\end{frame}
+
+\begin{frame}{Média aritmética ponderada}
+\protect\hypertarget{muxe9dia-aritmuxe9tica-ponderada}{}
+\end{frame}
+
+\begin{frame}{Propriedades da média aritmética}
+\protect\hypertarget{propriedades-da-muxe9dia-aritmuxe9tica}{}
+\end{frame}
+
+\hypertarget{muxe9dia-geomuxe9trica}{%
+\subsection{Média geométrica}\label{muxe9dia-geomuxe9trica}}
+
+\begin{frame}{Média geométrica simples}
+\protect\hypertarget{muxe9dia-geomuxe9trica-simples}{}
+\end{frame}
+
+\begin{frame}{Média geométrica ponderada}
+\protect\hypertarget{muxe9dia-geomuxe9trica-ponderada}{}
+\end{frame}
+
+\begin{frame}{Propriedades da média geométrica}
+\protect\hypertarget{propriedades-da-muxe9dia-geomuxe9trica}{}
+\end{frame}
+
+\hypertarget{muxe9dia-harmuxf4nica}{%
+\subsection{Média harmônica}\label{muxe9dia-harmuxf4nica}}
+
+\begin{frame}{Média harmônica simples}
+\protect\hypertarget{muxe9dia-harmuxf4nica-simples}{}
+\end{frame}
+
+\begin{frame}{Média harmônica ponderada}
+\protect\hypertarget{muxe9dia-harmuxf4nica-ponderada}{}
+\end{frame}
+
+\begin{frame}{Propriedades da média harmônica}
+\protect\hypertarget{propriedades-da-muxe9dia-harmuxf4nica}{}
+\end{frame}
+
+\hypertarget{moda}{%
+\subsection{Moda}\label{moda}}
+
+\begin{frame}{Moda simples}
+\protect\hypertarget{moda-simples}{}
+\end{frame}
+
+\begin{frame}{Moda com intervalos de classe}
+\protect\hypertarget{moda-com-intervalos-de-classe}{}
+\end{frame}
+
+\hypertarget{mediana}{%
+\subsection{Mediana}\label{mediana}}
+
+\begin{frame}{Mediana simples}
+\protect\hypertarget{mediana-simples}{}
+\end{frame}
+
+\begin{frame}{Mediana com intervalos de classe}
+\protect\hypertarget{mediana-com-intervalos-de-classe}{}
+\end{frame}
+
+\hypertarget{medidas-de-posiuxe7uxe3o}{%
+\section{Medidas de posição}\label{medidas-de-posiuxe7uxe3o}}
+
+\begin{frame}{Separatrizes}
+\protect\hypertarget{separatrizes}{}
+Medidas de posição são estatísticas que representam a tendência de
+concentração de um conjunto de dados ao redor de certos
+pontos\hfill\break
+
+As medidas de posição mais usuais são chamadas \emph{separatrizes} e
+incluem:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Quartil}
+\item
+  \textbf{Decil}
+\item
+  \textbf{Percentil}
+\end{itemize}
+\end{frame}
+
+\hypertarget{quartil}{%
+\subsection{Quartil}\label{quartil}}
+
+\begin{frame}{Quartil simples}
+\protect\hypertarget{quartil-simples}{}
+\end{frame}
+
+\begin{frame}{Quartil com intervalos de classe}
+\protect\hypertarget{quartil-com-intervalos-de-classe}{}
+\end{frame}
+
+\hypertarget{decil}{%
+\subsection{Decil}\label{decil}}
+
+\begin{frame}{Decil simples}
+\protect\hypertarget{decil-simples}{}
+\end{frame}
+
+\begin{frame}{Decil com intervalos de classe}
+\protect\hypertarget{decil-com-intervalos-de-classe}{}
+\end{frame}
+
+\hypertarget{percentil}{%
+\subsection{Percentil}\label{percentil}}
+
+\begin{frame}{Decil simples}
+\protect\hypertarget{decil-simples-1}{}
+\end{frame}
+
+\begin{frame}{Decil com intervalos de classe}
+\protect\hypertarget{decil-com-intervalos-de-classe-1}{}
+\end{frame}
+
+\hypertarget{exemplo-no-r}{%
+\section{Exemplo no R}\label{exemplo-no-r}}
+
+\begin{frame}{Exemplo no R}
+\protect\hypertarget{exemplo-no-r-1}{}
+\end{frame}
+
+
+\end{document}
