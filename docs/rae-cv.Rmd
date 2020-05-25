@@ -8,7 +8,7 @@ geometry: margin=1in
 title: "CV"
 author: Regis Augusto Ely
 
-jobtitle: "Associate Professor, Federal University of Pelotas"
+jobtitle: "Adjunt Professor, Federal University of Pelotas"
 address: "Rua Gomes Carneiro nº 1 - 4º andar · Department of Economics · Pelotas RS, Brazil 96010-610"
 fontawesome: yes
 email: regisaely@gmail.com
