@@ -20,11 +20,11 @@ jobtitle: "Adjunct Professor"
 excerpt_separator: "<!--more-->"
 
 # SEO stuff
-google_author: ""
+google_author: "yjbuYNEAAAAJ"
 google_site_verification: "S_qmlQRyXu4Qln3eDJ06JJrOuTzltYH1Yryjhj7HFcI"
 bing_webmastertools_id: ""
 
-plugins_dir:
-  - jekyll-sitemap
+# plugins_dir:
+#  - jekyll-sitemap
 
 exclude: ['*.Rmd']
