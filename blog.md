@@ -4,7 +4,9 @@ title: Blog
 permalink: /blog/
 ---
 
-Nesta seção pretendo incluir alguns pensamentos e análises não revisadas em uma variedade de assuntos, tendo intuito educativo e exploratório. Em geral os posts são escritos em português e acompanhados de scripts no R para replicar os resultados. Incluí dois posts do site antigo, mas infelizmente perdi todos os comentários ao remodelar o site. Atualmente, <a href="/categories">as categorias dos posts</a> (e o número de posts em cada categoria) incluem {% assign sorted_cats = site.categories | sort  %}{% for category in sorted_cats %}{% if forloop.last == true %}e {% endif %}<a href="/categories/#{{category[0]}}" style="font-weight:normal;"> {{category[0] | camelcase }}</a> ({{ category[1].size  }}){% if forloop.last == false %}, {% endif %}{% endfor %}.
+Nesta seção pretendo incluir alguns pensamentos e análises não revisadas em uma variedade de assuntos, tendo intuito educativo e exploratório. Em geral os posts são escritos em português e acompanhados de scripts no R para replicar os resultados. Incluí dois posts do site antigo para fins de registro, porém alguns links podem estar quebrados.
+
+Atualmente, <a href="/categories">as categorias dos posts</a> (e o número de posts em cada categoria) incluem {% assign sorted_cats = site.categories | sort  %}{% for category in sorted_cats %}{% if forloop.last == true %}e {% endif %}<a href="/categories/#{{category[0]}}" style="font-weight:normal;"> {{category[0] | camelcase }}</a> ({{ category[1].size  }}){% if forloop.last == false %}, {% endif %}{% endfor %}.
 
 <ul id="archive">
 {% for post in site.posts %}
