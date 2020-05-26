@@ -3,7 +3,7 @@ layout: post
 title: "A árvore do Impeachment"
 subtitle: Previsão do resultado do Impeachment brasileiro
 author: "Regis"
-category: [classificação, regressão, árvores, Impeachment, previsão]
+category: [R, machine learning, forecast, classification, impeachment]
 date: 2016-04-01 10:00:00 -0300
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "O tradeoff entre viés e variância em três gráficos"
 subtitle: Entendendo os conceitos de bias-variance tradeoff, underfitting e overfitting através da estimação de diversos modelos de previsão
 author: "Regis"
-category: [bias-variance tradeoff, machine learning, forecast, R]
+category: [R, machine learning, forecast, bias-variance]
 date: 2016-08-25 10:00:00 -0300
 ---
 
