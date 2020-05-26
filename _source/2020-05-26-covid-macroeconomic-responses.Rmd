@@ -15,7 +15,6 @@ categories:
   - Political Science
 ---
 
-Testando novo novo:
 
 ```{r setup, include=TRUE, cache=F}
 
@@ -24,7 +23,7 @@ plot(x)
 
 ```
 
-My grad class this week is getting a discussion of ethics and replication in the social sciences. God knows there are any number of cases to discuss here across the social sciences. Psychology is getting crunched on all sides by replication crises, the extent to which psychological research involves situations where replication is difficult and incentives for various forms of misconduct are high (i.e. low-powered experimental designs, often with high levels of complexity, where even accidental forked paths are possible). Sociology/criminology just got hit with [a wild one](https://econjwatch.org/articles/the-stewart-retractions-a-quantitative-and-qualitative-analysis). 
+Texto
 
 ```{r fx, include=TRUE, cache=F}
 library(tidyverse)
