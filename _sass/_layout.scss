@@ -191,6 +191,18 @@ h1 /* .post-title */ {
     }
 }
 
+h3 /* .post-subtitle */ {
+/*    font-size: 42px; */
+    letter-spacing: 0px;
+    line-height: 1;
+		font-family: 'Open Sans', sans-serif;
+		color: $clemson-purple;
+
+    @include media-query($on-laptop) {
+/*        font-size: 36px; */
+    }
+}
+
 .post-content {
     margin-bottom: $spacing-unit;
 
