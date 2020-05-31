@@ -285,7 +285,7 @@ O Brasil está perto da mediana dos países, ou seja, parece que a resposta do B
 
 Como a magnitude das taxas se diferenciam, podemos calcular o tamanho do corte dos juros em termos percentuais para cada país e verificar se o Brasil ainda se encontra perto da mediana dos países. Nos comandos abaixo calculamos este percentual, deixamos apenas os países que tiveram cortes na taxa de juros e então plotamos um gráfico de barras ordenando os países pelo tamanho do corte em termos percentuais.
 
-```{r intrate_percent, echo=TRUE, eval=TRUE, fig.width=12, fig.height=10, fig.align='center'}
+```{r intrate_percent, echo=TRUE, eval=TRUE, fig.width=12, fig.height=8, fig.align='center'}
 int_changes %>%
   mutate(percent = (after / before - 1) * 100) %>%
   filter(percent < -0.5) %>%
