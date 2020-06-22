@@ -5,7 +5,7 @@ author: Regis A. Ely
 institute: |
     | Departamento de Economia
     | Universidade Federal de Pelotas
-date: 16 de maio de 2020
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
 fontsize: 12pt
 output:
  beamer_presentation:
