@@ -2,3 +2,8 @@
   filename: timeseries-ementa
   dirname: teaching/timeseries
   tldr: "Programa da disciplina de Séries de Tempo."
+
+- title: "Aula 1 - Conceitos introdutórios"
+  filename: timeseries-aula1
+  dirname: teaching/timeseries
+  tldr: "Processo estocástico, estacionariedade, ergodicidade e ruído branco."
