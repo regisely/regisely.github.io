@@ -1,0 +1,320 @@
+---
+title: Séries de Tempo
+subtitle: Aula 1 - Conceitos Introdutórios
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Utilização do R durante o curso
+## Como instalar o R
+### Como instalar o R
+
+Durante este curso usaremos o R para exercícios e exemplos^[*Curiosidade*: Todo este curso, incluindo os slides, são feitos no R.]
+
+- O R é uma software estatístico gratuito e de código aberto
+- O R pode ser instalado em [```http://cran.r-project.org/```](http://cran.r-project.org/)
+- É recomendável também instalar o RStudio Desktop em [```https://rstudio.com/products/rstudio/```](https://rstudio.com/products/rstudio/download/#download)
+- O RStudio é uma interface gráfica que facilita o uso do R
+- Você pode encontrar muito material sobre o R online, um bom exemplo é o curso em [```https://r4ds.had.co.nz/```](https://r4ds.had.co.nz/)
+
+## Instalar e carregar pacotes no R
+### Instalar e carregar pacotes no R
+
+Após instalar o [**R**](http://cran.r-project.org/) e o [**RStudio**](https://rstudio.com/products/rstudio/download/#download) você deverá instalar e ler os pacotes que serão utilizados durante a aula
+
+- A função `install.packages()` instala pacotes no R
+
+- A função `library()` lê pacotes no ambiente do R
+
+Durante o curso, você sempre deve garantir que os pacotes utilizados através da função `library` estão devidamente instalados em seu `R`
+
+# Processo estocástico
+## Definição
+### Definição de processo estocástico
+
+- Um processo estocástico é uma **família de variáveis aleatórias**
+
+- Ao observarmos uma série de tempo, $\{y_1, y_2, \dots, y_T\}$, cada $y_t$ representa uma variável aleatória
+
+- Assim, uma série de tempo é apenas uma realização do processo estocástico que gerou os dados
+
+### Definição de processo estocástico
+
+Vamos gerar um processo estocástico no `R` com 100 realizações para cada mês de 2019^[A média do processo estocástico irá mudar ao longo do tempo pois adicionamos uma tendência linear aos dados.]:
+
+\footnotesize
+```{r stoc, eval=TRUE, echo=TRUE, message=FALSE}
+library(tidyverse) # Para manipular dados e graficos
+library(lubridate) # Para manipular datas
+set.seed(9817) # Fixar semente de dados aleatorios
+stoc <- tibble(
+  y = rnorm(1200) + rep(1:12, each = 100),
+  mes = rep(
+    seq.Date(ymd("2019-01-01"), ymd("2019-12-01"), by = "month"),
+    each = 100
+  )
+)
+```
+
+### Definição de processo estocástico
+
+Vamos plotar a densidade de cada variável aleatória que compõe o processo estocástico:
+
+\footnotesize
+```{r stoc_graph1, eval=FALSE, echo=TRUE}
+library(ggridges) # Para plotar densidades de variaveis aleatorias
+library(ggthemes) # Temas para graficos
+library(viridis) # Cores para graficos
+ggplot(stoc, aes(x = y, y = as.factor(mes), fill = stat(x))) +
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
+  scale_fill_viridis(option = "D")+
+  theme_economist() +
+  theme(legend.position="none") +
+  labs(
+    x = "", y = "",
+    title = "Processo estocástico com tendência linear"
+  )
+```
+
+### Definição de processo estocástico
+
+```{r stoc_graph2, eval=TRUE, echo=FALSE, message=FALSE}
+library(ggridges) # Para plotar densidades de variaveis aleatorias
+library(ggthemes) # Temas para graficos
+library(viridis) # Cores para graficos
+ggplot(stoc, aes(x = y, y = as.factor(mes), fill = ..x..)) +
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
+  scale_fill_viridis(option = "D")+
+  theme_economist() +
+  theme(legend.position="none") +
+  labs(
+    x = "", y = "",
+    title = "Processo estocástico com tendência linear"
+  )
+```
+
+### Definição de processo estocástico
+
+- Em uma série de tempo, observamos apenas um valor da distribuição de probabilidade para cada unidade de tempo
+
+- Podemos chamar o conjunto de valores possíveis para cada unidade de tempo de **espaço de estados**, e o valor observado de **estado**
+
+- Um processo estocástico está completamente especificado apenas se conhecermos todas as funções densidade de probabilidade de $y$ para cada unidade de tempo
+
+## Esperança
+### Esperança de um processo estocástico
+
+O valor esperado da t-ésima observação de uma série de tempo é conhecido como *ensemble average*:
+
+- $E(y_t) = \text{plim}_{N\to\infty} \frac{\sum^N_{i=1} y_t^{(i)}}{N}$, onde N é o número de observações em cada período de tempo
+
+Já a média temporal de uma série de tempo é dada por:
+
+- $\bar{Y_t} = \frac{\sum^T_{t=1} y_t}{T}$, onde T é o número de observações no tempo
+
+### Esperança de um processo estocástico
+
+Utilizando o processo estocástico criado no exemplo anterior, podemos calcular a *ensemble average* para cada mês no `R`:
+
+```{r ensemble1, eval=FALSE, echo=TRUE}
+stoc %>%
+  group_by(mes) %>%
+  summarise(mean(y), .groups = "drop")
+```
+
+### Esperança de um processo estocástico
+
+\footnotesize
+```{r ensemble2, eval=TRUE, echo=FALSE}
+stoc %>%
+  group_by(mes) %>%
+  summarise(mean(y), .groups = "drop")
+```
+
+### Esperança de um processo estocástico
+
+Vamos selecionar apenas uma realização de $y$ para cada mês, de maneira aleatória, e então calcular a média temporal: 
+
+```{r timeaverage, eval=TRUE, echo=TRUE}
+obs <- sample(1:100, 12) + seq(0, 1100, by = 100)
+yt <- stoc[obs, ]
+mean(yt$y) 
+```
+
+Note como a média temporal, mesmo selecionando as observações de maneira aleatória, pode divergir significativamente da *ensemble average* para alguns meses
+
+## Variância e Autocovariância
+### Variância e Autocovariância
+
+A autocovariância de ordem $j$ de um processo estocástico é dada por:
+
+- $\gamma_{jt} = E (y_t - \mu_t)(y_{t-j} - \mu_{t-j})$, onde $\mu_t = E(y_t)$
+
+Quando $j=0$, temos a variância do processo estocástico:
+
+- $\gamma_{0t} = E (y_t - \mu_t)^2$
+
+Em termos da *ensemble average*, temos:
+
+- $\gamma_{jt} = \text{plim}_{N\to\infty} \frac{\sum^N_{i=1} (y_t^{(i)} - \mu_t) (y_{t-j}^{(i)} - \mu_{t-j})}{N}$
+
+Já utilizando os dados observados e a média temporal:
+
+- $\gamma_{jt} = \frac{\sum^{T-j}_{t=1} (y_t - \mu_t) (y_{t-j} - \mu_{t-j})}{T}$, para $j = 0, 1, \dots, T$
+
+### Variância e Autocovariância
+
+Podemos plotar a variância e as autocovariâncias da série `yt` com a função `acf` no `R`:
+
+```{r autocov1, eval=FALSE, echo=TRUE}
+acf(yt$y, type = "covariance")
+```
+
+Observações:
+
+- O primeiro valor corresponde a variância ($j = 0$)
+
+- Para obter os valores da autocovariância, basta salvar o resultado do comando `acf` em uma variável
+
+- A autocovariância não é uma medida padronizada para comparar séries diferentes pois ela depende da magnitude dos valores. 
+
+
+### Variância e Autocovariância
+
+```{r autocov2, eval=TRUE, echo=FALSE}
+acf(yt$y, type = "covariance")
+```
+
+## Autocorrelação
+### Autocorrelação
+
+A função de autocorrelação de um processo estocástico está sempre entre -1 e 1, e é descrita por^[Note que $\rho_{0t} = 1$ para todo $t$]:
+
+\large
+- $\rho_{jt} = \frac{\gamma_{jt}}{\gamma_{0t}}$
+
+\normalsize
+Para plotar as autocorrelações no `R` basta remover o argumento *covariance* da função `acf`:
+
+```{r autocorr1, eval=FALSE, echo=TRUE}
+acf(yt$y)
+```
+
+A linha tracejada indica significância estatística
+
+### Autocorrelação
+
+```{r autocorr2, eval=TRUE, echo=FALSE}
+acf(yt$y)
+```
+
+# Estacionariedade
+### Estacionariedade
+
+Um processo estocástico é **estacionário em covariância** (ou fracamente estacionário) se a média e a autocovariância não dependerem da unidade de tempo $t$
+
+- $E(Y_t) = \mu$ para todo $t$
+- $E(Y_t - \mu)(Y_{t-j} - \mu) = \gamma_j$ para todo $t$ e qualquer $j$
+
+Observação:
+
+- Note que $\gamma_j = \gamma_{-j}$ para qualquer $j$
+
+### Estacionariedade
+
+Um processo estocástico é **estritamente estacionário** se para quaisquer valores $j_1, j_2, \dots, j_n$, a distribuição conjunta de $(y_t, y_{t+j_1}, \dots, y_{t+j_n})$ depende apenas de $j_1, j_2, \dots, j_n$ e não da unidade de tempo $t$
+
+- Nem todo processo estacionário em covariância é estritamente estacionário
+- Um processo estritamente estacionário com segundos momentos finitos é também estacionário em covariância
+- Um processo estacionário gaussiano sempre é estritamente estacionário
+
+### Estacionariedade
+
+\Large
+Exercícios:
+
+\normalsize
+- O processo estocástico criado na variável `stoc` é estacionário em covariância?
+- Este processo estocástico é gaussiano?
+- A partir da variável `stoc`, como você criaria um novo processo estacionário gaussiano?
+- Este novo processo estocástico é estritamente estacionário?
+
+# Ergodicidade
+### Ergodicidade
+
+\Large
+\centering
+Sob quais condições a média temporal é uma boa aproximação da *ensemble average*?
+
+### Ergodicidade
+
+- *Ensemble averages* normalmente são impossíveis de calcular, pois temos apenas uma realização do processo estocástico
+
+- Se o processo estocástico for **ergódico para a média**, então a média temporal irá convergir para a *ensemble average* quando o número de observações for grande o suficiente:
+  - $\bar{Y_t} \overset{p}{\to} E(Y_t)$ quando $T \to \infty$
+  
+- Na maior parte deste curso iremos supor que as séries de tempo são ergódicas
+  
+### Ergodicidade
+  
+- Uma **condição suficiente para ergodicidade na média** é $\sum_{j=0}^{\infty} |\gamma_j| < \infty$
+  - Se $y_t$ for um processo estacionário gaussiano, esta condição garante a ergodicidade em todos os momentos
+  
+- Um processo estocástico estacionário em covariância não necessariamente é ergódico
+
+- Um processo estocástico ergódico (em todos os momentos) é necessariamente estacionário em covariância
+
+- Logo, um processo não-estacionário é necessariamente não-ergódico
+  
+### Ergodicidade
+
+Podemos checar se a soma dos valores absolutos das autocovariâncias da série de tempo `yt` está se aproximando de um valor finito:
+  
+```{r ergod1, eval=FALSE, echo=TRUE}
+autocov <- acf(yt$y, type = "covariance")
+cumsum(abs(autocov$acf))
+```
+\scriptsize
+```{r ergod2, eval=TRUE, echo=FALSE, fig.show = 'hide'}
+autocov <- acf(yt$y, type = "covariance")
+cumsum(abs(autocov$acf))
+```
+
+\normalsize
+Parece que esta soma está aumentando a taxas não decrescentes, o que indica que a condição suficiente de ergodicidade na média não é satisfeita
+
+# Ruído branco
+### Ruído branco
+
+- O ruído branco é o principal componente aleatório dos modelos de séries de tempo
+
+- Um ruído branco é definido por uma sequência $\{\varepsilon_t\}_{t=-\infty}^{\infty}$ tal que:
+  - $E(\varepsilon_t) = 0$
+  - $E(\varepsilon_t^2) = \sigma^2$
+  - $E(\varepsilon_t \varepsilon_{\tau}) = 0$ para $t \neq \tau$
+
+- Se supormos independência entre $\varepsilon_t$ e $\varepsilon_{\tau}$ para qualquer $t \neq \tau$, então teremos um **ruído branco independente**
+
+- Se supormos $\varepsilon_t \sim N(0, \sigma^2)$ então teremos um **ruído branco gaussiano**
+
+### Ruído branco
+
+```{r rw1, eval=TRUE, echo=FALSE}
+set.seed(9817)
+```
+
+```{r rw2, eval=TRUE, echo=TRUE}
+ts.plot(rnorm(100)) # Ruído branco gaussiano
+```
