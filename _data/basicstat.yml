@@ -12,3 +12,8 @@
   filename: basicstat-aula2
   dirname: teaching/basicstat
   tldr: "Distribuição de frequência, intervalos de classe e histogramas."
+
+- title: "Aula 3 - Medidas de Tendência Central e de Posição"
+  filename: basicstat-aula3
+  dirname: teaching/basicstat
+  tldr: "Média, moda, mediana, quartis e separatrizes."
