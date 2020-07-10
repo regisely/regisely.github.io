@@ -7,3 +7,8 @@
   filename: timeseries-aula1
   dirname: teaching/timeseries
   tldr: "Processo estocástico, estacionariedade, ergodicidade e ruído branco."
+
+- title: "Aula 2 - Sazonalidade e tendência"
+  filename: timeseries-aula2
+  dirname: teaching/timeseries
+  tldr: "Gráficos, sazonalidade, tendência, diferenciação e testes de hipótese."
