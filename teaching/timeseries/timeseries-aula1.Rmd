@@ -315,6 +315,6 @@ Parece que esta soma está aumentando a taxas não decrescentes, o que indica qu
 set.seed(9817)
 ```
 
-```{r rw2, eval=TRUE, echo=TRUE}
+```{r rw2, eval=TRUE, echo=TRUE, fig.height=6}
 ts.plot(rnorm(100)) # Ruído branco gaussiano
 ```
