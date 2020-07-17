@@ -62,7 +62,14 @@ Após estes comandos, alguns arquivos serão baixados no seu diretório de traba
 
 Agora vamos ler os dados na varíavel `pnad`.
 
-```{r read, eval=TRUE, echo=TRUE, message=FALSE}
+```{r read1, eval=FALSE, echo=TRUE, message=FALSE}
+pnad <- read_csv(
+  "PNAD_COVID_052020.csv",
+  col_types = cols(.default = "d")
+)
+```
+
+```{r read2, eval=TRUE, echo=FALSE, message=FALSE}
 pnad <- read_csv(
   "/home/rae/Dropbox/temp/PNAD_COVID_052020.csv",
   col_types = cols(.default = "d")
@@ -71,10 +78,21 @@ pnad <- read_csv(
 
 Podemos sempre utilizar o dicionário para criar variáveis novas ou alterar o nome de algumas variáveis codificadas, como por exemplo, a variável `UF`. Vamos criar uma variável com o nome dos Estados para cada código da variável `UF`, e adicionar o nome dos Estados a base de dados original com o comando `left_join`:
 
-
-```{r estados, eval=TRUE, echo=TRUE, message=FALSE}
+```{r estados1, eval=TRUE, echo=FALSE, message=FALSE}
 estados <- read_excel(
   "/home/rae/Dropbox/temp/Dicionario_PNAD_COVID.xls", 
+  sheet = "dicionário pnad covid",
+  skip = 4, n_max = 27
+) %>%
+  select(UF = ...5, estado = ...6)
+
+pnad <- pnad %>%
+  left_join(estados, by = "UF")
+```
+
+```{r estados2, eval=FALSE, echo=TRUE, message=FALSE}
+estados <- read_excel(
+  "Dicionario_PNAD_COVID.xls", 
   sheet = "dicionário pnad covid",
   skip = 4, n_max = 27
 ) %>%
