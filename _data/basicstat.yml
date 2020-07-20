@@ -17,3 +17,8 @@
   filename: basicstat-aula3
   dirname: teaching/basicstat
   tldr: "Média, moda, mediana, quartis e separatrizes."
+
+- title: "Aula 4 - Medidas de Dispersão"
+  filename: basicstat-aula4
+  dirname: teaching/basicstat
+  tldr: "Amplitude, variância, assimetria, curtose e momentos."
