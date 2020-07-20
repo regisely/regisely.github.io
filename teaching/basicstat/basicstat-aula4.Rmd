@@ -1,0 +1,474 @@
+---
+title: Métodos Estatísticos Básicos
+subtitle: Aula 4 - Medidas de Dispersão
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Medidas de dispersão
+
+Medidas de dispersão são estatísticas que nos dão informação sobre a variabilidade dos dados. Podemos separá-las em 4 grupos:
+
+- **Medidas de dispersão absolutas**: caracterizam a variabilidade de um conjunto de dados, porém não são comparáveis entre conjuntos com dados de magnitudes diferentes
+
+- **Medidas de dispersão relativa**: possibilitam a comparação da variabilidade dos dados para conjuntos diferentes
+
+- **Medidas de assimetria**: calculam a posição em que os maiores valores de um conjunto de dados se situam
+
+- **Medidas de curtose**: calculam o grau de achatamento da distribuição dos dados
+
+## Amplitude
+
+**Amplitude total**: valor máximo menos o valor mínimo da amostra
+
+\begin{center}
+$AT=X_{max}-X_{min}$
+\end{center}
+
+- Medida de dispersão que não é centrada na média
+
+- Para dados com intervalos de classe: $AT=L_{max}-l_{min}$
+  - Sendo $l_{min}$ o menor limite inferior das classes e $L_{max}$ o maior limite superior
+
+- A amplitude total não é afetada por valores intermediários
+
+### Amplitude
+
+Vamos calcular a amplitude de uma amostra da altura de mulheres obtida na variável `women` do `R`. Antes de fazermos os cálculos, transformamos os dados de polegadas para centímetros e de libras para quilos utilizando o pacote `measurements`:
+
+```{r amplitude, eval=TRUE, echo=TRUE, comment=NA, message=FALSE}
+library(tidyverse)
+library(measurements)
+women_adj <- women %>%
+  mutate(
+    height = conv_unit(height, from = "inch", to = "cm"),
+    weight = conv_unit(weight, from = "lbs", to = "kg")
+  )
+```
+
+### Amplitude
+
+```{r amplitude2, eval=TRUE, echo=TRUE, comment=NA}
+range(women_adj$height)
+max(women_adj$height) - min(women_adj$height)
+```
+
+Note que a função `range` reporta o valor mínimo e máximo, enquanto que o segundo comando calcula a amplitude da amostra
+
+## Desvio quartil
+
+**Desvio quartil**: é a média da diferença entre os quartis da distribuição, também chamado de *amplitude semi-interquartílica*
+
+\begin{center}
+$D_{q}=\frac{(Q_3-Q_1)}{2}$
+\end{center}
+
+- O desvio quartil é mais comum quando a medida de tendência central utilizada é a mediana
+
+- O desvio quartil não é tao afetado por valores extremos como a amplitude
+
+*Ex*: Calcule o desvio quartil de \{40, 45, 48, 62, 70\}
+
+\vspace{5pt}
+
+$Q1 = 45$ e $Q3 = 62$
+
+\vspace{5pt}
+
+$D_{q}=\frac{62-45}{2}=8,5$
+
+### Desvio quartil
+
+Vamos calcular os quartis e o amplitude semi-interquartílica dos dados do exemplo anterior no `R`:
+
+```{r desvio_quartil, eval=TRUE, echo=TRUE, comment=NA}
+quantile(women_adj$height)
+IQR(women_adj$height) / 2
+```
+
+A função `quantile` reporta os quartis, enquanto que a função `IQR` calcula a amplitude interquartílica
+
+## Boxplot
+
+- Uma maneira muito útil de visualizar os quartis e valores máximos e mínimos da distribuição dos dados é atraves de um **boxplot**
+
+- O *boxplot* é um gráfico de caixa que marca com linhas horizontais a mediana, o primeiro e terceiro quartis, bem como o valor mínimo e máximo dos dados
+
+- Podemos plotar este gráfico para a altura das mulheres utilizando a função `boxplot` no `R`:
+
+```{r boxplot1, eval=FALSE, echo=TRUE, comment=NA}
+boxplot(women_adj$height)
+```
+
+### Boxplot
+
+```{r boxplot2, eval=TRUE, echo=FALSE}
+boxplot(women_adj$height)
+```
+
+## Desvio médio absoluto
+
+**Desvio médio absoluto**: é a média aritmética dos valores absolutos dos desvios tomados em relação à média (ou à mediana)
+
+\begin{center}
+$D_{m}=\frac{\overset{n}{\underset{i=1}{\sum}}|Xi-\bar{X}|}{n}$
+\end{center}
+
+- Podemos substituir a média, $\bar{X}$, pela mediana, $\bar{M_e}$ para termos o desvio médio absoluto em relação à mediana
+
+*Ex*: calcule o desvio médio absoluto de \{-4, -3, -2, 3, 5\}
+
+\vspace{5pt}
+
+$\bar{X}=-0,2$ e $M_{e}=-2$
+
+\vspace{5pt}
+
+$D_{m}=\frac{|-4+0,2|+|-3+0,2|+|-2+0,2|+|3+0,2|+|5+0,2|}{5}=3,36$
+
+\vspace{5pt}
+
+$D_{me}=\frac{|-4+2|+|-3+2|+|-2+2|+|3+2|+|5+2|}{5}=3$
+
+### Desvio médio absoluto
+
+Para dados agrupados devemos utilizar as frequências:
+
+\begin{center}
+$D_{m}=\frac{\overset{n}{\underset{i=1}{\sum}}f_i.|X_i-\bar{X}|}{\overset{n}{\underset{i=1}{\sum}}f_i}$
+\end{center}
+
+- Se os dados forem agrupados em intervalos de classe, então $X_i$ será o ponto médio de cada classe
+
+### Desvio médio absoluto
+
+No `R` podemos calcular o desvio médio absoluto através da função `MeanAD` do pacote `DescTools`:
+
+```{r desvio_medio, eval=TRUE, echo=TRUE, comment=NA}
+library(DescTools)
+MeanAD(women_adj$height, center = Mean)
+```
+
+O argumento `center` pode ser utilizado para centrar os desvios ao redor da mediana, utilizando `center = Median`
+
+## Desvio-padrão
+
+**Desvio padrão**: mede o grau de variação de um conjunto de elementos
+
+\begin{center}
+$\sigma=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}(Xi-\overline{X})^{2}}{n}}$
+\end{center}
+
+*Ex*: \{-4, -3, -2, 3, 5\}
+
+\vspace{5pt}
+
+$\bar{X}=-0,2$
+
+\vspace{5pt}
+
+$\sigma=\sqrt{\frac{(-4+0,2)^{2}+(-3+0,2)^{2}+(-2+0,2)^{2}+(3+0,2)^{2}+(5+0,2)^{2}}{5}}=\sqrt{12,56}=3,54$
+
+### Desvio-padrão
+
+Para calcular o desvio-padrão a partir de uma amostra, fazendo um pequeno ajuste no denominador
+    - Usaremos $\sigma$ para denotar o desvio-padrão populacional e $S$ para denotar o desvio-padrão amostral
+
+**Desvio padrão amostral**: utilizamos uma pequena correção no caso de termos apenas uma amostra da população inteira
+
+\begin{center}
+$S=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}(Xi-\bar{X})^{2}}{n-1}}$
+\end{center}
+
+### Desvio-padrão com dados agrupados
+
+Se tivermos dados agrupados, ponderamos o desvio-padrão pelas frequências:
+
+\begin{center}
+$S=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}f_i.(Xi-\overline{X})^{2}}{\overset{n}{\underset{i=1}{\sum}}f_{i-1}}}$
+\end{center}
+
+- Com intervalos de classe, a fórmula será a mesma, mas $X_i$ será o ponto médio da classe
+
+### Desvio-padrão
+
+No `R` podemos calcular o desvio-padrão amostral com a função `sd`:
+
+```{r desvio_padrao, eval=TRUE, echo=TRUE, comment=NA}
+sd(women_adj$height)
+```
+
+Raramente teremos os dados da população inteira a nossa disposição, mas nesse caso, o desvio-padrão populacional pode ser calculado através do comando `sqrt(sum((x-mean(x))^2)/lenght(x))`
+
+### Propriedades do desvio-padrão
+
+O desvio-padrão possui as seguintes propriedades:
+
+1. O desvio-padrão nunca é um número negativo
+
+2. Somando (ou subtraindo) uma constante a todos os valores de uma variável, o desvio-padrão não se altera
+
+3. Multiplicando (ou dividindo) todos os valores de uma variável por uma constante (diferente de zero), o desvio-padrão será multiplicado (ou dividido) por essa constante
+
+*Exercício*: checar estas propriedades no `R` utilizando os dados da variável `women$height`
+
+## Variância
+
+**Variância**: é o desvio-padrão elevado ao quadrado 
+
+- A propriedade 1 continua válida para a variância, mas a propriedade 2 se altera, pois se multiplicarmos todos os valores por uma constante (diferente de zero), a variância será multiplicada por essa mesma constante elevada ao quadrado
+
+**Exemplo no R**:
+
+```{r variancia, eval=TRUE, echo=TRUE, comment=NA}
+var(women_adj$height)
+```
+
+# Medidas de dispersão relativa
+
+## Coeficiente de variação de Pearson
+
+**Coeficiente de variação de Pearson (CVP)**: caracteriza a dispersão dos dados em relação ao seu valor médio
+
+\begin{center}
+$CVP=\frac{S}{\bar{X}} \times 100$
+\end{center}
+
+- Onde $S$ se refere ao desvio-padrão amostral
+- Um desvio padrão de 2 pode ser grande para dados cuja média é 20, mas pequeno se a média é 200. O CVP padroniza as variações, possibilitando a comparação entre dados distintos
+
+### Coeficiente de variação de Pearson
+
+**Exemplo no R**: embora o desvio-padrão da altura seja maior que do peso, quando normalizados através do coeficiente de variação, podemos observar que o peso varia mais entre as mulheres do que a altura
+
+```{r cv, eval=TRUE, echo=TRUE, comment=NA}
+library(raster)
+women_adj %>%
+  summarise(
+    sd_height = sd(height),
+    sd_weight = sd(weight),
+    cv_height = cv(height),
+    cv_weight = cv(weight)
+  )
+```
+
+## Coeficiente de variação de Thorndike
+
+**Coeficiente de variação de Thorndike (CVT)**: utilizamos a mediana para o cálculo do coeficiente de variação
+
+\begin{center}
+$CVT=\frac{S}{Me} \times 100$
+\end{center}
+
+**Exemplo no R**: coeficiente de variação de Thorndike para o peso das mulheres
+
+```{r thorndike, eval=TRUE, echo=TRUE, comment=NA}
+(sd(women$weight) / median(women$weight)) * 100
+```
+
+# Medidas de assimetria
+
+- As medidas de assimetria calculam a posição em que os maiores valores de um conjunto de dados se situam
+
+- O valor da assimetria depende da relação entre média e mediana, sendo que uma distribuição pode ser classificada como:
+
+**Simétrica**: os dados têm uma distribuição simétrica quando Média = Mediana
+
+**Assimétrica à esquerda**: os dados têm assimetria negativa quando Média < Mediana
+
+**Assimétrica à direita**: os dados têm assimetria positiva quando Média > Mediana
+
+### Coeficiente de assimetria
+
+**Coeficiente de assimetria de Pearson**: compara graus de assimetria
+entre distribuições diferentes^[Se os dados estiverem agrupados, devemos considerar os pesos na fórmula.]
+
+\begin{center}
+$CAP = \frac{1}{n} \overset{n}{\underset{i=1}{\sum}} \left[ \frac{Xi-\bar{X}}{S} \right]^3$
+\end{center}
+
+**Classificação**:
+
+- $CAP = 0 \Rightarrow$ Distribuição simétrica
+- $CAP < 0 \Rightarrow$ Assimetria negativa (ou à esquerda)
+- $CAP > 1 \Rightarrow$ Assimetria positiva (ou à direita) 
+
+### Medidas de assimetria
+
+Utilizamos a função `skewness` do pacote `e1071` para calcular o coeficiente de assimetria:
+
+```{r assimetria, eval=TRUE, echo=TRUE, comment=NA}
+library(e1071)
+skewness(women_adj$height)
+skewness(women_adj$weight)
+```
+
+### Medidas de assimetria
+
+Podemos plotar a densidade da distribuição das variáveis de altura e peso das mulheres e checar a assimetria comparando a média com a mediana dos dados no `R`:
+
+```{r assimetria_graph1, eval=FALSE, echo=TRUE}
+par(mfrow = c(1,2))
+plot(density(women_adj$height))
+abline(v=mean(women_adj$height), lty=2, col="red")
+plot(density(women_adj$weight))
+abline(v=mean(women_adj$weight), lty=2, col="red")
+abline(v=median(women_adj$weight), lty=2, col="blue")
+```
+
+### Medidas de assimetria
+
+```{r assimetria_graph2, eval=TRUE, echo=FALSE}
+par(mfrow = c(1,2))
+plot(density(women_adj$height))
+abline(v=mean(women_adj$height), lty=2, col="red")
+plot(density(women_adj$weight))
+abline(v=mean(women_adj$weight), lty=2, col="red")
+abline(v=median(women_adj$weight), lty=2, col="blue")
+```
+
+# Medidas de curtose
+
+A curtose é o grau de achatamento de uma distribuição em relação à distribuição normal (em forma de sino)^[Se os dados estiverem agrupados, devemos considerar os pesos na fórmula.]
+
+\begin{center}
+$K=\frac{1}{n} \overset{n}{\underset{i=1}{\sum}} \left[ \frac{Xi-\bar{X}}{S} \right]^4$
+\end{center}
+
+- A fórmula acima se refere ao *momento de curtose*
+
+- É comum também a utilização do *excesso de curtose*, definido por $K - 3$
+
+
+### Medidas de curtose
+
+**Classificação**:
+
+- $K=3$ $\Rightarrow$ **Mesocúrtica**: distribuição não é nem achatada nem alongada (igual a distribuição normal)
+
+- $K>3$ $\Rightarrow$ **Leptocúrtica**: apresenta uma distribuição mais alongada do que a normal
+
+- $K<3$ $\Rightarrow$ **Platicúrtica**: apresenta uma distribuição mais achatada do que a normal
+
+
+### Medidas de curtose
+
+Podemos calcular o excesso de curtose utilizando a função `kurtosis` no `R`. Para calcular o momento de curtose basta somar 3 ao resultado:
+
+```{r curtose, eval=TRUE, echo=TRUE, comment=NA}
+kurtosis(women_adj$height) + 3
+kurtosis(women_adj$weight) + 3
+```
+
+# Momentos de uma distribuição
+
+- O n-ésimo momento de uma distribuição é definido como $E[X^n]$
+
+- As estatísticas que vimos até aqui descrevem quatro momentos da distribuição de um conjunto de dados:
+  1. A **média** é o primeiro momento de uma distribuição: $\mu = E[X]$
+  2. A **variância** é o segundo momento centrado de uma distribuição: $\sigma^2 = E[(X-\mu)^2]$
+  3. A **assimetria** é o terceiro momento padronizado de uma distribuição: $CAP = E[(X-\mu)^3]/\sigma^3$
+  4. A **curtose** é o quarto momento padronizado de uma distribuição: $K = E[(X-\mu)^4]/\sigma^4$
+
+### Momentos de uma distribuição
+
+```{r momentos, eval=TRUE, echo=FALSE}
+library(PearsonDS)
+moments_me <- c(mean = 0, variance = 1, skewness = 0, kurtosis = 3)
+moments2_me <- c(mean = -1, variance = 1, skewness = 0, kurtosis = 3)
+moments3_me <- c(mean = 1, variance = 1, skewness = 0, kurtosis = 3)
+
+moments_sd <- c(mean = 0, variance = 1, skewness = 0, kurtosis = 3)
+moments2_sd <- c(mean = 0, variance = 0.5, skewness = 0, kurtosis = 3)
+moments3_sd <- c(mean = 0, variance = 2, skewness = 0, kurtosis = 3)
+
+moments_sk <- c(mean = 0, variance = 1, skewness = 0, kurtosis = 3)
+moments2_sk <- c(mean = 0, variance = 1, skewness = -0.7, kurtosis = 3)
+moments3_sk <- c(mean = 0, variance = 1, skewness = 0.7, kurtosis = 3)
+
+moments_ku <- c(mean = 0, variance = 1, skewness = 0, kurtosis = 3)
+moments2_ku <- c(mean = 0, variance = 1, skewness = 0, kurtosis = 2.2)
+moments3_ku <- c(mean = 0, variance = 1, skewness = 0, kurtosis = 8)
+
+set.seed(4125)
+x_me <- rpearson(100000, moments = moments_me)
+y_me <- rpearson(100000, moments = moments2_me)
+z_me <- rpearson(100000, moments = moments3_me)
+
+x_sd <- rpearson(100000, moments = moments_sd)
+y_sd <- rpearson(100000, moments = moments2_sd)
+z_sd <- rpearson(100000, moments = moments3_sd)
+
+x_sk <- rpearson(100000, moments = moments_sk)
+y_sk <- rpearson(100000, moments = moments2_sk)
+z_sk <- rpearson(100000, moments = moments3_sk)
+
+x_ku <- rpearson(100000, moments = moments_ku)
+y_ku <- rpearson(100000, moments = moments2_ku)
+z_ku <- rpearson(100000, moments = moments3_ku)
+
+par(mfrow = c(2, 2))
+
+plot(
+  density(x_me), xlim = c(-4.2, 4.2),
+  main = "Média"
+)
+lines(density(y_me), col = "blue")
+lines(density(z_me), col = "red")
+legend(
+  -4.2, 0.4,
+  legend = c("Média = -1", "Média = 0", "Média = 1"),
+  col = c("blue", "black", "red"), lty=1, cex=0.8
+)
+
+plot(
+  density(x_sd), xlim = c(-4, 4), ylim = c(0, 0.57),
+  main = "Variância"
+)
+lines(density(y_sd), col = "blue")
+lines(density(z_sd), col = "red")
+legend(
+  -4, 0.55,
+  legend = c("Variância = 0.5", "Variância = 1", "Variância = 2"),
+  col = c("blue", "black", "red"), lty=1, cex=0.8
+)
+
+plot(
+  density(x_sk), xlim = c(-4.2, 4.2), ylim = c(0, 0.43),
+  main = "Assimetria"
+)
+lines(density(y_sk), col = "blue")
+lines(density(z_sk), col = "red")
+legend(
+  -4.2, 0.43,
+  legend = c("Assimetria = -0.7", "Assimetria = 0", "Assimetria = 0.7"),
+  col = c("blue", "black", "red"), lty=1, cex=0.8
+)
+
+plot(
+  density(x_ku), xlim = c(-3, 3), ylim = c(0, 0.5),
+  main = "Curtose"
+)
+lines(density(y_ku), col = "blue")
+lines(density(z_ku), col = "red")
+legend(
+  -3, 0.5,
+  legend = c(
+    "Platicúrtica (K = 2.2)", "Mesocúrtica (K = 3)",
+    "Leptocúrtica (K = 8)"
+  ),
+  col = c("blue", "black", "red"), lty=1, cex=0.8
+)
+```
