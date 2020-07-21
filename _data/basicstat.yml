@@ -22,3 +22,8 @@
   filename: basicstat-aula4
   dirname: teaching/basicstat
   tldr: "Amplitude, variância, assimetria, curtose e momentos."
+
+- title: "Lista de Exercícios 1"
+  filename: basicstat-lista1
+  dirname: teaching/basicstat
+  tldr: "Lista de exercícios das aulas 1 a 4."
