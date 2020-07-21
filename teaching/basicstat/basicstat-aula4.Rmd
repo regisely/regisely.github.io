@@ -184,7 +184,8 @@ $\sigma=\sqrt{\frac{(-4+0,2)^{2}+(-3+0,2)^{2}+(-2+0,2)^{2}+(3+0,2)^{2}+(5+0,2)^{
 ### Desvio-padrão
 
 Para calcular o desvio-padrão a partir de uma amostra, fazendo um pequeno ajuste no denominador
-    - Usaremos $\sigma$ para denotar o desvio-padrão populacional e $S$ para denotar o desvio-padrão amostral
+
+- Usaremos $\sigma$ para denotar o desvio-padrão populacional e $S$ para denotar o desvio-padrão amostral
 
 **Desvio padrão amostral**: utilizamos uma pequena correção no caso de termos apenas uma amostra da população inteira
 
@@ -197,7 +198,7 @@ $S=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}(Xi-\bar{X})^{2}}{n-1}}$
 Se tivermos dados agrupados, ponderamos o desvio-padrão pelas frequências:
 
 \begin{center}
-$S=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}f_i.(Xi-\overline{X})^{2}}{\overset{n}{\underset{i=1}{\sum}}f_{i-1}}}$
+$S=\sqrt{\frac{\overset{n}{\underset{i=1}{\sum}}f_i.(Xi-\overline{X})^{2}}{\overset{n}{\underset{i=1}{\sum}}f_i -1}}$
 \end{center}
 
 - Com intervalos de classe, a fórmula será a mesma, mas $X_i$ será o ponto médio da classe
@@ -228,7 +229,7 @@ O desvio-padrão possui as seguintes propriedades:
 
 **Variância**: é o desvio-padrão elevado ao quadrado 
 
-- A propriedade 1 continua válida para a variância, mas a propriedade 2 se altera, pois se multiplicarmos todos os valores por uma constante (diferente de zero), a variância será multiplicada por essa mesma constante elevada ao quadrado
+- A propriedade 1 continua válida para a variância, mas a propriedade 3 se altera, pois se multiplicarmos todos os valores por uma constante (diferente de zero), a variância será multiplicada por essa mesma constante elevada ao quadrado
 
 **Exemplo no R**:
 
@@ -303,13 +304,13 @@ $CAP = \frac{1}{n} \overset{n}{\underset{i=1}{\sum}} \left[ \frac{Xi-\bar{X}}{S}
 
 - $CAP = 0 \Rightarrow$ Distribuição simétrica
 - $CAP < 0 \Rightarrow$ Assimetria negativa (ou à esquerda)
-- $CAP > 1 \Rightarrow$ Assimetria positiva (ou à direita) 
+- $CAP > 0 \Rightarrow$ Assimetria positiva (ou à direita) 
 
 ### Medidas de assimetria
 
 Utilizamos a função `skewness` do pacote `e1071` para calcular o coeficiente de assimetria:
 
-```{r assimetria, eval=TRUE, echo=TRUE, comment=NA}
+```{r assimetria, eval=TRUE, echo=TRUE, comment=NA, message=FALSE}
 library(e1071)
 skewness(women_adj$height)
 skewness(women_adj$weight)
@@ -374,7 +375,7 @@ kurtosis(women_adj$weight) + 3
 
 # Momentos de uma distribuição
 
-- O n-ésimo momento de uma distribuição é definido como $E[X^n]$
+- O n-ésimo momento de uma distribuição é definido como $E[X^n]$, sendo $E$ o operador de expectativas
 
 - As estatísticas que vimos até aqui descrevem quatro momentos da distribuição de um conjunto de dados:
   1. A **média** é o primeiro momento de uma distribuição: $\mu = E[X]$
