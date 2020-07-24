@@ -1,0 +1,344 @@
+---
+title: Séries de Tempo
+subtitle: Aula 3 - Processo lineares estacionários
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Processos lineares estacionários
+
+Um *processo linear estacionário* é descrito por^[O teorema da decomposição de Wold nos diz que todo processo estacionário em covariância pode ser descrito como um processo linear.]:
+
+\begin{center}
+$Y_t = \mu + \overset{\infty}{\underset{j=0}{\sum}} \psi_j \varepsilon_{t-j}$
+\end{center}
+
+- Sendo $\sum_{i=0}^{\infty} \psi_j^2 < \infty$, $\varepsilon_t$ um ruído branco com média zero e variância $\sigma^2$, e $\mu$ o valor esperado do processo estocástico 
+
+- **Valor esperado**: $E(Y_t) = \mu$
+- **Variância**: $\gamma_0 = \sigma^2 \sum_{j=0}^{\infty} \psi_j^2$
+- **Autocovariância**: $\gamma_j = \sigma^2 \sum_{j=0}^{\infty} \psi_{\tau} \psi_{j+\tau}$
+- **Autocorrelação**: $\rho_{\tau} = \frac{\sum_{j=0}^{\infty} \psi_{\tau} \psi_{j+\tau}}{1 + \sum_{j=0}^{\infty} \psi_j^2}$
+
+### Processos lineares estacionários
+
+- Em um processo linear estacionário, $\psi_j \rightarrow 0$ quando $i \rightarrow \infty$
+  - Assim, as autocovariâncias ($\gamma_j$), assim como as autocorrelações, irão convergir para zero quando a defasagem $\tau$ aumenta
+  
+- Dizemos que um *processo linear estacionário* é não persistente no tempo, pois possui choques aleatórios que perdem importância conforme o tempo passa
+
+- Um processo estocástico persistente, em que choques que ocorreram em um passado distante influenciam o valor presente, não é estacionário, uma vez que os choques são permanentes
+
+### Processos lineares estacionários
+
+Os processos lineares estacionários mais comuns são:
+
+- **Modelos auto-regressivos (AR)**: valor de $Y_t$ depende de seus valores passados 
+
+- **Modelos de médias móveis (MA)**: valor de $Y_t$ depende dos choques aleatórios passados
+
+- **Modelos auto-regressivos e de médias móveis (ARMA)**: valor de $Y_t$ depende tanto de seus valores passados como dos valores dos choques aleatórios passados
+  
+# Modelos auto-regressivos
+## Características
+### Modelo AR(1)
+
+Um modelo AR(1) é descrito por:
+
+\begin{center}
+$Y_t = c + \phi Y_{t-1} + \varepsilon_t$, ou \\
+$(Y_t - \mu) = \phi (Y_{t-1} - \mu) + \varepsilon_t$
+\end{center}
+
+Este processo só será estacionário se $|\phi| < 1$
+
+- **Valor esperado**: $E(Y_t) = \mu = \frac{c}{1 - \phi}$
+- **Variância**: $\gamma_0 = \frac{\sigma^2}{1 - \phi^2}$
+- **Autocovariância**: $\gamma_j = \phi \gamma_{j-1} = \phi^j \frac{\sigma^2}{1 - \phi^2}$
+- **Autocorrelação**: $\rho_j = \phi \rho_{j-1} = \phi^j$
+
+### Modelo AR(p)
+
+Um modelo AR(p) é descrito por:
+
+\begin{center}
+$Y_t = c + \phi_1 Y_{t-1} + \ldots + \phi_p Y_{t-p} + \varepsilon_t$, ou \\
+$(Y_t - \mu) = \phi_1 (Y_{t-1} - \mu) + \ldots + \phi_p (Y_{t-p} - \mu) + \varepsilon_t$
+\end{center}
+
+- **Valor esperado**: $E(Y_t) = \mu = \frac{c}{1 - \phi_1 - \ldots - \phi_p}$
+- **Variância**: $\gamma_0 = \frac{\sigma^2}{1 - \phi_1^2 - \ldots - \phi_p^2}$
+- **Autocovariância**: $\gamma_j = \phi_1 \gamma_{j-1} + \ldots + \phi_p \gamma_{j-p}$
+- **Autocorrelação**: $\rho_j = \phi_1 \rho_{j-1} + \ldots + \phi_p \rho_{j-p}$
+
+### Estacionariedade do modelo AR(p)
+
+- Devemos impor condições sobre $\phi_1, \ldots, \phi_p$ para que o processo seja estacionário
+
+- Um processo AR(p) será estacionário se respeitar uma das duas condições abaixo
+    1. As raízes da equação $1 - \phi_1 z - \phi_2 z^2 - \ldots - \phi_p z^p = 0$ forem todas maiores do que um
+    2. As raízes da equação $\lambda^p - \phi_1 \lambda^{p-1} - \ldots - \phi_{p-1} \lambda - \phi_p = 0$ forem todas menores do que um^[Chamamos esta equação de equação característica.]
+
+## Autocorrelação parcial
+
+- A função de autocorrelação parcial (facp) nos ajuda a identificar a ordem de processos ARMA
+
+- A facp de ordem $k$ mede a correlação remanescente entre $Y_t$ e $Y_{t-k}$ depois de eliminada a influência de $Y_{t-1}, \ldots, Y_{t-k-1}$
+
+- Para calcular a facp, podemos estimar, sucessivamente, modelos auto-regressivos com ordens $p=1,2,3,...$ e tomar as estimativas do último coeficiente de cada ordem
+
+- *Exemplo*: a facp de segunda ordem de uma série de tempo $Y_t$ será o coeficiente $\hat{\phi_2}$, estimado através da regressão $Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \varepsilon_t$
+
+## Simulação
+### Simulação de modelo AR
+
+Vamos simular um AR(2) no `R` através da função `arima.sim`. Para isso, vamos definir a variável como um `tsibble` e plotar o gráfico da série e suas autocorrelações:
+
+```{r ar1, eval=FALSE, echo=TRUE}
+library(tsibble)
+library(feasts)
+set.seed(4321)
+ar_sim <- tsibble(
+  time = 1:1000,
+  y = arima.sim(list(ar = c(0.8, -0.4)), n = 1000),
+  index = time
+)
+gg_tsdisplay(ar_sim, y, plot_type = "partial")
+```
+
+### Simulação de modelo AR
+
+```{r ar2, eval=TRUE, echo=FALSE, message=FALSE}
+library(tsibble)
+library(feasts)
+set.seed(4321)
+ar_sim <- tsibble(
+  time = 1:1000,
+  y = arima.sim(list(ar = c(0.8, -0.4)), n = 1000),
+  index = time
+)
+gg_tsdisplay(ar_sim, y, plot_type = "partial")
+```
+
+## Identificação
+### Identificação de modelo AR
+
+Conforme vimos, um processo AR(p) deve ter funções de autocorrelação (fac) e autocorrelação parcial (facp) que se comportam da seguinte maneira
+
+- **FAC**: decai exponencialmente ou com senóides amortecidas
+
+- **FACP**: valor diferente de zero para $k \leq p$ e zero para $k>p$
+
+# Modelos de médias móveis
+## Características
+### Modelo MA(1)
+
+Um modelo MA(1) é descrito por:
+
+\begin{center}
+$Y_t = \mu + \varepsilon_t + \theta_1 \varepsilon_{t-1}$
+\end{center}
+
+Um processo MA(1) será sempre estacionário
+
+- **Valor esperado**: $E(Y_t) = \mu$
+- **Variância**: $\gamma_0 = \sigma^2 (1 + \theta_1^2)$
+- **Autocovariância**: $\gamma_1 = \theta_1 \sigma_2$ e $\gamma_j = 0$ para $j > 1$
+- **Autocorrelação**: $\rho_1 = \frac{\theta_1}{1+\theta_1^2}$ e $\rho_j = 0$ para $j > 1$
+
+### Modelo MA(q)
+
+Um modelo MA(q) é descrito por:
+
+\begin{center}
+$Y_t = \mu + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \ldots + \theta_q \varepsilon_{t-q}$
+\end{center}
+
+Um processo MA(q) será sempre estacionário
+
+- **Valor esperado**: $E(Y_t) = \mu$
+- **Variância**: $\gamma_0 = \sigma^2 (1 + \theta_1^2 + \ldots + \theta_q^2)$
+- **Autocovariância**: $\gamma_j = (\theta_j + \theta_{j+1} \theta_1 + \ldots + \theta_q \theta_{q-j}) \sigma^2$ para $j=1,2,...,q$ e $\gamma_j = 0$ para $j>q$
+- **Autocorrelação**: $\rho_j = \gamma_j / \gamma_0$
+
+## Simulação
+### Simulação de modelo MA
+
+Vamos simular um MA(3) no `R`:
+
+```{r ma1, eval=FALSE, echo=TRUE}
+set.seed(4321)
+ma_sim <- tsibble(
+  time = 1:1000,
+  y = arima.sim(list(ma = c(0.8, -0.4, 1.6)), n = 1000),
+  index = time
+)
+gg_tsdisplay(ma_sim, y, plot_type = "partial")
+```
+
+### Simulação de modelo MA
+
+```{r ma2, eval=TRUE, echo=FALSE, message=FALSE}
+set.seed(4321)
+ma_sim <- tsibble(
+  time = 1:1000,
+  y = arima.sim(list(ma = c(0.8, -0.4, 1.6)), n = 1000),
+  index = time
+)
+gg_tsdisplay(ma_sim, y, plot_type = "partial")
+```
+
+## Identificação
+### Identificação de modelo MA
+
+Conforme vimos, um processo MA(q) deve ter funções de autocorrelação (fac) e autocorrelação parcial (facp) que se comportam da seguinte maneira
+
+- **FAC**: valor diferente de zero para $k \leq q$ e zero para $k>q$
+
+- **FACP**: decai exponencialmente ou com senóides amortecidas
+
+# Modelos auto-regressivos e de médias móveis
+## Características
+### Modelo ARMA(1,1)
+
+Um modelo ARMA(1,1) é descrito por:
+
+\begin{center}
+$Y_t = c + \phi_1 Y_{t-1} + \varepsilon_t + \theta_1 \varepsilon_{t-1}$, ou \\
+$(Y_t - \mu) = \phi_1 (Y_{t-1} - \mu) + \varepsilon_t + \theta_1 \varepsilon_{t-1}$
+\end{center}
+
+Este processo só será estacionário se $|\phi_1| < 1$
+
+- **Valor esperado**: $E(Y_t) = \mu = \frac{c}{(1 - \phi_1)}$
+- **Variância**: $\gamma_0 = \frac{(1 + 2 \phi_1 \theta_1 + \theta_1^2) \sigma^2}{1 - \phi_1^2}$
+- **Autocovariância**: $\gamma_1 = \phi_1 \gamma_{0} + \theta_1 \sigma^2$ e $\gamma_j = \phi_1 \gamma_{j-1}$ para $j>1$
+- **Autocorrelação**: $\rho_1 = \phi_1 + \frac{\theta_1 \sigma^2}{\gamma_0}$ e $\rho_j = \phi_1 \rho_{j-1}$ para $j>1$
+
+### Modelo ARMA(p,q)
+
+Um modelo ARMA(p,q) é descrito por:
+
+\begin{center}
+$Y_t = c + \phi_1 Y_{t-1} + \ldots + \phi_p Y_{t-p} + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \ldots + \theta_q \varepsilon_{t-q}$, ou \\
+$(Y_t - \mu) = \phi_1 (Y_{t-1} - \mu) + \ldots + \phi_p (Y_{t-p} - \mu) + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \ldots + \theta_q \varepsilon_{t-q}$
+\end{center}
+
+A estacionariedade de um processo ARMA(p,q) dependerá apenas dos coeficientes da parte auto-regressiva
+
+- **Valor esperado**: $E(Y_t) = \mu = \frac{c}{(1 - \phi_1 - \ldots - \phi_p)}$
+- **Variância e Autocovariância**: $\gamma_j = \phi_1 \gamma_{j-1} + \ldots + \phi_p \gamma_{j-p}$ para $j>q$ e para $j<q$?
+- **Autocorrelação**: $\rho_j = \phi_1 \rho_{j-1} + \ldots + \phi_p \rho_{j-p}$ para $j>q$ e para $j<q$?
+
+## Simulação
+### Simulação de modelo ARMA
+
+Vamos simular um ARMA(1,1) no `R`:
+
+```{r arma1, eval=FALSE, echo=TRUE}
+set.seed(4321)
+arma_sim <- tsibble(
+  time = 1:1000,
+  y = arima.sim(list(ar = 0.8, ma = 1.6), n = 1000),
+  index = time
+)
+gg_tsdisplay(arma_sim, y, plot_type = "partial")
+```
+
+### Simulação de modelo ARMA
+
+```{r arma2, eval=TRUE, echo=FALSE, message=FALSE}
+set.seed(4321)
+arma_sim <- tsibble(
+  time = 1:1000,
+  y = arima.sim(list(ar = 0.8, ma = 1.6), n = 1000),
+  index = time
+)
+gg_tsdisplay(arma_sim, y, plot_type = "partial")
+```
+
+## Identificação
+### Identificação de modelo ARMA
+
+Conforme vimos, um processo ARMA(p) deve ter funções de autocorrelação (fac) e autocorrelação parcial (facp) que se comportam da seguinte maneira
+
+- **FAC**: decai exponencialmente ou com senóides amortecidas após o lag $q$
+
+- **FACP**: decai exponencialmente ou com senóides amortecidas após o lag $p$
+
+# Outros critérios de identificação
+
+- Podemos utilizar critérios para definir a ordem das defasagens de um modelo ARMA
+
+- Em geral, os critérios envolvem, por um lado, a minimização da variância residual obtida após a estimação do modelo ARMA(k,l), e, por outro lado, a penalização do acréscimo de novos parâmetros no modelo 
+
+- Deve-se escolher as ordens $k$ e $l$ que minimizam uma função como
+
+\begin{center}
+$\rho(k,l) = \ln \hat{\sigma_{k,l}^2} + (k+l) \frac{C(T)}{T}$
+\end{center}
+
+- Onde $\hat{\sigma_{k,l}^2}$ é a estimativa da variância residual, e $C(T)$ é uma função do tamanho da série de tempo, $T$
+
+### Outros critérios de identificação
+
+Entre os critérios de identificação mais utilizados estão^[Devemos utilizar os parâmetros k e l que minimizam estas funções]:
+
+\vspace{5pt}
+
+- **Akaike**: $AIC(k,l) = \ln \hat{\sigma_{k,l}^2} + \frac{2(k+l)}{T}$
+
+\vspace{2pt}
+
+- **Akaike Corrigido**: $AICc = AIC + \frac{2k^2 + 2k}{T-k-1}$
+
+\vspace{2pt}
+
+- **Bayesiano**: $BIC(k,l) = \ln \sigma_{k,l}^2 + (k+l) \frac{\ln T}{T}$
+
+\vspace{2pt}
+
+- **Hannan-Quinn**: $HQC(k,l) = n \ln(\sigma_{k,l}^2) + 2k \ln (\ln (T))$
+
+# Operador de lag e invertibilidade
+### Operador de lag
+
+- O operador de lag transforma um valor presente em um valor passado: $L^2 y_t = y_{t-2}$
+  - Este operador é útil para fazermos operações algébricas
+
+- Podemos escrever um AR(p) como $(1 - \phi_1 L - \ldots - \phi_p L^p) Y_t = c + \varepsilon_t$
+
+- Da mesma forma, um MA(q) é descrito por $(Y_t - \mu) = (1 + \theta_1 L + \ldots + \theta_q L^q) \varepsilon_t$
+
+- Por fim, um ARMA(p,q) corresponde a $(1 - \phi_1 L - \ldots - \phi_p L^p) Y_t = c + (1 + \theta_1 L + \ldots + \theta_q L^q) \varepsilon_t$
+
+### Invertibilidade
+
+- Dado um processo MA(1), $Y_t - \mu = (1 + \theta L) \varepsilon_t$, se $|\theta| < 1$, podemos inverter o operador $(1 + \theta L)$ e passá-lo para o lado esquerdo da equação
+
+- Note que $(1 + \theta L)^{-1} = [1 - (-\theta)L]^{-1} = 1 + (-\theta L) + (-\theta L)^2 + \ldots$^[Razão de uma progressão geométrica] 
+
+- Assim, uma processo MA(1) pode ser descrito como $(1 - \theta L + \theta^2 L^2 - \ldots) (Y_t - \mu) = \varepsilon_t$, que corresponde a um AR($\infty$)
+
+- Neste caso, dizemos que o processo MA(1) é invertível^[O conceito também se estende para processos MA(q), sendo que as raízes da equação característica devem ser todas menores que um.], sendo que isto ocorre se e somente se $|\theta| < 1$
+
+### Invertibilidade
+
+- Um processo MA(q) invertível pode ser descrito como um AR($\infty$)
+
+- De forma semelhante, um processo AR(p) estacionário pode ser descrito como um MA($\infty$)
+
+- Este último resultado sai do teorema de decomposição de Wold, que nos diz que todo processo linear estacionário pode ser descrito como uma soma de choques aleatórios multiplicados por coeficientes
+  - O primeiro slide desta aula abordou este resultado
