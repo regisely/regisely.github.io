@@ -12,3 +12,8 @@
   filename: timeseries-aula2
   dirname: teaching/timeseries
   tldr: "Gráficos, sazonalidade, tendência, diferenciação e testes de hipótese."
+
+- title: "Aula 3 - Processos lineares estacionários"
+  filename: timeseries-aula3
+  dirname: teaching/timeseries
+  tldr: "Modelos ARMA, critérios de identificação, operador de lag e invertibilidade."
