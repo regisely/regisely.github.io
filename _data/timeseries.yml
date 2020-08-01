@@ -17,3 +17,8 @@
   filename: timeseries-aula3
   dirname: teaching/timeseries
   tldr: "Modelos ARMA, critérios de identificação, operador de lag e invertibilidade."
+
+- title: "Aula 4 - Processos não estacionários e raíz unitária"
+  filename: timeseries-aula4
+  dirname: teaching/timeseries
+  tldr: "Passeio aleatório, processos com tendência, testes de raíz unitária."

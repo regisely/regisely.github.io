@@ -1,0 +1,455 @@
+---
+title: Séries de Tempo
+subtitle: Aula 4 - Processo não estacionários e raíz unitária
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+```{r aux_functions, eval=TRUE, echo=FALSE}
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+  lines <- options$output.lines
+  if (is.null(lines)) {
+    return(hook_output(x, options))  # pass to default hook
+  }
+  x <- unlist(strsplit(x, "\n"))
+  more <- "..."
+  if (length(lines)==1) {        # first n lines
+    if (length(x) > lines) {
+      # truncate the output, but add ....
+      x <- c(head(x, lines), more)
+    }
+  } else {
+    x <- c(more, x[lines], more)
+  }
+  # paste these lines together
+  x <- paste(c(x, ""), collapse = "\n")
+  hook_output(x, options)
+})
+```
+
+# Processos não estacionários
+
+- Muitas séries de tempo, especialmente em economia, apresentam características não estacionárias, como séries macroeconômicas, preços de ativos, taxas de câmbio e taxas de juros
+
+- Veremos três casos mais comuns de processos não estacionários:
+  1. Passeio aleatório
+  2. Processos com tendência determinística
+  3. Processos integrados ou com raíz unitária
+
+## Passeio aleatório
+
+Um passeio aleatório pode ser descrito como^[A expressão à direita da equação é obtida resolvendo a equação em diferença de primeira ordem e considerando o valor inicial $Y_0 = 0$.]:
+
+\begin{center}
+$Y_t = Y_{t-1} + \varepsilon_t = \varepsilon_1 + \varepsilon_2 + \ldots + \varepsilon_t$
+\end{center}
+
+- Sendo $\varepsilon_t$ um processo independente e identicamente distribuído com média $\mu_{\varepsilon}$ e variância $\sigma_{\varepsilon}^2$
+
+- Um passeio aleatório corresponde a um processo AR(1) com $\phi = 1$ e $c = 0$, embora o intercepto $c$ possa assumir outro valor
+
+- Ao resolvermos esta equação em diferença de primeira ordem recursivamente encontramos que um passeio aleatório é uma soma de ruídos brancos com coeficientes iguais a um
+
+### Momentos de um passeio aleatório
+
+Um passeio aleatório possui os seguintes momentos:
+
+- **Valor esperado**: $E(Y_t) = t \mu_{\varepsilon}$
+- **Variância**: $\gamma_0 = t \sigma_{\varepsilon}^2$ 
+- **Autocovariância**: $\gamma (t1, t2) = \sigma_{\varepsilon}^2 \min\{t1, t2\}$ 
+
+Note que todos os momentos deste processo estocástico dependem do tempo $t$, caracterizando um processo não estacionário
+
+## Passeio aleatório com intercepto
+
+Podemos adicionar um intercepto ao passeio aleatório, de modo a transformar $\varepsilon_t$ em um ruído branco com média zero^[A expressão à direita da equação é obtida resolvendo a equação em diferença de primeira ordem e considerando o valor inicial $Y_0 = 0$.]:
+
+\begin{center}
+$Y_t = \mu + Y_{t-1} + \varepsilon_t = t \mu + \varepsilon_1 + \varepsilon_2 + \ldots + \varepsilon_t$
+\end{center}
+
+- Este modelo é conhecido como passeio aleatório com intercepto (*random walk with drift*)
+
+- O intercepto neste modelo corresponde a inclinação temporal da série de tempo
+
+## Passeio aleatório com intercepto e tendência
+
+Por fim, uma outra alternativa de passeio aleatório inclui intercepto e tendência determinística:
+
+\begin{center}
+$Y_t = \mu + Y_{t-1} + \beta t + \varepsilon_t$
+\end{center}
+
+- Este modelo é conhecido como passeio aleatório com intercepto e tendência (*random walk with drift and trend*)
+
+
+### Simulação de passeios aleatórios
+
+Vamos simular um passeios aleatórios com e sem *drift* no `R` através da soma cumulativa de ruídos brancos:
+
+```{r passeio1, eval=FALSE, echo=TRUE}
+set.seed(4210)
+e <- rnorm(100)
+y1 <- cumsum(e)
+y2 <- 0.5 * 1:100 + cumsum(e)
+par(mfrow = c(2,1))
+ts.plot(y1)
+ts.plot(y2)
+```
+
+### Simulação de passeios aleatórios
+
+```{r passeio2, eval=TRUE, echo=FALSE}
+set.seed(4210)
+e <- rnorm(100)
+y0 <- rnorm(1)
+y1 <- cumsum(e)
+y2 <- 0.5 * 1:100 + y0 + cumsum(e)
+par(mfrow = c(2,1))
+ts.plot(y1)
+ts.plot(y2)
+```
+
+### Simulação de passeios aleatórios
+
+Podemos simular 100 passeios aleatórios diferentes no `R` através da função `replicate`:
+
+```{r 100passeios1, eval=FALSE, echo=TRUE}
+passeios <- replicate(100, cumsum(rnorm(100)))
+par(las = 1, bty= "l")
+matplot(passeios, type = "l", lty = 1)
+```
+
+Passeios aleatórios tem formatos completamente diferentes em cada simulação 
+
+### Simulação de passeios aleatórios
+
+```{r 100passeios2, eval=TRUE, echo=FALSE}
+passeios <- replicate(100, cumsum(rnorm(100)))
+par(las = 1, bty= "l")
+matplot(passeios, type = "l", lty = 1)
+```
+
+### Diferença de um passeio aleatório
+
+A diferença de um passeio aleatório corresponde a um ruído branco:
+
+\begin{center}
+$\Delta Y_t = Y_t - Y_{t-1} = \mu + \varepsilon_t$
+\end{center}
+
+Embora o ruído branco seja estacionário, não há qualquer tipo de regularidade ou autocorrelação a ser modelada, assim dizemos que **um passeio aleatório é imprevisível**
+
+- A dinâmica de preços de ativos costuma ser muito semelhante a um passeio aleatório, sendo difícil a previsão e com isso a criação de estratégias que possibilitem arbitragem nos mercados acionários
+
+## Processo com tendência determinística
+
+Um processo com tendência determinística pode ser descrito como:
+
+\begin{center}
+$Y_t = c + \beta t + \varepsilon_t$
+\end{center}
+
+Nesse caso temos uma tendência linear^[Processos com tendências polinomiais de graus maiores possuem dinâmica semelhante.], de modo que o processo se torna estacionário após a remoção da tendência
+
+- Chamamos este tipo de processo de *estacionário em tendência*
+
+### Momentos de um processo com tendência determinística
+
+Um processo com tendência determinística possui os seguintes momentos:
+
+- **Valor esperado**: $E(Y_t) = c + \beta t$
+- **Variância**: $\gamma_0 = \sigma_{\varepsilon}^2$ 
+- **Autocovariância**: $\gamma_j = 0$ para $j>0$
+
+Note que apenas o valor esperado deste processo estocástico depende do tempo $t$
+
+### Simulação de um processo com tendência determinística
+
+Vamos simular um processo com tendência linear no `R` e plotar juntamente com a primeira diferença:
+
+```{r tend1, eval=FALSE, echo=TRUE}
+e <- rnorm(100)
+y <- 0.5 + 0.3 * 1:100 + e
+par(mfrow = c(2,1))
+ts.plot(y)
+ts.plot(diff(y))
+```
+
+A primeira diferença deste processo remove a tendência linear, $\Delta Y_t = \beta + \varepsilon_t - \varepsilon_{t-1}$
+
+### Simulação de um processo com tendência determinística
+
+```{r tend2, eval=TRUE, echo=FALSE}
+e <- rnorm(100)
+y <- 0.5 + 0.3 * 1:100 + e
+par(mfrow = c(2,1))
+ts.plot(y)
+ts.plot(diff(y))
+```
+
+## Processos integrados ou com raíz unitária
+
+- Quando os modelos ARMA têm raízes da equação característica iguais a um, chamamos eles de modelos ARIMA(p,d,q)
+
+- O $d$ corresponde ao número de diferenças necessárias para tornar o processo estacionário em covariância
+
+- Um modelo ARIMA é não estacionário e com raíz unitária quando alguma das raízes da equação característica é igual a um
+
+- Neste caso, os coeficientes da representação MA deste processo não irão decair no tempo, de modo que os choques passados tem efeitos permanentes
+
+# Testes de raíz unitária
+
+- Para identificar se um processo possui raíz unitária, podemos utilizar testes estatísticos de hipótese, sendo os mais comuns:
+  1. Teste ADF (Augmented Dickey-Fuller)
+  2. Teste de Zivot e Andrews
+  3. Teste de Phillips-Perron
+  4. Teste KPSS (Kwiatkowski-Phillips-Schmidt-Shin)
+
+### Séries de tempo econômicas
+
+Nos exemplos a seguir vamos utilizar a base de dados `economics`, que contém dados da economia dos Estados Unidos
+
+- Também vamos carregar alguns pacotes que utilizaremos e definir a base de dados como um `tsibble`
+
+```{r econ1, eval=TRUE, echo=TRUE}
+library(tidyverse)
+library(tsibble)
+library(feasts)
+econ <- tsibble(economics, index = date)
+```
+
+Utilizaremos a série de tempo `unemploy`, que corresponde ao número de desempregados em milhares
+
+### Séries de tempo econômicas
+
+Visualizamos os valores iniciais da base de dados com o comando `head`:
+
+```{r econ2, eval=TRUE, echo=TRUE}
+head(econ)
+```
+
+### Séries de tempo econômicas
+
+```{r plot, eval=TRUE, echo=TRUE, fig.height=5}
+econ %>% autoplot(unemploy) # Nº de desempregados (mil)
+```
+
+## Teste ADF
+
+No teste ADF, para verificar a existência de raíz unitária de um processo AR(p) devemos testar $H_0: \beta = 1$ (raíz unitária) vs $H_1: \beta < 1$ (sem raíz unitária) usando a regressão:
+
+\begin{center}
+$Y_t = c_t + \beta t + \beta Y_{t-1} + \overset{p-1}{\underset{i=1}{\sum}} \Delta Y_{t-i} + \varepsilon_t$
+\end{center}
+
+Assim, uma vez definido o número de defasagens p, o teste ADF será^[Utilizamos critérios como o de Akaike para definir o número de lags.]:
+
+\begin{center}
+$ADF = \frac{\hat{\beta} - 1}{std(\hat{\beta})}$
+\end{center}
+
+Onde $\hat{\beta}$ é a estimativa do coeficiente $\beta$ na regressão acima
+
+### Teste ADF
+
+No `R` podemos utilizar o pacote `urca` para calcular o teste ADF^[Vamos aplicar o logaritmo natural nesta série antes para suavizar a variância.]:
+
+```{r adf1, eval=FALSE, echo=TRUE}
+library(urca)
+adf_test <- ur.df(
+  log(econ$unemploy), type = "none", selectlags = "AIC"
+)
+summary(adf_test)
+```
+
+No argumento `type` é possível incluir um intercepto ou uma tendência na regressão estimada através das opções `drift` ou `trend`^[A opção `trend` inclui tanto um intercepto quanto uma constante, enquanto a opção `none` não inclui nenhum dos dois termos.]
+
+### Teste ADF
+
+\tiny
+```{r adf2, eval=TRUE, echo=FALSE, output.lines = 9:32}
+library(urca)
+adf_test <- ur.df(
+  log(econ$unemploy), type = "none", selectlags = "AIC"
+)
+summary(adf_test)
+```
+
+## Teste de Zivot e Andrews
+
+O teste de Zivot e Andrews é um teste de raíz unitária robusto a quebras estruturais e estima a seguinte regressão:
+
+\begin{center}
+$\Delta Y_t = c + \beta t + \alpha Y_{t-1} + \gamma DU_t + \theta DT_t + \overset{p}{\underset{i=1}{\sum}} d_j \Delta Y_{t-j} + \varepsilon_t$
+\end{center}
+
+Onde $DU_t$ é uma *dummy* para a mudança na média e $DT_t$ é uma *dummy* para a mudança na tendência, sendo a estatística do teste obtida a partir da estimativa $\hat{\alpha}$
+
+- A hipótese nula é a de raíz unitária
+
+### Teste de Zivot e Andrews
+
+No `R`, o teste está presente no pacote `urca` através da função `ur.za`:
+
+```{r za1, eval=FALSE, echo=TRUE}
+za_test <- ur.za(
+  log(econ$unemploy),  model = "both", lag = 1
+)
+summary(za_test)
+```
+
+Neste teste também podemos escolher entre acrescentar um intercepto, uma tendência ou ambos através do argumento `model`, e o número de lags da regressão através do argumento `lag` 
+
+### Teste de Zivot e Andrews
+
+\tiny
+```{r za2, eval=TRUE, echo=FALSE, output.lines = 7:33}
+za_test <- ur.za(
+  log(econ$unemploy),  model = "both", lag = 1
+)
+summary(za_test)
+```
+
+## Teste de Phillips-Perron
+
+- O teste de Phillips-Perron é um teste de raíz unitária não paramétrico
+
+- É construído a partir de uma correção do teste ADF
+
+- É robusto a autocorrelação mal especificada e heteroscedasticidade dos erros
+
+- A hipótese nula é a de raíz unitária e a hipótese alternativa é a de estacionariedade
+
+### Teste de Phillips-Perron
+
+Para estimar o teste de Phillips-Perron podemos utilizar a função `features` aliada a função `unitroot_pp` do pacote `feasts`^[É essencial definirmos nossa base de dados como um `tsibble` antes de utilizarmos estas funções.]
+
+```{r pp, eval=TRUE, echo=TRUE}
+econ %>%
+  features(log(unemploy), unitroot_pp)
+```
+
+## Teste KPSS
+
+- O teste KPSS tem **hipótese nula de estacionariedade** e hipótese alternativa de raíz unitária
+
+- Inicialmente, o teste decompõe uma série em três componentes aditivos:
+  1. Um componente de tendência
+  2. Um componente de passeio aleatório
+  3. Um ruído branco
+
+- Os resíduos de uma regressão de $Y_t$ explicado por estes componentes ($e_t$) são utilizados para a construção do teste:
+
+\begin{center}
+$KPSS = \overset{T}{\underset{t=1}{\sum}} \frac{\sum_{t=1}^t e_t^2}{T^2 \hat{\sigma}_e^2}$
+\end{center}
+
+### Teste KPSS
+
+Para estimar o teste KPSS podemos utilizar a função `features` aliada a função `unitroot_kpss` do pacote `feasts`^[É essencial definirmos nossa base de dados como um `tsibble` antes de utilizarmos estas funções.]
+
+```{r kpss, eval=TRUE, echo=TRUE}
+econ %>%
+  features(log(unemploy), unitroot_kpss)
+```
+
+## Testes de raíz unitária nas diferenças
+
+O teste KPSS é utilizado como teste padrão para identificação de raíz unitária nos pacotes `feasts` e `fable`^[Utilizaremos este pacote para estimação de modelos ARIMA.], sendo que a função `unitroot_ndiffs` já nos dá o número de diferenças necessárias para tornar a série estacionária
+
+```{r kpssdiff, eval=TRUE, echo=TRUE}
+econ %>%
+  features(log(unemploy), unitroot_ndiffs)
+```
+
+### Testes de raíz unitária nas diferenças
+
+Vamos tirar a primeira diferença de `unemploy` e plotar ambas as séries
+
+\footnotesize
+```{r diffs1, eval=FALSE, echo=TRUE}
+econ <- econ %>%
+  mutate(var_unemploy = difference(log(unemploy)))
+econ %>%
+  slice(-1) %>%
+  pivot_longer(
+    c(unemploy, var_unemploy),
+    names_to = "Variável",
+    values_to = "Valor"
+  ) %>%
+  autoplot(Valor) +
+  facet_wrap("Variável", scales = "free", ncol = 1) +
+  theme(legend.position = "none") +
+  xlab("")
+```
+
+### Testes de raíz unitária nas diferenças
+
+Algumas observações sobre o comando anterior:
+
+1. As diferenças são calculadas pela função `difference`^[O argumento `differences` especifica o número diferenças, sendo uma diferença o padrão.]
+2. Passamos o logaritmo natural na série antes de calcularmos a diferença
+3. Removemos a primeira observação com o comando `slice` pois perdemos um grau de liberdade ao calcular a primeira diferença
+4. Organizamos os dados em formato de painel antes de plotarmos através da função `pivot_longer`
+5. Criamos dois painéis diferenças com escalas livres através da função `facet_wrap`
+
+### Testes de raíz unitária nas diferenças
+
+```{r diffs2, eval=TRUE, echo=FALSE}
+econ <- econ %>%
+  mutate(var_unemploy = difference(log(unemploy)))
+econ %>%
+  slice(-1) %>%
+  pivot_longer(
+    c(unemploy, var_unemploy),
+    names_to = "Variável",
+    values_to = "Valor"
+  ) %>%
+  autoplot(Valor) +
+  facet_wrap("Variável", scales = "free", ncol = 1) +
+  theme(legend.position = "none") +
+  xlab("")
+```
+
+### Testes de raíz unitária nas diferenças
+
+Podemos agora realizar o teste KPSS na primeira diferença da série de tempo para confirmar que a série é estacionária:
+
+```{r testediff, eval=TRUE, echo=TRUE}
+econ %>%
+  features(var_unemploy, unitroot_ndiffs)
+```
+
+## Raíz unitária sazonal
+
+- Um outro tipo de raíz unitária é conhecido como **raíz unitária sazonal**, quando observamos persistência dos choques nos períodos sazonais
+
+- Nesse caso, para removermos a raíz unitária é necessário tirar a s-ésima diferença, onde $s$ é o período sazonal (*Ex*: 12 meses, 7 dias, etc)
+
+- A função `unitroot_nsdiffs` pode ser utilizada para identificar o número de diferenças sazonais necessárias
+
+- Esta função utiliza uma medida de persistência sazonal calculada através do modelo de decomposição STL
+
+### Raíz unitária sazonal
+
+Podemos observar que não é necessária nenhuma diferença sazonal na série do número de desempregados dos Estados Unidos:
+
+```{r raizseason, eval=TRUE, echo=TRUE}
+econ %>%
+  features(log(unemploy), unitroot_nsdiffs)
+```
