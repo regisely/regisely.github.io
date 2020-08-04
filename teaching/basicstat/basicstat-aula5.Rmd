@@ -1,0 +1,219 @@
+---
+title: Métodos Estatísticos Básicos
+subtitle: Aula 5 - Introdução a teoria de probabilidade
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Conceitos introdutórios
+## Experimento aleatório
+
+**Experimento aleatório ($\epsilon$)**: é um experimento em que observamos alguma incerteza sobre o resultado, mas que pode ser repetido indefinidamente sob condições essencialmente inalteradas
+
+- Embora não possamos descrever um resultado particular do experimento, podemos descrever o conjunto de todos os possíveis resultados e as probabilidades associadas a eles, porque ao repetir o experimento um grande número de vezes, uma regularidade surge
+
+- A descrição de um experimento envolve um procedimento a ser realizado e uma observação a ser constatada
+  - Às vezes a ação ou a observação está omitida na descrição do experimento
+
+### Exemplos de experimento aleatório
+
+Alguns exemplos de experimentos aleatórios são:
+
+- *Ex 1*: Jogar um dado (observação omitida, mas implícita)
+
+- *Ex 2*: Jogar uma moeda 4 vezes e observar o número de caras obtido
+
+- *Ex 3*: Observar o número de gols em uma partida de futebol (ação omitida, mas implícita)
+
+## Espaço amostral
+
+**Espaço amostral ($\Omega$)**: é o conjunto de todos os resultados possíveis de um experimento
+
+- Um espaço amostral está sempre associado a um experimento
+
+- O espaço amostral nem sempre é composto de números reais
+
+- O número de elementos de um espaço amostral pode ser finito, infinito enumerável ou infinito não-enumerável
+
+- Todo resultado possível de um experimento corresponde a um, e somente um elemento do espaço amostral, $w\in\Omega$, sendo que resultados distintos correspondem a pontos distintos
+
+### Exemplos de espaço amostral
+
+Os espaços amostrais dos exemplos de experimentos aleatórios acima são:
+
+- *Ex 1*: $\Omega=\{1,2,3,4,5,6\}$
+
+- *Ex 2*: $\Omega=\{0,1,2,3,4\}$
+
+- *Ex 3*: $\Omega=\mathbb{N}$
+
+## Eventos
+
+**Evento**: um evento $A\subset\Omega$ é um subconjunto de resultados possíveis de um experimento
+
+- O evento $\Omega$, que contém todo o espaço amostral, é chamado *evento certo*
+
+- O evento $\emptyset$, que não contém nenhum resultado, é chamado *evento impossível*
+
+- O evento \{$\omega$\}, que contém apenas um elemento do espaço amostral, é dito *evento elementar*
+
+### Exemplos de eventos
+
+Alguns eventos relativos aos experimentos dos exemplos anteriores são:
+
+- *Ex 1*: Um número par ocorre, $A=\{2,4,6\}$
+
+- *Ex 2*: Duas caras ocorrem, $A=\{2\}$
+
+- *Ex 3*: Um empate ocorre na partida, $A=\{0,2,4,6,\ldots\}$
+
+### Eventos compostos
+
+**Eventos compostos**: $A\cup B$ é o evento "A ou B", $A\cap B$ é o evento "A e B" e $\overline{A}$ é o evento "não A"
+
+- Sendo $A_{1},...,A_{n}$ uma coleção finita qualquer de eventos, então: 
+
+    1. $\cup_{i=1}^{n}A_{i}$ será o evento que ocorrerá se, e somente se, ao menos um dos eventos $A_{i}$ ocorrerem
+    2. $\cap_{i=1}^{n}A_{i}$ será o evento que ocorrerá se, e somente se, todos os eventos $A_{i}$ ocorrerem
+
+- Os mesmos resultados se estendem para coleções infinitas enumeráveis $A_{1},A_{2},...,A_{n},...$, sendo $\cup_{i=1}^{\infty}A_{i}$ e $\cap_{i=1}^{\infty}A_{i}$ os respectivos conjuntos união e intersecção dos eventos
+
+### Relações entre eventos
+
+**Dependência**: $A\subset B$ significa que a ocorrência do evento A implica a ocorrência do evento B
+
+**Eventos mutuamente excludentes**: $A\cap B=\emptyset$ significa que A e B são eventos que nunca ocorrem juntos, ou seja, são eventos *disjuntos*
+
+**Produto cartesiano de eventos**: se executarmos um mesmo experimento duas vezes, então nosso espaço amostral será $\Omega \times \Omega$^[Este conceito pode ser estendido para n vezes.]
+
+**Número total de eventos**: se o espaço amostral $\Omega$ for finito, com $n$ elementos, então existirá exatamente $2^{n}$ subconjuntos de $\Omega$, ou seja, eventos
+
+### Exemplo de número de eventos
+
+Podemos calcular o número de eventos possíveis de se construir a partir dos experimentos utilizados nos exemplos anteriores:
+
+- *Ex 1*: ao jogar um dado, podemos construir $2^6 = 64$ eventos distintos
+
+- *Ex 2*: ao lançar 4 moedas e calcular o número de caras, podemos construir $2^5 = 32$ eventos distintos
+
+- *Ex 3*: o número de gols em uma partida a princípio não é limitado, de modo que há infinitos possíveis subconjuntos do espaço amostral (eventos)
+
+# Probabilidade
+
+## Definição matemática de probabilidade
+
+- A probabilidade de um evento $A\subset\Omega$, denotada por $P(A)$, é um número real que satisfaz as seguintes propriedades:
+  1. $0\leq P(A)\leq1$;
+  2. $P(\Omega)=1$;
+  3. Se $A\cap B=\textrm{Ø}$ (eventos mutuamente excludentes), então $P(A\cup B)=P(A)+P(B)$
+  4. Se $A_{1},A_{2},...,A_{n},...,$ forem, dois a dois, eventos mutuamente
+excludentes, então $P(U_{i=1}^{\infty}A_{i})=P(A_{1})+...+P(A_{n})+...$
+
+### Definição matemática de probabilidade
+
+- A propriedade 3 também vale para um número finito de uniões, $P(U_{i=1}^{n}A_{i})=\sum_{i=1}^{n}P(A_{i})$
+
+- Da propriedade 3 decorre que $P(\textrm{Ø)=0},$ pois $P(A\cup\textrm{Ø})=P(A)+P(\textrm{Ø})=P(A)$
+
+- Das propriedades 2 e 3 decorre que $P(\bar{A})=1-P(A)$, pois $P(A\cup\bar{A})=P(A)+P(\bar{A})=P(\Omega)=1$
+
+- Qualquer definição de probabilidade deve respeitar todas esta propriedades matemáticas
+
+- Quando atribuímos uma probabilidade a um evento A chamamos ele de *evento aleatório*
+
+## Probabilidade clássica
+
+A definição clássica de probabilidade nos diz que podemos calcular a probabilidade de um evento $A$ a partir do número de elementos que ele possui:
+
+\begin{center}
+$P(A)=\cfrac{\text{nº de resultados favoráveis à \ensuremath{A}}}{\text{nº de resultados possíveis}} = \cfrac{\text{nº de elementos de \ensuremath{A}}}{\text{nº de elementos de \ensuremath{\Omega}}}$
+\end{center}
+
+Esta definição de probabilidade é aplicável apenas se:
+
+1. Os resultados do experimento contidos no espaço amostral são igualmente prováveis de acontecer
+2. O espaço amostral é um conjunto finito
+
+### Probabilidade clássica
+
+Ao calcularmos a probabilidade de obter um número par em um lançamento de um dado, utilizamos a definição clássica de probabilidade:
+
+- Jogar um dado $\Rightarrow$ $\Omega=\{1,2,3,4,5,6\}$
+
+- Obter um número par $\Rightarrow$ $A=\{2,4,6\}$
+
+- $P(A)=\frac{3}{6}=\frac{1}{2}=50\%$
+
+## Probabilidade frequentista
+
+- Ao repetir um experimento $n$ vezes, podemos calcular a frequência com que ele ocorre como $f_{A}=\frac{n_{A}}{n}$, onde $n_A$ é o número de resultados favoráveis ao evento A, e $n$ é o número de realizações do experimento
+
+- A *probabilidade frequentista* é calculada a partir da frequência com que um evento ocorre:
+
+\begin{center}
+$P(A)=\underset{n\rightarrow\infty}{\lim}\cfrac{n_{A}}{n}$
+\end{center}
+
+- É necessário realizar o experimento muitas vezes, sendo o resultado suscetível ao número de repetições
+
+## Probabilidade geométrica
+
+A *probabilidade geométrica* nos diz que dois eventos tem a mesma probabilidade se, e somente se, eles têm a mesma área
+
+\begin{center}
+$P(A)=\cfrac{\text{área de A}}{\text{área de \ensuremath{\Omega}}}$
+\end{center}
+
+Essa probabilidade é utilizada quando temos espaços amostrais infinitos não-enumeráveis
+
+### Exemplo de probabilidade geométrica
+
+Um exemplo de utilização da probabilidade geométrica ocorre quando temos o experimento de escolher um ponto ao acaso no círculo unitário:
+
+- Suponha que queremos calcular a probabilidade de selecionar um ponto aleatório em que a 1ª coordenada é maior que a 2ª
+
+- $\Omega=\{(x,y)\in\mathbb{R}|x^{2}+y^{2}\leq1\}$
+
+- $A=\{(x,y)\in\Omega|x>y\}$
+
+- Como a área de um círculo é $A=\pi\times r^{2}$, e o raio do círculo unitário é um, então $P(A)=\cfrac{\pi/2}{\pi}=\cfrac{1}{2}$
+
+## Probabilidade da união e subconjunto de eventos
+
+Se A, B e C forem 3 eventos quaisquer, não necessariamente excludentes, então:
+
+- $P(A\cup B) = P(A) + P(B) - P(A\cap B)$
+
+- $P(A\cup B\cup C)=P(A)+P(B)+P(C)-P(A\cap B)-P(A\cap C)-P(B\cap C)+P(A\cap B\cap C)$
+
+- Se $A\subset B$, então $P(A)\leq P(B)$
+
+# Álgebra de eventos aleatórios
+
+- Uma *álgebra de eventos aleatórios*, $\mathcal{A}$, é uma coleção de todos os  subconjuntos do espaço amostral $\Omega$, possuindo as seguinte propriedades: 
+    1. $\Omega\in\mathcal{A}$
+    2. $B\in\mathcal{A}\Rightarrow\bar{B}\in\mathcal{A}$
+    3. $A\in\mathcal{A}$ e $B\in\mathcal{A}$ $\Rightarrow$ $A\cup B\in\mathcal{A}$
+    4. $\textrm{Ø}\in\mathcal{A}$
+    5. $\forall n$ e $\forall B_{1},B_{2},...B_{n}\in\mathcal{A}$, temos $\overset{n}{\underset{i=1}{\cup}}B_{i}\in\mathcal{A}$ e $\overset{n}{\underset{i=1}{\cap}}B_{i}\in\mathcal{A}$
+
+- Se estas propriedades forem válidas para um número infinito enumerável de aplicações de $\cup$ e $\cap$, então chamamos $\mathcal{A}$ de $\sigma-\acute{a}lgebra$
+
+# Espaço de probabilidades
+
+- O nosso *modelo probabilístico* estará situado dentro de um **espaço de probabilidade**, $(\Omega,\mathcal{A},P)$, constituído de:
+    1. Um conjunto não-vazio $\Omega$ de resultados possíveis do experimento, chamado espaço amostral
+    2. Uma álgebra de eventos aleatórios $\mathcal{A}$, composta por todos os subconjuntos de $\Omega$
+    3. Uma probabilidade P definida sobre os conjuntos de $\mathcal{A}$, e que segue as propriedades matemáticas de uma função de probabilidade

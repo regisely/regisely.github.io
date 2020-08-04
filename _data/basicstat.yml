@@ -27,3 +27,8 @@
   filename: basicstat-lista1
   dirname: teaching/basicstat
   tldr: "Lista de exercícios das aulas 1 a 4."
+
+- title: "Aula 5 - Introdução a teoria de probabilidade"
+  filename: basicstat-aula5
+  dirname: teaching/basicstat
+  tldr: "Espaço amostral, eventos, probabilidade, espaço de probabilidade."
