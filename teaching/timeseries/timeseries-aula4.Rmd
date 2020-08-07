@@ -251,19 +251,19 @@ econ %>% autoplot(unemploy) # Nº de desempregados (mil)
 
 ## Teste ADF
 
-No teste ADF, para verificar a existência de raíz unitária de um processo AR(p) devemos testar $H_0: \beta = 1$ (raíz unitária) vs $H_1: \beta < 1$ (sem raíz unitária) usando a regressão:
+No teste ADF, para verificar a existência de raíz unitária de um processo AR(p) devemos testar $H_0: \gamma = 0$ (raíz unitária) usando a regressão:
 
 \begin{center}
-$Y_t = c_t + \beta t + \beta Y_{t-1} + \overset{p-1}{\underset{i=1}{\sum}} \Delta Y_{t-i} + \varepsilon_t$
+$\Delta Y_t = c_t + \beta t + \gamma Y_{t-1} + \overset{p-1}{\underset{i=1}{\sum}} \Delta Y_{t-i} + \varepsilon_t$
 \end{center}
 
-Assim, uma vez definido o número de defasagens p, o teste ADF será^[Utilizamos critérios como o de Akaike para definir o número de lags.]:
+Assim, uma vez definido o número de defasagens p^[Utilizamos critérios como o de Akaike para definir o número de lags.], o teste ADF será dado por:
 
 \begin{center}
-$ADF = \frac{\hat{\beta} - 1}{std(\hat{\beta})}$
+$ADF = \frac{\hat{\gamma}}{std(\hat{\gamma})}$
 \end{center}
 
-Onde $\hat{\beta}$ é a estimativa do coeficiente $\beta$ na regressão acima
+Onde $\hat{\gamma}$ é a estimativa do coeficiente $\gamma$ na regressão acima
 
 ### Teste ADF
 
