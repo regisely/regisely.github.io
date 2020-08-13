@@ -32,3 +32,8 @@
   filename: basicstat-aula5
   dirname: teaching/basicstat
   tldr: "Espaço amostral, eventos, probabilidade, espaço de probabilidade."
+
+- title: "Aula 6 - Probabilidade condicional e independência"
+  filename: basicstat-aula6
+  dirname: teaching/basicstat
+  tldr: "Probabilidade condicional, independência, teorema da probabilidade total, teorema de Bayes."
