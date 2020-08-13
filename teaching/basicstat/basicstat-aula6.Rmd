@@ -1,0 +1,307 @@
+---
+title: Métodos Estatísticos Básicos
+subtitle: Aula 6 - Probabilidade condicional e independência
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Probabilidade condicional
+## Definição
+### Probabilidade condicional
+
+Seja $(\Omega,\mathcal{A},P)$ um espaço de probabilidade. Se $B\in\mathcal{A}$ e $P(B)>0$, a **probabilidade condicional** de um evento $A\in\mathcal{A}$ dado que o evento B ocorre, é definida por:
+
+\begin{center}
+$P(A|B)=\cfrac{P(A\cap B)}{P(B)}$
+\end{center}
+
+- Se $P(B)=0$, então $P(A|B)$ pode ser arbitrariamente definida, como $P(A|B)=0$ ou $P(A|B)=P(A)$
+
+### Probabilidade condicional
+
+Podemos reescrever a fórmula da probabilidade condicional em termos de probabilidade frequentista:
+
+\begin{center}
+$P(A|B)=\underset{n\rightarrow\infty}{\lim}\cfrac{\text{nº de ocorrências de \ensuremath{A\cap B} em n ensaios}}{\text{nº de ocorrências de B nos mesmos n ensaios}}$
+\end{center}
+
+- Note que ao calcularmos $P(A|B)$, estamos calculando $P(A)$ em relação ao espaço amostral reduzido $B$
+
+### Probabilidade condicional
+
+\begin{center}
+\includegraphics[scale=0.4]{1}
+\par\end{center}
+
+\begin{center}
+$P(A)=\tfrac{\text{ Área de A}}{\text{ Área de \ensuremath{\Omega}}}$
+\par\end{center}
+
+\begin{center}
+\includegraphics[scale=0.4]{2}
+\par\end{center}
+
+\begin{center}
+$P(A|B)=\tfrac{\text{Área de \ensuremath{A\cap B}}}{\text{Área de B}}$
+\par\end{center}
+
+### Probabilidade condicional
+
+Podemos calcular a probabilidade condicional, $P(A|B)$, de duas maneiras:
+
+1. Empregando a fórmula da probabilidade condicional, onde $P(A\cap B)$ e P(B) são calculados em relação ao espaço amostral original $\Omega$, ou
+
+2. Calculando diretamente a probabilidade de A em relação ao espaço amostral reduzido $B$
+
+### Exemplo de probabilidade condicional
+
+Considere o experimento de lançar dois dados justos e observar os resultados. Nesse caso, temos:
+
+\vspace{5pt}
+
+\begin{center}
+$\Omega=\begin{array}{cccc}
+(1,1) & (1,2) & ... & (1,6)\\
+(2,1) & (2,2) & ... & (2,6)\\
+... & ... & ... & ...\\
+(6,1) & (6,2 & ... & (6,6)
+\end{array}$, com 36 resultados possíveis.
+\end{center}
+
+\vspace{5pt}
+
+Agora considere os eventos: 
+
+$A=\{(x_{1},$$x_{2})$| $x_{1}+x_{2}=10\}$, e 
+
+$B=\{(x_{1},$$x_{2})$| $x_{1}>x_{2}\}$
+
+\vspace{10pt}
+
+**Calcule $P(A|B)$ e $P(B|A)$.**
+
+## Exemplo: lançamento de dois dados
+
+A primeira etapa é achar os resultados favoráveis aos eventos $A$ e $B$:
+
+\vspace{10pt}
+
+$A=\{(5,5),(4,6),(6,4)\}$, e
+
+\vspace{5pt}
+
+$B=\{(2,1),(3,1),(3,2),(4,1),(4,2),(4,3),(5,1),(5,2),(5,3),$
+
+$(5,4),(6,1),(6,2),(6,3),(6,4),(6,5)\}$
+
+\vspace{10pt}
+
+Podemos aplicar a definição clássica de probabilidade para calcular $P(A)=\frac{3}{36}$ e $P(B)=\frac{15}{36}$.
+
+- Como $P(A\cap B)=\frac{1}{36}$, aplicando a fórmula da probabilidade condicional:
+
+    - $P(A|B)=\frac{P(A\cap B)}{P(B)}=\frac{1/36}{15/36}=1/15$, e
+
+    - $P(B|A)=\frac{P(A\cap B)}{P(A)}=\frac{1/36}{3/36}=\frac{1}{3}$
+
+### Exemplo: lançamento de dois dados
+
+Alternativamente, podemos calcular $P(A|B)$ e $P(B|A)$ pensando na redução do espaço amostral de $\Omega$ para $B$ e $A$, respectivamente:
+
+- Há apenas 1 resultado favorável à $A$ no espaço amostral reduzido $B$, que contém 15 elementos. Assim, $P(A|B)=\frac{1}{15}$.
+
+- De maneira semelhante, há apenas 1 elemento favorável à $B$ no espaço amostral reduzido $A$, que contém 3 elementos. Assim, $P(B|A)=\frac{1}{3}$.
+
+## Partição do espaço amostral
+
+- Dizemos que os eventos $B_{1},B_{2},...,B_{k}$ representam uma *partição do espaço amostral*, $\Omega$, quando:
+  1. $B_{i}\cap B_{j}=\textrm{Ø},$ para todo $i\neq j$
+  2. $\overset{k}{\underset{i=1}{\cup}}B_{i}=\Omega$
+  3. $P(B_{i})>0$ para todo i
+
+- Assim, quando o experimento $E$ é realizado, um, e somente um dos eventos $B_{i}$ ocorre
+
+*Ex*: Ao jogar um dado e observar os resultados, os eventos $B_{1}=\{1,2\},$
+$B_{2}=\{3,4,5\}$ e $B_{3}=\{6\}$ formam uma partição do espaço amostral, enquanto $C_{1}=\{1,2,3,4\}$ e $C_{2}=\{4,5,6\}$ não formam.
+
+## Teorema da probabilidade total
+
+- Se os eventos $B_{1},B_{2},...,B_{k}$ formam uma partição do espaço amostral $\Omega$, então podemos escrever qualquer evento $A\subseteq\Omega$ como $A=(A\cap B_{1})\cup(A\cap B_{2})\cup...\cup(A\cap B_{k})$
+
+- Como os eventos dessas uniões são mutuamente excludentes, então $P(A)=P(A\cap B_{1})+P(A\cap B_{2})+...+P(A\cap B_{k}).$
+
+- Utilizando a fórmula da probabilidade condicional, obtemos o **teorema da probabilidade total**:
+
+\begin{center}
+$P(A)=P(A/B_{1}).P(B_{1})+P(A/B_{2}).P(B_{2})+...+P(A/B_{k}).P(B_{k})$
+\end{center}
+
+## Exemplo: peças defeituosas
+
+Considere o experimento de retirar duas peças de um lote de 100 peças que contém 80 não-defeituosas e 20 defeituosas. Nesse caso, temos:
+
+\vspace{10pt}
+
+$\Omega=\{(N,N),(N,D),(D,N),(D,D)\}$
+
+\vspace{10pt}
+
+Agora considere os eventos:
+
+$A = \text{\{primeira peça é defeituosa\}}$, e 
+
+$B = \text{\{segunda peça é defeituosa\}}$
+
+\vspace{10pt}
+
+**Calcule $P(B)$ com e sem reposição da primeira peça.**
+
+### Exemplo: peças defeituosas
+
+Se extrairmos com reposição:
+
+\begin{center}
+$P(B)=P(A)=\frac{20}{100}=\frac{1}{5}$
+\end{center}
+
+Se extrairmos sem repor a primeira peça:
+
+\begin{center}
+$P(B|A)=\frac{19}{99}$
+\end{center}
+
+\begin{center}
+$P(B|\bar{A})=\frac{20}{99}$
+\end{center}
+
+Assim, $P(B)=P(A)P(B|A)+P(\bar{A})P(B|\bar{A})=\frac{1}{5}.\frac{19}{99}+\frac{4}{5}.\frac{20}{99}=\frac{1}{5}$
+
+## Teorema de Bayes
+
+**Teorema de Bayes**: se $B_{1},B_{2},...,B_{k}$ formam uma partição do espaço amostral $\Omega$, então 
+
+\begin{center}
+$P(B_{i}/A)=\cfrac{P(A/B_{i}).P(B_{i})}{\overset{k}{\underset{i=1}{\sum}}P(A/B_{i}).P(B_{i})}$
+\end{center}
+
+- Este resultado é a extensão da fórmula da probabilidade condicional, uma vez que $P(A\cap B_i) = P(A/B_{i}).P(B_{i})$ e $P(A) = \overset{k}{\underset{i=1}{\sum}}P(A/B_{i}).P(B_{i})$
+
+## Exemplo: problema de Monty Hall
+
+**Problema de Monty-Hall**: há 3 portas e apenas um prêmio. Você escolhe uma porta, o apresentador revela uma delas após você escolher e então pede se você quer trocar de porta. *A troca é vantajosa?*
+
+\vspace{10pt}
+
+Para responder a pergunta, considere, sem perda de generalidade, que você escolha a porta 1 e defina os seguintes eventos:
+
+\vspace{10pt}
+
+$A_{i}=$ \{prêmio está na porta i\}, e 
+
+$O=$ \{apresentador revela porta 2\}
+
+\vspace{10pt}
+
+Logo, $P(A_{1})=P(A_{2})=P(A_{3})=1/3$
+
+### Exemplo: problema de Monty Hall
+
+Mas, dado que o apresentador revelou a porta 2, você deve continuar com a porta 1 ou trocar para a porta 3?
+
+\vspace{10pt}
+
+Para responder, devemos comparar $P(A_{1}|O)$ com $P(A_{3}|O)$:
+
+\vspace{10pt}
+
+$P(A_{1}|O)=\cfrac{P(O|A_{1})P(A_{1})}{P(O|A_{1})P(A_{1})+P(O|A_{2})P(A_{2})+P(O|A_{3})P(A_{3})}$
+
+$P(A_{3}|O)=\cfrac{P(O|A_{3})P(A_{3})}{P(O|A_{1})P(A_{1})+P(O|A_{2})P(A_{2})+P(O|A_{3})P(A_{3})}$
+
+### Exemplo: problema de Monty Hall
+
+Logo, teremos:
+
+\vspace{10pt}
+
+$P(A_{1}|O)=\cfrac{1/2.1/3}{1/2.1/3+0+1.1/3}=\cfrac{1}{3}$
+
+$P(A_{3}|O)=\cfrac{P(O|A_{3})P(A_{3})}{P(O)}=\cfrac{1.1/3}{1/2}=\cfrac{2}{3}$
+
+\vspace{10pt}
+
+Assim, **o correto é sempre trocar de porta**
+
+- Isso acontece porque a escolha da porta que o apresentador revela não é aleatória, uma vez que ele não pode revelar a porta com o prêmio
+
+# Independência
+## Definição
+### Independência
+
+**Independência**: dado o espaço de probabilidade $(\Omega,\mathcal{A},P)$ , os eventos aleatórios A e B são independentes se, e somente se $P(A\cap B)=P(A).P(B)$
+
+- A independência entre A e B também equivale à $P(A|B)=P(A)$ e $P(B|A)=P(B)$, porque $P(A\cap B)=P(A).P(B/A)=P(A).P(B)$
+
+- Se $P(A)=0$, então $P(A\cap B)=0,$ e A e B são independentes $\forall B\in\mathcal{A}$
+
+- Se $P(B)=1$, então $P(A\cap B)=P(A)$, logo A e B são independentes $\forall A\in\mathcal{A}$
+
+## Propriedades
+### Propriedades da independência
+
+*Proposição 1*: O evento A é independente de si mesmo se, e somente se, $P(A)=0$
+ou $P(A)=1$
+
+- *Demonstração*: $P(A)=P(A\cap A)=P(A).P(A)\Leftrightarrow P(A)=0$ ou $P(A)=1$
+
+*Proposição 2*: Se A e B são eventos independentes, então A e $\bar{B}$ também são (bem como $\bar{A}$ e B, e $\bar{A}$ e $\bar{B}$)
+
+- *Demonstração*: Sejam A e B eventos independentes. Como $A=(A\cap B)\cup(A\cap\bar{B})$, então $P(A)=P(A\cap B)+P(A\cap\bar{B})$, de modo que $P(A\cap\bar{B})=P(A)-P(A\cap B)=P(A)-P(A).P(B)$ pela independência. Logo, $P(A\cap\bar{B})=P(A)(1-P(B))=P(A).P(\bar{B})$, e $A$ e $\bar{B}$ são independentes.
+
+### Propriedades da independência
+
+- A intuição por trás da proposição 2 é a de que B é independente de A se tanto a ocorrência quanto a não ocorrência de A não afetam a probabilidade de B ocorrer, $P(B|A)=P(B)$ e $P(B|\bar{A})=P(B)$
+
+- Se $A\cap B=\textrm{Ø}$, então A e B não são independentes (a menos que um deles tenha probabilidade zero). Não confundir independência com eventos excludentes ($P(A\cap B)=0$)
+
+## Independência entre mais de dois eventos
+
+- Eventos aleatórios $A_{i}$ são independentes 2 a 2 se $P(A_{i}\cap A_{j})=P(A_{i}).P(A_{j})$, $\forall i\neq j$
+
+- Eventos $A_{1},...,A_{n}(n\geq2)$ são mutuamente independentes se $P(A_{i1}\cap$$A_{i2}\cap$...$\cap A_{im})=P(A_{i1}).P(A_{i2})...P(A_{im})$, $\forall1\leq i_{1}<i_{2}<...<i_{m}\leq n$, e $\forall n=2,3,...,n$
+
+- Lembrar que a fórmula $P(A\cap B)=P(A).P(B)$ apenas se aplica quando os eventos A e B são independentes, caso contrário devemos utilizar a probabilidade condicional, $P(A\cap B)=P(A|B).P(B)$
+
+- Nem todos os eventos que são independentes 2 a 2 são mutuamente independentes
+
+## Exemplo: independência entre três eventos
+
+Considere o experimento de jogar dois dados e defina os eventos a seguir:
+
+\vspace{10pt}
+
+$A = \text{\{1º dado mostra nº par\}}$
+
+$B = \text{\{2º dado mostra nº ímpar\}}$
+
+$C = \text{\{ambos os dados mostram nº ímpares ou pares\}}$
+
+\vspace{10pt}
+
+Note que neste caso, $P(A)=P(B)=P(C)=1/2$, e
+
+$P(A\cap B)=P(A\cap C)=P(B\cap C)=1/4$, mas
+
+$P(A\cap B\cap C)=0\neq P(A).P(B).P(C)$
