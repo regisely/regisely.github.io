@@ -22,3 +22,8 @@
   filename: timeseries-aula4
   dirname: teaching/timeseries
   tldr: "Passeio aleatório, processos com tendência, testes de raíz unitária."
+
+- title: "Aula 5 - Modelos ARIMA"
+  filename: timeseries-aula5
+  dirname: teaching/timeseries
+  tldr: "Metodologia de Box-Jenkins, estimação, diagnóstico e previsão."

@@ -37,3 +37,8 @@
   filename: basicstat-aula6
   dirname: teaching/basicstat
   tldr: "Probabilidade condicional, independência, teorema da probabilidade total, teorema de Bayes."
+
+- title: "Aula 7 - Análise combinatória"
+  filename: basicstat-aula7
+  dirname: teaching/basicstat
+  tldr: "Regra da multiplicação, regra da adição, permutação, arranjo, combinação, coeficiente binomial."
