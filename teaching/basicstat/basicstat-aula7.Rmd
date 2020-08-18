@@ -1,0 +1,139 @@
+---
+title: Métodos Estatísticos Básicos
+subtitle: Aula 7 - Análise combinatória
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Análise combinatória e probabilidade
+
+- Para calcular probabilidades utilizando a definição clássica, precisamos calcular o número de elementos no espaço amostral e em determinados eventos
+    - Lembre que, para obtermos a probabilidade de o evento A ocorrer, precisamos dividir o número de elementos favoráveis ao evento A pelo número total de elementos do espaço amostral
+
+- A definição clássica de probabilidade deve ser utilizada apenas quando os espaços amostrais são finitos e os resultados do experimento são igualmente verossímeis
+
+- Veremos cinco principais técnicas de enumeração de conjuntos que nos auxiliam a utilizar a definição clássica de probabilidade
+
+# Regra da multiplicação
+
+- **Quando se aplica a regra da multiplicação?** Se existirem k procedimentos independentes e o k-ésimo procedimento puder ser executado de $n_{i}$ maneiras, então o número total de maneiras de se executar os k procedimentos é $n_{1}.n_{2}....n_{k}$
+
+- É essencial que os procedimentos sejam independentes, ou seja, as maneiras de executar um procedimento i não impactam nas maneiras de executar outro procedimento j
+
+- Os procedimentos podem ser interpretados como sendo sequenciais
+
+### Regra da multiplicação - Exemplo
+
+Uma peça passa por 2 estações de controle. Na primeira, 4 classificações são possíveis (A, B, C, D). Na segunda estação, 3 classificações são possíveis (X, Y, Z). Existem 3.4=12 possíveis classificações para cada peça
+
+\begin{center}
+\includegraphics[scale=0.4]{sequencia}
+\end{center}
+
+# Regra da adição
+
+- **Quando se aplica a regra da adição?** Se existirem k procedimentos, que não podem ser realizados ao mesmo tempo, e o k-ésimo procedimento puder ser executado de $n_{i}$ maneiras, então o número total de maneiras de se executar os k procedimentos é $n_{1}+n_{2}+...+n_{k}$
+
+- Os procedimentos podem ser interpretados como sendo estáticos, em apenas um período de tempo, dado que não ocorrem conjuntamente
+
+- *Ex*: Se viajamos por ônibus ou trem, sendo que há 3 rodovias e 2 ferrovias, o número possível de caminhos é $3+2=5$
+
+# Permutação
+
+- **Fatorial**: definimos $n!=(n).(n-1).(n-2).....1$ como o fatorial de n, sendo n um número inteiro positivo e $0!=1$
+
+- **Permutação**: o número de maneiras diferentes que podemos dispor $n$ elementos sem repetição é $_{n}P_{n}=n!$
+
+- Este procedimento pode ser interpretado como sequencial, mas agora as etapas não são independentes, pois a ocorrência de um resultado reduz o número de resultados possíveis da próxima realização, ou seja, o experimento é realizado sem reposição
+
+- *Ex*: Se tivermos três letras (a, b, c), temos as seguintes permutações: abc, acb, bac, bca, cab, cba. Logo, como $n=3$, temos $_{3}P_{3}=3!=6$
+
+## Exemplo no R
+### Permutação: Exemplo no R
+
+```{r permutacao, eval=TRUE, echo=TRUE, comment=NA}
+library(gtools)
+x <- c("a", "b", "c")
+permutations(n=3, r=3, v=x)
+```
+
+## Permutações com elementos repetidos
+
+- Se temos n objetos, tais que $n_{1}$ sejam de uma mesma espécie, $n_{2}$ de outra e assim por diante, com $n_{1}+n_{2}+...+n_{k}=n$, então o número de permutações possíveis desses n objetos é dado por $\frac{n!}{n_{1}!.n_{2}!....n_{k}!}$
+
+- Se todos os objetos forem diferentes, ou seja $n_{i}=1$ para $i=1,2,...,k$, então temos o caso da permutação simples, $_{n}P_{n}=n!$
+
+# Arranjo
+
+- **Arranjo**: se queremos permutar $r$ objetos dentre $n$, com $0\leq r\leq n$, então teremos $nAr=\frac{n!}{(n-r)!}$ maneiras de fazer isso
+
+- Note que estamos calculando o número de permutação dos n objetos e descontando o número de permutações dos (n-r) objetos restantes, de modo a obter as permutações possíveis de n objetos ordenados r a r
+
+- *Ex*: Se tivermos quatro letras (a, b, c, d), e queremos rearranjá-las de 2 em 2, temos os seguintes arranjos $_{4}A_{2}=\cfrac{4!}{(4-2)!}=12$
+
+## Exemplo no R
+### Arranjo: Exemplo no R
+
+\footnotesize
+```{r arranjo, eval=TRUE, echo=TRUE, comment=NA}
+x <- c("a", "b", "c", "d")
+permutations(n=4, r=2, v=x)
+```
+
+# Combinação
+
+- **Combinação**: se queremos escolher $r$ objetos dentre $n$, com $0\leq r\leq n$, sem nos importarmos com a ordem deles, então teremos $C=\frac{n!}{r!(n-r)!}=\binom{n}{r}$ maneiras de fazer isso
+
+- A expressão $\binom{n}{r}$, para $n$ inteiro positivo e $r$ inteiro tal que $0\leq r\leq n$, é denominada *coeficiente binomial*
+
+- Note que uma vez que r objetos tenham sido escolhidos dentre n, existirão r maneiras de permutá-los entre si, por isso devemos dividir o arranjo por r
+
+### Exemplos de combinação
+
+- *Ex*: se temos a, b, c e d, e $r=2$, então desejamos contar ab, ac, ad, bc, bd, cd (não consideramos ba, ca, da, cb, db, dc). Ao todo são $C=\frac{4!}{2!(4-2)!}=\binom{4}{2}=6$ combinações
+
+- *Ex*: Um grupo de 8 pessoas é formado por 5 homens e 3 mulheres. Quantas comissões de 3 pessoas, incluindo exatamente 2 homens podem ser constituídas? Podem ser constituídas $\binom{5}{2}.\binom{3}{1}=30$ comissões
+
+## Exemplo no R
+### Combinação: Exemplo no R
+
+No `R`, a função `choose` calcula o coeficiente binomial. Podemos calcular a probabilidade de ganhar na mega-sena escolhendo seis números entre 60:
+
+```{r comb, eval=TRUE, echo=TRUE, comment=NA}
+choose(n=60, k=6)
+```
+
+Assim, a probabilidade de ganharmos ao jogar um jogo é 1 entre 50.063.860, ou 0.000001997449%
+
+## Propriedades do coeficiente binomial
+
+- **Propriedade 1**: por definição, $\binom{n}{0}=1$ e $\binom{n}{1}=n$
+
+- **Propriedade 2**: $\binom{n}{r}=\binom{n}{n-r}$
+
+- *Demonstração*: $\frac{n!}{r!(n-r)!}=\frac{n!}{(n-r)!(n-(n-r)!)}=\frac{n!}{(n-r)!r!}$
+
+### Propriedades do coeficiente binomial
+
+- **Propriedade 3**: (Teorema de Pascal) $\binom{n}{r}=\binom{n-1}{r-1}+\binom{n-1}{r}$
+
+- *Demonstração*: se escolhermos r dentre n objetos, um objeto qualquer $a_{1}$ pode estar nesses r escolhidos, e então sobrará $\binom{n-1}{r-1}$ combinações; ou então o objeto $a_{1}$ pode não estar entre os r objetos escolhidos, sobrando $\binom{n-1}{r}$ combinações. Obrigatoriamente $a_{1}$ estará ou não nos r objetos, não podendo ocorrer ambas as coisas, de modo que podemos aplicar a regra da adição
+
+### Teorema binomial
+
+- **Teorema binomial**: permite verificar como uma expressão da forma  $(a+b)^{n}$ se desenvolve, de modo que $(a+b)^{n}=\overset{n}{\underset{k=0}{\sum}}\binom{n}{k}.a^{k}.b^{n-k}$
+
+- *Ex*: $(a+b)^{2}=\binom{2}{0}.a^{0}.b^{2-0}+\binom{2}{1}.a^{1}.b^{2-1}+\binom{2}{2}.a^{2}.b^{2-2}=1.1.b^{2}+2.a.b+1.a^{2}.1 = b^2 + 2ab + a^2$
+

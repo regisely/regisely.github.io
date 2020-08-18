@@ -1,0 +1,223 @@
+---
+title: Séries de Tempo
+subtitle: Aula 6 - Outros modelos univariados
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Outros modelos univariados
+
+Alguns outros modelos univariados que podemos utilizar para previsão incluem:
+
+- **Média**: a previsão de um valor futuro é sempre igual a média dos valores passados
+- **Naive**: a previsão de um valor futuro é o valor imediatamente anterior (passeio aleatório)
+- **Seasonal Naive**: a previsão de um valor futuro é o valor sazonal imediatamente anterior
+- **Modelos dinâmicos aditivos**: modelos que incluem componentes sazonais, tendências e regressores exógenos, como os algoritmos FASSTER e PROPHET
+  
+# Identificação e seleção de modelos
+
+- Em modelos ARIMA, usamos os critérios de identificação para selecionar entre modelos distintos
+
+- Como estes critérios dependem do valor da função de verossimilhança, não podemos utilizá-los para comparar modelos com estruturas distintas^[Também deve-se utilizar com cautela o critério AICc quando o horizonte de previsão é longo.]
+
+- Nesse caso, devemos construir uma estratégia de validação das previsões e utilizar medidas de acurácia baseadas nos erros de previsão
+
+- Pode-se demonstrar que o critério de Akaike corrigido é equivalente a uma validação do tipo *leave-one-out* (LOOCV)
+
+# Validação
+
+- Para avaliarmos a qualidade da previsão de um modelo, devemos construir uma estratégia de validação em treinamos o modelo em um pedaço dos dados (*conjunto treino*) e testamos a previsão em outro pedaço (*conjunto teste*)
+
+- Existem diversas estratégias de validação possíveis, sendo que a escolha da estratégia depende do problema analisado
+
+- As estratégia mais comum de validação para séries de tempo é a *rolling cross validation*
+
+## Rolling cross validation
+
+- Antes de construirmos a estratégia de validação, podemos separar os dados em dois grupos (treino e teste), utilizando, por exemplo, 75% dos dados para o grupo treino e 25% para o grupo teste
+
+- A estratégia *rolling cross validation* se aplica no conjunto treino, e define um conjunto inicial de observações ($n$), uma janela móvel ($j$) e um horizonte de previsão ($h$)
+    - Primeiro estimamos o modelo nas $n$ observações iniciais,
+    - Depois avaliamos a previsão de horizonte $h$,
+    - Depois estimamos o modelo novamente adicionando as $j$ próximas observações,
+    - Seguimos estas etapas até o fim da série de tempo
+
+
+
+```{r pacotes, eval=TRUE, echo=TRUE, message=FALSE}
+library(tidyverse)
+library(lubridate)
+library(tsibble)
+library(feasts)
+library(fable)
+data <- tourism %>%
+  group_by(Purpose) %>%
+  summarise(Trips = sum(Trips))
+```
+
+
+```{r horizon, eval=TRUE, echo=TRUE}
+## Define horizon of forecast
+h <- 10
+```
+
+```{r train_set, eval=TRUE, echo=TRUE}
+## Create training set with h observations held-out
+train <- data %>%
+  group_by(Purpose) %>%
+  slice(1:(n()-h))
+```
+
+```{r val_set, eval=TRUE, echo=TRUE}
+## Create h-step rolling cross validation splits initial size 20
+train_cv <- train %>%
+  group_by(Purpose) %>%
+  slice(1:(n() - 10)) %>%
+  stretch_tsibble(.init = 20, .step = h) %>%
+  ungroup()
+```
+
+```{r models, eval=TRUE, echo=TRUE}
+## Create function to fit many models to all series
+models <- function(data) {
+  data %>%
+    model(
+      MEAN = MEAN(log(Trips)),
+      NAIVE = NAIVE(log(Trips)),
+      SNAIVE = SNAIVE(log(Trips)),
+      ETS = ETS(log(Trips)),
+      ARIMA = ARIMA(log(Trips)),
+      DLM = FASSTER(log(Trips) ~ poly(1) + season(4))
+    ) %>%
+    mutate(ENSEMBLE = (ETS + ARIMA + DLM) / 3) # Combination of some models
+}
+```
+
+```{r fit, eval=TRUE, echo=TRUE}
+## Fit models to train and cross validation sets
+train_fit <- models(train)
+train_cv_fit <- models(train_cv)
+```
+
+```{r forecasts, eval=TRUE, echo=TRUE}
+## Calculate forecasts in train and cross validation sets 
+### Warnings: confidence intervals of combination of models not supported
+train_fc <- forecast(train_fit, h = 10)
+cv_fc <- forecast(train_cv_fit, h = 10)
+```
+
+```{r accuracy, eval=TRUE, echo=TRUE}
+## Accuracy measures
+### Train set
+acc_train <- accuracy(train_fit) %>%
+  arrange(Purpose)
+acc_train %>% print(n = 100)
+
+### Validation set
+acc_cv <- cv_fc %>%
+  accuracy(train) %>%
+  arrange(Purpose)
+acc_cv %>% print(n = 100)
+```
+
+```{r best_model, eval=TRUE, echo=TRUE}
+## Select best models
+best_model <- acc_cv %>%
+  group_by(Purpose) %>%
+  filter(RMSE == min(RMSE))
+best_model
+```
+
+```{r best_fit, eval=TRUE, echo=TRUE}
+## Fit best models to whole training set
+good_models <- train %>%
+  model(
+    ETS = ETS(log(Trips)),
+    DLM = FASSTER(log(Trips) ~ poly(1) + season(4))
+  )
+```
+
+```{r fc_best, eval=TRUE, echo=TRUE}
+## Calculate forecasts with horizon h for best models
+train_fc <- forecast(good_models, h = h)
+
+## Compare forecasts to hold-out test data (included in whole data)
+train_fc %>% accuracy(data)
+
+```
+
+```{r fc_plot, eval=TRUE, echo=TRUE}
+## Plot out of sample forecasts compared to whole data
+train_fc %>% autoplot(data)
+```
+
+```{r fit_full, eval=TRUE, echo=TRUE}
+## Fit best models to whole dataset
+final_models <- data %>%
+  model(
+    ETS = ETS(log(Trips)),
+    DLM = FASSTER(log(Trips) ~ poly(1) + season(4))
+  )
+```
+
+## Calculate forecasts with horizon h for final models
+final_fc <- forecast(final_models, h = h)
+
+## Plot final forecasts
+final_fc %>% autoplot(data)
+
+## Select forecasts based on best_models
+my_fc <- best_model %>%
+  select(.model, Purpose) %>%
+  left_join(final_fc, by = c("Purpose", ".model")) %>%
+  ungroup() %>%
+  as_fable(
+    key = Purpose,
+    index = Quarter,
+    response = ".mean",
+    distribution = Trips
+  )
+hilo(my_fc)
+
+## Join new forecasts to data
+my_newdata <- bind_rows(
+  data %>% select(Quarter, Purpose, Trips),
+  as_tsibble(my_fc) %>% select(Quarter, Purpose, Trips = .mean)
+)
+
+## Plot all data with new forecasts
+### You can always save plots to a variable and use
+### ggsave("filename.png", my_plot) to save to a file.
+my_newdata %>% autoplot(Trips) +
+  geom_rect(
+    xmin = as.numeric(ymd("2018-01-01")),
+    xmax = as.numeric(ymd("2021-07-01")),
+    ymin = -100, ymax = 20000,
+    fill = "#ffcccb", alpha = 0.01
+  ) +
+  annotate("text",
+    x = ymd("2019-10-01"), y = 3000, size = 6,
+    color = "steelblue", label = "Forecast"
+  ) +
+  theme(legend.position = "bottom")
+
+## Forecasts in the hold-out set are not that good probably because the trend
+## of Trips changed recently.
+
+## Can you improve the forecasts?
+### Things to consider:
+### 1) Different train-test and cv splits (validation strategy)
+### 2) Different model parameters and ensembles (see help of model functions)
+### 3) Different accuracy measures to select best models

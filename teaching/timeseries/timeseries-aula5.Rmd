@@ -1,0 +1,381 @@
+---
+title: Séries de Tempo
+subtitle: Aula 5 - Modelos ARIMA
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+```{r aux_functions, eval=TRUE, echo=FALSE}
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+  lines <- options$output.lines
+  if (is.null(lines)) {
+    return(hook_output(x, options))  # pass to default hook
+  }
+  x <- unlist(strsplit(x, "\n"))
+  more <- "..."
+  if (length(lines)==1) {        # first n lines
+    if (length(x) > lines) {
+      # truncate the output, but add ....
+      x <- c(head(x, lines), more)
+    }
+  } else {
+    x <- c(more, x[lines], more)
+  }
+  # paste these lines together
+  x <- paste(c(x, ""), collapse = "\n")
+  hook_output(x, options)
+})
+```
+
+# Metodologia Box-Jenkins
+
+Box e Jenkins (1970) sugeriram uma metodologia para modelar processos ARIMA baseada em quatro etapas^[Pode-se incluir uma etapa inicial que envolve a preparação e transformação dos dados originais.]:
+
+1. **Identificação**: determinação das ordens $p$, $d$ e q$ do modelo ARIMA a ser estimado através das funções de autocorrelação e autocorrelação parcial, ou critérios de identificação
+
+2. **Estimação**: estimação dos parâmetros do modelo $ARIMA(p,d,q)$, normalmente por máxima verossimilhança
+
+3. **Diagnóstico**: inspeção dos resíduos do modelo estimado para verificar se ainda há alguma autocorrelação a ser modelada
+
+4. **Previsão**: utilização dos coeficientes estimados para realizar previsões dos valores futuros da série de tempo
+
+### Metodologia Box-Jenkins
+
+- Já vimos as etapas que envolvem a preparação dos dados e a identificação do modelo a ser estimado
+
+- Nessas etapas iniciais, vimos tópicos como:
+    1. Sazonalidade e tendência
+    2. Transformação logarítmica
+    3. Diferenciação e raíz unitária
+    4. Critérios de identificação
+    
+- Após estas etapas iniciais, devemos estimar o modelo ARIMA de interesse
+
+# Estimação
+
+- Modelos ARIMA são usualmente estimados através de funções de máxima verossimilhança
+
+- Há duas opções para estimação destes modelos:
+
+1. **Máxima verossimilhança condicional**: supõe que os choques iniciais são iguais a zero, utilizando a função densidade de distribuição condicional como aproximação da função densidade de distribuição conjunta
+
+2. **Máxima verossimilhança exata**: trata os choques iniciais como parâmetros adicionais do modelo e estima eles conjuntamente com os outros parâmetros
+
+# Diagnóstico
+
+- Se um modelo $ARIMA(p,d,q)$ representa bem os dados, então os resíduos serão próximos de um ruído branco
+
+- Isto pode ser testado através de um teste de hipótese estatístico com a hipótese nula de resíduos não autocorrelacionados
+
+- Para construir este teste, primeiro devemos estimar a autocorrelação dos resíduos:
+
+\begin{center}
+$\hat{r_k} = \frac{\overset{n}{\underset{t=k+1}{\sum}} \hat{\varepsilon}_t \hat{\varepsilon}_{t-k}}{\overset{n}{\underset{t=1}{\sum}} \hat{\varepsilon}_t^2}$
+\end{center}
+
+### Diagnóstico
+
+- A partir da autocorrelação residual de uma modelo $ARIMA(p,d,q)$ calculada no slide anterior, podemos construir um teste de hipótese conhecido como o *teste de Ljung-Box*:
+
+\begin{center}
+$Q(K) = n(n+2) \overset{K}{\underset{k=1}{\sum}} \frac{\hat{r}_k^2}{(n-k)} \sim \chi^2 (K-p-q)$
+\end{center}
+
+- Sendo $n$ o número de observações da série de tempo, $K$ a defasagem máxima considerada no teste, e $\chi$ a distribuição qui-quadrada
+
+- A hipótese nula do teste de *Ljung-Box* é a de resíduos não correlacionados
+
+- Usualmente utilizamos valores de $K$ iguais a 5, 10 e 15
+
+# Previsão
+
+- A previsão de erro quadrático médio mínimo com origem $T$ e horizonte $h$ de um modelo $ARIMA(p,d,q)$ é dada por:
+
+\begin{center}
+$\hat{Y}_t (h) = E(c + \phi_1 Y_{T+h-1} + \ldots + \phi_p Y_{T+h-p} + \varepsilon_{T+h} + \theta_1 \varepsilon_{T+h-1} + \ldots + \theta_q \varepsilon_{T+h-q} | Y_T, Y_{T-1}, \ldots)$
+\end{center}
+
+- Ou seja, é o valor esperado condicional de $Y_{T+h}$ dado o passado $X_T, X_{T-1}, \ldots$
+
+### Previsão
+
+Para calcular estas previsões, substituímos esperanças passadas por valores conhecidos e esperanças futuras por previsões:
+
+1. $E(Y_{T+j} | Y_T, Y_{T-1}, \ldots) = \begin{cases} Y_{T+j}, & \text{se } j \leq 0 \\ \hat{Y}_T (j), & \text{se } j > 0 \end{cases}$
+
+2. $E(\varepsilon_{T+j} | Y_T, Y_{T-1}, \ldots) = \begin{cases} \varepsilon_{T+j}, & \text{se } j \leq 0 \\ 0, & \text{se } j > 0 \end{cases}$
+
+# Exemplo no R: turismo na Austrália
+
+Para o nosso exemplo, além dos pacotes utilizados na Aula 2 vamos também precisar do pacote `fable` para estimação dos modelos ARIMA:
+
+```{r pacotes, eval=TRUE, echo=TRUE, message=FALSE}
+library(tidyverse)
+library(lubridate)
+library(tsibble)
+library(feasts)
+library(fable)
+```
+
+### Exemplo no R: turismo na Austrália
+
+Vamos utilizar a base de dados de viagens domésticas na Austrália, agrupando o número de viagens em cada região por propósito:
+
+```{r dados, eval=TRUE, echo=TRUE}
+data <- tourism %>%
+  group_by(Purpose) %>%
+  summarise(Trips = sum(Trips))
+```
+
+## Estacionariedade
+### Autocorrelação
+
+Na etapa de identificação, primeiro vamos plotar as funções de autocorrelação para cada série de tempo através da função `ACF`^[Note que estamos utilizando o logaritmo natural da série de tempo antes para estabilizar a variância.]:
+
+```{r acf1, eval=FALSE, echo=TRUE}
+data %>%
+  ACF(log(Trips)) %>%
+  autoplot()
+```
+
+Podemos observar uma persistência na autocorrelação das séries, além de correlações altas nos períodos sazonais
+
+### Autocorrelação
+
+```{r acf2, eval=TRUE, echo=FALSE}
+data %>%
+  ACF(log(Trips)) %>%
+  autoplot()
+```
+
+### Teste de estacionariedade
+
+Para verificar se as séries de tempo são estacionárias obtemos o número de diferenças necessárias para torná-las estacionárias de acordo com o teste KPSS:
+
+```{r kpss1, eval=TRUE, echo=TRUE}
+data %>%
+  features(log(Trips), unitroot_ndiffs)
+```
+
+### Teste de estacionariedade
+
+O mesmo teste pode ser aplicado para o período sazonal, verificando se existem raízes unitárias sazonais:
+
+```{r kpss2, eval=TRUE, echo=TRUE}
+data %>%
+  features(log(Trips), unitroot_ndiffs)
+```
+
+## Sazonalidade e diferenciação
+
+Primeiro vamos remover a sazonalidade dos dados através da função `STL` e depois vamos tirar a primeira diferença dos logaritmos para remover a raíz unitária:
+
+```{r season, eval=TRUE, echo=TRUE}
+data <- data %>%
+  model(STL = STL(Trips)) %>%
+  components() %>%
+  select(Purpose, Quarter, Trips, season_adjust) %>%
+  group_by(Purpose) %>%
+  mutate(Var_Trips = difference(log(season_adjust)))
+```
+
+### Sazonalidade e diferenciação
+
+Agora vamos testar novamente a raíz unitária dos dados dessazonalizados e diferenciados:
+
+```{r kpss_diff1, eval=TRUE, echo=TRUE}
+data %>%
+  features(Var_Trips, unitroot_nsdiffs)
+```
+
+### Sazonalidade e diferenciação
+
+Também vamos testar novamente a raíz unitária sazonal dos dados dessazonalizados e diferenciados:
+
+```{r kpss_diff2, eval=TRUE, echo=TRUE}
+data %>%
+  features(Var_Trips, unitroot_nsdiffs)
+```
+
+## Identificação
+### Autocorrelação
+
+Depois de estacionarizar e dessazonalizar a série de tempo, podemos agora plotar novamente a autocorrelação:
+
+```{r acf_diff1, eval=FALSE, echo=TRUE}
+data %>%
+  ACF(Var_Trips) %>%
+  autoplot()
+```
+
+A persistência na autocorrelação das séries desapareceu, bem como as correlações altas nos períodos sazonais
+
+### Autocorrelação
+
+```{r acf_diff2, eval=TRUE, echo=FALSE}
+data %>%
+  ACF(Var_Trips) %>%
+  autoplot()
+```
+
+### Autocorrelação parcial
+
+Para conseguirmos identificar quais modelos estimar precisamos também observar as autocorrelações parciais para cada um das séries de tempo através da função `PACF`:
+
+```{r pacf1, eval=FALSE, echo=TRUE}
+data %>%
+  PACF(Var_Trips) %>%
+  autoplot()
+```
+
+### Autocorrelação parcial
+
+```{r pacf2, eval=TRUE, echo=FALSE}
+data %>%
+  PACF(Var_Trips) %>%
+  autoplot()
+```
+
+## Estimação
+
+Agora vamos estimar quatro modelos possíveis com base na inspeção das funções `ACF` e `PACF` para cada uma das 4 séries de tempo:
+
+```{r estimation, eval=TRUE, echo=TRUE}
+my_arima <- data %>%
+  model(
+    MA_1 = ARIMA(Var_Trips ~ 1 + pdq(0,0,1)),
+    MA_2 = ARIMA(Var_Trips ~ 1 + pdq(0,0,2)),
+    AR_1 = ARIMA(Var_Trips ~ 1 + pdq(1,0,0)),
+    AR_2 = ARIMA(Var_Trips ~ 1 + pdq(2,0,0))
+  )
+```
+
+Podemos acessar os coeficientes de todos os modelos estimados através da função `tidy(my_arima)`
+
+### Estimação automática
+
+A função `ARIMA` possui um algoritmo automatizado (Hyndman e Khandakar, 2008) para fazer todas as etapas de testes de estacionariedade utilizando KPSS, seleção das defasagens com base no critério de Akaike corrigido, e estimação dos modelos ARIMA com ou sem componentes sazonais:
+
+```{r auto, eval=TRUE, echo=TRUE}
+arima_fit <- data %>%
+  model(ARIMA = ARIMA(log(Trips)))
+```
+
+Para estimar um modelo ARIMA de maneira automática, basta omitir os argumentos após a variável dependente
+
+### Estimação automática
+
+Novamente, podemos acessar os coeficientes através da função `tidy`:
+
+\footnotesize
+```{r auto_res, eval=TRUE, echo=TRUE}
+tidy(arima_fit)
+```
+
+## Diagnóstico
+### Raízes do modelo ARIMA
+
+Após a estimação do modelo, podemos checar se as raízes do modelo estimado são menores do que o círculo unitário com o comando `gg_arma`:
+
+```{r raiz1, eval=FALSE, echo=TRUE}
+gg_arma(arima_fit)
+```
+
+Quanto mais próximo do círculo unitário, mais instável é a estimação dos parâmetros^[O algoritmo automatizado de Hyndman e Khandakar (2008) exclui modelos que contém coeficientes próximos a raíz unitária.]
+
+### Raízes do modelo ARIMA
+
+```{r raiz2, eval=TRUE, echo=FALSE}
+gg_arma(arima_fit)
+```
+
+### Gráficos dos resíduos
+
+Podemos observar o comportamento dos resíduos para cada uma das séries de tempo com a função `gg_tsresiduals`
+
+- Vamos utilizar como exemplo as viagens por negócios: 
+
+```{r resid1, eval=FALSE, echo=TRUE}
+gg_tsresiduals(filter(arima_fit, Purpose == "Business"))
+```
+
+### Gráficos dos resíduos
+
+```{r resid2, eval=TRUE, echo=FALSE}
+gg_tsresiduals(filter(arima_fit, Purpose == "Business"))
+```
+
+### Teste de Ljung-Box
+
+A outra etapa de diagnóstico é o teste de autocorrelação residual de `Ljung-Box`, que pode ser feito para todas as 4 séries de tempo através do comando `features` e da função `ljung_box`:
+
+\footnotesize
+```{r ljung, eval=TRUE, echo=TRUE}
+augment(arima_fit) %>%
+  features(.resid, ljung_box, lag = 10, dof = c(2,3,4))
+```
+
+### Teste de Ljung-Box
+
+Para calcular o teste de Ljung-Box, devemos especificar os argumentos:
+
+- `lag`: número de defasagens ($K$) utilizado no teste;
+
+- `dof`: número de graus de liberdade a serem reduzidos da distribuição devido ao teste ser aplicado nos resíduos (usualmente utiliza-se $dof = p + q$)
+
+Note que no nosso exemplo utilizamos `dof = c(2,3,4)`, pois os modelos estimados contém 2, 3 ou 4 coeficientes
+
+- Mais especificamente, devemos olhar para `lb_pvalue2` na série `Business`, `lb_pvalue1` na série `Holiday` e `Other`, e `lb_pvalue3` na série `Visiting` 
+
+## Previsão
+
+Depois de estimados os modelos, realizamos as previsões para horizonte `h` com a função `forecast`. O comando `hilo` nos mostra os intervalos de confiança das previsões:
+
+```{r forecast1, eval=FALSE, echo=TRUE}
+arima_fc <- forecast(arima_fit, h = 10) 
+hilo(arima_fc, level = 95)
+```
+
+\scriptsize
+```{r forecast2, eval=TRUE, echo=FALSE, output.lines = 1:10}
+arima_fc <- forecast(arima_fit, h = 10) 
+hilo(arima_fc, level = 95)
+```
+
+### Previsão
+
+Por fim, podemos plotar as séries de tempo com as previsões e intervalos de confiança automaticamente no `R`:
+
+```{r fc_plot1, eval=FALSE, echo=TRUE}
+arima_fc %>% autoplot(data)
+```
+
+Temos assim as previsões para o número de viagens por cada propósito para os próximos 10 trimestres^[Note que a função `forecast` já efetua a chamada *back-transformation* ao fazer as previsões, aplicando o exponencial no logaritmo dos dados.]
+
+### Previsão
+
+```{r fc_plot2, eval=TRUE, echo=FALSE, message=FALSE}
+arima_fc %>% autoplot(data)
+```
+
+### Referências
+
+Box, G. E. P. e Jenkins, G. M. (1970) Time series analysis: Forecasting and control, San Francisco: Holden-Day.
+
+\vspace{10pt}
+
+Hyndman, R. J., e Khandakar, Y. (2008). Automatic time series forecasting: The forecast package for R. Journal of Statistical Software, 27(1), 1–22.
