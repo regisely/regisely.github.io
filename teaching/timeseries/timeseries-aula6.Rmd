@@ -24,7 +24,7 @@ Alguns outros modelos univariados que podemos utilizar para previsão incluem:
 - **Média**: a previsão de um valor futuro é sempre igual a média dos valores passados
 - **Naive**: a previsão de um valor futuro é o valor imediatamente anterior (passeio aleatório)
 - **Seasonal Naive**: a previsão de um valor futuro é o valor sazonal imediatamente anterior
-- **Modelos dinâmicos aditivos**: modelos que incluem componentes sazonais, tendências e regressores exógenos, como os algoritmos FASSTER e PROPHET
+- **Modelos dinâmicos aditivos**: modelos que incluem componentes sazonais, tendências e regressores exógenos
   
 # Identificação e seleção de modelos
 
@@ -54,7 +54,17 @@ Alguns outros modelos univariados que podemos utilizar para previsão incluem:
     - Depois estimamos o modelo novamente adicionando as $j$ próximas observações,
     - Seguimos estas etapas até o fim da série de tempo
 
+# Medidas de performance
 
+As medidas mais comuns para calcular a performance de modelos de previsão incluem:
+
+- **Erro absoluto médio**: $MAE = \frac{\sum_{t=1}^T | \hat{Y_t} - Y_t |}{T}$
+- **Raiz do erro quadrático médio**: $RMSE = \sqrt{\frac{\sum_{t=1}^T (\hat{Y_t} - Y_t)^2}{T}}$
+- **Erro percentual médio absoluto**: $MAPE = \frac{1}{T} \overset{T}{\underset{t=1}{\sum}} | \frac{Y_t - \hat{Y_t}}{Y_t} |$
+
+# Exemplo no R
+
+Para este exemplo iremos utilizar os pacotes e os dados da aula passada:
 
 ```{r pacotes, eval=TRUE, echo=TRUE, message=FALSE}
 library(tidyverse)
@@ -62,26 +72,29 @@ library(lubridate)
 library(tsibble)
 library(feasts)
 library(fable)
+library(fasster)
 data <- tourism %>%
   group_by(Purpose) %>%
   summarise(Trips = sum(Trips))
 ```
 
+## Conjunto treino
+
+Para construir um procedimento de validação, vamos primeiro definir o horizonte de previsão $h$ e então criar um conjunto treino excluindo as últimas $h$ observações para medirmos a performance da previsão (conjunto teste):
 
 ```{r horizon, eval=TRUE, echo=TRUE}
-## Define horizon of forecast
 h <- 10
-```
-
-```{r train_set, eval=TRUE, echo=TRUE}
-## Create training set with h observations held-out
 train <- data %>%
   group_by(Purpose) %>%
-  slice(1:(n()-h))
+  slice(1:(n()-h)) %>%
+  ungroup()
 ```
 
+## Conjunto validação
+
+A função `stretch_tsibble` possibilita criar conjuntos de validação utilizando janelas móveis de 10 em 10, começando com 20 observações:
+
 ```{r val_set, eval=TRUE, echo=TRUE}
-## Create h-step rolling cross validation splits initial size 20
 train_cv <- train %>%
   group_by(Purpose) %>%
   slice(1:(n() - 10)) %>%
@@ -89,8 +102,13 @@ train_cv <- train %>%
   ungroup()
 ```
 
+Uma nova coluna `.id` será criada com o identificador do conjunto validação. Ao todo são 60 observações por série de tempo (10 foram inicialmente excluídas), o que nos dá 5 grupos distintos (o primeiro grupo contém 20, o segundo 30, etc.)
+
+## Estimação
+
+Vamos criar uma função para estimar vários modelos em apenas um comando:
+
 ```{r models, eval=TRUE, echo=TRUE}
-## Create function to fit many models to all series
 models <- function(data) {
   data %>%
     model(
@@ -100,124 +118,129 @@ models <- function(data) {
       ETS = ETS(log(Trips)),
       ARIMA = ARIMA(log(Trips)),
       DLM = FASSTER(log(Trips) ~ poly(1) + season(4))
-    ) %>%
-    mutate(ENSEMBLE = (ETS + ARIMA + DLM) / 3) # Combination of some models
+    )
 }
 ```
 
+### Estimação
+
+Agora vamos estimar todos os modelos no conjunto treino e nos grupos do conjunto validação, realizando as previsões com a função `forecast`:
+
 ```{r fit, eval=TRUE, echo=TRUE}
-## Fit models to train and cross validation sets
 train_fit <- models(train)
 train_cv_fit <- models(train_cv)
-```
-
-```{r forecasts, eval=TRUE, echo=TRUE}
-## Calculate forecasts in train and cross validation sets 
-### Warnings: confidence intervals of combination of models not supported
 train_fc <- forecast(train_fit, h = 10)
 cv_fc <- forecast(train_cv_fit, h = 10)
 ```
 
-```{r accuracy, eval=TRUE, echo=TRUE}
-## Accuracy measures
-### Train set
-acc_train <- accuracy(train_fit) %>%
-  arrange(Purpose)
-acc_train %>% print(n = 100)
+## Performance das previsões
 
-### Validation set
-acc_cv <- cv_fc %>%
-  accuracy(train) %>%
-  arrange(Purpose)
-acc_cv %>% print(n = 100)
+Com a função `accuracy` podemos calcular a performance das previsões no conjunto treino e validação:
+
+```{r accuracy, eval=TRUE, echo=TRUE}
+acc_train <- accuracy(train_fit)
+acc_cv <- cv_fc %>% accuracy(train)
 ```
 
+Minimizar o erro de previsão no conjunto treino pode levar a `overfitting`, por isso precisamos olhar para os erros de previsão no conjunto validação e no conjunto teste
+
+### Performance das previsões
+
+\tiny
+```{r accuracy2, eval=TRUE, echo=TRUE}
+acc_train %>% print(n = 24)
+```
+
+### Performance das previsões
+
+\tiny
+```{r val_acc, eval=TRUE, echo=TRUE}
+acc_cv %>% arrange(Purpose) %>% print(n = 24)
+```
+
+## Seleção do melhor modelo
+
+Os melhores modelos devem ser aqueles que minimizam o erro de previsão no conjunto validação. Iremos utilizar o `RMSE` para escolher:
+
+\footnotesize
 ```{r best_model, eval=TRUE, echo=TRUE}
-## Select best models
 best_model <- acc_cv %>%
   group_by(Purpose) %>%
   filter(RMSE == min(RMSE))
 best_model
 ```
 
+### Seleção do melhor modelo
+
+Agora podemos estimar os melhores modelos no conjunto treino completo e calcular as previsões:
+
 ```{r best_fit, eval=TRUE, echo=TRUE}
-## Fit best models to whole training set
 good_models <- train %>%
   model(
     ETS = ETS(log(Trips)),
     DLM = FASSTER(log(Trips) ~ poly(1) + season(4))
   )
-```
-
-```{r fc_best, eval=TRUE, echo=TRUE}
-## Calculate forecasts with horizon h for best models
 train_fc <- forecast(good_models, h = h)
-
-## Compare forecasts to hold-out test data (included in whole data)
-train_fc %>% accuracy(data)
-
 ```
 
-```{r fc_plot, eval=TRUE, echo=TRUE}
-## Plot out of sample forecasts compared to whole data
+### Seleção do melhor modelo
+
+Por fim, podemos avaliar a performance do melhor modelo no conjunto teste que contém 10 observações não utilizadas durante todo o procedimento:
+
+\scriptsize
+```{r fc_best, eval=TRUE, echo=TRUE}
+train_fc %>% accuracy(data) %>% arrange(Purpose)
+```
+
+### Seleção do melhor modelo
+
+Podemos comparar graficamente as previsões para estas 10 observações com os dados verdadeiros através da função `autoplot`:
+
+```{r fc_plot1, eval=FALSE, echo=TRUE}
 train_fc %>% autoplot(data)
 ```
 
+Observa-se que alguns modelos parecem não estar captando bem a tendência de crescimento mais recente nas séries de tempo. Como você corrigiria isso?
+
+### Seleção do melhor modelo
+
+```{r fc_plot2, eval=TRUE, echo=FALSE}
+train_fc %>% autoplot(data)
+```
+
+## Previsões finais
+
+Por fim, podemos estimar os melhores modelos no conjunto total de dados para fazer previsões para períodos desconhecidos:
+
 ```{r fit_full, eval=TRUE, echo=TRUE}
-## Fit best models to whole dataset
 final_models <- data %>%
   model(
     ETS = ETS(log(Trips)),
     DLM = FASSTER(log(Trips) ~ poly(1) + season(4))
   )
+final_fc <- forecast(final_models, h = h)
 ```
 
-## Calculate forecasts with horizon h for final models
-final_fc <- forecast(final_models, h = h)
+E plotar as previsões finais:
 
-## Plot final forecasts
+```{r fc_final1, eval=FALSE, echo=TRUE}
 final_fc %>% autoplot(data)
+```
 
-## Select forecasts based on best_models
-my_fc <- best_model %>%
-  select(.model, Purpose) %>%
-  left_join(final_fc, by = c("Purpose", ".model")) %>%
-  ungroup() %>%
-  as_fable(
-    key = Purpose,
-    index = Quarter,
-    response = ".mean",
-    distribution = Trips
-  )
-hilo(my_fc)
+### Previsões finais
 
-## Join new forecasts to data
-my_newdata <- bind_rows(
-  data %>% select(Quarter, Purpose, Trips),
-  as_tsibble(my_fc) %>% select(Quarter, Purpose, Trips = .mean)
-)
+```{r fc_final2, eval=TRUE, echo=FALSE}
+final_fc %>% autoplot(data)
+```
 
-## Plot all data with new forecasts
-### You can always save plots to a variable and use
-### ggsave("filename.png", my_plot) to save to a file.
-my_newdata %>% autoplot(Trips) +
-  geom_rect(
-    xmin = as.numeric(ymd("2018-01-01")),
-    xmax = as.numeric(ymd("2021-07-01")),
-    ymin = -100, ymax = 20000,
-    fill = "#ffcccb", alpha = 0.01
-  ) +
-  annotate("text",
-    x = ymd("2019-10-01"), y = 3000, size = 6,
-    color = "steelblue", label = "Forecast"
-  ) +
-  theme(legend.position = "bottom")
+### Previsões finais
 
-## Forecasts in the hold-out set are not that good probably because the trend
-## of Trips changed recently.
+Como podemos melhorar as previsões destes modelos?
 
-## Can you improve the forecasts?
-### Things to consider:
-### 1) Different train-test and cv splits (validation strategy)
-### 2) Different model parameters and ensembles (see help of model functions)
-### 3) Different accuracy measures to select best models
+- Considerar diferentes estratégias de validação (divisão entre conjuntos treino, teste e validação)
+
+- Utilizar parâmetros diferentes nas estimações dos modelos
+
+- Estimar outros modelos e tirar a média de previsões de modelos distintos
+
+- Utilizar outras medidas de performance

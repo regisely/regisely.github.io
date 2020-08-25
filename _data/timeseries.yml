@@ -27,3 +27,8 @@
   filename: timeseries-aula5
   dirname: teaching/timeseries
   tldr: "Metodologia de Box-Jenkins, estimação, diagnóstico e previsão."
+
+- title: "Aula 6 - Outros modelos univariados"
+  filename: timeseries-aula6
+  dirname: teaching/timeseries
+  tldr: "Outros modelos de previsão, validação cruzada, medidas de performance."

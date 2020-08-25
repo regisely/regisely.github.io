@@ -42,3 +42,8 @@
   filename: basicstat-aula7
   dirname: teaching/basicstat
   tldr: "Regra da multiplicação, regra da adição, permutação, arranjo, combinação, coeficiente binomial."
+
+- title: "Aula 8 - Variáveis aleatórias"
+  filename: basicstat-aula8
+  dirname: teaching/basicstat
+  tldr: "Variáveis aleatórias discretas e contínuas, função densidade de probabilidade, função de distribuição acumulada."
