@@ -47,3 +47,8 @@
   filename: basicstat-aula8
   dirname: teaching/basicstat
   tldr: "Variáveis aleatórias discretas e contínuas, função densidade de probabilidade, função de distribuição acumulada."
+
+- title: "Lista de Exercícios 2"
+  filename: basicstat-lista2
+  dirname: teaching/basicstat
+  tldr: "Lista de exercícios das aulas 5 em diante."

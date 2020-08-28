@@ -1,0 +1,160 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[verbose,a4paper,tmargin=3cm,bmargin=3cm,
+lmargin=3cm,rmargin=2cm,headsep=5mm,footskip=1.5cm]{geometry}
+\usepackage{natbib}
+\usepackage[brazil] {babel}
+\usepackage[latin1]{inputenc}
+\usepackage[nooneline,footnotesize]{caption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}{2\baselineskip}{2\baselineskip}{\normalfont\normalsize\bf}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}{2\baselineskip}{2\baselineskip}{\normalfont\normalsize\itshape}}
+\makeatother
+
+\begin{document}
+
+\title{{\bf Lista de exercícios 2} \\
+Métodos Estatísticos Básicos}
+\author{Prof. Regis Augusto Ely}
+\maketitle
+
+\begin{enumerate}
+
+	 \item Suponha que lançamos um dado justo duas vezes, de maneira independente, e observamos o resultado obtido.
+
+a) Qual é o espaço amostral?
+
+b) Descreva a álgebra de eventos aleatórios aos quais gostaríamos de assinalar probabilidade.
+
+c) Descreva a função de probabilidade sobre estes eventos.
+
+	 \item Considere quatro objetos, {\it a}, {\it b}, {\it c} e {\it d}. Suponha que a ordem em que tais objetos sejam listados represente o resultado de um experimento. Sejam os eventos A e B definidos assim: A = \{{\it a} está na primeira posição\}; B = \{{\it b} está na segunda posição\}.
+
+a) Enumere todos os elementos do espaço amostral.
+
+b) Enumere todos os elementos dos eventos $A \cap B$ e $A \cup B$.
+
+	\item Prove que $P[(A \cap \bar{B}) \cup (B \cap \bar{A})] = P(A) + P(B) - 2P(A \cap B)$.
+
+	\item Uma remessa de 1.500 arruelas contém 400 peças defeituosas e 1.100 perfeitas. Duzentas arruelas são escolhidas ao acaso (sem reposição) e classificadas.
+
+a) Qual a probabilidade de que sejam encontradas exatamente 90 peças defeituosas?
+
+b) Qual a probabilidade de que se encontrem ao menos 2 peças defeituosas?
+
+	\item Um mecanismo complexo pode falhar em 15 estágios. De quantas maneiras poderá ocorrer que ele falhe em 3 estágios?
+
+	\item Com as seis letras {\it a, b, c, d, e, f} quantas palavras-código de 4 letras poderão ser formadas se:
+
+a) Nenhuma letra puder ser repetida?
+
+b) Qualquer letra puder ser repetida qualquer número de vezes?
+
+	\item A urna 1 contém {\it x} bolas brancas e {\it y} bolas vermelhas. A urna 2 contém {\it z} bolas brancas e {\it v} bolas vermelhas. Uma bola é escolhida ao acaso da urna 1, e posta na urna 2. A seguir, uma bola é escolhida ao acaso da urna 2. Qual será a probabilidade de que esta bola seja branca?
+
+	\item Suponha que A e B sejam eventos independentes associados a um experimento. Se a probabilidade de A ou B ocorrerem for igual a 0,6, enquanto a probabilidade da ocorrência de A for igual a 0,4, determine a probabilidade da ocorrência de B.
+
+	\item Em uma fábrica de parafusos, as máquinas A, B e C produzem 25, 35 e 40 por cento do total produzido, respectivamente. Da produção de cada máquina, 5, 4 e 2 por cento, respectivamente, são parafusos defeituosos. Escolhe-se ao acaso um parafuso e verifica ser defeituoso. Qual será a probabilidade de que o parafuso venha da máquina A? Da B? E da C?
+
+	\item Sejam A e B dois eventos associados a um experimento. Suponha que $P(A) = 0,4$, enquanto $P(A \cup B) = 0,7$. Seja $P(B) = p$.
+
+a) Para que valor de p, A e B serão mutuamente excludentes?
+
+b) Para que valor de p, A e B serão independentes?
+
+	\item No jogo Blackjack, recebemos duas cartas de um baralho de 52 cartas. A pontuação máxima ocorre quando recebemos um Às e uma carta que pode ser 10,J,Q,K. Qual a probabilidade de obtermos a pontuação máxima?
+
+	 \item Suponha que a variável aleatória X tenha os valores possíveis $1, 2, 3, \cdots$, e $P(X = j) = 1/2^j, j = 1, 2, \cdots$
+
+a) Calcule $P(X \text{ ser par})$
+
+b) Calcule $P(X \geq 5)$
+
+c) Calcule $P(X \text{ ser divisível por } 3)$
+
+	\item A percentagem de álcool $(100 X)$ em certo composto pode ser considerada uma variável aleatória, onde $X$, $0 < X < 1$, tem a seguinte função densidade de probabilidade: $f(x) = 20 x^3 (1-x)$, para $0 < x < 1$.
+
+a) Estabeleça a expressão da função de distribuição acumulada, $F$, e esboce seu gráfico.
+
+b) Calcule $P(X \leq 2/3)$.
+
+c) Suponha que o preço de venda desse composto dependa do conteúdo de álcool. Especificamente, se $1/3 < X < 2/3$, o composto se vende por $C_1$ dólares por galão; caso contrário, ele se vende por $C_2$ dólares por galão. Se o custo for $C_3$ dólares por galão, calcule a distribuição de probabilidade do lucro líquido por galão.
+
+	\item Cada uma das seguintes funções representa a função de distribuição acumulada de uma variável aleatória contínua. Em cada caso, $F(x) = 0$ para $x < a$ e $F(x) = 1$ para $x > b$, onde $[a,b]$ é o intervalo indicado. Em cada caso, esboce o gráfico da função $F$, determine a função densidade de probabilidade $f$ e faça o gráfico. Também verifique que $f$ é uma $fdp$:
+
+a) $F(x) = x/5$, para $0 \leq x \leq 5$.
+
+b) $F(x) = (2/\pi) sen^{-1}(\sqrt{x})$, para $0 \leq x \leq 1$.
+
+c) $F(x) = e^{3x}$, para $-\infty < x \leq 0$.
+
+d) $F(x) = x^3/2 + 1/2$, para $-1 \leq x \leq 1$.
+
+	\item Suponha que 5 por cento de todas as peças que saiam de uma linha de fabricação sejam defeituosas. Se 10 peças forem escolhidas e inspecionadas, qual será a probabilidade de que no máximo 2 defeituosas sejam encontradas?
+
+	\item (ANPEC, 2013) Em um dia de verão, você está sentado em um parque olhando as pessoas passarem. A probabilidade de uma pessoa estar andando de bicicleta é p, e a probabilidade de uma pessoa estar andando a pé é 1-p. As probabilidades dos eventos são independentes. Defina Y como o número de pessoas andando de bicicleta até que n pessoas passem por você. Defina Z como o número de pessoas andando de bicicleta que passam por você antes da primeira pessoa andando a pé passar por você. Com base nessas informações, julgue se as afirmativas são verdadeiras ou falsas, justificando:
+
+(0)	Y tem uma distribuição binomial com parâmetros n e p.
+
+(1)	Z tem uma distribuição de Bernoulli com parâmetro p.
+
+(2)	Y e Z são variáveis aleatórias independentes.
+
+	\item Um ponto é escolhido ao acaso, sobre uma reta de comprimento L. Qual a probabilidade de que o quociente do segmento mais curto para o mais longo seja menor do que 1/4?
+
+\item Um dado equilibrado é jogado 72 vezes. Chamando de X o número de vezes que aparece o seis, calcule $E(X^2)$.
+
+\item Suponha que $X$ seja uma variável aleatória, para a qual $E(X) = 10$ e $Var(X) = 25$. Para quais valores positivos de $a$ e $b$ deve $Y = aX - b$ ter valor esperado $0$ e variância $1$?
+
+	\item O que é o valor esperado condicionado? Defina-o matematicamente e descreva suas propriedades.
+
+	\item O que nos diz a Desigualdade de Tchebycheff? Qual a interpretação dessa desigualdade?
+
+	\item Se a variável aleatória discreta X tiver uma distribuição de Poisson com parâmetro $\beta$, e se $P(X=0) = 0,2$, calcular $P(X > 2)$.
+
+	\item Suponha-se que a probabilidade de que uma peça, produzida por determinada máquina, seja defeituosa é 0,2. Se 10 peças produzidas por essa máquina forem escolhidas ao acaso, qual é a probabilidade de que não mais de uma peça defeituosa seja encontrada? Empregue as distribuições binomial e de Poisson e compare as respostas.
+
+	\item Suponha que a probabilidade de um componente de computador ser defeituoso é de 0,2. Numa mesa de testes, os componentes são testados um a um. Determine a probabilidade do primeiro defeito encontrado ocorrer no sétimo componente testado. Indique o valor esperado do número de componentes testados até aparecer o primeiro defeito, bem como a variância desse número.
+
+	\item Considere o mesmo experimento da questão anterior. Determine a probabilidade do terceiro defeito encontrado ocorrer no sétimo componente testado. Indique o valor esperado do número de componentes testados até aparecer o terceiro defeito, bem como a variância desse número.
+
+	\item No fichário de um hospital estão arquivados os prontuários de 20 pacientes que deram entrada no Pronto Socorro apresentando algum problema cardíaco. Destes, 5 sofreram infarto. Retirando-se uma amostra ao acaso de 3 destes prontuários, qual a probabilidade de que dois deles sejam de pacientes que sofreram infarto? 
+
+	\item Suponha que temos um vaso com 10 bolinhas de gude - 2 bolinhas vermelhas, 3 bolinhas verdes e 5 bolinhas azuis. Selecionamos 4 bolinhas aleatoriamente do vaso, com reposição. Qual é a probabilidade de selecionar 2 bolinhas verdes e 2 bolinhas azuis?
+
+	\item Suponha que a variável aleatória X tenha uma distribuição $N(2, 0,16)$. Empregando a tábua da distribuição normal, calcule as seguintes probabilidades:
+
+a) $P(X \geq 2,3)$
+
+b) $P(1,8 \leq X \leq 2,1)$
+
+	\item Suponha-se que a duração da vida de dois dispositivos eletrônicos, $D_1$ e $D_2$, tenham distribuições $N(40,36)$ e $N(45,9)$, respectivamente. Se o dispositivo eletrônico tiver de ser usado por um período de 45 horas, qual dos dispositivos deve ser preferido? Se tiver de ser usado por um período de 48 horas, qual deles deve ser preferido?
+
+	\item Considere uma variável aleatória X que tem distribuição exponencial. Descreva:
+
+a) A função densidade de probabilidade de X.
+
+b) A função de distribuição acumulada de X.
+
+c) O valor esperado e a variância de X.
+
+d) Um problema que é modelado através da distribuição exponencial.
+
+	\item Suponha que $(X,Y)$ tenha uma distribuição normal bidimensional. Descreva a função densidade de probabilidade conjunta de $(X,Y)$ e as distribuições marginais de $X$ e $Y$.
+
+	\item Enuncie e explique o que é a Lei dos Grandes Números.
+
+	\item Enuncie e explique o que é o Teorema do Limite Central.
+
+	\item Suponha que uma amostra de tamanho $n$ seja obtida de uma grande coleção de parafusos, 3 por cento dos quais sejam defeituosos. Qual será a probabilidade de que, no máximo, 5 por cento dos parafusos selecionados sejam defeituosos, se:
+
+a) $n = 6$?
+
+b) $n = 60$?
+
+c) $n = 600$?
+
+\end{enumerate}
+\end{document}
