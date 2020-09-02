@@ -19,8 +19,6 @@ categories:
 image: "coronavirus-tokyo-japan.jpg"
 ---
 
-{% include image.html url="/images/coronavirus-tokyo-japan.jpg" caption="Tokyo, Japan" width=400 align="right" %}
-
 Os efeitos de crises econômicas costumam ser heterogêneos entre países com características institucionais distintas. Isto não deve ser exceção para a crise atual gerada pela pandemia do COVID-19. O Brasil parece ter sido um dos países mais afetados pela depreciação do câmbio e pela desvalorização do mercado acionário. As razões disso ainda não são claras, mas talvez duas hipóteses podem ser levantadas:
 
 1. A resposta da política monetária foi muito agressiva, ocasionando uma saída de capital maior em relação a outros países;
