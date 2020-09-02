@@ -19,8 +19,6 @@ categories:
 image: "coronavirus-job-market.jpg"
 ---
 
-{% include image.html url="/images/coronavirus-job-market.jpg" width=400 align="right" %}
-
 Os efeitos da pandemia do COVID-19 e do isolamento social no mercado de trabalho brasileiro têm características peculiares. A maneira distinta como cada setor absorve este choque acaba gerando impactos heterogêneos no mercado de trabalho, e consequentemente os trabalhadores são afetados de maneira desigual.
 
 Com o intuito de levantar informações sobre os impactos da pandemia para os diferentes grupos populacionais, o IBGE divulgou em de junho de 2020 os resultados da pesquisa [PNAD COVID19](https://covid19.ibge.gov.br/pnad-covid/). Esta pesquisa utiliza como base a amostra de domicílios da Pesquisa Nacional por Amostra de Domicílios Contínua ([PNAD Contínua](https://www.ibge.gov.br/estatisticas/sociais/populacao/17270-pnad-continua.html?edicao=18971&t=sobre)), sendo a amostra original obtida por um plano amostral conglomerado em dois estágios com estratificação das unidades primárias de amostragem (UPA).
