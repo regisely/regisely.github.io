@@ -48,6 +48,16 @@
   dirname: teaching/basicstat
   tldr: "Variáveis aleatórias discretas e contínuas, função densidade de probabilidade, função de distribuição acumulada."
 
+- title: "Aula 9 - Valor esperado e variância"
+  filename: basicstat-aula9
+  dirname: teaching/basicstat
+  tldr: "Valor esperado, variância, desigualdade de Tchebycheff e lei dos grandes números."
+
+- title: "Aula 10 - Distribuições de probabilidade"
+  filename: basicstat-aula10
+  dirname: teaching/basicstat
+  tldr: "Distribuições discretas e contínuas, teorema do limite central."
+
 - title: "Lista de Exercícios 2"
   filename: basicstat-lista2
   dirname: teaching/basicstat

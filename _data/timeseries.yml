@@ -32,3 +32,13 @@
   filename: timeseries-aula6
   dirname: teaching/timeseries
   tldr: "Outros modelos de previsão, validação cruzada, medidas de performance."
+
+- title: "Aula 7 - Modelos multivariados"
+  filename: timeseries-aula7
+  dirname: teaching/timeseries
+  tldr: "Regressão linear com séries de tempo, modelos ADL, modelos ECM."
+
+- title: "Aula 8 - Modelos vetoriais autorregressivos"
+  filename: timeseries-aula8
+  dirname: teaching/timeseries
+  tldr: "Modelos VAR, causalidade de Granger, funções de impulso-resposta."
