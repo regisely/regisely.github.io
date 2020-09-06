@@ -16,7 +16,6 @@ categories:
   - pandemia
   - home office
   - auxílio emergencial
-image: "coronavirus-job-market.jpg"
 ---
 
 Os efeitos da pandemia do COVID-19 e do isolamento social no mercado de trabalho brasileiro têm características peculiares. A maneira distinta como cada setor absorve este choque acaba gerando impactos heterogêneos no mercado de trabalho, e consequentemente os trabalhadores são afetados de maneira desigual.

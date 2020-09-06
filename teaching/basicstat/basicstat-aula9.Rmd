@@ -1,0 +1,105 @@
+---
+title: Métodos Estatísticos Básicos
+subtitle: Aula 9 - Valor esperado e variância
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Valor esperado
+
+**Variável aleatória discreta**: $E(x) = \overset{\infty}{\underset{i=1}{\sum}} x_i p(x_i)$
+
+\vspace{10pt}
+
+**Variável aleatória contínua**: $E(x) = \int_{-\infty}^{+\infty} xf(x)dx$
+
+## Propriedades do valor esperado
+
+1. $E(c)=c$
+2. $E(cX)=cE(X)$
+3. $E(X+Y)=E(X)+E(Y)$
+4. $E(X_1 + \ldots + X_n)=E(X_1) + \ldots + E(X_n)$
+5. Se X e Y são independentes, então $E(XY)=E(X).E(Y)$
+
+# Variância
+
+A variância de uma variável aleatória $X$, denotada $V(X)$ ou $\sigma_{x}^{2}$,
+é dada por:
+
+\begin{center}
+$V(X)= E[X - E(X)]^2 = E(X^2) - [E(X)]^2$
+\end{center}
+
+A raiz quadrada de $V(X)$ é o desvio-padrão da variável aleatória $X$, denotado $\sigma_{x}$
+
+## Propriedades da variância
+
+1. $V(X+c)=V(X)$
+2. $V(cX)=c^2 V(X)$
+3. Se $X$ e $Y$ foram independentes, então $V(X+Y) = V(X) + V(Y)$
+
+# Desigualdade de Tchebycheff
+
+- Se $X$ for uma variável aleatória com $E(X)=\mu$ e $E(X-c)^2$ for finita, sendo $c$ qualquer número real e $\epsilon$ qualquer número positivo, então:
+
+\begin{center}
+$P[|X - c| \geq \epsilon] \leq \frac{1}{\epsilon^2} E(X - c)^2$
+\end{center}
+
+- Alternativamente, $P[|X - c| < \epsilon] \geq 1 - \frac{1}{\epsilon^2} E(X - c)^2$
+
+- Se $c=\mu$, então $P[|X - \mu| \geq \epsilon] \geq \frac{V(X)}{\epsilon^2}$ 
+
+- Se $c=\mu$ e $E = K \sigma$, então $P[|X - \mu| \geq K \sigma] \leq K^{-2}$ 
+
+# Coeficiente de correlação
+
+A correlação entre duas variáveis aleatórias $X$ e $Y$ é dada por: 
+
+\begin{center}
+$\rho_{XY} = \frac{E(XY)-E(X)E(Y)}{\sqrt{V(X)V(Y)}} = \frac{Cov(XY)}{\sigma_x \sigma_y}$
+\end{center}
+
+sendo $-1 \leq \rho \leq 1$
+
+# Valor esperado condicionado
+
+**Valor esperado condicional**:
+
+- Se $X$ e $Y$ são discretas: $E(X | Y_i)= \overset{\infty}{\underset{i=1}{\sum}} x_i p(x_i | y_i)$
+
+- Se $X$ e $Y$ são contínuas: $E(X | Y) = \int_{-\infty}^{+\infty} x f(x | y) dx$
+
+**Propriedades**:
+
+1. $E[E(X | Y)] = E(X)$ e $E[E(Y | X)] = E(Y)$
+2. $E[E(Y | X,Z) | X] = E[Y | X]$
+3. Se $X$ e $Y$ são independentes, então $E(X | Y) = E(X)$ e $E(Y | X) = E(Y)$
+
+# Lei dos grandes números
+
+Considere n repetições independentes de um experimento e seja $n_A$ o número de vezes em que um envento $A$ ocorre nessas $n$ repetições. Façamos $f_A=n_A/n$ e seja $P(A)=p$, então, para qualquer número positivo $\epsilon$, temos:
+
+\begin{center}
+$P[| f_A - p | \geq \epsilon] \leq \frac{p(1-p)}{n \epsilon^2}$, ou
+\end{center}
+
+\begin{center}
+$P[| f_A - p | < \epsilon] \geq 1 - \frac{p(1-p)}{n\epsilon^2}$
+\end{center}
+
+- Com isso, definimos limites inferiores e superiores para a distância de $f_{A}$ da real probabilidade $p$, de modo que quando $n$ aumenta, $f_{A}$ converge para $p$
+
+- Este resultado decorre da desigualdade de Tchebycheff

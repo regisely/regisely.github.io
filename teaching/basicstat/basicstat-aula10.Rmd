@@ -1,0 +1,276 @@
+---
+title: Métodos Estatísticos Básicos
+subtitle: Aula 10 - Distribuições de probabilidade
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+# Distribuições discretas
+
+## Distribuição binomial
+
+**Variável aleatória**: número de sucessos obtidos em $n$ realizações de experimentos de Bernoulli com probabilidade de sucesso $p$
+
+\vspace{10pt}
+
+**Distribuição binomial**: $f(x) = \binom{n}{x} p^x (1-p)^{n-x}$ para $x = 0,1,2,...,n$
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = np$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = np(1-p)$
+
+### Exemplo no R
+
+\footnotesize
+Suponha que haja 10 questões de múltipla escolha em uma prova de estatística. Cada pergunta tem 5 respostas possíveis e apenas uma delas está correta. Encontre a probabilidade de um aluno responder aleatoriamente a todas as perguntas e obter:
+
+\vspace{5pt}
+
+1. Exatamente cinco respostas corretas
+
+```{r binom1, eval=TRUE, echo=TRUE, comment=NA}
+dbinom(5, size = 10, prob = 0.2)
+```
+
+\vspace{5pt}
+
+2. Cinco ou mais respostas corretas
+
+```{r binom2, eval=TRUE, echo=TRUE, comment=NA}
+1 - pbinom(4, size = 10, prob = 0.2)
+```
+
+## Distribuição de Poisson
+
+**Variável aleatória**: número de ocorrências de certo evento obtidas em um determinado período de tempo, sendo o parâmetro $\lambda$ o número esperado de ocorrências 
+
+\vspace{10pt}
+
+**Distribuição de Poisson**: $f(x) = \frac{\lambda^x e^{-\lambda}}{x!}$ para $x = 0,1,...,n$
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = \lambda$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = \lambda$
+
+### Exemplo no R
+
+\footnotesize
+Se a cada 5 minutos chegar em média 50 pacientes em uma UTI de um hospital, qual a probabilidade de:
+
+1. Exatamente 10 pacientes chegarem a UTI no próximo minuto?
+
+```{r poisson1, eval=TRUE, echo=TRUE, comment=NA}
+dpois(10, lambda = 10)
+```
+
+2. Cinco pacientes ou mais chegarem a UTI no próximo minuto?
+
+```{r poisson2, eval=TRUE, echo=TRUE, comment=NA}
+1 - ppois(4, lambda = 10)
+```
+
+## Distribuição geométrica
+
+**Variável aleatória**: número de repetições necessárias para obter o primeiro sucesso em experimentos de Bernoulli com probabilidade $p$
+
+\vspace{10pt}
+
+**Distribuição geométrica**: $f(x) = q^{x-1} p$ para $x = 1,2...$
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = \frac{1}{p}$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = \frac{q}{p^2}$
+
+### Exemplo no R
+
+Se 20\% dos motores elétricos produzidos em uma empresa apresentam falhas. Se selecionarmos cinco motores ao acaso qual a probabilidade de encontrarmos quatro motores perfeitos antes de encontrarmos um defeituoso?
+
+```{r geom1, eval=TRUE, echo=TRUE, comment=NA}
+dgeom(4, prob = 0.2)
+```
+
+## Distribuição de Pascal
+
+**Variável aleatória**: número de repetições necessárias para obter o r-ésimo sucesso em experimentos de Bernoulli com probabilidade $p$ (generalização da distribuição geométrica)
+
+\vspace{10pt}
+
+**Distribuição de Pascal (binomial negativa)**: $f(x) = \binom{x-1}{r-1} p^r q^{x-r}$ para $x = r, r+1,r+2...$
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = \frac{r}{p}$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = \frac{rq}{p^2}$
+
+### Exemplo no R
+
+Uma empresa de petróleo tem uma chance de 20\% de encontrar petróleo ao perfurar um poço. Qual a probabilidade de que a empresa perfure 7 poços e encontre petróleo 3 vezes?
+
+```{r nbinom, eval=TRUE, echo=TRUE, comment=NA}
+dnbinom(7-3, size = 3, prob = 0.2)
+```
+
+## Distribuição hipergeométrica
+
+**Variável aleatória**: número de peças defeituosas em uma amostra de $n$ peças retiradas de um total de $N$ peças que continham $r$ defeituosas
+
+\vspace{10pt}
+
+**Distribuição hipergeométrica**: $f(x) = \frac{\binom{r}{x} \binom{N-r}{n-x}}{\binom{N}{n}}$ para $x = 0,1,2...$
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = np$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = npq \frac{N-n}{N-1}$
+
+### Exemplo no R
+
+Qual é a probabilidade de selecionar 14 bolas vermelhas de uma amostra de 20 retiradas de uma urna contendo 70 bolas vermelhos e 30 verdes?
+
+```{r hyper, eval=TRUE, echo=TRUE, comment=NA}
+dhyper(14, 70, 30, 20)
+```
+
+# Distribuições contínuas
+
+## Distribuição uniforme
+
+**Variável aleatória**: um ponto em um intervalo de reta dos números reais 
+
+\vspace{10pt}
+
+**Distribuição uniforme**: $f(x) = \frac{1}{b-a}$ para $a \leq x \leq b$ e $0$ caso contrário
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = \frac{a+b}{2}$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = \frac{(b-a)^2}{12}$
+
+### Exemplo no R
+
+Um ponto é escolhido ao acaso no segmento de reta $\left[1,3\right]$. Qual a probabilidade de que o ponto esteja entre $1,5$ e $2$?
+
+```{r unif, eval=TRUE, echo=TRUE, comment=NA}
+punif(2, min=1, max=3)-punif(1.5, min=1, max=3)
+```
+
+## Distribuição exponencial
+
+**Variável aleatória**: tempo ou distância necessária para ocorrências de um processo de Poisson
+
+\vspace{10pt}
+
+**Distribuição exponencial**: $f(x) = \alpha e^{-\alpha x}$ para $x > 0$ e $0$ para $x \leq 0$
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = \frac{1}{\alpha}$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = \frac{1}{\alpha^2}$
+
+### Exemplo no R
+
+Suponha que o tempo médio de atendimento de um caixa de supermercado seja de três minutos. Encontre a probabilidade de o tempo de atendimento de um cliente ser concluído pelo caixa em menos de dois minutos.
+
+```{r exp, eval=TRUE, echo=TRUE, comment=NA}
+pexp(2, rate = 1/3)
+```
+
+## Distribuição normal
+
+**Variável aleatória**: valores pertencentes ao conjunto dos números reais obtidos de experimentos aleatórios
+
+**Distribuição normal**: $f(x) = \frac{1}{\sqrt{2 \pi} \sigma} \exp{(\frac{1}{2} [ \frac{x-\mu}{\sigma} ]^2)}$ para $-\infty < x < \infty$
+
+\vspace{10pt}
+
+**Valor esperado**: $E(x) = \mu$
+
+\vspace{10pt}
+
+**Variância**: $V(x) = \sigma^2$
+
+### Distribuição normal
+
+- Os parâmetros da distribuição normal devem satisfazer as seguintes condições: $-\infty < \mu < \infty$ e $\sigma > 0$
+
+- Se $X$ tem distribuição normal com média $\mu$ e variância $\sigma^2$, denotamos $X \sim N(\mu, \sigma^2)$
+
+- Se $X \sim N(0,1)$ dizemos que $X$ tem uma distribuição normal reduzida, de modo que:
+
+\begin{center}
+$f(x) = \frac{1}{\sqrt{2 \pi}} e^{-x^2/2}$
+\end{center}
+
+### Distribuição normal
+
+- Se $X \sim N(\mu, \sigma)$ e $Y = aX + b$, então $Y \sim N(a \mu + b, a^2 \sigma^2)$
+
+- Se $X \sim N(\mu, \sigma)$ e $Y = (X - \mu) / \sigma$, então $Y \sim N(0,1)$
+
+- Se $X \sim N(\mu, \sigma)$ então:
+
+\begin{center}
+$P(a \leq X \leq b) = P(\frac{a - \mu}{\sigma} \leq Y \leq \frac{b - \mu}{\sigma}) = F(\frac{b-\mu}{\sigma}) - F(\frac{a-\mu}{\sigma})$
+\end{center}
+
+onde $F$ é a distribuição acumulada da normal reduzida, $N(0,1)$
+
+\vspace{10pt}
+
+- Temos também vale que $F(-x) = 1 - F(x)$
+
+### Exemplo no R
+
+Suponha que a altura em centímetros de uma amostra de estudantes de estatística seja distribuída normalmente com $E(X) = 170$ e $V(X) = 100$. Qual a probabilidade de que um aluno escolhido ao acaso tenha altura menor do que 160cm?
+
+\begin{center}
+$P(X < 160) = P(\frac{X-170}{10} < \frac{160-170}{10}) = F(-1) = 1 - F(1) = 0,159$
+\end{center}
+
+```{r norm, eval=TRUE, echo=TRUE}
+pnorm(160, mean = 170, sd = 10)
+```
+
+# Teorema do Limite Central
+
+Seja $X_1, X_2, \ldots, X_n, \ldots$ uma sequência de variáveis aleatórias independentes, com $E(X_i) = \mu_i$ e $V(X_i) = \sigma_i^2$ para $i = 1,2,\ldots$ Fazendo $X = X_1 + X_2 + \ldots + X_n$, então, sob determinadas condições gerais:
+
+\begin{center}
+$Z_n = \frac{X - \sum_{i=1}^n \mu_i}{\sqrt{\sum_{i=1}^n \sigma_i^2}} \sim N(0,1)$
+\end{center}

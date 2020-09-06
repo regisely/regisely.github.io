@@ -1,0 +1,353 @@
+---
+title: Séries de Tempo
+subtitle: Aula 8 - Modelos vetoriais autorregressivos
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+```{r aux_functions, eval=TRUE, echo=FALSE}
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+  lines <- options$output.lines
+  if (is.null(lines)) {
+    return(hook_output(x, options))  # pass to default hook
+  }
+  x <- unlist(strsplit(x, "\n"))
+  more <- "..."
+  if (length(lines)==1) {        # first n lines
+    if (length(x) > lines) {
+      # truncate the output, but add ....
+      x <- c(head(x, lines), more)
+    }
+  } else {
+    x <- c(more, x[lines], more)
+  }
+  # paste these lines together
+  x <- paste(c(x, ""), collapse = "\n")
+  hook_output(x, options)
+})
+```
+
+# Modelo VAR
+
+- Modelos do tipo ADL ou ECM apenas consideram relações unidirecionais entre as variáveis e dependem da hipótese de exogeneidade fraca 
+
+- Modelos VAR são modelos de equações simultâneas em que é possível uma relação de *feedback* entre as variáveis endógenas, sendo todas tratadas de maneira simétrica^[Também é possível incluir variáveis exógenas em um modelo VAR.]
+
+- Um modelo VAR(p) bivariado é descrito como:
+
+\begin{center}
+$Y_t = c_1 + \phi_{11} Y_{t-1} + \ldots + \phi_{1p} Y_{t-p} + \gamma_{11} X_{t-1} + \ldots + \gamma_{1p} X_{t-p} + \varepsilon_{1t}$ \\
+
+$X_t = c_2 + \phi_{21} Y_{t-1} + \ldots + \phi_{2p} Y_{t-p} + \gamma_{21} X_{t-1} + \ldots + \gamma_{2p} X_{t-p} + \varepsilon_{2t}$ \\
+\end{center}
+
+### Modelo VAR
+
+- No modelo VAR os resíduos das equações $\varepsilon_{1t}$ e $\varepsilon_{2t}$ são ruídos brancos que podem ser correlacionados contemporaneamente
+
+- Se as séries forem todas estacionárias, podemos estimar um modelo VAR em nível
+
+- Se as séries forem não-estacionárias, podemos tirar diferenças até torná-las estacionárias e então estimar o modelo VAR^[Na próxima aula veremos o caso em que as séries são não-estacionárias mas cointegradas.]
+
+### Modelo VAR
+
+- Para construção dos modelos VAR utilizamos o mesmo ciclo de identificação, estimação, diagnóstico e previsão
+
+- Entretanto, inicialmente devemos definir quais variáveis do modelo serão endógenas e fracamente exógenas, normalmente com base na teoria ou literatura
+
+- A identificação da ordem $p$ a ser estimada requer a utilização de critérios como Akaike, BIC e Hannan-Quin
+
+- A estimação pode ser realizada por máxima verossimilhança condicional, que é equivalente ao estimador de OLS
+
+### Modelo VAR
+
+- O diagnóstico dos modelos VAR requer a utilização de uma versão multivariada do teste de Ljung-Box, uma vez que os resíduos de todas as equações devem ser conjuntamente não autocorrelacionados
+
+- Após estimado o modelo e realizado o diagnóstico, pode-se proceder a análise dos coeficientes e exercícios de simulação e previsão
+
+- A previsão dos valores para cada equação é construída de maneira recursiva, semelhante a estrutura dos modelos AR
+
+- Adicionalmente, pode-se fazer uma análise de simulação chamada de impulso-resposta, onde avaliamos como um choque em uma das variáveis do modelo se difunde ao longo do tempo em outras variáveis
+
+# Causalidade de Granger
+
+- Granger definiu causalidade em séries de tempo em termos de previsibilidade
+
+- A variável $X$ causa Granger a variável $Y$, com respeito a um dado conjunto de informação, se o presente de $Y$ pode ser previsto mais eficientemente usando valores passados de $X$ do que não incluindo estes valores
+
+- A eficiência na previsão é medida através do erro quadrático médio de previsão (EQM)
+
+- Note que para verificar se $X_t$ causa Granger $Y_t$ devemos testar a significância conjunta de todos os coeficientes passados^[Se tivermos mais do que duas equações no modelo VAR será necessário testar mais coeficientes conjuntamente para garantir causalidade.] de $X_t$ na equação de $Y_t$
+
+### Causalidade de Granger
+
+Defina $\{ A_t, t = 0, \pm 1, \pm 2, \ldots \}$ o conjunto de toda a informação disponível até o instante $t$, e considere $\bar{A_t} = \{A_s: s < t \}$, $\bar{\bar{A_t}} = \{ A_s: s \leq t \}$ e definições análogas para $\bar{X_t}$ e $\bar{Y_t}$, então:
+
+1. $X_t$ causa Granger $Y_t$ ($X_t \rightarrow Y_t$) se $EQM(Y_t | \bar{A_t}) < EQM (Y_t | \bar{A_t} - \bar{X_t})$, ou seja, $Y_t$ pode ser melhor previsto usando o passado de $X_t$
+
+2. $X_t$ causa Granger $Y_t$ instantaneamente ($X_t \Rightarrow Y_t$)^[Se ($X_t \Rightarrow Y_t$) então automaticamente ($Y_t \Rightarrow X_t$).] se $EQM(Y_t | \bar{A_t}, \bar{\bar{X_t}}) < EQM (Y_t | \bar{A_t})$, ou seja, $Y_t$ pode ser melhor previsto utilizando o valor presente de $X_t$
+
+Dizemos que há *feedback* se tanto $X_t$ causa Granger $Y_t$ quanto $Y_t$ causa Granger $X_t$
+
+# Exemplo no R
+
+Para estimação de modelos VAR vamos utilizar o pacote `vars` e a base de dados `uschange` do pacote `fpp2`, que contém dados macroeconômicos trimestrais dos Estados Unidos durante os anos de 1970 a 2016:
+
+```{r pacotes, eval=TRUE, echo=TRUE}
+library(vars)
+library(fpp2)
+base <- uschange[, 1:2]
+```
+
+Iremos trabalhar apenas com as duas primeiras variáveis da base, a taxa de crescimento percentual do consumo agregado e da renda disponível
+
+### Exemplo no R
+
+Vamos inicialmente visualizar as observações iniciais e o gráfico das duas séries:
+
+```{r dados, eval=TRUE, echo=TRUE}
+head(base)
+```
+
+```{r graf1, eval=FALSE, echo=TRUE}
+autoplot(base)
+```
+
+### Exemplo no R
+
+```{r graf2, eval=TRUE, echo=FALSE}
+autoplot(base)
+```
+
+## Estacionariedade
+
+A primeira etapa antes de estimar as relações dinâmicas entre consumo e renda através do modelo VAR é checar a estacionariedade das séries. Para isso, utilizamos o teste `ADF` através da função `ur.df` em cada uma das séries:
+
+```{r unitroot_cons1, eval=FALSE, echo=TRUE}
+adf_cons <- ur.df(
+  base[,1], type = "drift", lags = 5,
+  selectlags = "AIC"
+)
+summary(adf_cons)
+```
+
+### Estacionariedade
+
+\scriptsize
+```{r unitroot_cons2, eval=TRUE, echo=FALSE, output.lines = 16:35}
+adf_cons <- ur.df(
+  base[,1], type = "drift", lags = 5,
+  selectlags = "AIC"
+)
+summary(adf_cons)
+```
+
+### Estacionariedade
+
+\scriptsize
+```{r unitroot_inc2, eval=TRUE, echo=FALSE, output.lines = 16:34}
+adf_inc <- ur.df(
+  base[,2], type = "drift", lags = 5,
+  selectlags = "AIC"
+)
+summary(adf_inc)
+```
+
+### Estacionariedade
+
+- Para as duas séries podemos rejeitar a hípotese nula de raíz unitária do teste ADF
+
+- Assim, temos duas séries estacionárias e podemos proceder a estimação de um modelo VAR(p) bivariado
+
+- Para a identificação da ordem do coeficiente $p$ podemos utilizar os critérios de Akaike, Schwarz, Hannan-Quin, etc.
+
+## Identificação
+
+A função `VARselect` indica o número de defasagens que minimiza os critérios de identificação:
+
+\footnotesize
+```{r ident, eval=TRUE, echo=TRUE}
+VARselect(base, lag.max = 5)
+```
+
+## Estimação
+
+Com o objetivo de parcimoniosidade neste exercício, vamos estimar um modelo VAR(1) bivariado, conforme o indicado pelo critério bayesiano de Schwarz
+
+```{r estim1, eval=FALSE, echo=TRUE}
+var_model <- vars::VAR(base, p = 1, type = "const")
+summary(var_model)
+```
+
+A função `VAR` do pacote `vars` estima o modelo considerando todas as variáveis da base como endógenas e no argumento `type` é possível incluir constantes ou tendências
+
+### Estimação
+
+\scriptsize
+```{r estim2, eval=TRUE, echo=FALSE, output.lines = c(14:22,30:40)}
+var_model <- vars::VAR(base, p = 1, type = "const")
+summary(var_model)
+```
+
+### Estimação
+
+- O modelo indica que a renda passada tem algum potencial para prever o consumo, sendo significante ao nível de 10\%
+
+- Já o consumo passado prevê fortemente a renda futura, devido ao fato que o aumento das vendas contribui para aumentar a renda da economia
+
+- O consumo tem um componente autorregressivo significativo, indicando persistência nos hábitos de consumo
+
+- Já a renda tem um coeficiente autorregressivo negativo, indicando uma tendência de reversão a média
+
+## Diagnóstico
+
+- Para avaliar a qualidade da especificação do modelo devemos analisar os resíduos através de um teste de autocorrelação multivariado
+
+- Este teste pode ser realizado através da função `serial.test` no `R`, sendo que a rejeição da hipótese nula indica autocorrelação residual
+
+- Assim, aplicaremos o teste as defasagens 10 e 15 
+
+
+### Diagnóstico
+
+\footnotesize
+```{r diag, eval=TRUE, echo=TRUE}
+serial.test(var_model, lags.pt=10, type="PT.asymptotic")
+serial.test(var_model, lags.pt=15, type="PT.asymptotic")
+```
+
+### Diagnóstico
+
+- Em geral, quando utilizamos um número maior de defasagens no teste os resíduos parecem não estar correlacionados
+
+- Entretanto, o teste com apenas 10 defasagens rejeita a hipótese nula de não autocorrelção ao nível de 10\%
+
+- Para resolver essa possível autocorrelação residual em defasagens mais baixas podemos acrescentar mais defasagens no nosso modelo VAR
+
+- Neste exemplo, ficaremos com o modelo VAR(1) com o objetivo de manter a parcimoniosidade
+
+## Causalidade de Granger
+
+- Em um modelo VAR(1), o teste de causalidade de Granger é equivalente ao p-valor dos coeficientes das regressões do modelo VAR
+
+- Entretanto, quando temos um número maior de defasagens, para avaliar a causalidade de Granger devemos realizar um teste conjunto de significância de todos os coeficientes
+
+- Podemos realizar este teste através da função `causality` no 'R'
+
+- Como temos duas variáveis endógenas no nosso modelo, devemos realizar dois testes, o primeiro com o consumo como variável causal e o segundo com a renda como variável causal
+
+### Causalidade de Granger
+
+\footnotesize
+```{r granger1, eval=TRUE, echo=TRUE}
+causality(var_model, cause = "Consumption")
+```
+
+### Causalidade de Granger
+
+\footnotesize
+```{r granger2, eval=TRUE, echo=TRUE}
+causality(var_model, cause = "Income")
+```
+
+### Causalidade de Granger
+
+- Assim como identificado nos resultados das regressões do modelo VAR, o consumo granger causa a renda com significância de 1\%
+
+- Entretanto, a renda granger causa o consumo apenas com significância de 10\%
+
+- Para visualizar a dinâmica deste efeitos causais entre as duas variáveis podemos plotar a função impulso-resposta
+
+- Esta função simula um choque em uma das variáveis e calcula a resposta ao longo do tempo que este choque causa em outra variável
+
+## Funções impulso-resposta
+
+No `R` podemos estimar a função de impulso-resposta através do comando `irf`, utilizando como argumento o modelo estimado, a variável impulso e a variável resposta:
+
+```{r impulso1, eval=FALSE, echo=TRUE}
+impulse_cons <- irf(
+  var_model,
+  impulse = "Consumption",
+  response = "Income"
+)
+plot(impulse_cons)
+```
+
+Após estimar a função impulso-resposta do consumo na renda, podemos plotá-la utilizando a comando `plot`
+
+### Funções impulso-resposta
+
+```{r impulso1_plot, eval=TRUE, echo=FALSE}
+impulse_cons <- irf(
+  var_model,
+  impulse = "Consumption",
+  response = "Income"
+)
+plot(impulse_cons)
+```
+
+### Funções impulso-resposta
+
+De maneira semelhante, vamos calcular a função impulso-resposta da renda no consumo:
+
+```{r impulso2, eval=FALSE, echo=TRUE}
+impulse_inc <- irf(
+  var_model,
+  impulse = "Income",
+  response = "Consumption"
+)
+plot(impulse_inc)
+```
+
+### Funções impulso-resposta
+
+```{r impulso2_plot, eval=TRUE, echo=FALSE}
+impulse_inc <- irf(
+  var_model,
+  impulse = "Income",
+  response = "Consumption"
+)
+plot(impulse_inc)
+```
+
+## Previsão
+
+Por fim, podemos fazer a previsão das duas variáveis endógenas utilizando o modelo VAR estimado através da função forecast:
+
+```{r forecast1, eval=FALSE, echo=TRUE}
+var_fc <- forecast(var_model, h = 4)
+var_fc
+```
+
+E plotar o resultado final:
+
+```{r fc_plot1, eval=FALSE, echo=TRUE}
+plot(var_fc)
+```
+
+### Previsão
+
+\footnotesize
+```{r forecast2, eval=TRUE, echo=FALSE}
+var_fc
+```
+
+### Previsão
+
+```{r forecast, eval=TRUE, echo=FALSE}
+plot(var_fc)
+```
