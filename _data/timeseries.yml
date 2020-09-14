@@ -42,3 +42,8 @@
   filename: timeseries-aula8
   dirname: teaching/timeseries
   tldr: "Modelos VAR, causalidade de Granger, funções de impulso-resposta."
+
+- title: "Aula 9 - Cointegração e Modelos VEC"
+  filename: timeseries-aula9
+  dirname: teaching/timeseries
+  tldr: "Regressão espúria, cointegração, modelos VEC."

@@ -1,0 +1,327 @@
+---
+title: Séries de Tempo
+subtitle: Aula 9 - Cointegração e Modelos VEC
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: true
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+```{r aux_functions, eval=TRUE, echo=FALSE}
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+  lines <- options$output.lines
+  if (is.null(lines)) {
+    return(hook_output(x, options))  # pass to default hook
+  }
+  x <- unlist(strsplit(x, "\n"))
+  more <- "..."
+  if (length(lines)==1) {        # first n lines
+    if (length(x) > lines) {
+      # truncate the output, but add ....
+      x <- c(head(x, lines), more)
+    }
+  } else {
+    x <- c(more, x[lines], more)
+  }
+  # paste these lines together
+  x <- paste(c(x, ""), collapse = "\n")
+  hook_output(x, options)
+})
+```
+
+# Regressão espúria
+
+Ao fazermos uma regressão entre duas séries de tempo, $Y_t = \beta X_t + \varepsilon_t$, podemos ter:
+
+1. **$Y_t, X_t \sim I(0)$ e não autocorrelacionados**: regressão tem coeficientes não viesados e modelo está bem especificado
+
+2. **$Y_t, X_t \sim I(0)$ e autocorrelacionados**: resíduos terão correlação serial, OLS não será eficiente e endogeneidade é possível
+
+3. **$Y_t, X_t \sim I(1)$**: a regressão será espúria, a não ser que exista um $\beta$ que gere resíduos $\varepsilon_t = Y_t - \beta X_t \sim I(0)$, e nesse caso, dizemos que $Y_t$ e $X_t$ são cointegrados, os coeficientes não serão viesados mas os erros não são confiáveis
+
+# Modelo VEC
+
+Um modelo VEC(p) bivariado com um vetor de cointegração $\beta = (1, -\beta_2)'$ tal que $\bm{\beta}' \mathbf{Y_t} = y_{1t} - \beta_2 y_{2t}$ é $I(0)$ é dado por:
+
+\begin{center}
+$\Delta y_{1t} = c_1 + \alpha_1 (y_{1t-1} - \beta_2 y_{2t-1}) + \overset{p}{\underset{j=1}{\sum}} \psi^j_{11} \Delta y_{1t-j} + \overset{p}{\underset{j=1}{\sum}} \psi^j_{12} \Delta y_{2t-j} + \varepsilon_{1t}$ \\
+
+$\Delta y_{2t} = c_2 + \alpha_2 (y_{1t-1} - \beta_2 y_{2t-1}) + \overset{p}{\underset{j=1}{\sum}} \psi^j_{21} \Delta y_{1t-j} + \overset{p}{\underset{j=1}{\sum}} \psi^j_{22} \Delta y_{2t-j} + \varepsilon_{2t}$
+\end{center}
+
+- A relação de longo prazo entre as variáveis é dada pelo vetor de cointegração $\bm{\beta}$^[Este vetor não é único, uma vez que $\lambda \bm{\beta}$ também é um vetor de cointegração, para qualquer $\lambda > 0$.] 
+
+- A relação de curto prazo entre as variáveis é dada pelos coeficientes $\psi$
+
+- A rapidez com que o modelo corrige o equilíbrio de longo prazo é dada pelos coeficientes $\alpha$
+
+
+# Testes de cointegração
+
+- Há dois testes de cointegração mais usuais: o teste de Engle e Granger e o teste de Johansen
+
+- O teste de Engle e Granger se aplica apenas para modelos bivariados
+
+- O teste de Johansen é mais geral e equivale a uma extensão multivariada do teste de Dickey-Fuller
+
+- Em ambos os testes é necessário especificar os termos determinísticos (intercepto restrito e não restrito, tendências restritas e não restritas)
+
+## Teste de Engle e Granger
+
+O teste de Engle e Granger consiste em duas etapas:
+
+1. Forme os resíduos de cointegração ($\upsilon_t = \bm{\beta}' Y_t$);
+
+2. Faça um teste de raízes unitárias para determinar se esses resíduos são $I(0)$
+
+Temos então as hipóteses:
+
+- H0: $\upsilon_t \sim I(1)$: não há cointegração
+- H1: $\upsilon_t \sim I(0)$: há cointegração
+
+### Teste de Engle e Granger
+
+- Poderíamos usar um teste ADF ou PP para testar H0 contra H1, entretanto, em geral, o vetor de cointegração não é conhecido, o que faz com que estes testes tenham distribuições distintas
+
+- A alternativa é estimar um vetor de cointegração $y_{1t} = \alpha + \beta y_{2t} + \upsilon_t$ para obter os resíduos estimados $\hat{\upsilon_t}$ e então testar H0 contra H1
+
+- Nesse caso, o teste ADF não é apropriado e temos uma outra distribuição para testar H0 contra H1 (Phillips e Ouliaris, 1990)
+
+## Teste de Johansen
+
+- Quando temos mais de duas variáveis em um modelo vetorial, podemos ter mais de um vetor de cointegração e o teste de Engle Granger não será aplicável
+
+- Podemos escrever um modelo VEC(p) da seguinte forma:
+
+\begin{center}
+$\Delta \mathbf{Y_t} = \Phi_0 \mathbf{D_t} + \Pi \mathbf{Y_{t-p}} + \Gamma_1  \Delta \mathbf{Y_{t-1}} + \ldots + \Gamma_{p-1} \Delta \mathbf{Y_{t-p+1}} + \upsilon_t$
+\end{center}
+
+onde $\Gamma_i = \Phi_1 + \ldots + \Phi_p - I_n$, sendo $\Phi_k$ a matriz dos coeficientes do modelo VAR, e $\mathbf{D_t}$ uma expressão que contém componentes determinísticos (interceptos e tendências)
+
+### Teste de Johansen
+
+- Se as séries são cointegradas, a matriz $\Pi$ deve ter pelo menos duas colunas linearmente independentes entre si
+
+- O número de colunas linearmente independentes desta matriz é equivalente ao posto dela e o corresponde ao número de vetores de cointegração^[Se tivermos $n$ colunas linearmente independentes, então as séries devem ser I(0), e devemos estimar um modelo VAR.]
+
+- O teste de Johansen determina se as séries são cointegradas observando o posto ou os autovalores da matriz $\Pi$
+
+- Se o posto for zero ou se todos os autovalores forem nulos, então a matriz não possui nenhuma coluna linearmente independente e portanto as séries não são cointegradas^[Problema da regressão espúria se séries são I(1).]
+
+### Teste de Johansen
+
+Assim, existem dois testes de Johansen, o teste do traço e o teste do máximo autovalor:
+
+\begin{center}
+$J_{traço} (r_0) = -T \overset{n}{\underset{i=r_0+1}{\sum}} \ln(1 - \hat{\lambda_i})$ \\
+
+$J_{max} (r_0) = -T  \ln(1 - \hat{\lambda}_{r_0+1})$
+\end{center}
+
+O teste de hipótese de $J_{traço}$ corresponde a:
+
+\vspace{5pt}
+
+$H0: r \leq r_0$ (menos do que $r_0+1$ vetores de cointegração)
+
+$H1: r > r_0$ (mais do que $r_0$ vetores de cointegração)
+
+\vspace{5pt}
+
+O teste de hipótese de $J_{max}$ corresponde a:
+
+\vspace{5pt}
+
+$H0: r = r_0$ (exatamente $r$ vetores de cointegração)
+
+$H1: r = r_0 + 1$ (exatamente $r_0 + 1$ vetores de cointegração)
+
+# Exemplo no R
+
+Vamos utilizar os dados do artigo de Johansen e Juselius (1990) sobre a economia da Dinamarca
+
+\footnotesize
+```{r data, eval=TRUE, echo=TRUE, message=FALSE}
+library(urca)
+library(vars)
+library(tsDyn)
+data(denmark)
+base <- denmark[,c(2, 3, 5, 6)]
+```
+
+\normalsize
+As variáveis endógenas do nosso modelo serão:
+
+- **LRM**: Logaritmo da oferta de moeda (M2)
+- **LRY**: Logaritmo da renda em termos reais
+- **IBO**: Taxa de juros dos títulos do governo
+- **IDE**: Taxa de juros dos depósitos bancários
+
+## Estacionariedade
+
+Primeiro vamos realizar o teste ADF nas 4 variáveis para identificar se elas são I(1): 
+
+```{r unitroot1, eval=FALSE, echo=TRUE}
+adf <- lapply(
+  base, ur.df, type = "drift",
+  lags = 10, selectlags = "AIC"
+)
+lapply(adf, function(x) x@teststat)
+adf[[1]]@cval
+```
+
+A função `lapply` aplica o teste ADF para cada uma das colunas da base de dados, retornando uma lista com 4 elementos
+
+### Estacionariedade
+
+\scriptsize
+```{r unitroot2, eval=TRUE, echo=FALSE}
+adf <- lapply(
+  base, ur.df, type = "drift",
+  lags = 10, selectlags = "AIC"
+)
+lapply(adf, function(x) x@teststat)
+adf[[1]]@cval
+```
+
+### Estacionariedade
+
+- Os resultados demonstram que não podemos rejeitar a hipótese de raiz unitária para todas as variáveis
+
+- Assim, as séries são no mínimo I(1)
+
+- Para garantirmos que as séries são I(1) devemos fazer o teste ADF nas séries diferenciadas e então rejeitarmos a hipótese de raíz unitária
+
+## Identificação
+
+Após garantir que as séries são I(1), devemos fazer a etapa de identificação:
+
+\footnotesize
+```{r var_lags, eval=TRUE, echo=TRUE}
+VARselect(base, lag.max = 4, type = "both", season = 4)
+```
+
+## Teste de cointegração
+
+Antes de estimar um modelo VAR(2) nas diferenças, devemos verificar se as séries são cointegradas através da função `ca.jo`
+
+```{r jo_eigen1, eval=FALSE, echo=TRUE}
+jo_eigen <- ca.jo(
+  base, type = "eigen", ecdet = "const",
+  K = 2, spec = "longrun", season = 4
+)
+summary(jo_eigen)
+```
+
+Vamos primeiro estimar o teste dos autovalores, utilizando 2 defasagens, uma constante e um ajuste sazonal
+
+
+### Teste de cointegração
+
+\scriptsize
+```{r jo_eigen2, eval=TRUE, echo=FALSE, output.lines = 1:17}
+jo_eigen <- ca.jo(
+  base, type = "eigen", ecdet = "const",
+  K = 2, spec = "longrun", season = 4
+)
+summary(jo_eigen)
+```
+
+### Teste de cointegração
+
+O teste do autovalor indica um vetor de cointegração. Agora vamos realizar o teste do traço para verificar se este resultado permanece:
+
+```{r jo_trace1, eval=FALSE, echo=TRUE}
+jo_trace <- ca.jo(
+  base, type = "trace", ecdet = "const",
+  K = 2, spec = "longrun", season = 4
+)
+summary(jo_trace)
+```
+
+Novamente adicionamos duas defasagens, ajustes sazonais e uma constante, mas agora utilizamos o argumento `type = "trace"`
+
+### Teste de cointegração
+
+\scriptsize
+```{r jo_trace2, eval=TRUE, echo=FALSE, output.lines = 1:17}
+jo_trace <- ca.jo(
+  base, type = "trace", ecdet = "const",
+  K = 2, spec = "longrun", season = 4
+)
+summary(jo_trace)
+```
+
+## Estimação
+
+O teste do traço não rejeita a hipótese nula de que há zero vetores de cointegração, mas utilizaremos o resultado obtido no teste do autovalor nestes exemplo, estimando o modelo através da função `VECM`:
+
+```{r vecm1, eval=FALSE, echo=TRUE}
+vecm <- VECM(base, lag = 2, r = 1, estim = "ML")
+summary(vecm)
+```
+
+Utilizamos duas defasagens, um vetor de cointegração e realizamos a estimação por máxima verossimilhança
+
+### Estimação
+
+\tiny
+```{r vecm2, eval=TRUE, echo=FALSE, warning=FALSE, output.lines = 7:31}
+vecm <- VECM(base, lag = 2, r = 1, estim = "ML")
+summary(vecm)
+```
+
+## Diagnóstico
+
+Por fim, realizamos o diagnóstico dos resíduos com a função `serial.test`, mas antes transformamos o resultado do teste de Johansen no formato VAR utilizando a função `vec2var`:
+
+```{r diag, eval=TRUE, echo=TRUE}
+vecvar <- vec2var(jo_eigen, r = 1)
+serial.test(vecvar, lags.pt = 15)
+```
+
+## Função impulso-resposta
+
+Após garantirmos que o modelo está bem especificado, podemos utilzar a função `irf` para fazermos as simulações de impulso-resposta:
+
+```{r impulse, eval=TRUE, echo=TRUE}
+impulse_IBO <- irf(vecvar, impulse = "IBO")
+impulse_LRM <- irf(vecvar, impulse = "LRM")
+impulse_LRY <- irf(vecvar, impulse = "LRY")
+```
+
+Vamos simular um impulso nas variáveis `IBO`, `LRM` e `LRY`
+
+### Função impulso-resposta
+
+\scriptsize
+```{r impulse_IBO, eval=TRUE, echo=TRUE, fig.height = 5}
+plot(impulse_IBO)
+```
+
+### Função impulso-resposta
+
+\scriptsize
+```{r impulse_LRM, eval=TRUE, echo=TRUE, fig.height = 5}
+plot(impulse_LRM)
+```
+
+### Função impulso-resposta
+
+\scriptsize
+```{r impulse_LRY, eval=TRUE, echo=TRUE, fig.height = 5}
+plot(impulse_LRY)
+```
