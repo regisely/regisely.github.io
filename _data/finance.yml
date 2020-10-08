@@ -2,3 +2,13 @@
   filename: finance-ementa
   dirname: teaching/finance
   tldr: "Programa da disciplina de Fundamentos de Finanças."
+
+- title: "Matemática Financeira - Parte 1"
+  filename: matfin-parte1
+  dirname: teaching/finance
+  tldr: "Juros simples e compostos, taxas, desconto bancário e anuidades."
+
+- title: "Matemática Financeira - Parte 2"
+  filename: matfin-parte2
+  dirname: teaching/finance
+  tldr: "Fluxos de caixa, sistemas de empréstimo, análise de investimento e correção monetária."
