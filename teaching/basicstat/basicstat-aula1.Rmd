@@ -169,10 +169,10 @@ Volte para o slide anterior e responda:
 
 Vamos investigar a relação entre o salário dos filhos e o consumo de álcool dos pais *(Elderton e Pearson, 1910)*
 
-- Note que as observações estão agrupadas por profissão dos pais
-- Variável `wage` é o salário semanal médio dos filhos
+- Note que as observações estão agrupadas por profissão dos filhos
+- Variável `wage` é o salário semanal médio por profissão dos filhos
 - Variável `drinks` é o número de pais que bebem álcool
-- Variável `n` é o número de pais em cada profissão
+- Variável `n` é o número total de observações para cada profissão
 - Vamos plotar as  variáveis `wage` contra `drinks/n`, colorindo os pontos conforme a classe salarial dos filhos (`class`):
 
 ```{r plot_code, eval=FALSE, echo=TRUE}
@@ -191,7 +191,7 @@ qplot(x = wage, y = drinks/n, color = class,
 
 ### Relação entre salário e consumo de álcool dos pais
 
-Entre as três classes salariais dos filhos não parece haver relação significativa entre o número médio de pais que consomem bebidas alcoólicas em cada profissão e o salário semanal médio dos filhos
+Entre as três classes salariais dos filhos não parece haver relação significativa entre o número médio de pais que consomem bebidas alcoólicas e o salário semanal médio dos filhos
 
 ### Referências
 
