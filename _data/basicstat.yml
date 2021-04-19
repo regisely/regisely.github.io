@@ -41,7 +41,7 @@
 - title: "Lista de Exercícios 1"
   filename: basicstat-lista1
   dirname: teaching/basicstat
-  tldr: "Lista de exercícios das aulas 1 a 4."
+  tldr: "Lista de exercícios das aulas 1 a 7."
 
 
 - title: "Aula 8 - Variáveis aleatórias"
@@ -62,4 +62,4 @@
 - title: "Lista de Exercícios 2"
   filename: basicstat-lista2
   dirname: teaching/basicstat
-  tldr: "Lista de exercícios das aulas 5 em diante."
+  tldr: "Lista de exercícios das aulas 8 em diante."
