@@ -45,7 +45,7 @@ knit_hooks$set(output = function(x, options) {
 
 Box e Jenkins (1970) sugeriram uma metodologia para modelar processos ARIMA baseada em quatro etapas^[Pode-se incluir uma etapa inicial que envolve a preparação e transformação dos dados originais.]:
 
-1. **Identificação**: determinação das ordens $p$, $d$ e q$ do modelo ARIMA a ser estimado através das funções de autocorrelação e autocorrelação parcial, ou critérios de identificação
+1. **Identificação**: determinação das ordens $p$, $d$ e $q$ do modelo ARIMA a ser estimado através das funções de autocorrelação e autocorrelação parcial, ou critérios de identificação
 
 2. **Estimação**: estimação dos parâmetros do modelo $ARIMA(p,d,q)$, normalmente por máxima verossimilhança
 
@@ -177,7 +177,7 @@ O mesmo teste pode ser aplicado para o período sazonal, verificando se existem 
 
 ```{r kpss2, eval=TRUE, echo=TRUE}
 data %>%
-  features(log(Trips), unitroot_ndiffs)
+  features(log(Trips), unitroot_nsdiffs)
 ```
 
 ## Sazonalidade e diferenciação
@@ -199,7 +199,7 @@ Agora vamos testar novamente a raíz unitária dos dados dessazonalizados e dife
 
 ```{r kpss_diff1, eval=TRUE, echo=TRUE}
 data %>%
-  features(Var_Trips, unitroot_nsdiffs)
+  features(Var_Trips, unitroot_ndiffs)
 ```
 
 ### Sazonalidade e diferenciação
