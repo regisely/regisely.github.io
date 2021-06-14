@@ -60,7 +60,7 @@ $P[|X - c| \geq \epsilon] \leq \frac{1}{\epsilon^2} E(X - c)^2$
 
 - Alternativamente, $P[|X - c| < \epsilon] \geq 1 - \frac{1}{\epsilon^2} E(X - c)^2$
 
-- Se $c=\mu$, então $P[|X - \mu| \geq \epsilon] \geq \frac{V(X)}{\epsilon^2}$ 
+- Se $c=\mu$, então $P[|X - \mu| \geq \epsilon] \leq \frac{V(X)}{\epsilon^2}$ 
 
 - Se $c=\mu$ e $E = K \sigma$, então $P[|X - \mu| \geq K \sigma] \leq K^{-2}$ 
 

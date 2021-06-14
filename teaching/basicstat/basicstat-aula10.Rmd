@@ -25,7 +25,7 @@ make149: true
 
 \vspace{10pt}
 
-**Distribuição binomial**: $f(x) = \binom{n}{x} p^x (1-p)^{n-x}$ para $x = 0,1,2,...,n$
+**Distribuição binomial**: $f(x) = \binom{x}{n} p^x (1-p)^{n-x}$ para $x = 0,1,2,...,n$
 
 \vspace{10pt}
 
