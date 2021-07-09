@@ -109,7 +109,10 @@ Temos então as hipóteses:
 $\Delta \mathbf{Y_t} = \Phi_0 \mathbf{D_t} + \Pi \mathbf{Y_{t-p}} + \Gamma_1  \Delta \mathbf{Y_{t-1}} + \ldots + \Gamma_{p-1} \Delta \mathbf{Y_{t-p+1}} + \upsilon_t$
 \end{center}
 
-onde $\Gamma_i = \Phi_1 + \ldots + \Phi_p - I_n$, sendo $\Phi_k$ a matriz dos coeficientes do modelo VAR, e $\mathbf{D_t}$ uma expressão que contém componentes determinísticos (interceptos e tendências)
+onde $\Gamma_i = \Phi_1 + \ldots + \Phi_i - I_n$, sendo $\Phi_k$ a matriz dos
+coeficientes do modelo VAR; $\Pi = \Phi_1 + \ldots + \Phi_p - I_n$; e
+$\mathbf{D_t}$ uma expressão que contém componentes determinísticos (interceptos
+e tendências)
 
 ### Teste de Johansen
 
