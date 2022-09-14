@@ -10,7 +10,15 @@ Below you can see a list of selected recent publications and working papers. Fee
 
 ## Selected Recent Publications
 
-Ely, Regis A., Benjamin M. Tabak and Anderson M. Teixeira. Forthcoming. "[The transmission mechanisms of macroprudential policies on bank risk](https://www.sciencedirect.com/science/article/abs/pii/S0264999319313379)". *Economic Modelling*, 2020.
+Adão, Luiz F. S., Douglas Silveira, Regis A. Ely and Daniel O. Cajueiro.
+Forthcoming. "[The impacts of interest rates on banks' loan porfolio
+risk-taking](https://www.sciencedirect.com/science/article/abs/pii/S0165188922002251)".
+*Journal of Economics Dynamics and Control*, 2022.
+
+Ely, Regis A., Benjamin M. Tabak and Anderson M. Teixeira. 2021. "[The
+transmission mechanisms of macroprudential policies on bank
+risk](https://www.sciencedirect.com/science/article/abs/pii/S0264999319313379)".
+*Economic Modelling* 94: 598-630.
 
 Ely, Regis A., Rafael Parfitt, André Carraro and Felipe G. Ribeiro. 2019. "[Rural credit and the time allocation of agricultural households: the case of Pronaf in Brazil](https://onlinelibrary.wiley.com/doi/abs/10.1111/rode.12606)". *Review of Development Economics* 23(4): 1863-1890.
 

@@ -16,7 +16,7 @@ markdown: kramdown
 
 # Other options
 permalink: /blog/:title/
-jobtitle: "Adjunct Professor"
+jobtitle: "Associate Professor"
 excerpt_separator: "<!--more-->"
 
 # SEO stuff

@@ -2,7 +2,7 @@
 output: 
   pdf_document:
     latex_engine: pdflatex
-    template: ~/Dropbox/resources/templates/latex/cv.tex
+    template: ~/OneDrive/resources/templates/latex/cv.tex
 geometry: margin=1in
 
 title: "CV"
@@ -34,9 +34,11 @@ urlcolor: blue
 
 Associate Professor \hfill 2020-present
 
+Head of Department (Department of Economics/UFPel) \hfill 2022-present
+
 Adjunct Professor \hfill 2012-2020
 
-Postgraduate Coordinator (PPGOM/UFPel) \hfill 2019-present
+Postgraduate Coordinator (PPGOM/UFPel) \hfill 2019-2021
 
 Head of Department (Department of Economics/UFPel) \hfill 2016-2018\break
 
@@ -66,7 +68,7 @@ Bank officer (Credit Management, FCVS and FIES) \hfill  2005-2008\break
 
 # Programming skills\hfill\break
 
-*R, Python, Stata, Matlab, LaTeX, Elisp, Jekyll, Shell*\hfill\break
+*R, Python, Stata, Matlab, PowerBI, LaTeX, Elisp, Shell*\hfill\break
 
 # Grants\break
 
@@ -83,6 +85,9 @@ CAPES Doctoral Fellowship \hfill 2010-2012
 CAPES Masters Fellowship \hfill 2008-2010\break
 
 # Technical works\hfill\break
+
+Research work for Instituto Mauro Borges e Secretaria de Economia do Estado de
+Goiás - *Previsão e determinantes do equilíbrio fiscal para o Estado de Goiás*, 2022.
 
 Research work for Escola Nacional de Administração Pública (ENAP) - *Sinergias entre o programa microempreendedor individual e programas de assistência técnica*, 2020.
 
@@ -104,7 +109,15 @@ Research work for Febraban - *O Impacto da Lei de Falências no Mercado de Créd
 
 This list includes some selected recent publications. For the full list of my publications you can access my [Curriculum Lattes](http://lattes.cnpq.br/3708985718656687).\hfill\break
 
-Ely, Regis A., Benjamin M. Tabak and Anderson M. Teixeira. Forthcoming. "[The transmission mechanisms of macroprudential policies on bank risk](https://www.sciencedirect.com/science/article/abs/pii/S0264999319313379)". *Economic Modelling*, 2021.
+Adão, Luiz F. S., Douglas Silveira, Regis A. Ely and Daniel O. Cajueiro.
+Forthcoming. "[The impacts of interest rates on banks' loan porfolio
+risk-taking](https://www.sciencedirect.com/science/article/abs/pii/S0165188922002251)".
+*Journal of Economics Dynamics and Control*, 2022.
+
+Ely, Regis A., Benjamin M. Tabak and Anderson M. Teixeira. 2021. "[The
+transmission mechanisms of macroprudential policies on bank
+risk](https://www.sciencedirect.com/science/article/abs/pii/S0264999319313379)".
+*Economic Modelling* 94: 598-630.
 
 Ely, Regis A., Rafael Parfitt, André Carraro and Felipe G. Ribeiro. 2019. "[Rural credit and the time allocation of agricultural households: the case of Pronaf in Brazil](https://onlinelibrary.wiley.com/doi/abs/10.1111/rode.12606)". *Review of Development Economics* 23(4): 1863-1890.
 
@@ -129,8 +142,6 @@ This list includes the current disciplines that I teach. For the full list of my
 Elementary Statistics \hfill 2013-present
 
 Fundamentals of Finance \hfill 2013-present
-
-Introductory Economics \hfill 2011-present\break
 
 ***Graduates***
 
