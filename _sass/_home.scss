@@ -4,11 +4,11 @@
  */
 
 .hero {
-    padding: 3rem 0 2.5rem;
+    padding: 1.75rem 0 1.75rem;
     border-bottom: 1px solid rgba($text-color, 0.08);
 
     @include media-query($on-laptop) {
-        padding: 2rem 0 1.75rem;
+        padding: 1.25rem 0 1.25rem;
     }
 }
 
