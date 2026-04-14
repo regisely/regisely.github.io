@@ -1,0 +1,137 @@
+---
+title: Séries de tempo
+subtitle: Aula - Outliers e Missings
+author: Regis A. Ely
+institute: |
+    | Departamento de Economia
+    | Universidade Federal de Pelotas
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: ~/Dropbox/resources/templates/latex/latex-beamer.tex
+    latex_engine: pdflatex
+    toc: false
+    fig_caption: true
+    slide_level: 3
+make149: true
+---
+
+
+# Outliers
+
+- Inspecionar o gráfico
+
+```{r graph, eval=TRUE, echo=FALSE}
+library(tidyverse)
+econ_miss <- economics$unemploy
+econ_miss[sample(1:length(econ_miss), 5)] <- 10000
+ts.plot(econ_miss)
+```
+
+### Outliers
+
+- Investigar o motivo dos outliers
+  - Olhar caso a caso
+  - Se não for possível recorrer a alternativas mais automatizadas
+  
+- Alternativas:
+  1. Winsorize
+  2. Boxplot
+  3. Separatrizes
+  4. Etc...
+
+- Se o outlier não traz nenhuma informação relevante, ele pode ser
+tratado como um missing
+  
+### Outliers
+
+```{r winsor, eval=FALSE, echo=TRUE}
+library(DescTools)
+econ_miss_d <- diff(econ_miss)
+par(mfrow = c(2,1))
+ts.plot(econ_miss)
+ts.plot(cumsum(Winsorize(diff(econ_miss))))
+```
+### Outliers
+
+```{r winsor2, eval=TRUE, echo=FALSE}
+library(DescTools)
+econ_miss_d <- diff(econ_miss)
+par(mfrow = c(2,1))
+ts.plot(econ_miss)
+ts.plot(cumsum(Winsorize(diff(econ_miss))))
+```
+
+### Missings
+
+- Inspecionar dados
+
+```{r missings, eval=FALSE, echo=TRUE}
+tibble(airquality) %>%
+  filter(is.na(Ozone))
+```
+
+- Inspecionar gráfico (menos visível)
+
+```{r miss_grpah, eval=FALSE, echo=TRUE}
+ts.plot(airquality$Ozone)
+```
+
+### Missings
+
+- Investigar a fonte dos NAs
+  - Casos tendem a ter razões semelhantes
+  - Missings podem acrescentar viés nas estimações
+  
+- Alternativas:
+  - Remoção: `drop_na()`
+  - Imputação: média, spline, kNN, bagging, etc.
+  - Interpolação: modelos ARIMA, regressões, etc.
+
+- **Importante**: lidar com outliers antes de sair fazendo regressões
+
+### Missings
+
+Para remover outliers podemos usar a função `drop_na()` quando especificamos os dados como um `tibble`:
+
+```{r outlier_del, eval=FALSE, echo=TRUE}
+tibble(airquality) %>%
+  drop_na(Ozone)
+```
+
+### Missings
+
+Para imputar valores podemos usar a função `impute` do pacote `Hmisc`:
+
+```{r impute, eval=FALSE, echo=TRUE}
+library(Hmisc)
+ozone <- airquality$Ozone
+ts.plot(impute(ozone, mean))
+```
+
+### Missings
+
+```{r impute2, eval=TRUE, echo=FALSE}
+library(Hmisc)
+ozone <- airquality$Ozone
+ts.plot(impute(ozone, mean))
+```
+
+### Missings
+
+Para imputar valores usando *nearest neighbour* podemos utilizar a função `knnImputation` do pacote `DMwR`:
+
+```{r knn, eval=FALSE, echo=TRUE}
+library(DMwR)
+ts.plot(knnImputation(airquality)$Ozone)
+```
+
+### Missings
+
+```{r knn2, eval=TRUE, echo=FALSE}
+library(DMwR)
+ts.plot(knnImputation(airquality)$Ozone)
+```
+ 
+  

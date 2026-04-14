@@ -122,7 +122,7 @@ O valor esperado da t-ésima observação de uma série de tempo é conhecido co
 
 Já a média temporal de uma série de tempo é dada por:
 
-- $\bar{Y_t} = \frac{\sum^T_{t=1} y_t}{T}$, onde T é o número de observações no tempo
+- $\bar{Y} = \frac{\sum^T_{t=1} y_t}{T}$, onde T é o número de observações no tempo
 
 ### Esperança de um processo estocástico
 
@@ -172,7 +172,7 @@ Em termos da *ensemble average*, temos:
 
 Já utilizando os dados observados e a média temporal:
 
-- $\gamma_{jt} = \frac{\sum^{T-j}_{t=1} (y_t - \mu_t) (y_{t-j} - \mu_{t-j})}{T}$, para $j = 0, 1, \dots, T$
+- $\gamma_{j} = \frac{\sum^{T-j}_{t=1} (y_t - \bar{Y}) (y_{t-j} - \bar{Y})}{T}$, para $j = 0, 1, \dots, T$
 
 ### Variância e Autocovariância
 

@@ -1,1 +1,56 @@
+# Jekyll
 _site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+.bundle/
+vendor/
+Gemfile.lock
+
+# R
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+
+# knitr / R Markdown caches
+*_cache/
+
+# LaTeX artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+*.lof
+*.lot
+
+# Teaching knitr / LaTeX scratch dirs
+teaching/**/figure/
+teaching/**/temp/
+
+# Backup / old files
+*_old.*
+*.bak
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Templates
+templates/
