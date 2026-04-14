@@ -2,9 +2,12 @@
 layout: page
 title: Teaching
 permalink: /teaching/
+lang: en
+alt_lang: pt
+alt_url: /pt/teaching/
 ---
 
-Esta página contém os links para as disciplinas que leciono, bem como apresentações e seminários ministrados em diversas ocasiões. Este material está predominantemente em português, embora algumas apresentações possam estar em inglês.
+This page contains links to the courses I teach, as well as presentations and seminars delivered on various occasions. The material is predominantly in Portuguese, although some presentations may be in English.
 
 <hr style="clear:both;visibility: hidden;" /> 
 

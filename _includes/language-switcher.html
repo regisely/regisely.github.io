@@ -1,0 +1,29 @@
+{% if page.url contains '/pt/' %}
+  {% assign ui_lang = 'pt' %}
+  {% assign alt_url = page.alt_url | default: '/' %}
+{% else %}
+  {% assign ui_lang = 'en' %}
+  {% assign alt_url = page.alt_url | default: '/pt/' %}
+{% endif %}
+
+<div class="lang-switcher" role="group" aria-label="Language selector">
+  {% if ui_lang == 'en' %}
+    <span class="lang-switcher__item is-current" aria-current="true" lang="en" title="English">
+      <span class="lang-switcher__flag" aria-hidden="true">🇺🇸</span>
+      <span class="lang-switcher__label">EN</span>
+    </span>
+    <a class="lang-switcher__item lang-switcher__link" href="{{ alt_url }}" data-lang="pt" hreflang="pt" lang="pt" title="Português">
+      <span class="lang-switcher__flag" aria-hidden="true">🇧🇷</span>
+      <span class="lang-switcher__label">PT</span>
+    </a>
+  {% else %}
+    <a class="lang-switcher__item lang-switcher__link" href="{{ alt_url }}" data-lang="en" hreflang="en" lang="en" title="English">
+      <span class="lang-switcher__flag" aria-hidden="true">🇺🇸</span>
+      <span class="lang-switcher__label">EN</span>
+    </a>
+    <span class="lang-switcher__item is-current" aria-current="true" lang="pt" title="Português">
+      <span class="lang-switcher__flag" aria-hidden="true">🇧🇷</span>
+      <span class="lang-switcher__label">PT</span>
+    </span>
+  {% endif %}
+</div>

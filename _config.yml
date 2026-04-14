@@ -28,3 +28,18 @@ bing_webmastertools_id: ""
 #  - jekyll-sitemap
 
 exclude: ['*.Rmd']
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+      lang: pt
+      alt_url: /pt/blog/
+  - scope:
+      path: "teaching"
+    values:
+      lang: pt
+      alt_url: /pt/teaching/
+

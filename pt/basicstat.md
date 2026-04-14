@@ -1,9 +1,9 @@
 ---
 layout: page
 title: Métodos Estatísticos Básicos
-permalink: /basicstat/
+permalink: /pt/basicstat/
 lang: pt
-alt_url: /pt/basicstat/
+alt_url: /basicstat/
 ---
 
 Aqui você encontrará a ementa, lista de exercícios, notas de aula e outros arquivos e informações para a disciplina de Métodos Estatísticos Básicos, ministrada para o terceiro semestre do curso de graduação em Ciência Econômicas da Universidade Federal de Pelotas.
@@ -21,7 +21,7 @@ Ao clicar no título você acessará o PDF de cada arquivo. Os ícones a direita
 	<a href="https://github.com/{{ site.githubdir}}/tree/master/{{ lectures.dirname }}"><i class="fab fa-github"></i></a>&nbsp;&nbsp;
 <a href="https://github.com/{{ site.githubdir}}/tree/master/{{ lectures.dirname }}/{{ lectures.filename}}.Rmd"><i class="fab fa-r-project"></i></a>&nbsp;&nbsp;
 <a href="https://github.com/{{ site.githubdir}}/blob/master/{{ lectures.dirname }}/{{ lectures.filename}}.pdf"><i class="fas fa-file-pdf"></i></a>
-</strong> 
+</strong>
       </li>
 {% endfor %}
 </ul>

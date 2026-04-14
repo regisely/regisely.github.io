@@ -1,8 +1,13 @@
+{% if page.url contains '/pt/' %}
+  {% assign menu_data = site.data.menu_pt %}
+{% else %}
+  {% assign menu_data = site.data.menu %}
+{% endif %}
 <ul class="menu">
-  {% for steve in site.data.menu %}
+  {% for steve in menu_data %}
     {% assign is_current = false %}
-    {% if steve.href == '/' %}
-      {% if page.url == '/' %}{% assign is_current = true %}{% endif %}
+    {% if steve.href == '/' or steve.href == '/pt/' %}
+      {% if page.url == steve.href %}{% assign is_current = true %}{% endif %}
     {% else %}
       {% if page.url contains steve.href %}{% assign is_current = true %}{% endif %}
     {% endif %}

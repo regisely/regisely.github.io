@@ -2,6 +2,9 @@
 layout: page
 title: Curriculum Vitae
 permalink: /cv/
+lang: en
+alt_lang: pt
+alt_url: /pt/cv/
 ---
 
 You can view a three-page short version of my CV below or [download the PDF here](/docs/rae-cv.pdf). The full version of my CV can be found at my [Curriculum Lattes](http://lattes.cnpq.br/3708985718656687).

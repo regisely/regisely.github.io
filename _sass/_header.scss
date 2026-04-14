@@ -40,6 +40,9 @@
 .site-nav {
     float: right;
     line-height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
 
     .menu-icon {
         display: none;
@@ -92,8 +95,6 @@
 
 .site-nav .menu {
     text-align: right;
-    float: right;
-    padding-top: 9px;
     font-size: 85%;
     letter-spacing: 1px;
     line-height: 1em;
@@ -110,7 +111,7 @@
     display: inline-block;
     height: 23px;
     line-height: normal;
-    margin: 12px 0 0 20px;
+    margin: 0 0 0 20px;
     padding: 0 0 2px;
     position: relative;
     vertical-align: top;
@@ -275,6 +276,72 @@
 .site-nav .menu-icon:focus-visible,
 .site-nav .submenu-toggle:focus-visible,
 .site-nav .menu a:focus-visible {
+    outline: 2px solid rgba(#ffffff, 0.85);
+    outline-offset: 3px;
+}
+
+/**
+ * Language switcher
+ */
+.lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    line-height: 1;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.lang-switcher__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+    color: #ffffff;
+}
+
+.lang-switcher__link {
+    opacity: 0.55;
+    cursor: pointer;
+}
+
+.lang-switcher__link:hover,
+.lang-switcher__link:focus-visible {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+}
+
+.lang-switcher__item.is-current {
+    opacity: 1;
+    cursor: default;
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.lang-switcher__flag {
+    font-size: 18px;
+    line-height: 1;
+    display: inline-block;
+    font-family: "Twemoji Country Flags", "Apple Color Emoji", "Segoe UI Emoji",
+        "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+.lang-switcher__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.lang-switcher__link:focus-visible {
     outline: 2px solid rgba(#ffffff, 0.85);
     outline-offset: 3px;
 }

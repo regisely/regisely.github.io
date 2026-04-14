@@ -1,9 +1,11 @@
 <header class="site-header">
 
   <div class="wrapper">
-    <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
+    <a class="site-title" href="{% if page.url contains '/pt/' %}/pt/{% else %}{{ site.baseurl }}/{% endif %}">{{ site.title }}</a>
 
     <nav class="site-nav">
+      {% include language-switcher.html %}
+
       <button type="button" class="menu-icon" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav-trigger">
         <span class="menu-icon__box" aria-hidden="true">
           <span class="menu-icon__line"></span>

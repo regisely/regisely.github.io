@@ -1,13 +1,13 @@
 ---
 layout: page
 title: Posts
-permalink: /blog/
-lang: en
-alt_lang: pt
-alt_url: /pt/blog/
+permalink: /pt/blog/
+lang: pt
+alt_lang: en
+alt_url: /blog/
 ---
 
-This page gathers analyses, notes, and essays on a range of subjects — with educational and exploratory content. Most posts are written in Portuguese.
+Esta página inclui análises, comunicados e textos sobre uma variedade de assuntos, tendo conteúdo educativo e exploratório.
 
 <section class="post-categories">
     <p class="post-categories__label">Categorias</p>
@@ -31,19 +31,16 @@ This page gathers analyses, notes, and essays on a range of subjects — with ed
 <li class="archiveposturl"><span><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></span><br/>
 <span class = "postlower">
 
-<!--<strong>Author:</strong> {{post.author}} -->
-<strong>Category:</strong>  {% if post.categories %}
- 
+<strong>Categoria:</strong>  {% if post.categories %}
+
   {% for cat in post.categories %}
   <a href="/categories/#{{ cat }}" title="{{ cat }}">{{ cat }}</a>&nbsp;
   {% endfor %}
 
-{% endif %} <!-- {{ post.categories | first }} -->
-<strong style="font-size:100%; font-family: 'Titillium Web', sans-serif; float:right; padding-right: .5em">{{ post.date | date: '%d %b %Y' }}</strong> 
-</span> 
+{% endif %}
+<strong style="font-size:100%; font-family: 'Titillium Web', sans-serif; float:right; padding-right: .5em">{{ post.date | date: '%d %b %Y' }}</strong>
+</span>
 
 </li>
 {% endfor %}
 </ul>
-
-<!-- {{ post.date | date: '%m %d, %Y' }} -->

@@ -2,6 +2,9 @@
 layout: page
 title: Research
 permalink: /research/
+lang: en
+alt_lang: pt
+alt_url: /pt/research/
 ---
 
 My main research focus on the intersection between financial markets and public policies or regulatory interventions. This means that I use applied statistics and econometrics to measure the effects of interventions on financial and credit markets. The areas that I interested include finance, banking, time series, forecasting and machine learning.

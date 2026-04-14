@@ -6,14 +6,40 @@
     .site-header .wrapper {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         gap: 1rem;
+    }
+
+    .site-header .wrapper::after {
+        display: none;
     }
 
     .site-title {
         float: none;
-        max-width: calc(100% - 72px);
+        max-width: calc(100% - 140px);
         font-size: clamp(1.65rem, 7vw, 1.95rem);
+    }
+
+    .lang-switcher {
+        float: none;
+        margin: 0 0.5rem 0 0;
+        gap: 0.25rem;
+        vertical-align: middle;
+    }
+
+    .lang-switcher__item {
+        padding: 3px 5px;
+    }
+
+    .lang-switcher__flag {
+        font-size: 16px;
+    }
+
+    .site-nav {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 0 0 auto;
     }
 
     .site-nav .trigger {

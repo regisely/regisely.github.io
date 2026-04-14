@@ -54,3 +54,9 @@ Thumbs.db
 
 # Templates
 templates/
+
+# AI
+.codex
+.claude/
+CLAUDE.md
+AGENTS.md
