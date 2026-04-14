@@ -4,43 +4,117 @@
         display: none;
     }
 
+    /* Full-width dropdown panel below the header */
+    .site-nav .trigger {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin: 0;
+        background: #fff;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+        padding: 0.4rem 0;
+        z-index: 99;
+        animation: mobile-nav-in 0.2s ease-out both;
+    }
+
+    .site-nav.is-open .trigger {
+        display: block;
+    }
+
     .site-nav .menu {
         display: block;
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        min-width: 215px;
-        padding: 4px 0;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+        min-width: 0;
+        margin: 0;
+        text-align: left;
+        float: none;
+        font-size: 100%;
     }
 
     .site-nav .menu > li {
         display: block;
         height: auto;
         margin: 0;
+        padding: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
         text-align: left;
     }
 
-    .site-nav .menu a {
-        color: $clemson-purple;
-        padding: 8px 16px;
-        background: #fff;
+    .site-nav .menu > li:first-child {
+        border-top: 0;
     }
 
+    .site-nav .menu > li.is-current {
+        background: rgba($clemson-purple, 0.04);
+    }
+
+    .site-nav .menu a,
+    .site-nav .menu a:hover {
+        display: block;
+        color: $clemson-purple;
+        background: transparent;
+        padding: 14px 28px;
+        font-family: 'Titillium Web', sans-serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        line-height: 1.3;
+    }
+
+    .site-nav .menu > li > .page-link::after {
+        display: none;
+    }
+
+    /* Teaching submenu — shown indented, always visible when menu is open */
     .site-nav .sub-menu {
         visibility: visible;
         opacity: 1;
         transform: none;
         position: static;
-        display: none;
+        display: block;
         box-shadow: none;
         border: 0;
-        padding: 0 0 0 16px;
+        padding: 0 0 0.4rem;
+        margin: 0;
         min-width: 0;
         right: auto;
         top: auto;
         transition: none;
+        background: rgba($clemson-purple, 0.03);
     }
 
-    .site-nav .menu-item.is-open > .sub-menu {
-        display: block;
+    .site-nav .sub-menu li {
+        border: 0;
+    }
+
+    .site-nav .sub-menu li a,
+    .site-nav .sub-menu li a:hover {
+        padding: 10px 28px 10px 44px;
+        font-size: 0.82rem;
+        text-transform: none;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        color: rgba($clemson-purple, 0.85);
+    }
+
+    .site-nav .sub-menu a::before {
+        display: none;
+    }
+}
+
+@keyframes mobile-nav-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

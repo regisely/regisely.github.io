@@ -234,6 +234,12 @@ h3 /* .post-subtitle */ {
         font-variation-settings: "opsz" 48, "SOFT" 60;
         font-weight: 550;
         letter-spacing: -0.01em;
+        margin-top: 3rem;
+    }
+
+    > h2:first-child,
+    > *:first-child + h2 {
+        margin-top: 0;
     }
 
     h3 {
@@ -254,7 +260,23 @@ h3 /* .post-subtitle */ {
 }
 
 						.footnotes ol li {list-style-type:decimal;}
-						.footnotes ol {font-size:.85em; color:#666666;}	
+						.footnotes ol {font-size:.85em; color:#666666;}
+
+.teaching-note {
+    margin: 2.5rem 0 2rem;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid $clemson-purple;
+    background: rgba($clemson-purple, 0.04);
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(#111, 0.78);
+
+    i {
+        font-style: normal;
+        color: $clemson-purple;
+    }
+}
 	
 html {
   overflow-y: scroll;
