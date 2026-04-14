@@ -2,14 +2,12 @@
  * Site header
  */
 .site-header {
-    border-top: 0px solid $grey-color-dark;
-	border-bottom: 4px solid $clemson-purple;
+    border-top: 0 solid $grey-color-dark;
+    border-bottom: 4px solid $clemson-purple;
     min-height: 56px;
     background: #407294;
-    // Positioning context for the mobile navigation icon
     position: relative;
     z-index: 100;
-
 }
 
 .site-title {
@@ -21,10 +19,12 @@
     margin-bottom: 0;
     float: left;
     color: #ffffff;
+
     &,
     &:visited {
         color: #ffffff;
     }
+
     &,
     &:hover {
         text-decoration: none;
@@ -32,215 +32,56 @@
 }
 
 .site-header .wrapper {
-	padding-top: 20px;
-	position: relative;
+    padding-top: 20px;
+    padding-bottom: 14px;
+    position: relative;
 }
-
-.site-nav ul li a {
-	color: #fff;
-}
-
-.site-nav ul {
-
-	text-align: right;
-	float: right;
-	padding-top: 9px;
-	font-size: 85%;
-	letter-spacing: 1px;
-	line-height: 1em;
-	font-weight: 600;
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	text-transform: uppercase;
-		font-family: 'Titillium Web', sans-serif;
-
-}
-
-.site-nav .menu > li {
-	border-bottom: 3px solid transparent;
-	display: inline-block;
-	height: 23px;
-	line-height: normal;
-	margin: 12px 0 0 20px;
-	padding: 0 0 2px 0;
-	position: relative;
-	vertical-align: top;
-}
-
-.site-nav a {
-	display: block;
-        color: #ffffff;
-}
-
-/* Sub Menu */
-
-.sub-menu {
-	background: #ffffff;
-	border: 0;
-	border-top: 2px solid $clemson-purple;
-	box-shadow: 0 8px 28px rgba(17, 17, 17, 0.1), 0 2px 8px rgba(17, 17, 17, 0.05);
-	visibility: hidden;
-	opacity: 0;
-	transform: translateY(-6px);
-	transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.22s;
-	right: -10px;
-	padding: 0.55rem 0;
-	position: absolute;
-	text-align: left;
-	text-transform: none;
-	top: 100%;
-	min-width: 290px;
-	z-index: 999;
-	font-family: $base-font-family;
-}
-
-.site-nav li:hover > .sub-menu {
-	visibility: visible;
-	opacity: 1;
-	transform: translateY(0);
-	transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
-}
-
-.site-nav .sub-menu a {
-	display: block;
-	font-family: $base-font-family;
-	font-weight: 500;
-	font-size: 0.86rem;
-	letter-spacing: 0.01em;
-	line-height: 1.4;
-	padding: 0.58rem 1.2rem 0.58rem 1.5rem;
-	color: $clemson-purple;
-	position: relative;
-	transition: color 0.2s ease, background-color 0.2s ease, padding-left 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-nav .sub-menu a::before {
-	content: "";
-	position: absolute;
-	left: 0.8rem;
-	top: 50%;
-	width: 10px;
-	height: 1px;
-	background: $clemson-purple;
-	opacity: 0;
-	transform: translateY(-50%) scaleX(0.3);
-	transform-origin: left center;
-	transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-nav .sub-menu a:hover {
-	color: $clemson-purple;
-	background-color: rgba($clemson-purple, 0.05);
-	padding-left: 1.95rem;
-}
-
-.site-nav .sub-menu a:hover::before {
-	opacity: 0.6;
-	transform: translateY(-50%) scaleX(1);
-}
-
-.sub-menu li {
-	border-bottom: 0;
-	display: block;
-	height: auto;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-}
-
-
-
-.site-nav h1 {
-	position: absolute;
-	left: -999em;
-}
-
-/* Animated underline for top-level nav items */
-.site-nav a,
-.site-nav a:hover {
-	text-decoration: none;
-}
-
-.site-nav .menu > li > .page-link {
-	position: relative;
-}
-
-.site-nav .menu > li > .page-link::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -6px;
-	height: 2px;
-	background: #ffffff;
-	transform: scaleX(0);
-	transform-origin: left center;
-	transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-nav .menu > li > .page-link:hover::after,
-.site-nav .menu > li.is-current > .page-link::after {
-	transform: scaleX(1);
-}
-
 
 .site-nav {
     float: right;
     line-height: 40px;
 
-
     .menu-icon {
+        display: none;
+    }
+
+    .submenu-toggle {
         display: none;
     }
 
     .page-link {
         color: #ffffff;
-    background: $clemson-orange;
+        background: $clemson-orange;
         line-height: $base-line-height;
-
-        // Gaps between nav items, but not on the first one
-        &:not(:first-child) {
-            margin-left: 20px;
-        }
     }
 
-
-
     @include media-query($on-palm) {
-        position: absolute;
-        top: 14px;
-        right: 20px;
+        position: static;
         background: transparent;
         border: 0;
         text-align: right;
+        line-height: 1;
 
         .menu-icon {
-            display: block;
-            float: right;
-            width: 40px;
-            height: 40px;
-            padding: 12px 10px;
-            line-height: 0;
-            text-align: center;
-            background: rgba(#fff, 0.94);
-            border: 0;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            line-height: 1;
+            background: rgba(#fff, 0.96);
+            border: 1px solid rgba(#fff, 0.42);
+            border-radius: 16px;
+            box-shadow: 0 12px 28px rgba(21, 39, 57, 0.22);
             cursor: pointer;
-            transition: background 0.2s ease;
-
-            > svg {
-                width: 18px;
-                height: 15px;
-
-                path {
-                    fill: $grey-color-dark;
-                }
-            }
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
 
         &.is-open .menu-icon {
             background: #fff;
+            transform: translateY(1px);
+            box-shadow: 0 16px 30px rgba(21, 39, 57, 0.28);
         }
 
         .trigger {
@@ -249,4 +90,192 @@
     }
 }
 
+.site-nav .menu {
+    text-align: right;
+    float: right;
+    padding-top: 9px;
+    font-size: 85%;
+    letter-spacing: 1px;
+    line-height: 1em;
+    font-weight: 600;
+    margin: 0;
+    padding-left: 0;
+    list-style-type: none;
+    text-transform: uppercase;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.site-nav .menu > li {
+    border-bottom: 3px solid transparent;
+    display: inline-block;
+    height: 23px;
+    line-height: normal;
+    margin: 12px 0 0 20px;
+    padding: 0 0 2px;
+    position: relative;
+    vertical-align: top;
+}
+
+.site-nav a {
+    display: block;
+    color: #ffffff;
+}
+
+.site-nav a,
+.site-nav a:hover {
+    text-decoration: none;
+}
+
+.site-nav h1 {
+    position: absolute;
+    left: -999em;
+}
+
+.site-nav .menu > li > .page-link {
+    position: relative;
+}
+
+.site-nav .menu > li > .page-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: #ffffff;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site-nav .menu > li > .page-link:hover::after,
+.site-nav .menu > li.is-current > .page-link::after {
+    transform: scaleX(1);
+}
+
+.site-nav .sub-menu {
+    background: #ffffff;
+    border: 0;
+    border-top: 2px solid $clemson-purple;
+    box-shadow: 0 8px 28px rgba(17, 17, 17, 0.1), 0 2px 8px rgba(17, 17, 17, 0.05);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.22s;
+    right: -10px;
+    padding: 0.55rem 0;
+    position: absolute;
+    text-align: left;
+    text-transform: none;
+    top: 100%;
+    min-width: 290px;
+    z-index: 999;
+    font-family: $base-font-family;
+    float: none;
+    margin: 0;
+    list-style: none;
+}
+
+.site-nav li:hover > .sub-menu,
+.site-nav li:focus-within > .sub-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
+}
+
+.site-nav .sub-menu a {
+    display: block;
+    font-family: $base-font-family;
+    font-weight: 500;
+    font-size: 0.86rem;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    padding: 0.58rem 1.2rem 0.58rem 1.5rem;
+    color: $clemson-purple;
+    position: relative;
+    transition: color 0.2s ease, background-color 0.2s ease, padding-left 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site-nav .sub-menu a::before {
+    content: "";
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    width: 10px;
+    height: 1px;
+    background: $clemson-purple;
+    opacity: 0;
+    transform: translateY(-50%) scaleX(0.3);
+    transform-origin: left center;
+    transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site-nav .sub-menu a:hover {
+    color: $clemson-purple;
+    background-color: rgba($clemson-purple, 0.05);
+    padding-left: 1.95rem;
+}
+
+.site-nav .sub-menu a:hover::before {
+    opacity: 0.6;
+    transform: translateY(-50%) scaleX(1);
+}
+
+.site-nav .sub-menu li {
+    border-bottom: 0;
+    display: block;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.site-nav .menu-icon__box {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 14px;
+}
+
+.site-nav .menu-icon__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: $clemson-purple;
+    transition: transform 0.24s ease, opacity 0.18s ease;
+}
+
+.site-nav .menu-icon__line:nth-child(1) {
+    top: 0;
+}
+
+.site-nav .menu-icon__line:nth-child(2) {
+    top: 6px;
+}
+
+.site-nav .menu-icon__line:nth-child(3) {
+    top: 12px;
+}
+
+.site-nav.is-open .menu-icon__line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.site-nav.is-open .menu-icon__line:nth-child(2) {
+    opacity: 0;
+}
+
+.site-nav.is-open .menu-icon__line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+.site-nav .menu-icon:focus-visible,
+.site-nav .submenu-toggle:focus-visible,
+.site-nav .menu a:focus-visible {
+    outline: 2px solid rgba(#ffffff, 0.85);
+    outline-offset: 3px;
+}
 

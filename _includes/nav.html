@@ -1,22 +1,31 @@
 <ul class="menu">
-
-    {% for steve in site.data.menu %}
+  {% for steve in site.data.menu %}
     {% assign is_current = false %}
     {% if steve.href == '/' %}
       {% if page.url == '/' %}{% assign is_current = true %}{% endif %}
     {% else %}
       {% if page.url contains steve.href %}{% assign is_current = true %}{% endif %}
     {% endif %}
-    {% if steve.subcategories != null %}
-    <li class="menu-item{% if is_current %} is-current{% endif %}"><a href="{{ steve.href }}" class="page-link">{{ steve.title }}</a>
-    <ul class="sub-menu">
-    {% for subcategory in steve.subcategories %}
-    <li><a href="{{ subcategory.subhref }}">{{ subcategory.subtitle }}</a></li>
-    {% endfor %}
-    </ul>
-    {% else %}
-     <li class="menu-item{% if is_current %} is-current{% endif %}"><a href="{{ steve.href }}" class="page-link">{{ steve.title }}</a>
-    {% endif %}
+    {% assign has_subcategories = steve.subcategories != null %}
+    <li class="menu-item{% if has_subcategories %} menu-item--has-submenu{% endif %}{% if is_current %} is-current{% endif %}">
+      <a href="{{ steve.href }}" class="page-link">{{ steve.title }}</a>
+      {% if has_subcategories %}
+        <button
+          type="button"
+          class="submenu-toggle"
+          aria-expanded="false"
+          aria-controls="submenu-{{ forloop.index }}"
+          aria-haspopup="true"
+          aria-label="Expand {{ steve.title }} submenu"
+          data-submenu-label="{{ steve.title }}">
+          <span class="submenu-toggle__chevron" aria-hidden="true"></span>
+        </button>
+        <ul class="sub-menu" id="submenu-{{ forloop.index }}">
+          {% for subcategory in steve.subcategories %}
+            <li><a href="{{ subcategory.subhref }}">{{ subcategory.subtitle }}</a></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     </li>
-    {% endfor %}
-    </ul>
+  {% endfor %}
+</ul>
