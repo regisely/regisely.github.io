@@ -1,8 +1,8 @@
-- title: "Blog"
-  href: "/blog/"
+- title: "Home"
+  href: "/"
 
-- title: "About"
-  href: "/about/"
+- title: "Posts"
+  href: "/blog/"
 
 - title: "CV"
   href: "/cv/"

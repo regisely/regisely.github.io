@@ -2,14 +2,16 @@
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
 @charset "utf-8";
+@use "sass:color";
 
 
 
 // Our variables
 $base-font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-$base-font-size:   .95em;
+$display-font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+$base-font-size:   1.05em;
 $small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.5;
+$base-line-height: 1.7;
 
 $spacing-unit:     30px;
 
@@ -22,8 +24,8 @@ $clemson-orange:      #407294;
 
 
 $grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 40%);
-$grey-color-dark:  darken($grey-color, 25%);
+$grey-color-light: color.adjust($grey-color, $lightness: 40%);
+$grey-color-dark:  color.adjust($grey-color, $lightness: -25%);
 
 
 // Width of the content area
@@ -57,5 +59,6 @@ $on-laptop:        950px;
         "layout",
         "syntax-highlighting",
 	"fancy-image",
-	"table"
+	"table",
+	"home"
 ;

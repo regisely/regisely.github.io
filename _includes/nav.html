@@ -1,15 +1,21 @@
 <ul class="menu">
 
     {% for steve in site.data.menu %}
+    {% assign is_current = false %}
+    {% if steve.href == '/' %}
+      {% if page.url == '/' %}{% assign is_current = true %}{% endif %}
+    {% else %}
+      {% if page.url contains steve.href %}{% assign is_current = true %}{% endif %}
+    {% endif %}
     {% if steve.subcategories != null %}
-    <li><a href="{{ steve.href }}" class="page-link">{{ steve.title }}</a>
+    <li class="menu-item{% if is_current %} is-current{% endif %}"><a href="{{ steve.href }}" class="page-link">{{ steve.title }}</a>
     <ul class="sub-menu">
     {% for subcategory in steve.subcategories %}
     <li><a href="{{ subcategory.subhref }}">{{ subcategory.subtitle }}</a></li>
     {% endfor %}
     </ul>
     {% else %}
-     <li><a href="{{ steve.href }}" class="page-link">{{ steve.title }}</a>
+     <li class="menu-item{% if is_current %} is-current{% endif %}"><a href="{{ steve.href }}" class="page-link">{{ steve.title }}</a>
     {% endif %}
     </li>
     {% endfor %}

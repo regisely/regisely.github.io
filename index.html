@@ -2,14 +2,24 @@
 layout: default
 ---
 
-<div class="home">
-	
-{% include carousel.html height="50" unit="%" duration="7" %}
+<section class="hero">
+    <div class="hero__grid">
+        <div class="hero__lede">
+            <p class="hero__eyebrow">Professor of Economics</p>
+            <h1 class="hero__name">Regis A. Ely</h1>
+            <p class="hero__kicker">Associate Professor at the <em>Universidade Federal de Pelotas</em></p>
+            <p class="hero__summary">Applied economics, finance, banking, time series forecasting and machine learning.</p>
+        </div>
+        <figure class="hero__image">
+            <img src="{{ '/images/me.jpeg' | prepend: site.baseurl }}" alt="" />
+            <figcaption>Seminar Presentation, 2026</figcaption>
+        </figure>
+    </div>
+</section>
 
-<h1>Welcome | Bem-vindo</h1>
-	
-<p>In this academic website you will find my teaching materials, information about my current research and some thoughts and resources. My research focus on the intersection between financial markets and public policies or regulatory interventions. This means that I use applied statistics and econometrics to measure the effects of interventions on financial and credit markets.</p>
+<section class="home-intro">
+    <p><span class="drop-cap">I</span> am a Professor of Economics at the Federal University of Pelotas, where I teach basic statistics and finance to undergraduates, and time series and recursive macroeconomics to graduate students. My main research focus is on the intersection between financial markets and public policy — using applied statistics and econometrics to measure how regulatory interventions affect financial and credit markets.</p>
 
-<p>Some of the areas that I am also interested on are finance, banking, intervention analysis, public policy analysis, time series and forecasting. Throughout the years I have used many econometric and statistical approaches in my research articles. I intend to share in the <a href="blog">blog</a> section of this website some of the codes, scripts and configuration files that I've written in languages such as R, Python, LaTeX, Emacs and GitHub.</p>
+    <p>I have published over 40 articles since 2011 in peer-reviewed journals such as <em>Economic Modelling</em>, <em>Journal of Economic Dynamics and Control</em>, <em>Quantitative Finance</em>, <em>Review of Development Economics</em>, <em>Revista Brasileira de Economia</em>, <em>Brazilian Review of Finance</em>, among others. I have also coordinated and participated in several research projects funded by both public and private sector partners, as well as through competitive grants from research funding agencies. These projects typically translate applied econometric analysis into inputs for institutional decision-making, spanning areas such as fiscal policy evaluation, time series forecasting, and credit market analysis, with intensive use of dashboards, web apps and state of the art technologies.</p>
 
-</div>
+</section>

@@ -12,14 +12,13 @@
 }
 
 .site-title {
-    font-size: 26px;
-/* 		margin-top: 15px;
-    line-height: 40px; */
-    letter-spacing: -1px;
+    font-family: 'DM Serif Display', 'Iowan Old Style', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    line-height: 1;
     margin-bottom: 0;
     float: left;
-    font-weight: 500;
-		font-family: 'Titillium Web', sans-serif;
     color: #ffffff;
     &,
     &:visited {
@@ -27,8 +26,8 @@
     }
     &,
     &:hover {
-	text-decoration: none;
-}
+        text-decoration: none;
+    }
 }
 
 .site-header .wrapper {
@@ -75,67 +74,78 @@
 
 /* Sub Menu */
 
-.site-nav .sub-menu a {
-	display: block;
-	font-weight: normal;
-	height: auto;
-	letter-spacing: 0;
-	line-height: 1.2em;
-	padding: 4px 10px;
-color: $clemson-purple;
-
-}
-
-.site-nav .sub-menu a:hover {
-	color: $clemson-orange;
-}
-.site-nav  .sub-menu {
-	background: #ffffff;
-	border-color: $clemson-purple;
-	min-width: 265px;
-
-	z-index:2147483647;
-}
-.site-nav .sub-menu li.current-menu-item > a {
-	border-left-color: $clemson-orange;
-	border-right-color: $clemson-orange;
-	border-right: 0px;
-
-}
-
-
 .sub-menu {
-	border: 3px solid transparent;
-	border-top: 0;
-	/* bg and border colors set in header */
-	box-shadow: 0 2px 2px rgba(0,0,0,0.4);
-	-moz-box-shadow: 0 2px 2px rgba(0,0,0,0.4);
-	-webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.4);
-	display: none;
+	background: #ffffff;
+	border: 0;
+	border-top: 2px solid $clemson-purple;
+	box-shadow: 0 8px 28px rgba(17, 17, 17, 0.1), 0 2px 8px rgba(17, 17, 17, 0.05);
+	visibility: hidden;
+	opacity: 0;
+	transform: translateY(-6px);
+	transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.22s;
 	right: -10px;
-	padding: 4px 0 3px 0;
+	padding: 0.55rem 0;
 	position: absolute;
 	text-align: left;
 	text-transform: none;
-	top: 28px;
-	min-width: 265px;
+	top: 100%;
+	min-width: 290px;
+	z-index: 999;
+	font-family: $base-font-family;
+}
 
-z-index:999;
-	font-family: Helvetica, Arial, Verdana, sans-serif;
+.site-nav li:hover > .sub-menu {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
+}
 
+.site-nav .sub-menu a {
+	display: block;
+	font-family: $base-font-family;
+	font-weight: 500;
+	font-size: 0.86rem;
+	letter-spacing: 0.01em;
+	line-height: 1.4;
+	padding: 0.58rem 1.2rem 0.58rem 1.5rem;
+	color: $clemson-purple;
+	position: relative;
+	transition: color 0.2s ease, background-color 0.2s ease, padding-left 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site-nav .sub-menu a::before {
+	content: "";
+	position: absolute;
+	left: 0.8rem;
+	top: 50%;
+	width: 10px;
+	height: 1px;
+	background: $clemson-purple;
+	opacity: 0;
+	transform: translateY(-50%) scaleX(0.3);
+	transform-origin: left center;
+	transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site-nav .sub-menu a:hover {
+	color: $clemson-purple;
+	background-color: rgba($clemson-purple, 0.05);
+	padding-left: 1.95rem;
+}
+
+.site-nav .sub-menu a:hover::before {
+	opacity: 0.6;
+	transform: translateY(-50%) scaleX(1);
 }
 
 .sub-menu li {
 	border-bottom: 0;
 	display: block;
 	height: auto;
-	margin: 3px 0;
+	margin: 0;
 	padding: 0;
 	text-align: left;
-}
-
-.site-nav li:hover > .sub-menu {
-	display: block;
 }
 
 
@@ -143,6 +153,34 @@ z-index:999;
 .site-nav h1 {
 	position: absolute;
 	left: -999em;
+}
+
+/* Animated underline for top-level nav items */
+.site-nav a,
+.site-nav a:hover {
+	text-decoration: none;
+}
+
+.site-nav .menu > li > .page-link {
+	position: relative;
+}
+
+.site-nav .menu > li > .page-link::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 2px;
+	background: #ffffff;
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site-nav .menu > li > .page-link:hover::after,
+.site-nav .menu > li.is-current > .page-link::after {
+	transform: scaleX(1);
 }
 
 

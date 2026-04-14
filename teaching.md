@@ -18,8 +18,3 @@ Esta página contém os links para as disciplinas que leciono, bem como apresent
 - [Estatística (verão)]()
 - [Macroeconomia]()
 - [Séries de Tempo](/timeseries)
-
-## Seminários
-
-- [Ridge Workshop on Financial Stability 2019](/docs/ridge_2019.pdf)
-- [Semana Acadêmica Economia/UFPel 2019](/docs/semana_academica_2019.pdf)

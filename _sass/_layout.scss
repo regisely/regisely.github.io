@@ -80,7 +80,7 @@
 
 .footer-heading {
     font-size: 18px;
-    margin-bottom: $spacing-unit / 2;
+    margin-bottom: calc($spacing-unit / 2);
 }
 
 .contact-list,
@@ -92,14 +92,14 @@
 .footer-col-wrapper {
     font-size: 15px;
     color: $grey-color;
-    margin-left: -$spacing-unit / 2;
+    margin-left: calc(-1 * $spacing-unit / 2);
     @extend %clearfix;
 }
 
 .footer-col {
     float: left;
-    margin-bottom: $spacing-unit / 2;
-    padding-left: $spacing-unit / 2;
+    margin-bottom: calc($spacing-unit / 2);
+    padding-left: calc($spacing-unit / 2);
 }
 
 .footer-col-1 {
@@ -180,49 +180,40 @@
 }
 
 h1 /* .post-title */ {
-/*    font-size: 42px; */
-    letter-spacing: -1px;
-    line-height: 1;
-		font-family: 'Titillium Web', sans-serif;
-		color: $clemson-purple;
-
-    @include media-query($on-laptop) {
-/*        font-size: 36px; */
-    }
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    font-family: $display-font-family;
+    font-variation-settings: "opsz" 96, "SOFT" 60;
+    font-weight: 550;
+    color: $clemson-purple;
 }
 
 h3 /* .post-subtitle */ {
-/*    font-size: 42px; */
-    letter-spacing: 0px;
-    line-height: 1;
-		font-family: 'Open Sans', sans-serif;
-		color: $clemson-purple;
-
-    @include media-query($on-laptop) {
-/*        font-size: 36px; */
-    }
+    letter-spacing: -0.005em;
+    line-height: 1.15;
+    font-family: $display-font-family;
+    font-variation-settings: "opsz" 32, "SOFT" 60;
+    font-weight: 500;
+    font-style: italic;
+    color: $clemson-purple;
 }
 
 .post-content {
     margin-bottom: $spacing-unit;
 
     h2 {
-		font-family: 'Titillium Web', sans-serif;
-	font-weight: 500;
-/*        font-size: 32px; */
-
-        @include media-query($on-laptop) {
-/*            font-size: 28px; */
-        }
+        font-family: $display-font-family;
+        font-variation-settings: "opsz" 48, "SOFT" 60;
+        font-weight: 550;
+        letter-spacing: -0.01em;
     }
 
     h3 {
-		font-style: italic;
-/*        font-size: 26px; */
-
-        @include media-query($on-laptop) {
-/*            font-size: 22px; */
-        }
+        font-family: $display-font-family;
+        font-variation-settings: "opsz" 28, "SOFT" 60;
+        font-weight: 500;
+        font-style: italic;
+        letter-spacing: -0.005em;
     }
 
     h4 {
@@ -334,6 +325,73 @@ article ul > li:before {
 article ul#archive > li:before {
   list-style-type: none;
   content: none;
+}
+
+
+/* Post categories — tag cloud (blog page) */
+.post-categories {
+    margin: 2rem 0 2.5rem;
+    padding: 1.3rem 0 0.5rem;
+    border-top: 1px solid rgba($text-color, 0.1);
+}
+
+.post-categories__label {
+    font-family: $base-font-family;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $clemson-purple;
+    margin: 0 0 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.post-categories__label::before {
+    content: "";
+    flex: 0 0 28px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+}
+
+.post-categories__cloud {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.15rem;
+}
+
+.post-categories__item {
+    margin: 0;
+    line-height: 1.1;
+}
+
+article ul.post-categories__cloud > li:before {
+    content: none;
+}
+
+.post-categories__item a {
+    font-family: $display-font-family;
+    font-style: italic;
+    font-weight: 450;
+    font-size: calc(0.95rem + (var(--count, 1) - 1) * 0.22rem);
+    font-variation-settings: "opsz" 40, "SOFT" 60;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.post-categories__item a:hover {
+    color: $clemson-purple;
+    border-bottom-color: $clemson-purple;
+    text-decoration: none;
 }
 
 

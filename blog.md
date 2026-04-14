@@ -1,12 +1,22 @@
 ---
 layout: page
-title: Blog
+title: Posts
 permalink: /blog/
 ---
 
-Nesta seção incluo alguns pensamentos e análises não revisadas em uma variedade de assuntos, tendo intuito educativo e exploratório. Em geral os posts são escritos em português ou inglês e acompanhados de scripts no R, ou outra linguagem, para replicar os resultados. Incluí dois posts do site antigo para fins de registro, porém alguns links podem estar quebrados.
+Esta página inclui análises, comunicados e textos sobre uma variedade de assuntos, tendo conteúdo educativo e exploratório.
 
-Atualmente, <a href="/categories">as categorias dos posts</a> (e o número de posts em cada categoria) incluem {% assign sorted_cats = site.categories | sort  %}{% for category in sorted_cats %}{% if forloop.last == true %}e {% endif %}<a href="/categories/#{{category[0]}}" style="font-weight:normal;"> {{category[0] | camelcase }}</a> ({{ category[1].size  }}){% if forloop.last == false %}, {% endif %}{% endfor %}.
+<section class="post-categories">
+    <p class="post-categories__label">Categorias</p>
+    <ul class="post-categories__cloud">
+        {% assign sorted_cats = site.categories | sort %}
+        {% for category in sorted_cats %}
+        <li class="post-categories__item" style="--count: {{ category[1].size }}">
+            <a href="/categories/#{{ category[0] }}" title="{{ category[1].size }} posts">{{ category[0] | capitalize }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
 
 <ul id="archive">
 {% for post in site.posts %}
