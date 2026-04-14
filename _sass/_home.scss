@@ -111,6 +111,18 @@
         text-align: right;
         letter-spacing: 0.005em;
     }
+
+    @include media-query($on-palm) {
+        img {
+            max-width: 260px;
+            max-height: 320px;
+            margin: 0 auto;
+        }
+
+        figcaption {
+            text-align: center;
+        }
+    }
 }
 
 .home-intro {

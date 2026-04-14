@@ -4,27 +4,19 @@
 
   <div class="wrapper">
 
-      <p style="text-align:left;">
+    <div class="site-footer__info">
+      <div class="site-footer__col site-footer__col--left">
         <strong>{{ site.title }}</strong>
-        <span style="float:right;">
-		  Departamento de Economia
-        </span> <br />
-        <span style="float:left;">
-          {{ site.jobtitle }}
-        </span>
-        <span style="float:right;">
-		  Universidade Federal de Pelotas
-        </span> <br />
-        <span style="float:left;">
-          <a href="mailto:{{ site.email }}">{{ site.email }}</a>
-        </span>
-        <span style="float:right;">
-		  Rua Gomes Carneiro 1, 4º andar<br />
-        </span> <br />
-        <span style="float:right;">
-		  Pelotas, RS, Brasil 96010-610<br />
-        </span>
-      </p>
+        <span>{{ site.jobtitle }}</span>
+        <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+      </div>
+      <div class="site-footer__col site-footer__col--right">
+        <span>Departamento de Economia</span>
+        <span>Universidade Federal de Pelotas</span>
+        <span>Rua Gomes Carneiro 1, 4º andar</span>
+        <span>Pelotas, RS, Brasil 96010-610</span>
+      </div>
+    </div>
   </div>
 
   <p style="text-align:center;">
