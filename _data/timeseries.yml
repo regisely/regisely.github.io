@@ -6,44 +6,53 @@
 - title: "Aula 1 - Conceitos introdutórios"
   filename: timeseries-aula1
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Processo estocástico, estacionariedade, ergodicidade e ruído branco."
 
 - title: "Aula 2 - Sazonalidade e tendência"
   filename: timeseries-aula2
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Gráficos, sazonalidade, tendência, diferenciação e testes de hipótese."
 
 - title: "Aula 3 - Processos lineares estacionários"
   filename: timeseries-aula3
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Modelos ARMA, critérios de identificação, operador de lag e invertibilidade."
 
 - title: "Aula 4 - Processos não estacionários e raíz unitária"
   filename: timeseries-aula4
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Passeio aleatório, processos com tendência, testes de raíz unitária."
 
 - title: "Aula 5 - Modelos ARIMA"
   filename: timeseries-aula5
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Metodologia de Box-Jenkins, estimação, diagnóstico e previsão."
 
 - title: "Aula 6 - Outros modelos univariados"
   filename: timeseries-aula6
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Outros modelos de previsão, validação cruzada, medidas de performance."
 
 - title: "Aula 7 - Modelos multivariados"
   filename: timeseries-aula7
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Regressão linear com séries de tempo, modelos ADL, modelos ECM."
 
 - title: "Aula 8 - Modelos vetoriais autorregressivos"
   filename: timeseries-aula8
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Modelos VAR, causalidade de Granger, funções de impulso-resposta."
 
 - title: "Aula 9 - Cointegração e Modelos VEC"
   filename: timeseries-aula9
   dirname: teaching/timeseries
+  source_ext: Rmd
   tldr: "Regressão espúria, cointegração, modelos VEC."

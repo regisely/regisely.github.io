@@ -396,11 +396,33 @@ ul#archive li span.postlower {
 
 }
 
+.teaching-links {
+	float: right;
+	display: inline-flex;
+	align-items: center;
+	gap: .75rem;
+	padding-right: .5em;
+}
+
+.teaching-links a {
+	color: $grey-color-dark;
+}
+
 ul#archive li span.postlower a {
 	color: #07c;
 	font-weight: normal;
 	font-family: "Open Sans", Helvetica, Arial, sans-serif;
 
+}
+
+@include media-query($on-palm) {
+	.teaching-links {
+		float: none;
+		display: flex;
+		justify-content: flex-end;
+		margin-top: .35em;
+		padding-right: 0;
+	}
 }
 
 article ul {

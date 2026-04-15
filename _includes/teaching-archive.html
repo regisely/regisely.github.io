@@ -1,0 +1,40 @@
+<div class="teaching-note">
+  Ao clicar no título você acessará o material principal de cada item. Os ícones à direita são links para o diretório dos arquivos no Github (<i class="fab fa-github"></i>), o arquivo-fonte em R Markdown (<i class="fab fa-r-project"></i>) ou HTML (<i class="fab fa-html5"></i>), quando disponível, e o arquivo PDF, quando disponível (<i class="fas fa-file-pdf"></i>).
+</div>
+
+<ul id="archive">
+{% for lecture in include.items %}
+      {% assign material_ext = lecture.target_ext | default: 'pdf' %}
+      {% assign source_ext = lecture.source_ext | downcase %}
+      {% assign has_pdf = true %}
+      {% if material_ext == 'html' %}
+        {% assign has_pdf = false %}
+      {% endif %}
+      {% if lecture.has_pdf == true %}
+        {% assign has_pdf = true %}
+      {% endif %}
+      {% if lecture.has_pdf == false %}
+        {% assign has_pdf = false %}
+      {% endif %}
+      {% capture material_path %}/{{ lecture.dirname }}/{{ lecture.filename }}.{{ material_ext }}{% endcapture %}
+      <li class="archiveposturl">
+        <span><a href="{{ material_path | relative_url }}">{{ lecture.title }}</a></span><br>
+<span class="postlower"><strong>Descrição:</strong> {{ lecture.tldr }}</span>
+<span class="teaching-links">
+  <a href="https://github.com/{{ site.githubdir }}/tree/master/{{ lecture.dirname }}" aria-label="Diretório no Github"><i class="fab fa-github"></i></a>
+  {% if lecture.source_ext %}
+  <a href="https://github.com/{{ site.githubdir }}/blob/master/{{ lecture.dirname }}/{{ lecture.filename }}.{{ lecture.source_ext }}" aria-label="Arquivo-fonte">
+    {% if source_ext == 'html' or source_ext == 'htm' %}
+    <i class="fab fa-html5"></i>
+    {% else %}
+    <i class="fab fa-r-project"></i>
+    {% endif %}
+  </a>
+  {% endif %}
+  {% if has_pdf %}
+  <a href="https://github.com/{{ site.githubdir }}/blob/master/{{ lecture.dirname }}/{{ lecture.filename }}.pdf" aria-label="Arquivo PDF"><i class="fas fa-file-pdf"></i></a>
+  {% endif %}
+</span>
+      </li>
+{% endfor %}
+</ul>

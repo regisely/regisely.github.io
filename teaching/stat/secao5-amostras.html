@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propriedades de Amostras Aleatórias | Curso de Verão em Estatística</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},svg:{scale:1.1},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#dde2ec;
+  --w:#ffffff;
+  --navy:#1a2744;
+  --blue:#1e5fa8;
+  --blt:#e8f0fb;
+  --bbrd:#b8cce8;
+  --teal:#0f7c6b;
+  --tlt:#e0f4f1;
+  --amber:#7c3d00;
+  --alt:#fdf0e0;
+  --slate:#334155;
+  --dim:#5a6a80;
+  --dimmer:#8899b0;
+  --text:#1e293b;
+  --brd:#d4dcea;
+  --red:#b91c1c;
+  --green:#15803d;
+  --defn:#eef3fc;
+  --thm:#e6f3f0;
+  --exmp:#f6f6f4;
+  --rev:#fdf3e3;
+  --deck-scale:.75;
+  --slide-pad-top:3%;
+  --slide-pad-side:4.5%;
+  --slide-pad-bottom:2.5%;
+  --content-gap:1%;
+  --grid-gap:1%;
+}
+
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Source Sans 3',sans-serif;color:var(--text);}
+
+/* ── TRUE 16:9 STAGE ── */
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+
+#deck{
+  position:relative;
+  width:min(100vw, calc(100vh * 16/9));
+  height:min(100vh, calc(100vw * 9/16));
+  background:var(--w);
+  overflow:hidden;
+  box-shadow:0 6px 36px rgba(0,0,0,.18);
+  --W: min(100vw, calc(100vh * 16/9));
+  --H: min(100vh, calc(100vw * 9/16));
+  font-size: calc(var(--W) * 0.021 * var(--deck-scale));
+}
+
+/* ── SLIDES ── */
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding: var(--slide-pad-top) var(--slide-pad-side) var(--slide-pad-bottom);
+  opacity:0;pointer-events:none;
+  transition:opacity .32s ease,transform .32s ease;
+  transform:translateX(20px);
+}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+
+/* ── DENSE SLIDES ── */
+.slide.compact{
+  font-size:.94em;
+  --slide-pad-top:2.6%;
+  --slide-pad-bottom:2.1%;
+  --content-gap:.75%;
+  --grid-gap:.8%;
+}
+.slide.compact.tight{
+  font-size:.9em;
+  --slide-pad-top:2.4%;
+  --slide-pad-bottom:1.9%;
+  --content-gap:.65%;
+  --grid-gap:.7%;
+}
+.slide.compact.tighter{
+  font-size:.86em;
+  --slide-pad-top:2.2%;
+  --slide-pad-bottom:1.7%;
+  --content-gap:.55%;
+  --grid-gap:.6%;
+}
+.slide.compact .hd{margin-bottom:.9%;padding-bottom:.7%;}
+.slide.compact .db,
+.slide.compact .tb,
+.slide.compact .eb,
+.slide.compact .rb,
+.slide.compact .hl,
+.slide.compact .bx{padding:.6em .85em;}
+.slide.compact .ax{gap:.5em;padding:.25em 0;}
+.slide.compact ul.dl,
+.slide.compact ol.nl{gap:.12em;}
+.slide.compact p{line-height:1.52;}
+.slide.compact ul.dl li,
+.slide.compact ol.nl li{line-height:1.46;}
+.slide.compact.tight .db,
+.slide.compact.tight .tb,
+.slide.compact.tight .eb,
+.slide.compact.tight .rb,
+.slide.compact.tight .hl,
+.slide.compact.tight .bx{padding:.52em .75em;}
+.slide.compact.tight .anum{width:1.4em;height:1.4em;font-size:.66em;}
+.slide.compact.tight .ab{font-size:.85em;line-height:1.42;}
+.slide.compact.tighter .hd{margin-bottom:.75%;padding-bottom:.6%;}
+.slide.compact.tighter .db,
+.slide.compact.tighter .tb,
+.slide.compact.tighter .eb,
+.slide.compact.tighter .rb,
+.slide.compact.tighter .hl,
+.slide.compact.tighter .bx{padding:.46em .68em;}
+.slide.compact.tighter .ax{gap:.42em;padding:.18em 0;}
+.slide.compact.tighter p{line-height:1.45;}
+.slide.compact.tighter ul.dl li,
+.slide.compact.tighter ol.nl li{line-height:1.38;}
+.slide.compact.tighter .anum{width:1.3em;height:1.3em;font-size:.62em;}
+.slide.compact.tighter .ab{font-size:.82em;line-height:1.38;}
+.slide.compact.tighter .conv-type{padding:.42em .58em;}
+.slide.compact.tighter .conv-cond{font-size:.79em;line-height:1.32;}
+.slide.compact.tighter .arrow-row{font-size:.72em;}
+
+/* ── HEADER ── */
+.hd{display:flex;align-items:center;gap:.6em;margin-bottom:1.2%;padding-bottom:.9%;border-bottom:2px solid var(--brd);flex-shrink:0;}
+.stag{font-family:'JetBrains Mono',monospace;font-size:.62em;color:var(--blue);text-transform:uppercase;letter-spacing:.15em;background:var(--blt);border:1px solid var(--bbrd);padding:.25em .65em;border-radius:.2em;white-space:nowrap;font-weight:500;}
+.stitle{font-family:'Playfair Display',serif;font-size:1.5em;font-weight:700;color:var(--navy);line-height:1.15;}
+
+/* ── CONTENT AREA ── */
+.sc{flex:1;display:flex;flex-direction:column;gap:var(--content-gap);overflow:hidden;min-height:0;}
+
+/* ── GRID LAYOUTS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8%;flex:1;min-height:0;}
+.g6040{display:grid;grid-template-columns:6fr 4fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g4060{display:grid;grid-template-columns:4fr 6fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g55{display:grid;grid-template-columns:55fr 45fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g3565{display:grid;grid-template-columns:35fr 65fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.vc{display:flex;flex-direction:column;gap:var(--content-gap);min-height:0;}
+.g2 > *, .g3 > *, .g6040 > *, .g4060 > *, .g55 > *, .g3565 > *, .pg > *, .sgrid > *, .ecards > *{min-width:0;}
+.vc > *{flex-shrink:0;}
+.vc > .grow{flex:1;min-height:0;}
+
+/* ── BOXES ── */
+.db{background:var(--defn);border-left:.25em solid var(--blue);border-radius:.25em;padding:.7em 1em;}
+.db .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.35em;font-weight:600;}
+.tb{background:var(--thm);border-left:.25em solid var(--teal);border-radius:.25em;padding:.7em 1em;}
+.tb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.35em;font-weight:600;}
+.eb{background:var(--exmp);border-left:.25em solid #94a3b8;border-radius:.25em;padding:.7em 1em;}
+.eb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:#64748b;margin-bottom:.35em;font-weight:600;}
+.rb{background:var(--rev);border-left:.25em solid var(--amber);border-radius:.25em;padding:.7em 1em;}
+.rb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:.35em;font-weight:600;}
+.hl{background:linear-gradient(135deg,#f0f4ff,#f8fbff);border:1px solid var(--bbrd);border-radius:.4em;padding:.65em 1em;}
+.bx{background:#f4f7fb;border:1px solid var(--brd);border-radius:.25em;padding:.6em .85em;}
+
+/* ── TYPOGRAPHY ── */
+p{font-size:.92em;line-height:1.6;color:var(--text);}
+.em{color:var(--blue);font-style:italic;font-weight:600;}
+ul.dl,ol.nl{padding-left:1.1em;display:flex;flex-direction:column;gap:.2em;}
+ul.dl li,ol.nl li{font-size:.9em;line-height:1.55;color:var(--slate);}
+ul.dl li::marker{color:var(--blue);}
+.mc{text-align:center;padding:.3em 0;color:var(--navy);}
+.mc mjx-container{max-width:100%;overflow:hidden;}
+
+/* ── AXIOM ROWS ── */
+.ax{display:flex;gap:.6em;align-items:flex-start;padding:.35em 0;border-bottom:1px solid var(--brd);}
+.ax:last-child{border-bottom:none;}
+.anum{width:1.5em;height:1.5em;border-radius:50%;background:var(--blt);border:1.5px solid var(--bbrd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);flex-shrink:0;margin-top:.1em;font-weight:700;}
+.ab{flex:1;font-size:.88em;line-height:1.5;color:var(--slate);}
+
+/* ── PROP GRID ── */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:.35em;}
+.pi{background:#f0f4fb;border:1px solid var(--brd);border-radius:.2em;padding:.4em .65em;font-size:.88em;line-height:1.4;color:var(--slate);}
+.pl{font-family:'JetBrains Mono',monospace;color:var(--blue);margin-right:.3em;font-size:.85em;font-weight:700;}
+
+/* ── TAGS ── */
+.tg{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62em;padding:.1em .4em;border-radius:.15em;}
+.tgb{background:var(--blt);color:var(--blue);border:1px solid var(--bbrd);}
+.tgt{background:var(--tlt);color:var(--teal);border:1px solid #a0d8d0;}
+
+/* ── STAT CARDS ── */
+.scard{background:var(--w);border:1px solid var(--brd);border-radius:.3em;padding:.4em .7em;text-align:center;}
+.slb{font-family:'JetBrains Mono',monospace;font-size:.58em;color:var(--dimmer);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.15em;}
+.sv{font-family:'Playfair Display',serif;font-size:1.2em;font-weight:700;color:var(--navy);}
+.srow{display:flex;gap:.5em;}
+
+/* ── SIM ── */
+.sw{background:#f4f7fb;border:1.5px solid var(--brd);border-radius:.4em;padding:.7em .9em;display:flex;flex-direction:column;gap:.55em;}
+.sctrl{display:flex;gap:.4em;flex-wrap:wrap;}
+.sbtn{background:var(--w);border:1.5px solid var(--bbrd);color:var(--blue);padding:.3em .8em;border-radius:.25em;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7em;transition:all .15s;font-weight:500;}
+.sbtn:hover{background:var(--blt);}
+.sbtn.t{border-color:#a0d8d0;color:var(--teal);}.sbtn.t:hover{background:var(--tlt);}
+.sbtn.r{border-color:#fca5a5;color:var(--red);}.sbtn.r:hover{background:#fef2f2;}
+
+/* ── SUMMARY GRID ── */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.7em;flex:1;min-height:0;}
+.si{background:var(--w);border:1.5px solid var(--brd);border-radius:.4em;padding:.7em .9em;display:flex;gap:.7em;}
+.sn{font-family:'Playfair Display',serif;font-size:1.6em;font-weight:700;color:var(--blue);opacity:.18;line-height:1;min-width:.9em;}
+.sh h5{font-family:'Playfair Display',serif;font-size:.95em;color:var(--navy);margin-bottom:.25em;font-weight:700;}
+.sh p{font-size:.86em;color:var(--dim);line-height:1.52;}
+
+/* ── TITLE SLIDE ── */
+.tslide{justify-content:center;align-items:center;text-align:center;background:linear-gradient(155deg,#eef3ff 0%,#f8fbff 55%,#f3f7ee 100%);}
+.tslide::before{content:'';position:absolute;top:0;left:0;right:0;height:.28em;background:linear-gradient(90deg,var(--blue),var(--teal));}
+.tbig{font-family:'JetBrains Mono',monospace;font-size:.78em;text-transform:uppercase;letter-spacing:.22em;color:var(--blue);margin-bottom:.5em;}
+.tslide h1{font-family:'Playfair Display',serif;font-size:2.8em;font-weight:700;line-height:1.12;color:var(--navy);margin-bottom:.25em;}
+.tsub{font-family:'Playfair Display',serif;font-size:1.3em;font-style:italic;color:var(--blue);margin-bottom:1em;}
+.tdiv{width:4em;height:.12em;background:linear-gradient(90deg,transparent,var(--blue),transparent);margin:.8em auto;}
+.tmeta{font-size:.88em;color:var(--dim);line-height:1.9;}
+.tocg{display:grid;grid-template-columns:1fr 1fr;gap:.45em;margin-top:1em;text-align:left;max-width:32em;}
+.toci{display:flex;gap:.55em;align-items:flex-start;background:var(--w);border:1px solid var(--brd);border-radius:.25em;padding:.45em .7em;}
+.tocn{font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);min-width:1.4em;font-weight:700;}
+.toct{font-size:.82em;color:var(--slate);line-height:1.35;}
+
+/* ── NAV ── */
+#nav{position:fixed;bottom:1%;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.8em;z-index:200;background:rgba(255,255,255,.94);border:1px solid var(--brd);border-radius:2em;padding:.35em .9em;box-shadow:0 4px 16px rgba(0,0,0,.1);backdrop-filter:blur(6px);}
+.nb{background:none;border:none;color:var(--dimmer);font-size:.85em;cursor:pointer;padding:.2em .4em;border-radius:.2em;transition:all .15s;}
+.nb:hover{color:var(--blue);background:var(--blt);}
+#sc{font-family:'JetBrains Mono',monospace;font-size:.72em;color:var(--dim);min-width:3.5em;text-align:center;}
+
+#pb{position:fixed;top:0;left:0;height:.18em;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .3s;z-index:200;}
+
+/* ── ANIMATIONS ── */
+@keyframes fu{from{opacity:0;transform:translateY(.4em)}to{opacity:1;transform:translateY(0)}}
+.slide.active .fa{animation:fu .3s ease forwards;opacity:0;}
+.slide.active .fa:nth-child(1){animation-delay:.04s}
+.slide.active .fa:nth-child(2){animation-delay:.1s}
+.slide.active .fa:nth-child(3){animation-delay:.16s}
+.slide.active .fa:nth-child(4){animation-delay:.22s}
+.slide.active .fa:nth-child(5){animation-delay:.28s}
+
+canvas{border-radius:.25em;display:block;}
+
+/* ── SLIDER ── */
+.rng-wrap{display:flex;align-items:center;gap:.6em;margin-bottom:.3em;}
+.rng-wrap label{font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--dim);white-space:nowrap;min-width:9em;}
+.rng{flex:1;accent-color:var(--blue);}
+.lbl-val{font-family:'Playfair Display',serif;font-size:1.05em;font-weight:700;color:var(--navy);min-width:2.8em;text-align:right;}
+
+/* ── CONVERGENCE DIAGRAM ── */
+.conv-type{background:var(--w);border:1.5px solid var(--brd);border-radius:.35em;padding:.55em .75em;display:flex;flex-direction:column;gap:.2em;}
+.conv-name{font-family:'JetBrains Mono',monospace;font-size:.6em;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);font-weight:700;}
+.conv-cond{font-size:.83em;color:var(--slate);line-height:1.4;}
+.arrow-row{display:flex;align-items:center;justify-content:center;gap:.3em;font-size:.8em;color:var(--dimmer);}
+.arr{font-size:1.4em;color:var(--teal);}
+</style>
+</head>
+<body>
+<div id="pb"></div>
+<div id="stage"><div id="deck">
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — TÍTULO
+══════════════════════════════════════ -->
+<div class="slide tslide" data-s="1">
+  <div class="tbig">Curso de Verão em Estatística · PPGOM / UFPel</div>
+  <div class="tsub">Seção 5</div>
+  <h1>Propriedades de Amostras Aleatórias</h1>
+  <div class="tdiv"></div>
+  <div class="tmeta">
+    Prof. Regis A. Ely &nbsp;·&nbsp; Programa de Pós-Graduação em Organizações e Mercados<br>
+    Referência: Casella &amp; Berger, <em>Statistical Inference</em>, Cap. 5
+  </div>
+  <div class="tocg">
+    <div class="toci"><div class="tocn">5.1</div><div class="toct">Amostras Aleatórias</div></div>
+    <div class="toci"><div class="tocn">5.2</div><div class="toct">Estatísticas: Média e Variância Amostral</div></div>
+    <div class="toci"><div class="tocn">5.3</div><div class="toct">Amostragem da Distribuição Normal</div></div>
+    <div class="toci"><div class="tocn">5.4</div><div class="toct">Conceitos de Convergência e TLC</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — AMOSTRA ALEATÓRIA
+══════════════════════════════════════ -->
+<div class="slide compact" data-s="2">
+  <div class="hd"><div class="stag">§ 5.1</div><div class="stitle">Amostra Aleatória</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Amostra Aleatória</div>
+          <p>As variáveis aleatórias $X_1,\dots,X_n$ são uma <span class="em">amostra aleatória</span> de tamanho $n$ da população $f(x)$ se são <strong>mutuamente independentes</strong> e cada $X_i$ tem a mesma pmf/pdf $f(x)$.</p>
+          <p style="margin-top:.4em">Dizemos que $X_1,\dots,X_n$ são <span class="em">iid</span> (independentes e identicamente distribuídas) com pmf/pdf $f(x)$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Distribuição Conjunta da Amostra</div>
+          <p>Por independência, a pdf/pmf conjunta é simplesmente o produto das marginais:</p>
+          <div class="mc" style="margin:.4em 0">$$f(x_1,\dots,x_n)=\prod_{i=1}^{n}f(x_i)$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Para famílias paramétricas, usa-se a notação $f(x|\theta)$.</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.66em;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35em">Como construir uma amostra aleatória?</p>
+          <p style="font-size:.88em"><strong>Com reposição:</strong> sortear $n$ elementos de uma população finita de tamanho $N$ com probabilidades iguais ($1/N$) — garante independência.</p>
+          <p style="font-size:.88em;margin-top:.3em"><strong>Sem reposição:</strong> $X_1,\dots,X_n$ não são independentes, mas para $N$ grande a amostra se aproxima de uma amostra aleatória.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Exemplos (C&amp;B 5.1.2, 5.1.3)</div>
+          <ul class="dl">
+            <li><strong>Normal:</strong> $X_1,\dots,X_n\overset{iid}{\sim}N(\mu,\sigma^2)$. Distribuição conjunta: produto de $n$ densidades normais.</li>
+            <li><strong>Exponencial:</strong> $X_1,\dots,X_n\overset{iid}{\sim}\text{Exp}(\beta)$. A soma $\sum X_i\sim\text{Gama}(n,\beta)$.</li>
+            <li><strong>Bernoulli:</strong> $X_1,\dots,X_n\overset{iid}{\sim}\text{Bern}(p)$. A soma $\sum X_i\sim\text{Bin}(n,p)$.</li>
+          </ul>
+          <div class="bx" style="margin-top:.5em">
+            <p style="font-size:.86em"><strong>Intuição fundamental:</strong> ao colhermos uma amostra, cada observação $x_i$ é uma realização da mesma distribuição $f(x|\theta)$, e observações distintas não se influenciam mutuamente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — ESTATÍSTICAS
+══════════════════════════════════════ -->
+<div class="slide compact tight" data-s="3">
+  <div class="hd"><div class="stag">§ 5.2</div><div class="stitle">Estatísticas</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Estatística</div>
+          <p>Seja $X_1,\dots,X_n$ uma amostra aleatória e $T(x_1,\dots,x_n)$ uma função real cujo domínio inclui o espaço amostral de $(X_1,\dots,X_n)$. Então $Y=T(X_1,\dots,X_n)$ é chamada de <span class="em">estatística</span>.</p>
+          <p style="margin-top:.35em;font-size:.87em;color:var(--dim)">A distribuição de probabilidade de $Y$ é a <strong>distribuição amostral</strong> de $Y$.</p>
+          <p style="font-size:.87em;color:var(--red);margin-top:.3em"><strong>Importante:</strong> uma estatística é função apenas da amostra — nunca dos parâmetros desconhecidos da distribuição.</p>
+        </div>
+        <div class="db fa">
+          <div class="bt">Definição — Média Amostral</div>
+          <div class="mc" style="margin:.35em 0">$$\bar{X}=\frac{X_1+\cdots+X_n}{n}=\frac{1}{n}\sum_{i=1}^{n}X_i$$</div>
+        </div>
+        <div class="db fa">
+          <div class="bt">Definição — Variância Amostral</div>
+          <div class="mc" style="margin:.35em 0">$$S^2=\frac{1}{n-1}\sum_{i=1}^{n}(X_i-\bar{X})^2$$</div>
+          <p style="font-size:.87em;color:var(--dim)">O desvio-padrão amostral é $S=\sqrt{S^2}$. Note o uso de $n-1$ no denominador.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa">
+          <div class="bt">Teorema — Propriedade da Variância Amostral</div>
+          <p>Para quaisquer números $x_1,\dots,x_n$ com média $\bar{x}$:</p>
+          <div class="ax" style="margin-top:.3em">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">a</div>
+            <div class="ab">$\displaystyle\min_{a}\sum_{i=1}^{n}(x_i-a)^2=\sum_{i=1}^{n}(x_i-\bar{x})^2$ &nbsp; (a média minimiza os desvios quadráticos)</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">b</div>
+            <div class="ab">$(n-1)s^2=\displaystyle\sum_{i=1}^{n}(x_i-\bar{x})^2=\sum_{i=1}^{n}x_i^2-n\bar{x}^2$</div>
+          </div>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema — Esperança e Variância das Estatísticas</div>
+          <p>Seja $X_1,\dots,X_n$ amostra de população com média $\mu$ e variância $\sigma^2 &lt; \infty$. Então:</p>
+          <div class="ax" style="margin-top:.3em">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">a</div>
+            <div class="ab">$E\bar{X}=\mu$ &nbsp; — $\bar{X}$ é estimador não viesado de $\mu$</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">b</div>
+            <div class="ab">$\text{Var}\,\bar{X}=\dfrac{\sigma^2}{n}$ &nbsp; — variância decresce com $n$</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">c</div>
+            <div class="ab">$ES^2=\sigma^2$ &nbsp; — $S^2$ é estimador não viesado de $\sigma^2$</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — SIMULAÇÃO: DISTRIBUIÇÃO AMOSTRAL
+══════════════════════════════════════ -->
+<div class="slide" data-s="4">
+  <div class="hd"><div class="stag">Simulação — § 5.2</div><div class="stitle">Distribuição Amostral de $\bar{X}$ — Lei dos Grandes Números</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Experimento</div>
+          <p>Gerar amostras de tamanho $n$ de uma população e calcular $\bar{X}$. Observar como a distribuição amostral muda com $n$.</p>
+        </div>
+        <div class="sw fa grow">
+          <div class="rng-wrap">
+            <label>Distribuição:</label>
+            <select id="sdist" oninput="runSim()" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:.75em;border:1px solid var(--brd);border-radius:.2em;padding:.2em .4em;background:var(--w);color:var(--navy);">
+              <option value="normal">Normal(0, 1)</option>
+              <option value="exp">Exponencial(1)</option>
+              <option value="uniform">Uniforme(0, 1)</option>
+              <option value="bern">Bernoulli(0.3)</option>
+            </select>
+          </div>
+          <div class="rng-wrap">
+            <label>Tamanho $n$:</label>
+            <input type="range" class="rng" id="sn" min="1" max="100" step="1" value="1" oninput="runSim()">
+            <span class="lbl-val" id="vsn">1</span>
+          </div>
+          <div class="srow">
+            <div class="scard" style="flex:1"><div class="slb">$\mu$ pop.</div><div class="sv" id="smu">—</div></div>
+            <div class="scard" style="flex:1"><div class="slb">$E[\bar{X}]$ sim.</div><div class="sv" id="semx">—</div></div>
+            <div class="scard" style="flex:1"><div class="slb">$\text{Var}[\bar{X}]$ sim.</div><div class="sv" id="svarx">—</div></div>
+          </div>
+          <button class="sbtn r" onclick="runSim()" style="width:100%">&#8635; Nova Simulação (2000 amostras)</button>
+        </div>
+      </div>
+      <div class="vc">
+        <canvas id="simCanvas" class="fa" style="width:100%;flex:1;min-height:0"></canvas>
+        <div class="hl fa">
+          <p style="font-size:.87em">À medida que $n$ cresce: (1) $E[\bar{X}]=\mu$ permanece constante; (2) $\text{Var}[\bar{X}]=\sigma^2/n\to0$; (3) a forma se aproxima de uma <span class="em">Normal</span> pelo TLC.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — AMOSTRAGEM NORMAL: XBAR E S²
+══════════════════════════════════════ -->
+<div class="slide compact tighter" data-s="5">
+  <div class="hd"><div class="stag">§ 5.3</div><div class="stitle">Amostragem da Distribuição Normal</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="tb fa">
+          <div class="bt">Teorema — Distribuição de $\bar{X}$ e $S^2$</div>
+          <p>Seja $X_1,\dots,X_n\overset{iid}{\sim}N(\mu,\sigma^2)$. Então:</p>
+          <div class="ax" style="margin-top:.35em">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">a</div>
+            <div class="ab">$\bar{X}$ e $S^2$ são <strong>variáveis aleatórias independentes</strong></div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">b</div>
+            <div class="ab">$\bar{X}\sim N\!\left(\mu,\,\dfrac{\sigma^2}{n}\right)$, portanto $\dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}}\sim N(0,1)$</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">c</div>
+            <div class="ab">$\dfrac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1)$</div>
+          </div>
+        </div>
+        <div class="tb fa">
+          <div class="bt">MGF da Média Amostral</div>
+          <p>Seja $X_1,\dots,X_n$ amostra com mgf $M_X(t)$. Então:</p>
+          <div class="mc" style="margin:.35em 0">$$M_{\bar{X}}(t)=\left[M_X\!\left(\tfrac{t}{n}\right)\right]^n$$</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Distribuição $t$ de Student</div>
+          <p>Como $\sigma$ geralmente é desconhecido, usa-se a <span class="em">distribuição $t$ de Student</span>:</p>
+          <div class="mc" style="margin:.35em 0">$$\frac{\bar{X}-\mu}{S/\sqrt{n}}\sim t_{n-1}$$</div>
+          <p style="font-size:.87em">A pdf de $T\sim t_p$ é:</p>
+          <div class="mc" style="font-size:.88em;margin:.3em 0">$$f_T(t)=\frac{\Gamma\!\left(\frac{p+1}{2}\right)}{\Gamma\!\left(\frac{p}{2}\right)}\cdot\frac{1}{(p\pi)^{1/2}}\cdot\frac{1}{\left(1+t^2/p\right)^{(p+1)/2}}$$</div>
+          <p style="font-size:.86em;color:var(--dim);margin-top:.3em">$E[T_p]=0$ se $p&gt;1$; &nbsp; $\text{Var}[T_p]=\dfrac{p}{p-2}$ se $p&gt;2$.</p>
+        </div>
+        <div class="db fa">
+          <div class="bt">Definição — Distribuição $F$</div>
+          <p>Razão de variâncias amostrais de duas populações normais independentes:</p>
+          <div class="mc" style="margin:.35em 0">$$F=\frac{S_X^2/\sigma_X^2}{S_Y^2/\sigma_Y^2}\sim F_{n-1,\,m-1}$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Relação: se $X\sim t_q$, então $X^2\sim F_{1,q}$. &nbsp; $E[F_{n-1,m-1}]=\dfrac{m-1}{m-3}$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — SIMULAÇÃO: t E NORMAL
+══════════════════════════════════════ -->
+<div class="slide" data-s="6">
+  <div class="hd"><div class="stag">Simulação — § 5.3</div><div class="stitle">Distribuição $t$ de Student vs. Normal Padrão</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Por que o $t$ de Student?</div>
+          <p>Quando $\sigma$ é desconhecido, substituímos $\sigma$ por $S$ no estadístico. A razão:</p>
+          <div class="mc" style="margin:.3em 0">$$\frac{\bar{X}-\mu}{S/\sqrt{n}}=\frac{\overbrace{(\bar{X}-\mu)/(\sigma/\sqrt{n})}^{N(0,1)}}{\underbrace{\sqrt{S^2/\sigma^2}}_{\sqrt{\chi^2_{n-1}/(n-1)}}}$$</div>
+          <p style="font-size:.86em;margin-top:.3em">O resultado é uma razão de $N(0,1)$ por $\sqrt{\chi^2_{p}/p}$, independentes — exatamente a definição de $t_p$.</p>
+        </div>
+        <div class="sw fa grow">
+          <div class="rng-wrap">
+            <label>Graus de liberdade $p$:</label>
+            <input type="range" class="rng" id="tdf" min="1" max="30" step="1" value="3" oninput="drawT()">
+            <span class="lbl-val" id="vtdf">3</span>
+          </div>
+          <div class="srow">
+            <div class="scard" style="flex:1"><div class="slb">$E[T_p]$</div><div class="sv" id="tet">0</div></div>
+            <div class="scard" style="flex:1"><div class="slb">$\text{Var}[T_p]$</div><div class="sv" id="tvt">—</div></div>
+            <div class="scard" style="flex:1"><div class="slb">$t_{0.975}$</div><div class="sv" id="tqt">—</div></div>
+          </div>
+          <div class="bx" style="font-size:.84em">
+            <p>Conforme $p\to\infty$, $t_p\to N(0,1)$ (caudas mais pesadas para $p$ pequeno).</p>
+          </div>
+        </div>
+      </div>
+      <div class="vc">
+        <canvas id="tCanvas" class="fa" style="width:100%;flex:1;min-height:0"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — CONVERGÊNCIA EM PROBABILIDADE
+══════════════════════════════════════ -->
+<div class="slide compact tighter" data-s="7">
+  <div class="hd"><div class="stag">§ 5.4</div><div class="stitle">Convergência em Probabilidade e Lei Fraca dos Grandes Números</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Convergência em Probabilidade</div>
+          <p>Uma sequência $X_1,X_2,\dots$ <span class="em">converge em probabilidade</span> para $X$ se para cada $\varepsilon&gt;0$:</p>
+          <div class="mc" style="margin:.4em 0">$$\lim_{n\to\infty}P(|X_n-X|\geq\varepsilon)=0$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Notação: $X_n\xrightarrow{P}X$. Equivalentemente: $\lim_{n\to\infty}P(|X_n-X|&lt;\varepsilon)=1$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema — Lei Fraca dos Grandes Números</div>
+          <p>Sejam $X_1,X_2,\dots$ variáveis iid com $EX_i=\mu$ e $\text{Var}\,X_i=\sigma^2&lt;\infty$. Então para todo $\varepsilon&gt;0$:</p>
+          <div class="mc" style="margin:.4em 0">$$\lim_{n\to\infty}P\!\left(|\bar{X}_n-\mu|&lt;\varepsilon\right)=1$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Ou seja, $\bar{X}_n\xrightarrow{P}\mu$. A média amostral é um <strong>estimador consistente</strong> de $\mu$.</p>
+          <p style="font-size:.87em;margin-top:.3em"><strong>Prova:</strong> aplicar Desigualdade de Chebyshev: $P(|\bar{X}_n-\mu|\geq\varepsilon)\leq\dfrac{\sigma^2}{n\varepsilon^2}\to0$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema — Continuidade da Convergência</div>
+          <p>Se $X_n\xrightarrow{P}X$ e $h$ é uma função contínua, então:</p>
+          <div class="mc">$$h(X_n)\xrightarrow{P}h(X)$$</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Convergência Quase Certa</div>
+          <p>$X_n$ <span class="em">converge quase certamente</span> para $X$ se para cada $\varepsilon&gt;0$:</p>
+          <div class="mc" style="margin:.4em 0">$$P\!\left(\lim_{n\to\infty}|X_n-X|&lt;\varepsilon\right)=1$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Notação: $X_n\xrightarrow{q.c.}X$. Convergência mais forte que a convergência em probabilidade.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema — Lei Forte dos Grandes Números</div>
+          <p>Sob as mesmas condições da Lei Fraca:</p>
+          <div class="mc" style="margin:.35em 0">$$P\!\left(\lim_{n\to\infty}|\bar{X}_n-\mu|&lt;\varepsilon\right)=1$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Ou seja, $\bar{X}_n\xrightarrow{q.c.}\mu$. A convergência quase certa implica convergência em probabilidade (não o contrário).</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.87em"><strong>Hierarquia:</strong> Conv. quase certa $\Rightarrow$ Conv. em probabilidade $\Rightarrow$ Conv. em distribuição.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — CONVERGÊNCIA EM DISTRIBUIÇÃO E TLC
+══════════════════════════════════════ -->
+<div class="slide compact tighter" data-s="8">
+  <div class="hd"><div class="stag">§ 5.4</div><div class="stitle">Convergência em Distribuição e Teorema do Limite Central</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Convergência em Distribuição</div>
+          <p>$X_n$ <span class="em">converge em distribuição</span> para $X$ se para todos os pontos $x$ onde $F_X$ é contínua:</p>
+          <div class="mc" style="margin:.4em 0">$$\lim_{n\to\infty}F_{X_n}(x)=F_X(x)$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Notação: $X_n\xrightarrow{D}X$. Convergência em probabilidade $\Rightarrow$ convergência em distribuição.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema do Limite Central (TLC)</div>
+          <p>Seja $X_1,X_2,\dots$ sequência iid com mgf existente em vizinhança de $0$, $EX_i=\mu$, $\text{Var}\,X_i=\sigma^2&gt;0$. Seja $G_n(x)$ a cdf de $\sqrt{n}(\bar{X}_n-\mu)/\sigma$. Então:</p>
+          <div class="mc" style="margin:.4em 0">$$\lim_{n\to\infty}G_n(x)=\int_{-\infty}^{x}\frac{1}{\sqrt{2\pi}}e^{-y^2/2}\,dy$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Ou seja, $\sqrt{n}(\bar{X}_n-\mu)/\sigma\xrightarrow{D}N(0,1)$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Forma Forte do TLC</div>
+          <p style="font-size:.88em">Não requer a existência da mgf — basta $EX_i=\mu$ e $0&lt;\sigma^2&lt;\infty$. O mesmo resultado vale:</p>
+          <div class="mc">$$\sqrt{n}\,\frac{\bar{X}_n-\mu}{\sigma}\xrightarrow{D}N(0,1)$$</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.66em;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35em">Por que o TLC é tão poderoso?</p>
+          <p style="font-size:.88em">Independente da <em>distribuição original</em> de $X_i$ (Normal, Exponencial, Bernoulli...), a média amostral padronizada sempre converge para $N(0,1)$ conforme $n\to\infty$.</p>
+        </div>
+        <div class="bx fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.66em;color:var(--teal);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35em">Hierarquia dos Conceitos de Convergência</p>
+          <div style="display:flex;flex-direction:column;gap:.3em;align-items:center">
+            <div class="conv-type" style="width:80%">
+              <div class="conv-name">Convergência Quase Certa (q.c.)</div>
+              <div class="conv-cond">$P(\lim|X_n-X|&lt;\varepsilon)=1$ &nbsp; — mais forte</div>
+            </div>
+            <div class="arrow-row"><span class="arr">&#8595;</span><span>implica</span></div>
+            <div class="conv-type" style="width:80%">
+              <div class="conv-name">Convergência em Probabilidade (P)</div>
+              <div class="conv-cond">$\lim P(|X_n-X|\geq\varepsilon)=0$</div>
+            </div>
+            <div class="arrow-row"><span class="arr">&#8595;</span><span>implica</span></div>
+            <div class="conv-type" style="width:80%">
+              <div class="conv-name">Convergência em Distribuição (D)</div>
+              <div class="conv-cond">$\lim F_{X_n}(x)=F_X(x)$ &nbsp; — mais fraca</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 9 — SIMULAÇÃO: TLC
+══════════════════════════════════════ -->
+<div class="slide" data-s="9">
+  <div class="hd"><div class="stag">Simulação — § 5.4</div><div class="stitle">Teorema do Limite Central em Ação</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Experimento</div>
+          <p>Para cada tamanho $n$, geramos $R=3000$ réplicas de $\bar{X}_n$ e comparamos o histograma com a curva $N(0,1)$ do TLC.</p>
+          <div class="mc" style="margin:.3em 0;font-size:.9em">$$Z_n=\frac{\bar{X}_n-\mu}{\sigma/\sqrt{n}}\xrightarrow{D}N(0,1)$$</div>
+        </div>
+        <div class="sw fa grow">
+          <div class="rng-wrap">
+            <label>Distribuição:</label>
+            <select id="tlcdist" oninput="runTLC()" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:.75em;border:1px solid var(--brd);border-radius:.2em;padding:.2em .4em;background:var(--w);color:var(--navy);">
+              <option value="exp">Exponencial(1)</option>
+              <option value="uniform">Uniforme(0, 1)</option>
+              <option value="bern">Bernoulli(0.3)</option>
+              <option value="chisq">Qui-quadrada(2)</option>
+            </select>
+          </div>
+          <div class="rng-wrap">
+            <label>Tamanho $n$:</label>
+            <input type="range" class="rng" id="tlcn" min="1" max="50" step="1" value="1" oninput="runTLC()">
+            <span class="lbl-val" id="vtlcn">1</span>
+          </div>
+          <div class="srow">
+            <div class="scard" style="flex:1"><div class="slb">Média $Z_n$</div><div class="sv" id="tlcmz">—</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Var $Z_n$</div><div class="sv" id="tlcvz">—</div></div>
+          </div>
+          <button class="sbtn r" onclick="runTLC()" style="width:100%">&#8635; Nova Simulação</button>
+        </div>
+      </div>
+      <div class="vc">
+        <canvas id="tlcCanvas" class="fa" style="width:100%;flex:1;min-height:0"></canvas>
+        <div class="hl fa">
+          <p style="font-size:.87em">Para $n=1$, a distribuição reflete a original. Conforme $n$ cresce, a forma do histograma converge para a curva gaussiana (linha vermelha), independente da distribuição de partida.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 10 — RESUMO
+══════════════════════════════════════ -->
+<div class="slide" data-s="10">
+  <div class="hd"><div class="stag">Revisão</div><div class="stitle">Resumo — Seção 5: Propriedades de Amostras Aleatórias</div></div>
+  <div class="sc">
+    <div class="sgrid">
+      <div class="si fa"><div class="sn">5.1</div><div class="sh"><h5>Amostra Aleatória</h5><p>$X_1,\dots,X_n$ iid com pmf/pdf $f(x)$. PDF conjunta: $\prod f(x_i)$. Com reposição garante independência. Para $N$ grande, amostra sem reposição aproxima uma aleatória.</p></div></div>
+      <div class="si fa"><div class="sn">5.2</div><div class="sh"><h5>Estatísticas e Estimadores</h5><p>$\bar{X}=(1/n)\sum X_i$ — não viesado: $E\bar{X}=\mu$, $\text{Var}\bar{X}=\sigma^2/n$. $S^2=[1/(n-1)]\sum(X_i-\bar{X})^2$ — não viesado: $ES^2=\sigma^2$. Denominador $n-1$ é essencial.</p></div></div>
+      <div class="si fa"><div class="sn">5.3</div><div class="sh"><h5>Amostragem Normal</h5><p>Para $X_i\overset{iid}{\sim}N(\mu,\sigma^2)$: $\bar{X}\perp S^2$; $\bar{X}\sim N(\mu,\sigma^2/n)$; $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$. Estatística $t$: $(\bar{X}-\mu)/(S/\sqrt{n})\sim t_{n-1}$. Razão de variâncias: $F_{n-1,m-1}$.</p></div></div>
+      <div class="si fa"><div class="sn">5.4</div><div class="sh"><h5>Convergência e TLC</h5><p>Q.c. $\Rightarrow$ Prob. $\Rightarrow$ Distribuição. LFRN e LFGN: $\bar{X}_n\to\mu$. <strong>TLC:</strong> $\sqrt{n}(\bar{X}_n-\mu)/\sigma\xrightarrow{D}N(0,1)$ para qualquer distribuição com $\sigma^2&lt;\infty$ — base da inferência clássica.</p></div></div>
+    </div>
+    <div class="hl fa" style="text-align:center">
+      <p>&#9654; Base estabelecida para <span class="em">Inferência Estatística</span>: estimação pontual, intervalos de confiança e testes de hipótese</p>
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+<nav id="nav">
+  <button class="nb" onclick="nav(-1)">&#9664;</button>
+  <div id="sc">1 / 10</div>
+  <button class="nb" onclick="nav(1)">&#9654;</button>
+</nav>
+
+<script>
+// ── NAVIGATION ──
+const slides=document.querySelectorAll('.slide');
+const tot=slides.length;let cur=0;
+function show(n){
+  slides[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(tot-1,n));
+  slides[cur].classList.add('active');
+  document.getElementById('sc').textContent=`${cur+1} / ${tot}`;
+  document.getElementById('pb').style.width=`${((cur+1)/tot)*100}%`;
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([slides[cur]]).catch(()=>{});
+  if(cur===3)runSim();
+  if(cur===5)drawT();
+  if(cur===8)runTLC();
+}
+function nav(d){show(cur+d);}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();nav(1);}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();nav(-1);}
+});
+let tx=null;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)nav(d<0?1:-1);tx=null;});
+show(0);
+
+// ── RANDOM NUMBER GENERATORS ──
+function randn(){const u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function randexp(){return -Math.log(1-Math.random());}
+function randchisq(k){let s=0;for(let i=0;i<k;i++){const z=randn();s+=z*z;}return s;}
+
+function sampleFrom(dist){
+  switch(dist){
+    case'normal': return randn();
+    case'exp': return randexp();         // mean=1, var=1
+    case'uniform': return Math.random(); // mean=0.5, var=1/12
+    case'bern': return Math.random()<0.3?1:0; // mean=0.3, var=0.21
+    case'chisq': return randchisq(2);    // mean=2, var=4
+    default: return randn();
+  }
+}
+function popStats(dist){
+  switch(dist){
+    case'normal':  return{mu:0,sigma2:1};
+    case'exp':     return{mu:1,sigma2:1};
+    case'uniform': return{mu:0.5,sigma2:1/12};
+    case'bern':    return{mu:0.3,sigma2:0.21};
+    case'chisq':   return{mu:2,sigma2:4};
+    default:       return{mu:0,sigma2:1};
+  }
+}
+
+// ── DRAW HISTOGRAM + OPTIONAL CURVE ──
+function drawHistogram(canvas, data, normalOverlay, mu, sigma, color){
+  const W=canvas.offsetWidth||400, H=canvas.offsetHeight||200;
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=Math.round(W*dpr); canvas.height=Math.round(H*dpr);
+  const ctx=canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#f8faff'; ctx.fillRect(0,0,W,H);
+
+  const pad={l:32,r:12,t:14,b:28};
+  const nb=40;
+  const mn=Math.min(...data), mx=Math.max(...data);
+  const range=mx-mn||1;
+  const bw=range/nb;
+  const counts=new Array(nb).fill(0);
+  data.forEach(v=>{const bi=Math.min(nb-1,Math.floor((v-mn)/bw));counts[bi]++;});
+  const density=counts.map(c=>c/(data.length*bw));
+  const maxD=Math.max(...density,(normalOverlay?0.45:0));
+
+  const xScale=(x)=>pad.l+(x-mn)/range*(W-pad.l-pad.r);
+  const yScale=(y)=>pad.t+(1-y/maxD)*(H-pad.t-pad.b);
+
+  // grid
+  ctx.strokeStyle='#e2e8f0'; ctx.lineWidth=.5;
+  [.25,.5,.75,1].forEach(f=>{
+    const y=pad.t+f*(H-pad.t-pad.b);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+  });
+  // bars
+  density.forEach((d,i)=>{
+    const x=xScale(mn+i*bw), x2=xScale(mn+(i+1)*bw);
+    const y=yScale(d);
+    ctx.fillStyle=color||'rgba(30,95,168,0.45)';
+    ctx.fillRect(x,y,Math.max(0,x2-x-0.5),H-pad.b-y);
+    ctx.strokeStyle='rgba(255,255,255,0.6)'; ctx.lineWidth=.5;
+    ctx.strokeRect(x,y,Math.max(0,x2-x-0.5),H-pad.b-y);
+  });
+  // normal overlay
+  if(normalOverlay){
+    ctx.strokeStyle='#dc2626'; ctx.lineWidth=2; ctx.setLineDash([]);
+    ctx.beginPath();
+    const steps=200;
+    for(let i=0;i<=steps;i++){
+      const x=mn+i/steps*range;
+      const z=(x-mu)/sigma;
+      const y=Math.exp(-z*z/2)/(sigma*Math.sqrt(2*Math.PI));
+      const px=xScale(x), py=yScale(y);
+      i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+  // axes
+  ctx.strokeStyle='#94a3b8'; ctx.lineWidth=.8; ctx.setLineDash([]);
+  ctx.beginPath();ctx.moveTo(pad.l,H-pad.b);ctx.lineTo(W-pad.r,H-pad.b);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t);ctx.lineTo(pad.l,H-pad.b);ctx.stroke();
+  // axis labels
+  ctx.fillStyle='#64748b'; ctx.font=`8px 'JetBrains Mono',monospace`; ctx.textAlign='center';
+  [-2,-1,0,1,2,3].forEach(v=>{
+    const px=xScale(mu+v*sigma);
+    if(px>pad.l && px<W-pad.r){
+      ctx.fillText(v===0?'μ':(v>0?`+${v}σ`:`${v}σ`),px,H-pad.b+10);
+      ctx.strokeStyle='#e2e8f0'; ctx.lineWidth=.4;
+      ctx.beginPath();ctx.moveTo(px,pad.t);ctx.lineTo(px,H-pad.b);ctx.stroke();
+    }
+  });
+}
+
+// ── SLIDE 4: SAMPLING DISTRIBUTION SIM ──
+function runSim(){
+  const dist=document.getElementById('sdist').value;
+  const n=parseInt(document.getElementById('sn').value);
+  document.getElementById('vsn').textContent=n;
+  const{mu,sigma2}=popStats(dist);
+  const sigma=Math.sqrt(sigma2);
+  const R=2000;
+  const xbars=[];
+  for(let r=0;r<R;r++){
+    let s=0;for(let i=0;i<n;i++)s+=sampleFrom(dist);
+    xbars.push(s/n);
+  }
+  const emx=xbars.reduce((a,b)=>a+b,0)/R;
+  const varx=xbars.reduce((a,b)=>a+(b-emx)**2,0)/(R-1);
+  document.getElementById('smu').textContent=mu.toFixed(3);
+  document.getElementById('semx').textContent=emx.toFixed(3);
+  document.getElementById('svarx').textContent=varx.toFixed(4);
+  const cv=document.getElementById('simCanvas');
+  drawHistogram(cv,xbars,n>=5,mu,sigma/Math.sqrt(n),'rgba(30,95,168,0.5)');
+}
+
+// ── SLIDE 6: t DISTRIBUTION ──
+function tPDF(t,p){
+  // log of pdf
+  function lgamma(z){
+    const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,0.1208650973866179e-2,-0.5395239384953e-5];
+    let x=z,y=z,tmp=x+5.5; tmp-=(x+.5)*Math.log(tmp);
+    let ser=1.000000000190015;
+    for(let j=0;j<6;j++){ser+=c[j]/(++y);}
+    return -tmp+Math.log(2.5066282746310005*ser/x);
+  }
+  const lp=lgamma((p+1)/2)-lgamma(p/2)-0.5*Math.log(p*Math.PI)-(p+1)/2*Math.log(1+t*t/p);
+  return Math.exp(lp);
+}
+
+function tQuantile(prob, df){
+  // Newton-Raphson on CDF (numerical, good enough for display)
+  let lo=-10,hi=10;
+  for(let i=0;i<60;i++){
+    const mid=(lo+hi)/2;
+    // numerical CDF by integration
+    let cdf=0;const steps=500;const a=-8;
+    for(let j=0;j<steps;j++){
+      const x=a+j/steps*(mid-a);
+      cdf+=tPDF(x,df)*(mid-a)/steps;
+    }
+    cdf+=0.5;// symmetry offset
+    if(cdf<prob)lo=mid; else hi=mid;
+  }
+  return (lo+hi)/2;
+}
+
+function drawT(){
+  const p=parseInt(document.getElementById('tdf').value);
+  document.getElementById('vtdf').textContent=p;
+  document.getElementById('tet').textContent=p>1?'0':'undef.';
+  document.getElementById('tvt').textContent=p>2?(p/(p-2)).toFixed(3):(p===2?'∞':'undef.');
+  // quantile approx
+  const q975=tQuantile(0.975,p);
+  document.getElementById('tqt').textContent=q975.toFixed(3);
+
+  const cv=document.getElementById('tCanvas'); if(!cv)return;
+  const W=cv.offsetWidth||400, H=cv.offsetHeight||250;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+  const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#f8faff'; ctx.fillRect(0,0,W,H);
+
+  const pad={l:20,r:20,t:20,b:28};
+  const xmin=-4.5, xmax=4.5;
+  const steps=300;
+  const xs=Array.from({length:steps},(_,i)=>xmin+i/(steps-1)*(xmax-xmin));
+  const norm=xs.map(x=>Math.exp(-x*x/2)/Math.sqrt(2*Math.PI));
+  const tdist=xs.map(x=>tPDF(x,p));
+  const ymax=Math.max(...norm,...tdist)*1.1;
+
+  const px=x=>pad.l+(x-xmin)/(xmax-xmin)*(W-pad.l-pad.r);
+  const py=y=>pad.t+(1-y/ymax)*(H-pad.t-pad.b);
+
+  // grid
+  ctx.strokeStyle='#e2e8f0'; ctx.lineWidth=.5;
+  [0,.1,.2,.3,.4].forEach(v=>{
+    ctx.beginPath();ctx.moveTo(pad.l,py(v));ctx.lineTo(W-pad.r,py(v));ctx.stroke();
+    if(v>0){ctx.fillStyle='#94a3b8';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='right';ctx.fillText(v.toFixed(1),pad.l-2,py(v)+3);}
+  });
+  // x axis
+  ctx.strokeStyle='#94a3b8'; ctx.lineWidth=.8;
+  ctx.beginPath();ctx.moveTo(pad.l,py(0));ctx.lineTo(W-pad.r,py(0));ctx.stroke();
+  [-4,-3,-2,-1,0,1,2,3,4].forEach(v=>{
+    ctx.fillStyle='#64748b';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+    ctx.fillText(v,px(v),H-pad.b+10);
+  });
+
+  // fill tails for t
+  const tAlpha=tQuantile(0.025,p);
+  ctx.fillStyle='rgba(220,38,38,0.12)';
+  ctx.beginPath(); ctx.moveTo(px(xmin),py(0));
+  xs.forEach((x,i)=>{if(x<=tAlpha)i===0?ctx.moveTo(px(x),py(tdist[i])):ctx.lineTo(px(x),py(tdist[i]));});
+  ctx.lineTo(px(tAlpha),py(0)); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(px(-tAlpha),py(0));
+  xs.forEach((x,i)=>{if(x>=-tAlpha)ctx.lineTo(px(x),py(tdist[i]));});
+  ctx.lineTo(px(xmax),py(0)); ctx.closePath(); ctx.fill();
+
+  // normal curve
+  ctx.strokeStyle='rgba(148,163,184,0.7)'; ctx.lineWidth=1.5; ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  norm.forEach((y,i)=>i===0?ctx.moveTo(px(xs[i]),py(y)):ctx.lineTo(px(xs[i]),py(y)));
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // t curve
+  ctx.strokeStyle='#1e5fa8'; ctx.lineWidth=2.2;
+  ctx.beginPath();
+  tdist.forEach((y,i)=>i===0?ctx.moveTo(px(xs[i]),py(y)):ctx.lineTo(px(xs[i]),py(y)));
+  ctx.stroke();
+
+  // legend
+  ctx.font=`9px 'JetBrains Mono',monospace`; ctx.textAlign='left';
+  ctx.strokeStyle='#1e5fa8';ctx.lineWidth=2;ctx.setLineDash([]);
+  ctx.beginPath();ctx.moveTo(pad.l+4,pad.t+12);ctx.lineTo(pad.l+24,pad.t+12);ctx.stroke();
+  ctx.fillStyle='#1a2744';ctx.fillText(`t(${p})`,pad.l+28,pad.t+16);
+  ctx.strokeStyle='rgba(148,163,184,0.7)';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(pad.l+4,pad.t+26);ctx.lineTo(pad.l+24,pad.t+26);ctx.stroke();
+  ctx.setLineDash([]);ctx.fillStyle='#64748b';ctx.fillText('N(0,1)',pad.l+28,pad.t+30);
+}
+
+// ── SLIDE 9: TLC SIMULATION ──
+function runTLC(){
+  const dist=document.getElementById('tlcdist').value;
+  const n=parseInt(document.getElementById('tlcn').value);
+  document.getElementById('vtlcn').textContent=n;
+  const{mu,sigma2}=popStats(dist);
+  const sigma=Math.sqrt(sigma2);
+  const R=3000;
+  const zs=[];
+  for(let r=0;r<R;r++){
+    let s=0;for(let i=0;i<n;i++)s+=sampleFrom(dist);
+    zs.push((s/n-mu)/(sigma/Math.sqrt(n)));
+  }
+  const mz=zs.reduce((a,b)=>a+b,0)/R;
+  const vz=zs.reduce((a,b)=>a+(b-mz)**2,0)/(R-1);
+  document.getElementById('tlcmz').textContent=mz.toFixed(3);
+  document.getElementById('tlcvz').textContent=vz.toFixed(3);
+  const cv=document.getElementById('tlcCanvas');
+  drawHistogram(cv,zs,true,0,1,'rgba(15,124,107,0.45)');
+}
+
+window.addEventListener('resize',()=>{
+  if(cur===3)runSim();
+  if(cur===5)drawT();
+  if(cur===8)runTLC();
+});
+window.addEventListener('load',()=>{setTimeout(()=>{if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise();},800);});
+</script>
+</body>
+</html>

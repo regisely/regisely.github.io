@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distribuições de Probabilidade | Curso de Verão em Estatística</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},svg:{scale:1.1},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#dde2ec;--w:#ffffff;--navy:#1a2744;--blue:#1e5fa8;--blt:#e8f0fb;--bbrd:#b8cce8;
+  --teal:#0f7c6b;--tlt:#e0f4f1;--amber:#7c3d00;--alt:#fdf0e0;--slate:#334155;
+  --dim:#5a6a80;--dimmer:#8899b0;--text:#1e293b;--brd:#d4dcea;
+  --red:#b91c1c;--green:#15803d;--defn:#eef3fc;--thm:#e6f3f0;--exmp:#f6f6f4;--rev:#fdf3e3;
+  --orange:#c2410c;--olt:#fff3ed;--obrd:#fed7aa;
+  --deck-scale:.75;--slide-pad-top:3%;--slide-pad-side:4.5%;--slide-pad-bottom:2.5%;
+  --content-gap:1%;--grid-gap:1%;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Source Sans 3',sans-serif;color:var(--text);}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+#deck{
+  position:relative;
+  width:min(100vw, calc(100vh * 16/9));
+  height:min(100vh, calc(100vw * 9/16));
+  background:var(--w);overflow:hidden;
+  box-shadow:0 6px 36px rgba(0,0,0,.18);
+  --W: min(100vw, calc(100vh * 16/9));
+  --H: min(100vh, calc(100vw * 9/16));
+  font-size: calc(var(--W) * 0.021 * var(--deck-scale));
+}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--slide-pad-top) var(--slide-pad-side) var(--slide-pad-bottom);opacity:0;pointer-events:none;transition:opacity .32s ease,transform .32s ease;transform:translateX(20px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+/* ── SLIDE-SPECIFIC TUNING ── */
+.cheb-slide{font-size:.92em;--content-gap:.75%;--grid-gap:.85%;}
+.cheb-slide .hd{margin-bottom:1%;padding-bottom:.75%;}
+.cheb-slide .db,.cheb-slide .tb,.cheb-slide .ob,.cheb-slide .eb,.cheb-slide .rb,.cheb-slide .hl,.cheb-slide .bx,.cheb-slide .sw{padding:.58em .82em;}
+.cheb-slide p{line-height:1.48;}
+.cheb-slide ul.dl,.cheb-slide ol.nl{gap:.12em;}
+.cheb-slide ul.dl li,.cheb-slide ol.nl li{line-height:1.42;}
+.cheb-slide .mc{padding:.2em 0;}
+.cheb-slide .srow{gap:.38em;}
+.cheb-slide .scard{padding:.34em .55em;}
+.cheb-slide .slb{font-size:.55em;}
+.cheb-slide .sv{font-size:1.08em;}
+.hd{display:flex;align-items:center;gap:.6em;margin-bottom:1.2%;padding-bottom:.9%;border-bottom:2px solid var(--brd);flex-shrink:0;}
+.stag{font-family:'JetBrains Mono',monospace;font-size:.62em;color:var(--blue);text-transform:uppercase;letter-spacing:.15em;background:var(--blt);border:1px solid var(--bbrd);padding:.25em .65em;border-radius:.2em;white-space:nowrap;font-weight:500;}
+.stitle{font-family:'Playfair Display',serif;font-size:1.5em;font-weight:700;color:var(--navy);line-height:1.15;}
+.sc{flex:1;display:flex;flex-direction:column;gap:var(--content-gap);overflow:hidden;min-height:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8%;flex:1;min-height:0;}
+.g6040{display:grid;grid-template-columns:6fr 4fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g4060{display:grid;grid-template-columns:4fr 6fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g55{display:grid;grid-template-columns:55fr 45fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.vc{display:flex;flex-direction:column;gap:var(--content-gap);min-height:0;}
+.g2>*,.g3>*,.g6040>*,.g4060>*,.g55>*,.pg>*,.ecards>*{min-width:0;}
+.vc>*{flex-shrink:0;}
+.vc>.grow{flex:1;min-height:0;}
+.db{background:var(--defn);border-left:.25em solid var(--blue);border-radius:.25em;padding:.7em 1em;}
+.db .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.35em;font-weight:600;}
+.tb{background:var(--thm);border-left:.25em solid var(--teal);border-radius:.25em;padding:.7em 1em;}
+.tb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.35em;font-weight:600;}
+.ob{background:var(--olt);border-left:.25em solid var(--orange);border-radius:.25em;padding:.7em 1em;}
+.ob .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:.35em;font-weight:600;}
+.eb{background:var(--exmp);border-left:.25em solid #94a3b8;border-radius:.25em;padding:.7em 1em;}
+.eb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:#64748b;margin-bottom:.35em;font-weight:600;}
+.rb{background:var(--rev);border-left:.25em solid var(--amber);border-radius:.25em;padding:.7em 1em;}
+.rb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:.35em;font-weight:600;}
+.hl{background:linear-gradient(135deg,#f0f4ff,#f8fbff);border:1px solid var(--bbrd);border-radius:.4em;padding:.65em 1em;}
+.bx{background:#f4f7fb;border:1px solid var(--brd);border-radius:.25em;padding:.6em .85em;}
+p{font-size:.92em;line-height:1.6;color:var(--text);}
+.em{color:var(--blue);font-style:italic;font-weight:600;}
+ul.dl,ol.nl{padding-left:1.1em;display:flex;flex-direction:column;gap:.2em;}
+ul.dl li,ol.nl li{font-size:.9em;line-height:1.55;color:var(--slate);}
+ul.dl li::marker{color:var(--blue);}
+.mc{text-align:center;padding:.3em 0;color:var(--navy);}
+.mc mjx-container{max-width:100%;overflow:hidden;}
+.ax{display:flex;gap:.6em;align-items:flex-start;padding:.35em 0;border-bottom:1px solid var(--brd);}
+.ax:last-child{border-bottom:none;}
+.anum{width:1.5em;height:1.5em;border-radius:50%;background:var(--blt);border:1.5px solid var(--bbrd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);flex-shrink:0;margin-top:.1em;font-weight:700;}
+.ab{flex:1;font-size:.88em;line-height:1.5;color:var(--slate);}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:.35em;}
+.pi{background:#f0f4fb;border:1px solid var(--brd);border-radius:.2em;padding:.4em .65em;font-size:.88em;line-height:1.4;color:var(--slate);}
+.pl{font-family:'JetBrains Mono',monospace;color:var(--blue);margin-right:.3em;font-size:.85em;font-weight:700;}
+.scard{background:var(--w);border:1px solid var(--brd);border-radius:.3em;padding:.4em .7em;text-align:center;}
+.slb{font-family:'JetBrains Mono',monospace;font-size:.58em;color:var(--dimmer);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.15em;}
+.sv{font-family:'Playfair Display',serif;font-size:1.2em;font-weight:700;color:var(--navy);}
+.srow{display:flex;gap:.5em;}
+.sw{background:#f4f7fb;border:1.5px solid var(--brd);border-radius:.4em;padding:.65em .85em;display:flex;flex-direction:column;gap:.5em;}
+.sctrl{display:flex;gap:.4em;flex-wrap:wrap;align-items:center;}
+.sbtn{background:var(--w);border:1.5px solid var(--bbrd);color:var(--blue);padding:.3em .8em;border-radius:.25em;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7em;transition:all .15s;font-weight:500;}
+.sbtn:hover{background:var(--blt);}
+.sbtn.t{border-color:#a0d8d0;color:var(--teal);}.sbtn.t:hover{background:var(--tlt);}
+.sbtn.r{border-color:#fca5a5;color:var(--red);}.sbtn.r:hover{background:#fef2f2;}
+.sbtn.sel{background:var(--blt);border-color:var(--blue);}
+.sbtn.osel{background:var(--olt);border-color:var(--orange);color:var(--orange);}
+.cb{background:#f1f4f8;border:1px solid var(--brd);border-radius:.3em;padding:.65em .9em;font-family:'JetBrains Mono',monospace;font-size:.78em;line-height:1.7;overflow-x:auto;color:#334155;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:2;}
+.cb .kw{color:#1e5fa8;font-weight:700;}.cb .fn{color:#0f7c6b;font-weight:600;}.cb .st{color:#15803d;}.cb .cm{color:#8899b0;font-style:italic;}
+canvas{border-radius:.25em;display:block;}
+/* TITLE */
+.tslide{justify-content:center;align-items:center;text-align:center;background:linear-gradient(155deg,#eef3ff 0%,#f8fbff 55%,#f3f7ee 100%);}
+.tslide::before{content:'';position:absolute;top:0;left:0;right:0;height:.28em;background:linear-gradient(90deg,var(--blue),var(--teal));}
+.tbig{font-family:'JetBrains Mono',monospace;font-size:.78em;text-transform:uppercase;letter-spacing:.22em;color:var(--blue);margin-bottom:.5em;}
+.tslide h1{font-family:'Playfair Display',serif;font-size:2.8em;font-weight:700;line-height:1.12;color:var(--navy);margin-bottom:.2em;}
+.tsub{font-family:'Playfair Display',serif;font-size:1.3em;font-style:italic;color:var(--blue);margin-bottom:.4em;}
+.tdiv{width:4em;height:.12em;background:linear-gradient(90deg,transparent,var(--blue),transparent);margin:.4em auto;}
+.tmeta{font-size:.88em;color:var(--dim);line-height:1.9;}
+.tocg{display:grid;grid-template-columns:1fr 1fr;gap:.45em;margin-top:.8em;text-align:left;max-width:34em;}
+.toci{display:flex;gap:.55em;align-items:flex-start;background:var(--w);border:1px solid var(--brd);border-radius:.25em;padding:.45em .7em;}
+.tocn{font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);min-width:1.4em;font-weight:700;}
+.toct{font-size:.82em;color:var(--slate);line-height:1.35;}
+/* NAV */
+#nav{position:fixed;bottom:1%;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.8em;z-index:200;background:rgba(255,255,255,.94);border:1px solid var(--brd);border-radius:2em;padding:.35em .9em;box-shadow:0 4px 16px rgba(0,0,0,.1);backdrop-filter:blur(6px);}
+.nb{background:none;border:none;color:var(--dimmer);font-size:.85em;cursor:pointer;padding:.2em .4em;border-radius:.2em;transition:all .15s;}
+.nb:hover{color:var(--blue);background:var(--blt);}
+#sc{font-family:'JetBrains Mono',monospace;font-size:.72em;color:var(--dim);min-width:3.5em;text-align:center;}
+#pb{position:fixed;top:0;left:0;height:.18em;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .3s;z-index:200;}
+@keyframes fu{from{opacity:0;transform:translateY(.4em)}to{opacity:1;transform:translateY(0)}}
+.slide.active .fa{animation:fu .3s ease forwards;opacity:0;}
+.slide.active .fa:nth-child(1){animation-delay:.04s}
+.slide.active .fa:nth-child(2){animation-delay:.1s}
+.slide.active .fa:nth-child(3){animation-delay:.16s}
+.slide.active .fa:nth-child(4){animation-delay:.22s}
+.slide.active .fa:nth-child(5){animation-delay:.28s}
+
+/* ─── DISTRIBUTION CARDS ─── */
+.dcard{background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);border:1.5px solid var(--blue);border-radius:.3em;overflow:hidden;display:flex;flex-direction:column;box-shadow:inset 0 1px 0 rgba(255,255,255,.7);}
+.dcard-hd{background:var(--navy);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.62em;font-weight:700;padding:.3em .8em;letter-spacing:.07em;display:flex;align-items:baseline;gap:.4em;flex-wrap:wrap;}
+.dcard-hd .dsub{font-size:.85em;font-weight:400;opacity:.65;font-style:italic;letter-spacing:0;font-family:'Playfair Display',serif;}
+.dcard-type{font-family:'JetBrains Mono',monospace;font-size:.52em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em;letter-spacing:.05em;}
+.dcard-hd .dtag-b,.dcard-hd .dtag-t{font-family:'JetBrains Mono',monospace;font-size:.78em;background:rgba(255,255,255,.14);color:#eef6ff;border:1px solid rgba(255,255,255,.18);padding:.1em .4em;border-radius:.2em;}
+.dcard-fml{
+  background:
+    radial-gradient(circle at top center, rgba(255,255,255,.55), transparent 58%),
+    linear-gradient(180deg,#eef4ff 0%,#e8f0ff 100%);
+  text-align:center;
+  padding:.4em .35em;
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.dcard-fml .mc{width:100%;padding:.12em 0;}
+.dcard-fml::after{content:'';position:absolute;left:11%;right:11%;bottom:.75em;height:1px;background:linear-gradient(90deg,transparent,rgba(30,95,168,.16),transparent);}
+.dcard-stats{padding:.34em .65em;display:grid;grid-template-columns:1fr 1fr;gap:.12em .55em;font-size:.72em;color:var(--slate);border-top:1px dashed var(--brd);background:rgba(255,255,255,.9);}
+.dcard-stats .dsrow{grid-column:1/-1;font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--dimmer);text-transform:uppercase;letter-spacing:.05em;padding-bottom:.1em;}
+.dlb{color:var(--dimmer);font-family:'JetBrains Mono',monospace;font-size:.82em;}
+
+/* ─── SLIDER CONTROLS ─── */
+.slrow{display:flex;gap:.55em;align-items:center;}
+.sllabel{font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--blue);font-weight:700;min-width:1.8em;}
+input[type=range]{flex:1;accent-color:var(--blue);height:3px;cursor:pointer;}
+.slval{font-family:'JetBrains Mono',monospace;font-size:.72em;color:var(--navy);font-weight:700;min-width:2.8em;text-align:right;}
+
+/* ─── CHART LEGEND ─── */
+.legend{display:flex;gap:1em;align-items:center;font-family:'JetBrains Mono',monospace;font-size:.62em;color:var(--dim);}
+.leg-item{display:flex;align-items:center;gap:.3em;}
+.leg-dot{width:.75em;height:.75em;border-radius:50%;flex-shrink:0;}
+.leg-line{width:1.2em;height:2px;flex-shrink:0;}
+
+/* ─── R PREFIX TABLE ─── */
+.rtable{display:grid;grid-template-columns:auto 1fr 1fr;gap:.3em .7em;font-size:.82em;align-items:baseline;}
+.rtable .rh{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue);font-size:1.15em;}
+.rtable .rd{color:var(--dim);font-size:.9em;}
+.rtable .re{font-family:'JetBrains Mono',monospace;font-size:.88em;color:var(--teal);}
+
+/* ─── OVERVIEW CARDS ─── */
+.ovcards{display:grid;grid-template-columns:1fr 1fr;gap:.7em;flex:1;min-height:0;}
+.ovcard{border-radius:.4em;padding:.7em .9em;display:flex;flex-direction:column;gap:.4em;}
+.ovcard.disc{background:#f0f4fb;border:1.5px solid var(--blue);}
+.ovcard.cont{background:var(--tlt);border:1.5px solid var(--teal);}
+.ovcard h3{font-family:'Playfair Display',serif;font-size:1.05em;font-weight:700;}
+.ovcard.disc h3{color:var(--blue);}
+.ovcard.cont h3{color:var(--teal);}
+.tag-list{display:flex;flex-wrap:wrap;gap:.3em;margin-top:.2em;}
+.dtag{font-family:'JetBrains Mono',monospace;font-size:.6em;padding:.15em .5em;border-radius:.2em;font-weight:500;}
+.dtag-b{background:var(--blt);color:var(--blue);border:1px solid var(--bbrd);}
+.dtag-t{background:var(--tlt);color:var(--teal);border:1px solid #a0d8d0;}
+.relmap{position:relative;flex:1;min-height:0;width:100%;height:100%;max-width:100%;aspect-ratio:820/340;}
+.rel-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.rel-overlay{position:absolute;inset:0;pointer-events:none;z-index:1;}
+.rel-svg-front{z-index:2;}
+.rel-cap{position:absolute;font-family:'JetBrains Mono',monospace;font-size:.72em;letter-spacing:.16em;color:#8ba0bc;text-transform:uppercase;font-weight:700;}
+.rel-node{
+  position:absolute;
+  border-radius:.7em;
+  padding:.55em .6em .48em;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.1em;
+  text-align:center;
+  box-shadow:0 .16em .55em rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.8);
+}
+.rel-node.disc{background:linear-gradient(180deg,#f6f9ff 0%,#eef4ff 100%);border:.16em solid var(--blue);}
+.rel-node.cont{background:linear-gradient(180deg,#eefaf7 0%,#e0f4f1 100%);border:.16em solid var(--teal);}
+.rel-node.parent{box-shadow:0 .18em .7em rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.85);}
+.rel-title{font-family:'Playfair Display',serif;font-size:1em;font-weight:700;color:var(--navy);line-height:1.02;}
+.rel-par{font-family:'JetBrains Mono',monospace;font-size:.62em;color:#59708d;line-height:1;letter-spacing:0;}
+.rel-node.cont .rel-par{color:#3d7f76;}
+.rel-par mjx-container{margin:0 !important;font-size:.95em !important;}
+.rel-fml{font-size:.68em;color:#53657c;line-height:1.1;letter-spacing:normal;}
+.rel-fml mjx-container{margin:0 !important;font-size:.88em !important;}
+.rel-fml.mono{font-family:'JetBrains Mono',monospace;font-size:.68em;line-height:1.15;letter-spacing:0;color:#62748c;}
+.rel-note{
+  position:absolute;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62em;
+  color:var(--dim);
+  line-height:1.15;
+  text-align:center;
+  white-space:nowrap;
+  padding:.04em .26em;
+  border-radius:.32em;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 0 0 1px rgba(255,255,255,.88);
+}
+.rel-note.blue{color:var(--blue);}
+.rel-note.teal{color:var(--teal);}
+.rel-note.soft{color:#90a4c4;}
+.rel-note.center{transform:translateX(-50%);}
+.rel-note mjx-container{margin:0 !important;font-size:.98em !important;}
+.rel-legendbox{
+  position:absolute;
+  left:.5%;
+  right:.5%;
+  bottom:.8%;
+  z-index:3;
+  border:1px solid var(--brd);
+  border-radius:.75em;
+  background:rgba(248,249,251,.96);
+  padding:.7em .9em .62em;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.75em 1.5em;
+  align-items:center;
+  justify-content:flex-start;
+}
+.rel-legendbox .head{font-family:'JetBrains Mono',monospace;font-size:.74em;font-weight:700;color:var(--navy);margin-right:.45em;}
+.rel-legenditem{display:flex;align-items:center;gap:.55em;font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--dim);white-space:nowrap;}
+.rel-legline{position:relative;width:3.1em;height:0;border-top:.18em solid currentColor;flex-shrink:0;}
+.rel-legline::after{content:'';position:absolute;right:-.08em;top:-.38em;border-left:.62em solid currentColor;border-top:.38em solid transparent;border-bottom:.38em solid transparent;}
+.rel-legline.blue{color:var(--blue);}
+.rel-legline.teal{color:var(--teal);}
+.rel-legline.soft{color:#b8cce8;}
+.rel-legline.dashed{border-top-style:dashed;}
+.rel-legbox{width:1.05em;height:1.05em;border-radius:.24em;flex-shrink:0;}
+.rel-legbox.disc{background:#eef4ff;border:2px solid var(--blue);}
+.rel-legbox.cont{background:#e0f4f1;border:2px solid var(--teal);}
+</style>
+</head>
+<body>
+<div id="pb"></div>
+<div id="stage"><div id="deck">
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — TÍTULO
+══════════════════════════════════════ -->
+<div class="slide tslide" data-s="1">
+  <div class="tbig">Curso de Verão em Estatística · PPGOM / UFPel</div>
+  <div class="tsub">Seção 3</div>
+  <h1>Distribuições de Probabilidade</h1>
+  <div class="tdiv"></div>
+  <div class="tmeta">
+    Prof. Regis A. Ely &nbsp;·&nbsp; Programa de Pós-Graduação em Organizações e Mercados<br>
+    Referência: Casella &amp; Berger, <em>Statistical Inference</em>, Cap. 3 (§§ 3.1–3.3 e Teo. 3.6.1)
+  </div>
+  <div class="tocg">
+    <div class="toci"><div class="tocn">3.1</div><div class="toct">Distribuições Discretas</div></div>
+    <div class="toci"><div class="tocn">●</div><div class="toct">Interativo: Explorador Binomial</div></div>
+    <div class="toci"><div class="tocn">●</div><div class="toct">Interativo: Poisson → Binomial</div></div>
+    <div class="toci"><div class="tocn">3.2</div><div class="toct">Distribuições Contínuas</div></div>
+    <div class="toci"><div class="tocn">●</div><div class="toct">Interativo: Explorador Normal</div></div>
+    <div class="toci"><div class="tocn">3.3</div><div class="toct">Relações e Desigualdade de Chebychev</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — VISÃO GERAL
+══════════════════════════════════════ -->
+<div class="slide" data-s="2">
+  <div class="hd"><div class="stag">§ 3</div><div class="stitle">Variáveis Aleatórias: Discretas vs. Contínuas</div></div>
+  <div class="sc">
+    <div class="ovcards fa">
+      <div class="ovcard disc">
+        <h3>⋮ Discretas — Contagem</h3>
+        <p style="font-size:.87em">A v.a. assume valores em um conjunto <strong>finito ou enumerável</strong>. Probabilidades são atribuídas a pontos individuais via <span class="em">PMF</span> $f_X(x)=P(X=x)$.</p>
+        <div class="tag-list">
+          <span class="dtag dtag-b">Uniforme</span>
+          <span class="dtag dtag-b">Binomial</span>
+          <span class="dtag dtag-b">Poisson</span>
+          <span class="dtag dtag-b">Geométrica</span>
+          <span class="dtag dtag-b">Bin. Negativa</span>
+          <span class="dtag dtag-b">Hipergeométrica</span>
+        </div>
+        <div class="bx" style="margin-top:.3em">
+          <p style="font-size:.84em">$\displaystyle\sum_x f_X(x) = 1$ &nbsp;·&nbsp; $P(X \leq x)=\displaystyle\sum_{t \leq x}f_X(t)$ &nbsp;<em>(escada)</em></p>
+        </div>
+      </div>
+      <div class="ovcard cont">
+        <h3>∼ Contínuas — Medição</h3>
+        <p style="font-size:.87em">A v.a. assume valores em um <strong>intervalo contínuo</strong>. Probabilidades são áreas sob a <span class="em">PDF</span> $f_X(x)$: &nbsp;$P(X=x)=0$ para qualquer ponto exato.</p>
+        <div class="tag-list">
+          <span class="dtag dtag-t">Uniforme</span>
+          <span class="dtag dtag-t">Normal</span>
+          <span class="dtag dtag-t">Exponencial</span>
+          <span class="dtag dtag-t">Gama</span>
+          <span class="dtag dtag-t">Qui-quadrada</span>
+          <span class="dtag dtag-t">Weibull</span>
+          <span class="dtag dtag-t">Lognormal</span>
+        </div>
+        <div class="bx" style="margin-top:.3em">
+          <p style="font-size:.84em">$\displaystyle\int_{-\infty}^{\infty}f_X(x)\,dx=1$ &nbsp;·&nbsp; $P(a\leq X\leq b)=\displaystyle\int_a^b f_X(x)\,dx$</p>
+        </div>
+      </div>
+    </div>
+    <div class="hl fa">
+      <p style="text-align:center">Uma distribuição é completamente caracterizada pela sua <strong>CDF</strong> $F_X(x)=P(X\leq x)$ &mdash; contínua para v.a. contínuas, em escada para discretas.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — UNIFORME DISCRETA + HIPERGEOMÉTRICA
+══════════════════════════════════════ -->
+<div class="slide" data-s="3">
+  <div class="hd"><div class="stag">§ 3.1</div><div class="stitle">Uniforme Discreta e Hipergeométrica</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc fa">
+        <div class="dcard" style="flex:1">
+          <div class="dcard-hd">Uniforme Discreta <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(N)</span></div>
+          <div class="dcard-fml"><div class="mc">$P(X=x)=\dfrac{1}{N}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in\{1,2,\ldots,N\}$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$N$ (inteiro positivo)</span>
+            <span><span class="dlb">Média</span></span><span>$\dfrac{N+1}{2}$</span>
+            <span><span class="dlb">Variância</span></span><span>$\dfrac{N^2-1}{12}$</span>
+          </div>
+        </div>
+        <div class="eb">
+          <div class="bt">Intuição &amp; Exemplo</div>
+          <p><strong>Chancas iguais</strong> para todos os $N$ resultados possíveis.</p>
+          <ul class="dl" style="margin-top:.3em">
+            <li>Dado justo: $N=6$, $P(\text{cada face})=\frac{1}{6}$, média $= 3{,}5$</li>
+            <li>Sorteio de loteria com $N$ bilhetes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="dcard" style="flex:1">
+          <div class="dcard-hd">Hipergeométrica <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(N, M, n)</span></div>
+          <div class="dcard-fml"><div class="mc" style="font-size:.9em">$P(X=x)=\dfrac{\displaystyle\binom{M}{x}\binom{N-M}{n-x}}{\displaystyle\binom{N}{n}}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in\{\max(0,n{-}N{+}M),\ldots,\min(n,M)\}$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$N$ (pop.), $M$ (sucessos), $n$ (amostra)</span>
+            <span><span class="dlb">Média</span></span><span>$n\dfrac{M}{N}$</span>
+            <span><span class="dlb">Variância</span></span><span>$n\frac{M}{N}\!\left(1-\frac{M}{N}\right)\!\frac{N-n}{N-1}$</span>
+          </div>
+        </div>
+        <div class="eb">
+          <div class="bt">Intuição &amp; Exemplo</div>
+          <p>Amostragem <strong>sem reposição</strong> de uma população finita.</p>
+          <ul class="dl" style="margin-top:.3em">
+            <li>Retirar $n=5$ cartas de $N=52$, com $M=13$ copas: $P(X=2)$?</li>
+            <li>Difere da Binomial: extrações <em>não</em> são independentes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — BINOMIAL E BERNOULLI
+══════════════════════════════════════ -->
+<div class="slide" data-s="4">
+  <div class="hd"><div class="stag">§ 3.1</div><div class="stitle">Binomial e Bernoulli</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="dcard fa" style="flex:1">
+          <div class="dcard-hd">Binomial <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(n, p)</span></div>
+          <div class="dcard-fml">
+            <div class="mc">$P(X=x)=\dbinom{n}{x}p^x(1-p)^{n-x}$</div>
+          </div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in\{0,1,2,\ldots,n\}$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$n\in\mathbb{Z}^+$, $p\in(0,1)$</span>
+            <span><span class="dlb">Média</span></span><span>$np$</span>
+            <span><span class="dlb">Variância</span></span><span>$np(1-p)$</span>
+            <span><span class="dlb">MGF</span></span><span>$(1-p+pe^t)^n$</span>
+          </div>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.86em"><strong>Bernoulli$(p)$</strong> é o caso especial $n=1$: &nbsp;$P(X=1)=p$, &nbsp;$P(X=0)=1-p$. &nbsp; $E[X]=p$, &nbsp;$\text{Var}(X)=p(1-p)$.</p>
+          <p style="font-size:.86em;margin-top:.3em">Se $X_1,\ldots,X_n\!\sim\!\text{Bernoulli}(p)$ são iid, então $\sum X_i\!\sim\!\text{Bin}(n,p)$.</p>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="db">
+          <div class="bt">Quando usar?</div>
+          <p>Contagem de <strong>sucessos</strong> em $n$ ensaios independentes e idênticos, cada um com probabilidade de sucesso $p$.</p>
+        </div>
+        <div class="eb" style="flex:1">
+          <div class="bt">Exemplos</div>
+          <ul class="dl">
+            <li>Lançar 10 moedas: $X=$ nº de caras &nbsp;$\sim\text{Bin}(10,0{,}5)$</li>
+            <li>Pesquisa com 200 eleitores: $X=$ nº que aprovam a política</li>
+            <li>Controle de qualidade: $X=$ defeituosos em lote de 50</li>
+            <li>Aprovação em concurso com 30 questões: $X=$ acertos</li>
+          </ul>
+        </div>
+        <div class="tb">
+          <div class="bt">Combinatória</div>
+          <p style="font-size:.87em">O fator $\binom{n}{x}$ conta as <strong>maneiras de escolher</strong> quais $x$ ensaios resultam em sucesso. A distribuição surge naturalmente da análise combinatória da abordagem clássica.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — INTERATIVO: BINOMIAL EXPLORER
+══════════════════════════════════════ -->
+<div class="slide" data-s="5">
+  <div class="hd"><div class="stag">Simulação Interativa</div><div class="stitle">Explorador da Distribuição Binomial</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="sw grow fa">
+          <div class="sctrl" style="flex-direction:column;gap:.38em">
+            <div class="slrow" style="width:100%">
+              <span class="sllabel">n</span>
+              <input type="range" id="bn" min="1" max="30" value="10" oninput="drawBinom()">
+              <span class="slval" id="bnv">10</span>
+            </div>
+            <div class="slrow" style="width:100%">
+              <span class="sllabel">p</span>
+              <input type="range" id="bp" min="1" max="99" value="50" oninput="drawBinom()">
+              <span class="slval" id="bpv">0.50</span>
+            </div>
+          </div>
+          <canvas id="binom-cv" style="width:100%;height:9em"></canvas>
+          <div class="srow" style="gap:.4em">
+            <div class="scard" style="flex:1"><div class="slb">Média (np)</div><div class="sv" id="b-mean" style="font-size:.95em">5.00</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Variância</div><div class="sv" id="b-var" style="font-size:.95em">2.50</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Desvio-padrão</div><div class="sv" id="b-sd" style="font-size:.95em">1.58</div></div>
+            <div class="scard" style="flex:1"><div class="slb">P(X = Moda)</div><div class="sv" id="b-mode" style="font-size:.95em">—</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="tb">
+          <div class="bt">O que observar</div>
+          <ul class="dl">
+            <li>$p=0{,}5$: distribuição <strong>simétrica</strong></li>
+            <li>$p&lt;0{,}5$: assimétrica à <strong>direita</strong>; $p>0{,}5$: à <strong>esquerda</strong></li>
+            <li>$n$ grande + $p$ moderado: <strong>aproxima Normal</strong></li>
+          </ul>
+        </div>
+        <div class="eb" style="flex:1">
+          <div class="bt">Regra prática</div>
+          <p>A aproximação Normal $\approx N(np,np(1-p))$ é válida quando $np\geq5$ e $n(1-p)\geq5$. Tente $n=30$, $p=0{,}5$ e veja a forma de sino emergir!</p>
+        </div>
+        <div class="hl">
+          <p style="font-size:.86em"><strong>Soma de Binomiais independentes:</strong> se $X\!\sim\!\text{Bin}(n,p)$ e $Y\!\sim\!\text{Bin}(m,p)$, então $X+Y\!\sim\!\text{Bin}(n+m,p)$ pela propriedade da MGF.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — POISSON
+══════════════════════════════════════ -->
+<div class="slide" data-s="6">
+  <div class="hd"><div class="stag">§ 3.1</div><div class="stitle">Distribuição de Poisson</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="dcard fa">
+          <div class="dcard-hd">Poisson <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(λ)</span></div>
+          <div class="dcard-fml">
+            <div class="mc" style="font-size:.96em">$P(X=x)=\dfrac{e^{-\lambda}\lambda^x}{x!}$</div>
+          </div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in\{0,1,2,\ldots\}$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$\lambda>0$ (taxa média)</span>
+            <span><span class="dlb">Média</span></span><span>$\lambda$</span>
+            <span><span class="dlb">Variância</span></span><span>$\lambda$ &nbsp;<em>(= média!)</em></span>
+            <span><span class="dlb">MGF</span></span><span>$\exp(\lambda(e^t-1))$</span>
+          </div>
+        </div>
+        <div class="db fa">
+          <div class="bt">Processo de Poisson</div>
+          <p>$X$ = número de eventos em um intervalo fixo quando eles ocorrem:</p>
+          <ul class="dl" style="margin-top:.3em">
+            <li>À <strong>taxa média</strong> $\lambda$ constante</li>
+            <li>De forma <strong>independente</strong> uns dos outros</li>
+            <li>Não podem ocorrer <strong>simultaneamente</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="eb" style="flex:1">
+          <div class="bt">Exemplos</div>
+          <ul class="dl">
+            <li>Chamadas telefônicas por hora em uma central ($\lambda=5$)</li>
+            <li>Falhas em 1 km de cabo de fibra óptica ($\lambda=0{,}2$)</li>
+            <li>Chegadas de clientes por minuto ($\lambda=3$)</li>
+            <li>Acidentes de trânsito por semana em um cruzamento</li>
+            <li>Erros de digitação por página de texto</li>
+          </ul>
+        </div>
+        <div class="tb">
+          <div class="bt">Soma de Poissons independentes</div>
+          <p style="font-size:.88em">Se $X_i\overset{\text{ind}}{\sim}\text{Poisson}(\lambda_i)$, então:</p>
+          <div class="mc">$\sum_{i=1}^k X_i \sim \text{Poisson}\!\left(\sum_{i=1}^k\lambda_i\right)$</div>
+          <p style="font-size:.86em;margin-top:.3em;font-style:italic">Prova: pela propriedade da MGF.</p>
+        </div>
+        <div class="hl">
+          <p style="font-size:.86em"><strong>Unicidade:</strong> Poisson é a única distribuição discreta em que média = variância. Isso é útil para diagnóstico em dados de contagem!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — INTERATIVO: POISSON/BINOMIAL APPROX
+══════════════════════════════════════ -->
+<div class="slide" data-s="7">
+  <div class="hd"><div class="stag">Simulação Interativa</div><div class="stitle">Poisson como Limite da Binomial</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="sw grow fa">
+          <div class="sctrl" style="flex-direction:column;gap:.4em">
+            <div class="slrow" style="width:100%">
+              <span class="sllabel">λ</span>
+              <input type="range" id="pl" min="1" max="80" value="30" oninput="drawPois()">
+              <span class="slval" id="plv">3.0</span>
+            </div>
+            <div class="slrow" style="width:100%">
+              <span class="sllabel">n</span>
+              <input type="range" id="pn" min="10" max="200" value="30" step="5" oninput="drawPois()">
+              <span class="slval" id="pnv">30</span>
+            </div>
+          </div>
+          <canvas id="pois-cv" style="width:100%;height:8em"></canvas>
+          <div class="legend" style="justify-content:center">
+            <span class="leg-item"><span class="leg-dot" style="background:var(--blue)"></span>Poisson(λ)</span>
+            <span class="leg-item"><span class="leg-dot" style="background:var(--orange)"></span>Binomial(n, λ/n)</span>
+          </div>
+          <div class="srow" style="gap:.4em">
+            <div class="scard" style="flex:1"><div class="slb">λ = np</div><div class="sv" id="p-lambda" style="font-size:.95em">3.0</div></div>
+            <div class="scard" style="flex:1"><div class="slb">p = λ/n</div><div class="sv" id="p-prob" style="font-size:.95em">0.100</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Erro máx.</div><div class="sv" id="p-err" style="font-size:.95em">—</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="tb">
+          <div class="bt">Teorema — Aproximação de Poisson</div>
+          <p>Se $X\sim\text{Bin}(n,p_n)$ com $p_n=\lambda/n$ e $n\to\infty$, então para cada $x=0,1,2,\ldots$:</p>
+          <div class="mc" style="margin:.4em 0">$$\binom{n}{x}p_n^x(1-p_n)^{n-x}\;\xrightarrow{n\to\infty}\;\frac{e^{-\lambda}\lambda^x}{x!}$$</div>
+        </div>
+        <div class="eb" style="flex:1">
+          <div class="bt">O que observar</div>
+          <ul class="dl">
+            <li><strong>n pequeno:</strong> as distribuições diferem visivelmente</li>
+            <li><strong>n grande, p pequeno:</strong> quase sobrepostas</li>
+            <li>Fixe $\lambda$ e aumente $n$ — observe a convergência</li>
+            <li>A aproximação é boa quando $n\geq20$ e $p\leq0{,}05$</li>
+          </ul>
+        </div>
+        <div class="hl">
+          <p style="font-size:.86em"><strong>Intuição:</strong> Poisson modela eventos raros ($p$ pequeno) em um grande número de oportunidades ($n$ grande) com taxa média $\lambda=np$ fixa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — GEOMÉTRICA + BIN. NEGATIVA
+══════════════════════════════════════ -->
+<div class="slide" data-s="8">
+  <div class="hd"><div class="stag">§ 3.1</div><div class="stitle">Geométrica e Binomial Negativa</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc fa">
+        <div class="dcard" style="flex:1">
+          <div class="dcard-hd">Geométrica <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(p)</span></div>
+          <div class="dcard-fml"><div class="mc">$P(X=x)=p(1-p)^{x-1}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in\{1,2,3,\ldots\}$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$p\in(0,1)$</span>
+            <span><span class="dlb">Média</span></span><span>$1/p$</span>
+            <span><span class="dlb">Variância</span></span><span>$(1-p)/p^2$</span>
+          </div>
+        </div>
+        <div class="tb">
+          <div class="bt">Propriedade da falta de memória</div>
+          <p style="font-size:.86em">A Geométrica é a <strong>única</strong> distribuição discreta sem memória:</p>
+          <div class="mc" style="margin:.35em 0">$P(X>m+n\mid X>m)=P(X>n)$</div>
+          <p style="font-size:.83em;margin-top:.2em">O passado não importa: a chance de esperar mais $n$ tentativas é a mesma, independente de quantas já ocorreram.</p>
+        </div>
+        <div class="eb">
+          <div class="bt">Exemplo</div>
+          <p style="font-size:.86em">Tentativas até vender um produto ($p=0{,}2$): em média $1/0{,}2=5$ tentativas, com probabilidade de conseguir logo na 1ª de $20\%$.</p>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="dcard" style="flex:1">
+          <div class="dcard-hd">Binomial Negativa <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(r, p)</span></div>
+          <div class="dcard-fml"><div class="mc" style="font-size:.92em">$P(X=x)=\dbinom{x-1}{r-1}p^r(1-p)^{x-r}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in\{r, r+1, r+2,\ldots\}$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$r\in\mathbb{Z}^+$, $p\in(0,1)$</span>
+            <span><span class="dlb">Média</span></span><span>$r/p$</span>
+            <span><span class="dlb">Variância</span></span><span>$r(1-p)/p^2$</span>
+          </div>
+        </div>
+        <div class="db">
+          <div class="bt">Relação com Geométrica</div>
+          <p style="font-size:.86em">Geométrica = Bin. Negativa com <strong>$r=1$</strong>. A Bin. Negativa conta o número de tentativas até o <strong>$r$-ésimo sucesso</strong>.</p>
+          <p style="font-size:.83em;margin-top:.3em">Se $G_1,\ldots,G_r \overset{\text{iid}}{\sim}\text{Geom}(p)$, então $\sum G_i \sim \text{BinNeg}(r,p)$.</p>
+        </div>
+        <div class="eb">
+          <div class="bt">Exemplo</div>
+          <p style="font-size:.86em">Tentativas até <strong>3 vendas</strong> ($r=3$, $p=0{,}2$): média $= 3/0{,}2 = 15$ tentativas, variância $= 3(0{,}8)/0{,}04 = 60$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 9 — CONTÍNUAS: INTRO + UNIFORME
+══════════════════════════════════════ -->
+<div class="slide" data-s="9">
+  <div class="hd"><div class="stag">§ 3.2</div><div class="stitle">Distribuições Contínuas — Uniforme</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc fa">
+        <div class="db">
+          <div class="bt">O que muda para o caso contínuo</div>
+          <ul class="dl">
+            <li>O suporte é um intervalo em $\mathbb{R}$ — <strong>não-enumerável</strong></li>
+            <li>$P(X=x)=0$ para qualquer $x$ específico</li>
+            <li>Probabilidade = <strong>área</strong> sob a curva da PDF</li>
+            <li>A PDF $f_X(x)$ pode ser $>1$ (não é probabilidade direta!)</li>
+          </ul>
+        </div>
+        <div class="dcard" style="flex:1">
+          <div class="dcard-hd">Uniforme Contínua <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(a, b)</span></div>
+          <div class="dcard-fml"><div class="mc">$f(x)=\dfrac{1}{b-a}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in[a,b]$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$a,b\in\mathbb{R}$, $a&lt;b$</span>
+            <span><span class="dlb">Média</span></span><span>$(a+b)/2$</span>
+            <span><span class="dlb">Variância</span></span><span>$(b-a)^2/12$</span>
+            <span><span class="dlb">CDF</span></span><span>$(x-a)/(b-a)$</span>
+          </div>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="tb" style="flex:1">
+          <div class="bt">Papel teórico fundamental</div>
+          <p>Se $U\sim\text{Uniforme}(0,1)$ e $F$ é uma CDF contínua, então:</p>
+          <div class="mc" style="margin:.4em 0">$X = F^{-1}(U) \sim F$</div>
+          <p>Esse resultado — o <strong>Método da Transformação Inversa</strong> — é a base de toda geração de números aleatórios em computadores. Todo método de simulação de Monte Carlo começa aqui!</p>
+        </div>
+        <div class="eb">
+          <div class="bt">Exemplos</div>
+          <ul class="dl">
+            <li>Erros de arredondamento: $X\sim U(-0{,}5,\,0{,}5)$</li>
+            <li>Chegada aleatória de ônibus: $X\sim U(0,\,15)$ minutos</li>
+            <li>$\texttt{runif(n)}$ no R gera amostras de $U(0,1)$</li>
+          </ul>
+        </div>
+        <div class="hl">
+          <p style="font-size:.86em">Em contraste com a discreta, a Uniforme Contínua é usada como <em>ponto de partida</em> para gerar qualquer outra distribuição.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 10 — NORMAL/GAUSSIANA
+══════════════════════════════════════ -->
+<div class="slide" data-s="10">
+  <div class="hd"><div class="stag">§ 3.2</div><div class="stitle">Distribuição Normal (Gaussiana)</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="dcard fa">
+          <div class="dcard-hd">Normal <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(μ, σ²)</span></div>
+          <div class="dcard-fml"><div class="mc" style="font-size:.86em">$f(x)=\dfrac{1}{\sqrt{2\pi\sigma^2}}\,\exp\!\left(-\dfrac{(x-\mu)^2}{2\sigma^2}\right)$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in(-\infty,\infty)$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$\mu\in\mathbb{R}$, $\sigma^2>0$</span>
+            <span><span class="dlb">Média</span></span><span>$\mu$</span>
+            <span><span class="dlb">Variância</span></span><span>$\sigma^2$</span>
+            <span><span class="dlb">Moda/Mediana</span></span><span>$\mu$ &nbsp;(simétrica)</span>
+            <span><span class="dlb">MGF</span></span><span>$\exp(\mu t+\frac{1}{2}\sigma^2 t^2)$</span>
+          </div>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.86em"><strong>Normal Padrão:</strong> $Z=\dfrac{X-\mu}{\sigma}\sim N(0,1)$. Tabelas da $N(0,1)$ permitem calcular probabilidades para qualquer $N(\mu,\sigma^2)$.</p>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="tb" style="flex:1">
+          <div class="bt">Por que a Normal é tão importante?</div>
+          <ul class="dl">
+            <li><strong>Teorema do Limite Central:</strong> soma de muitas v.a. iid converge para Normal</li>
+            <li><strong>Erros de medição:</strong> soma de perturbações aleatórias pequenas</li>
+            <li><strong>Base da inferência:</strong> testes $t$, $F$ e $\chi^2$ derivam dela</li>
+            <li>Fechada sob somas: $X+Y\sim N(\mu_X+\mu_Y,\sigma^2_X+\sigma^2_Y)$</li>
+          </ul>
+        </div>
+        <div class="eb">
+          <div class="bt">Exemplos</div>
+          <ul class="dl">
+            <li>Altura de adultos, erros de pesagem</li>
+            <li>Retorno de ativos (aproximação)</li>
+            <li>Resultado de soma de $n$ lançamentos de dado</li>
+          </ul>
+        </div>
+        <div class="bx">
+          <p style="font-size:.84em;text-align:center">
+            $P(\mu-\sigma\leq X\leq\mu+\sigma)\approx68{,}3\%$ &nbsp;|&nbsp;
+            $P(\mu-2\sigma\leq X\leq\mu+2\sigma)\approx95{,}4\%$ &nbsp;|&nbsp;
+            $P(\mu-3\sigma\leq X\leq\mu+3\sigma)\approx99{,}7\%$
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 11 — INTERATIVO: NORMAL EXPLORER
+══════════════════════════════════════ -->
+<div class="slide" data-s="11">
+  <div class="hd"><div class="stag">Simulação Interativa</div><div class="stitle">Explorador da Distribuição Normal</div></div>
+  <div class="sc">
+    <div class="g6040">
+      <div class="vc">
+        <div class="sw grow fa">
+          <div class="sctrl" style="flex-direction:column;gap:.38em">
+            <div class="slrow" style="width:100%">
+              <span class="sllabel" style="min-width:1.4em">μ</span>
+              <input type="range" id="nmu" min="-30" max="30" value="0" oninput="drawNorm()">
+              <span class="slval" id="nmuv">0.0</span>
+            </div>
+            <div class="slrow" style="width:100%">
+              <span class="sllabel" style="min-width:1.4em">σ</span>
+              <input type="range" id="nsig" min="5" max="30" value="10" oninput="drawNorm()">
+              <span class="slval" id="nsigv">1.0</span>
+            </div>
+          </div>
+          <canvas id="norm-cv" style="width:100%;height:10.4em"></canvas>
+          <div class="sctrl" style="justify-content:center;gap:.5em">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:.65em;color:var(--dim)">Sombrear:</span>
+            <button class="sbtn sel" id="nk1" onclick="setNK(1)">±1σ</button>
+            <button class="sbtn" id="nk2" onclick="setNK(2)">±2σ</button>
+            <button class="sbtn" id="nk3" onclick="setNK(3)">±3σ</button>
+            <button class="sbtn t" id="nkx" onclick="setNK(0)">Nenhum</button>
+          </div>
+          <div class="srow" style="gap:.4em">
+            <div class="scard" style="flex:1"><div class="slb">P(μ±kσ)</div><div class="sv" id="n-prob" style="font-size:.95em">68.27%</div></div>
+            <div class="scard" style="flex:1"><div class="slb">P(X ≤ μ)</div><div class="sv" style="font-size:.95em">50.00%</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Curtose</div><div class="sv" style="font-size:.95em">0 (mesocúrtica)</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="tb">
+          <div class="bt">Regra Empírica (68-95-99.7)</div>
+          <div class="ax" style="margin-top:.3em">
+            <div class="anum" style="border-color:var(--teal);color:var(--teal);background:var(--tlt)">1σ</div>
+            <div class="ab"><strong>68,27%</strong> dos dados estão a 1 desvio-padrão da média</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="border-color:var(--teal);color:var(--teal);background:var(--tlt)">2σ</div>
+            <div class="ab"><strong>95,45%</strong> dos dados estão a 2 desvios-padrão</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="border-color:var(--teal);color:var(--teal);background:var(--tlt)">3σ</div>
+            <div class="ab"><strong>99,73%</strong> dos dados estão a 3 desvios-padrão</div>
+          </div>
+        </div>
+        <div class="db">
+          <div class="bt">Observe</div>
+          <ul class="dl">
+            <li>$\mu$ desloca a curva (localização)</li>
+            <li>$\sigma$ altera a largura (dispersão)</li>
+            <li>Curva sempre simétrica em $\mu$</li>
+            <li>Área total sempre $= 1$</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 12 — EXPONENCIAL + GAMA
+══════════════════════════════════════ -->
+<div class="slide" data-s="12">
+  <div class="hd"><div class="stag">§ 3.2</div><div class="stitle">Exponencial e Gama</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc fa">
+        <div class="dcard">
+          <div class="dcard-hd">Exponencial <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(β)</span></div>
+          <div class="dcard-fml"><div class="mc">$f(x)=\dfrac{1}{\beta}e^{-x/\beta}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in[0,\infty)$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$\beta>0$ (escala)</span>
+            <span><span class="dlb">Média</span></span><span>$\beta$</span>
+            <span><span class="dlb">Variância</span></span><span>$\beta^2$</span>
+            <span><span class="dlb">CDF</span></span><span>$1-e^{-x/\beta}$</span>
+          </div>
+        </div>
+        <div class="tb">
+          <div class="bt">Falta de memória (contínua)</div>
+          <p style="font-size:.86em">A Exponencial é a <strong>única</strong> distribuição contínua sem memória:</p>
+          <div class="mc" style="margin:.3em 0">$P(X>s+t\mid X>s)=P(X>t)$</div>
+          <p style="font-size:.83em">Modela <em>tempo de espera</em> entre eventos de Poisson.</p>
+        </div>
+        <div class="eb">
+          <div class="bt">Exemplos</div>
+          <ul class="dl">
+            <li>Tempo entre chegadas de clientes ($\beta=1/\lambda$)</li>
+            <li>Vida útil de componentes eletrônicos</li>
+            <li>Tempo até próxima falha em processo confiável</li>
+          </ul>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="dcard">
+          <div class="dcard-hd">Gama <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(α, β)</span></div>
+          <div class="dcard-fml"><div class="mc" style="font-size:.88em">$f(x)=\dfrac{1}{\Gamma(\alpha)\beta^\alpha}x^{\alpha-1}e^{-x/\beta}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Suporte</span></span><span>$x\in(0,\infty)$</span>
+            <span><span class="dlb">Parâm.</span></span><span>$\alpha>0$ (forma), $\beta>0$ (escala)</span>
+            <span><span class="dlb">Média</span></span><span>$\alpha\beta$</span>
+            <span><span class="dlb">Variância</span></span><span>$\alpha\beta^2$</span>
+          </div>
+        </div>
+        <div class="db">
+          <div class="bt">Função Gama — $\Gamma(\alpha)$</div>
+          <p style="font-size:.86em">Generalização do fatorial: $\Gamma(\alpha)=\int_0^\infty t^{\alpha-1}e^{-t}\,dt$</p>
+          <ul class="dl" style="margin-top:.3em">
+            <li>$\Gamma(n)=(n-1)!$ para $n\in\mathbb{Z}^+$</li>
+            <li>$\Gamma(1/2)=\sqrt{\pi}$</li>
+          </ul>
+        </div>
+        <div class="eb">
+          <div class="bt">Exemplos e casos especiais</div>
+          <ul class="dl">
+            <li>Tempo até o $\alpha$-ésimo evento de Poisson</li>
+            <li>$\alpha=1$: Exponencial$(\beta)$ ← caso especial</li>
+            <li>$\alpha$ inteiro: soma de $\alpha$ Exponenciais iid</li>
+            <li>Amplamente usada em econometria bayesiana</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 13 — QUI-QUADRADA, WEIBULL, LOGNORMAL
+══════════════════════════════════════ -->
+<div class="slide" data-s="13">
+  <div class="hd"><div class="stag">§ 3.2</div><div class="stitle">Qui-quadrada, Weibull e Lognormal</div></div>
+  <div class="sc">
+    <div class="g3">
+      <div class="vc fa">
+        <div class="dcard">
+          <div class="dcard-hd">Qui-quadrada <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(p)</span></div>
+          <div class="dcard-fml"><div class="mc" style="font-size:.8em">$f(x)=\dfrac{x^{(p/2)-1}e^{-x/2}}{\Gamma(p/2)\,2^{p/2}}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Parâm.</span></span><span>$p\in\mathbb{Z}^+$ (g.l.)</span>
+            <span><span class="dlb">Média</span></span><span>$p$</span>
+            <span><span class="dlb">Variância</span></span><span>$2p$</span>
+          </div>
+        </div>
+        <div class="tb" style="flex:1">
+          <div class="bt">Papel em Inferência</div>
+          <ul class="dl">
+            <li>$Z_i\overset{\text{iid}}{\sim}N(0,1)\Rightarrow\sum Z_i^2\sim\chi^2_p$</li>
+            <li>$(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$</li>
+            <li>Base de testes de variância e bondade de ajuste</li>
+          </ul>
+        </div>
+        <div class="bx">
+          <p style="font-size:.8em;text-align:center">Gama com $\alpha=p/2$, $\beta=2$</p>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="dcard">
+          <div class="dcard-hd">Weibull <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(γ, β)</span></div>
+          <div class="dcard-fml"><div class="mc" style="font-size:.9em">$f(x)=\dfrac{\gamma}{\beta}\,x^{\gamma-1}e^{-x^\gamma/\beta}$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Parâm.</span></span><span>$\gamma>0$ (forma), $\beta>0$ (escala)</span>
+            <span><span class="dlb">Média</span></span><span>$\beta^{1/\gamma}\Gamma(1+1/\gamma)$</span>
+            <span><span class="dlb">CDF</span></span><span>$1-e^{-x^\gamma/\beta}$</span>
+          </div>
+        </div>
+        <div class="ob" style="flex:1">
+          <div class="bt">Análise de Sobrevivência</div>
+          <ul class="dl">
+            <li>$\gamma<1$: taxa de falha decrescente</li>
+            <li>$\gamma=1$: Exponencial (taxa constante)</li>
+            <li>$\gamma>1$: taxa de falha crescente (desgaste)</li>
+          </ul>
+          <p style="font-size:.82em;margin-top:.3em">Usada em engenharia e ciências atuariais.</p>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="dcard">
+          <div class="dcard-hd">Lognormal <span class="dtag-b" style="font-family:'JetBrains Mono',monospace;font-size:.8em;background:rgba(255,255,255,.15);padding:.1em .35em;border-radius:.2em">(μ, σ²)</span></div>
+          <div class="dcard-fml"><div class="mc" style="font-size:.84em">$f(x)=\dfrac{1}{x\sqrt{2\pi\sigma^2}}\exp\!\left(-\dfrac{(\ln x-\mu)^2}{2\sigma^2}\right)$</div></div>
+          <div class="dcard-stats">
+            <span class="dsrow">Propriedades</span>
+            <span><span class="dlb">Parâm.</span></span><span>$\mu\in\mathbb{R}$, $\sigma^2>0$</span>
+            <span><span class="dlb">Média</span></span><span>$e^{\mu+\sigma^2/2}$</span>
+            <span><span class="dlb">Variância</span></span><span>$e^{2\mu+\sigma^2}(e^{\sigma^2}-1)$</span>
+          </div>
+        </div>
+        <div class="db" style="flex:1">
+          <div class="bt">Origem e Aplicações</div>
+          <p style="font-size:.85em">Se $Y\sim N(\mu,\sigma^2)$, então $X=e^Y$ é lognormal.</p>
+          <ul class="dl" style="margin-top:.25em">
+            <li>Preços de ativos, renda, imóveis</li>
+            <li>Crescimento multiplicativo de grandezas</li>
+            <li>Amplamente usada em finanças (Black-Scholes)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 14 — RELAÇÕES ENTRE DISTRIBUIÇÕES
+══════════════════════════════════════ -->
+<div class="slide" data-s="14">
+  <div class="hd"><div class="stag">§ 3.3</div><div class="stitle">Família das Distribuições — Relações Principais</div></div>
+  <div class="sc">
+    <div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center" class="fa">
+      <div class="relmap">
+        <svg viewBox="0 0 820 340" class="rel-svg" aria-hidden="true">
+          <line x1="118" y1="49" x2="143" y2="49" stroke="#1e5fa8" stroke-width="1.5" marker-end="url(#arb14)"/>
+          <line x1="261" y1="49" x2="288" y2="49" stroke="#1e5fa8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arb14)"/>
+          <line x1="60" y1="70" x2="60" y2="126" stroke="#8899b0" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="60" y1="126" x2="143" y2="126" stroke="#8899b0" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#argray14)"/>
+          <line x1="261" y1="126" x2="288" y2="126" stroke="#1e5fa8" stroke-width="1.5" marker-end="url(#arb14)"/>
+          <line x1="512" y1="70" x2="512" y2="103" stroke="#0f7c6b" stroke-width="1.5" marker-end="url(#art14)"/>
+          <line x1="572" y1="49" x2="653" y2="103" stroke="#0f7c6b" stroke-width="1.5" marker-end="url(#art14)"/>
+          <line x1="713" y1="49" x2="718" y2="49" stroke="#0f7c6b" stroke-width="1.5" marker-end="url(#art14)"/>
+          <line x1="593" y1="165" x2="572" y2="183" stroke="#0f7c6b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#art14)"/>
+          <path d="M 203 28 Q 203 -15 430 -15 Q 512 -15 512 26" fill="none" stroke="#b8cce8" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#argray214)"/>
+          <path d="M 348 28 Q 348 5 430 5 Q 512 5 512 26" fill="none" stroke="#b8cce8" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#argray214)"/>
+          <defs>
+            <marker id="arb14" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#1e5fa8"/>
+            </marker>
+            <marker id="art14" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#0f7c6b"/>
+            </marker>
+            <marker id="argray14" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#8899b0"/>
+            </marker>
+            <marker id="argray214" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#b8cce8"/>
+            </marker>
+          </defs>
+        </svg>
+        <div class="rel-overlay">
+          <div class="rel-cap" style="left:3%;top:3.6%">Discretas</div>
+          <div class="rel-cap" style="left:67.7%;top:3.6%">Contínuas</div>
+
+          <div class="rel-node disc" style="left:.3%;top:8.3%;width:14.2%;height:12.4%">
+            <div class="rel-title">Bernoulli</div>
+            <div class="rel-par">$p$</div>
+            <div class="rel-fml">$P(X=1)=p$</div>
+          </div>
+          <div class="rel-node disc" style="left:17.7%;top:8.3%;width:14.2%;height:12.4%">
+            <div class="rel-title">Binomial</div>
+            <div class="rel-par">$(n,p)$</div>
+            <div class="rel-fml">$\binom{n}{k}p^k(1-p)^{n-k}$</div>
+          </div>
+          <div class="rel-node disc" style="left:35.4%;top:8.3%;width:14.2%;height:12.4%">
+            <div class="rel-title">Poisson</div>
+            <div class="rel-par">$\lambda$</div>
+            <div class="rel-fml">$e^{-\lambda}\lambda^k/k!$</div>
+          </div>
+          <div class="rel-node disc" style="left:17.7%;top:30.9%;width:14.2%;height:12.4%">
+            <div class="rel-title">Geométrica</div>
+            <div class="rel-par">$p$</div>
+            <div class="rel-fml">$p(1-p)^{x-1}$</div>
+          </div>
+          <div class="rel-node disc" style="left:35.4%;top:30.9%;width:14.2%;height:12.4%">
+            <div class="rel-title">Bin. Negativa</div>
+            <div class="rel-par">$(r,p)$</div>
+            <div class="rel-fml">$\binom{x-1}{r-1}p^r(1-p)^{x-r}$</div>
+          </div>
+
+          <div class="rel-node cont parent" style="left:55.1%;top:8.3%;width:14.7%;height:12.4%">
+            <div class="rel-title">Gama</div>
+            <div class="rel-par">$(\alpha,\beta)$</div>
+            <div class="rel-fml">$x^{\alpha-1}e^{-x/\beta}/[\Gamma(\alpha)\beta^\alpha]$</div>
+          </div>
+          <div class="rel-node cont" style="left:55.1%;top:30.9%;width:14.7%;height:12.4%">
+            <div class="rel-title">Exponencial</div>
+            <div class="rel-par">$\beta$</div>
+            <div class="rel-fml">$\beta^{-1}e^{-x/\beta}$</div>
+          </div>
+          <div class="rel-node cont" style="left:72.3%;top:30.9%;width:14.7%;height:12.4%">
+            <div class="rel-title">Qui-quadrada</div>
+            <div class="rel-par">$p$</div>
+            <div class="rel-fml">$\alpha=p/2,\ \beta=2$</div>
+          </div>
+          <div class="rel-node cont parent" style="left:72.3%;top:8.3%;width:14.7%;height:12.4%">
+            <div class="rel-title">Normal</div>
+            <div class="rel-par">$(\mu,\sigma^2)$</div>
+            <div class="rel-fml mono">curva em sino</div>
+          </div>
+          <div class="rel-node cont" style="left:87.8%;top:8.3%;width:11.95%;height:12.4%">
+            <div class="rel-title">Lognormal</div>
+            <div class="rel-par">$(\mu,\sigma^2)$</div>
+            <div class="rel-fml">$X=e^Y,\ Y\sim N$</div>
+          </div>
+          <div class="rel-node cont" style="left:72.3%;top:54.4%;width:14.7%;height:12.4%">
+            <div class="rel-title">t de Student</div>
+            <div class="rel-par">$(n-1\ \text{g.l.})$</div>
+            <div class="rel-fml">$T=(\bar X-\mu)/(S/\sqrt{n})$</div>
+          </div>
+          <div class="rel-node cont" style="left:55.1%;top:54.4%;width:14.7%;height:12.4%">
+            <div class="rel-title">F</div>
+            <div class="rel-par">$(n-1,m-1)$</div>
+            <div class="rel-fml mono">razão de $\chi^2/\text{g.l.}$</div>
+          </div>
+
+          <div class="rel-note blue center" style="left:16%;top:9.2%">$n$ iid</div>
+          <div class="rel-note blue center" style="left:33.5%;top:6.9%">$n\to\infty,$<br>$p\to0$</div>
+          <div class="rel-note blue center" style="left:33.5%;top:15.2%">$np=\lambda$</div>
+          <div class="rel-note soft" style="left:7%;top:32%">ensaios<br>até 1º</div>
+          <div class="rel-note blue center" style="left:33.6%;top:30.2%">$r=1$</div>
+          <div class="rel-note teal center" style="left:62.4%;top:22%">$\alpha=1$</div>
+          <div class="rel-note teal center" style="left:77.1%;top:22.7%">$\alpha=p/2,$<br>$\beta=2$</div>
+          <div class="rel-note teal center" style="left:89.6%;top:6.7%">exp</div>
+          <div class="rel-note teal" style="right:.35%;left:auto;top:44.2%;font-size:.56em;text-align:left">$\sigma^2$ desconhecido<br>usa-se $S^2$</div>
+          <div class="rel-note soft center" style="left:42.7%;top:0.9%">CLT (n grande)</div>
+        </div>
+        <svg viewBox="0 0 820 340" class="rel-svg rel-svg-front" aria-hidden="true">
+          <path d="M 653 70 C 698 84 742 101 742 129 L 742 168 C 742 176 729 182 713 185" fill="none" stroke="#0f7c6b" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#art14front)"/>
+          <defs>
+            <marker id="art14front" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#0f7c6b"/>
+            </marker>
+          </defs>
+        </svg>
+        <div class="rel-legendbox">
+          <div class="head">Legenda:</div>
+          <div class="rel-legenditem"><span class="rel-legline teal"></span><span>transformação / caso especial</span></div>
+          <div class="rel-legenditem"><span class="rel-legline teal dashed"></span><span>estatística amostral derivada</span></div>
+          <div class="rel-legenditem"><span class="rel-legline blue dashed"></span><span>limite assintótico</span></div>
+          <div class="rel-legenditem"><span class="rel-legline soft dashed"></span><span>aproximação (CLT)</span></div>
+          <div class="rel-legenditem"><span class="rel-legbox cont"></span><span>distribuição-mãe (Gama, Normal)</span></div>
+          <div class="rel-legenditem"><span class="rel-legbox disc"></span><span>família discreta</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 15 — CHEBYCHEV + INTERATIVO
+══════════════════════════════════════ -->
+<div class="slide cheb-slide" data-s="15">
+  <div class="hd"><div class="stag">§ 3.3</div><div class="stitle">Desigualdade de Chebychev</div></div>
+  <div class="sc">
+    <div class="g4060">
+      <div class="vc">
+        <div class="tb fa">
+          <div class="bt">Teorema — Desigualdade de Chebychev</div>
+          <p>Para qualquer v.a. $X$ com média $\mu$ e variância $\sigma^2&lt;\infty$, para todo $k>0$:</p>
+          <div class="mc" style="margin:.5em 0;font-size:1.05em">$$P(|X-\mu|\geq k\sigma)\leq\frac{1}{k^2}$$</div>
+          <p style="font-size:.85em">Equivalentemente, para $\epsilon>0$: &nbsp;$P(|X-\mu|\geq\epsilon)\leq\dfrac{\sigma^2}{\epsilon^2}$</p>
+        </div>
+        <div class="db fa">
+          <div class="bt">Poder da desigualdade</div>
+          <ul class="dl">
+            <li>Válida para <strong>qualquer</strong> distribuição com variância finita</li>
+            <li>Não assume nenhuma forma específica da distribuição</li>
+            <li>Base para a Lei Fraca dos Grandes Números</li>
+            <li>Conservadora: o limite real é frequentemente menor</li>
+          </ul>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.84em">Na Normal, o limite real de $P(|X-\mu|\geq k\sigma)$ é muito menor que $1/k^2$. Veja no gráfico ao lado!</p>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="sw grow">
+          <div class="slrow" style="width:100%">
+            <span class="sllabel">k</span>
+            <input type="range" id="ck" min="10" max="40" value="15" step="1" oninput="drawCheb()">
+            <span class="slval" id="ckv">1.5</span>
+          </div>
+          <canvas id="cheb-cv" style="width:100%;height:10em"></canvas>
+          <div class="srow" style="gap:.4em">
+            <div class="scard" style="flex:1"><div class="slb">k</div><div class="sv" id="c-k" style="font-size:.95em">1.5</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Limite 1/k²</div><div class="sv" id="c-bound" style="color:var(--red);font-size:.85em">44.44%</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Normal real</div><div class="sv" id="c-actual" style="color:var(--teal);font-size:.85em">13.36%</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Razão</div><div class="sv" id="c-ratio" style="font-size:.95em">3.3×</div></div>
+          </div>
+          <div class="bx">
+            <p style="font-size:.78em;text-align:center">
+              🔴 Limite Chebychev ($1/k^2$) &nbsp;|&nbsp; 🟢 Probabilidade real (Normal)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 16 — R: FUNÇÕES D/P/Q/R
+══════════════════════════════════════ -->
+<div class="slide" data-s="16">
+  <div class="hd"><div class="stag">§ R</div><div class="stitle">Aplicações no R — Famílias de Funções</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc fa">
+        <div class="db">
+          <div class="bt">Sistema de prefixos no R</div>
+          <div style="display:grid;grid-template-columns:auto auto 1fr;gap:.32em .7em;font-size:.84em;margin-top:.4em;align-items:baseline">
+            <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue);font-size:1.1em">d</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--teal)">density</span>
+            <span style="color:var(--slate)">PDF $f(x)$ ou PMF $P(X=x)$</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue);font-size:1.1em">p</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--teal)">probability</span>
+            <span style="color:var(--slate)">CDF $F(x)=P(X\leq x)$</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue);font-size:1.1em">q</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--teal)">quantile</span>
+            <span style="color:var(--slate)">Inversa da CDF $F^{-1}(p)$</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue);font-size:1.1em">r</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--teal)">random</span>
+            <span style="color:var(--slate)">Geração de amostras aleatórias</span>
+          </div>
+        </div>
+        <div class="eb" style="flex:1">
+          <div class="bt">Sufixos das distribuições</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2em;font-size:.8em;margin-top:.3em">
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">norm</span><span style="color:var(--slate)">Normal</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">binom</span><span style="color:var(--slate)">Binomial</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">pois</span><span style="color:var(--slate)">Poisson</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">geom</span><span style="color:var(--slate)">Geométrica</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">nbinom</span><span style="color:var(--slate)">Bin. Negativa</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">hyper</span><span style="color:var(--slate)">Hipergeométrica</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">gamma</span><span style="color:var(--slate)">Gama</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">chisq</span><span style="color:var(--slate)">Qui-quadrada</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">exp</span><span style="color:var(--slate)">Exponencial</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">lnorm</span><span style="color:var(--slate)">Lognormal</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">weibull</span><span style="color:var(--slate)">Weibull</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--blue)">unif</span><span style="color:var(--slate)">Uniforme</span>
+          </div>
+        </div>
+      </div>
+      <div class="vc fa">
+        <div class="cb" style="flex:1;font-size:.68em">
+<span class="cm"># Discretas — Binomial e Poisson</span>
+<span class="fn">dbinom</span>(x=2, size=4, prob=0.5)   <span class="cm"># P(X=2), Bin(4,0.5)</span>
+<span class="fn">pbinom</span>(q=2, size=4, prob=0.5)   <span class="cm"># P(X≤2)</span>
+<span class="fn">qbinom</span>(p=0.975, size=4, prob=0.5) <span class="cm"># quantil 97.5%</span>
+<span class="fn">rbinom</span>(n=100, size=4, prob=0.5)  <span class="cm"># 100 amostras</span>
+
+<span class="fn">dpois</span>(x=3, lambda=5)             <span class="cm"># P(X=3), Poisson(5)</span>
+<span class="fn">ppois</span>(q=3, lambda=5)             <span class="cm"># P(X≤3)</span>
+
+<span class="cm"># Contínuas — Normal e Qui-quadrada</span>
+<span class="fn">pnorm</span>(1.96)                      <span class="cm"># P(Z≤1.96) ≈ 0.975</span>
+<span class="fn">qnorm</span>(0.975)                     <span class="cm"># retorna 1.96</span>
+<span class="fn">pnorm</span>(q=2, mean=5, sd=2)         <span class="cm"># N(5,4): P(X≤2)</span>
+
+<span class="fn">pchisq</span>(q=9.488, df=4)            <span class="cm"># χ²(4): P(X≤9.49)</span>
+<span class="fn">qchisq</span>(p=0.95, df=4)            <span class="cm"># valor crítico 5%</span>
+
+<span class="cm"># Outras distribuições</span>
+<span class="fn">pgamma</span>(q=3, shape=2, scale=1)    <span class="cm"># Gama(2,1)</span>
+<span class="fn">rlnorm</span>(n=1000, meanlog=0, sdlog=1) <span class="cm"># amostra lognormal</span>
+<span class="fn">rweibull</span>(n=100, shape=2, scale=1) <span class="cm"># amostra Weibull</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+<!-- ── NAV ── -->
+<div id="nav">
+  <button class="nb" onclick="go(1)" title="Início">⏮</button>
+  <button class="nb" onclick="prev()">◀</button>
+  <span id="sc">1 / 16</span>
+  <button class="nb" onclick="next()">▶</button>
+  <button class="nb" onclick="go(16)" title="Fim">⏭</button>
+</div>
+
+<script>
+// ── NAVIGATION ──
+let cur=1,tot=16;
+function go(n){
+  document.querySelector('.slide.active')?.classList.remove('active');
+  const s=document.querySelector(`[data-s="${n}"]`);
+  if(s){s.classList.add('active');cur=n;}
+  document.getElementById('sc').textContent=`${cur} / ${tot}`;
+  document.getElementById('pb').style.width=`${(cur/tot)*100}%`;
+  if(window.MathJax&&MathJax.typesetPromise&&s)MathJax.typesetPromise([s]).catch(()=>{});
+  if(cur===5){setTimeout(drawBinom,120);}
+  if(cur===7){setTimeout(drawPois,120);}
+  if(cur===11){setTimeout(drawNorm,120);}
+  if(cur===15){setTimeout(drawCheb,120);}
+}
+function next(){if(cur<tot)go(cur+1);}
+function prev(){if(cur>1)go(cur-1);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')next();
+  if(e.key==='ArrowLeft')prev();
+});
+
+// ── MATH UTILS ──
+function logFact(n){
+  if(n<=1)return 0;
+  let s=0;for(let i=2;i<=n;i++)s+=Math.log(i);return s;
+}
+function binomPMF(n,k,p){
+  if(p<=0)return k===0?1:0;
+  if(p>=1)return k===n?1:0;
+  if(k<0||k>n)return 0;
+  return Math.exp(logFact(n)-logFact(k)-logFact(n-k)+k*Math.log(p)+(n-k)*Math.log(1-p));
+}
+function poisPMF(k,lam){
+  if(lam<=0)return k===0?1:0;
+  if(k<0)return 0;
+  return Math.exp(-lam+k*Math.log(lam)-logFact(k));
+}
+function normalPDF(x,mu,sig){
+  return Math.exp(-0.5*((x-mu)/sig)**2)/(sig*Math.sqrt(2*Math.PI));
+}
+function normalCDF(x){
+  const t=1/(1+0.2316419*Math.abs(x));
+  const d=0.3989423*Math.exp(-x*x/2);
+  let p=d*t*(0.3193815+t*(-0.3565638+t*(1.7814779+t*(-1.8212560+t*1.3302744))));
+  return x>0?1-p:p;
+}
+function normProb(mu,sig,a,b){
+  return normalCDF((b-mu)/sig)-normalCDF((a-mu)/sig);
+}
+
+// ── CHART HELPERS ──
+function setupCanvas(id){
+  const cv=document.getElementById(id);if(!cv)return null;
+  const rect=cv.getBoundingClientRect();
+  const W=rect.width||cv.offsetWidth||300;
+  const H=rect.height||cv.offsetHeight||120;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,W,H);
+  return{cv,ctx,W,H};
+}
+
+// ── SLIDE 5: BINOMIAL ──
+function drawBinom(){
+  const c=setupCanvas('binom-cv');if(!c)return;
+  const{ctx,W,H}=c;
+  const n=parseInt(document.getElementById('bn').value);
+  const p=parseInt(document.getElementById('bp').value)/100;
+  document.getElementById('bnv').textContent=n;
+  document.getElementById('bpv').textContent=p.toFixed(2);
+  const mn=n*p,vr=n*p*(1-p),sd=Math.sqrt(vr);
+  document.getElementById('b-mean').textContent=mn.toFixed(2);
+  document.getElementById('b-var').textContent=vr.toFixed(2);
+  document.getElementById('b-sd').textContent=sd.toFixed(2);
+  const pmf=[];for(let k=0;k<=n;k++)pmf.push(binomPMF(n,k,p));
+  const mode=pmf.indexOf(Math.max(...pmf));
+  document.getElementById('b-mode').textContent=pmf[mode].toFixed(4);
+  const maxP=Math.max(...pmf)*1.15;
+  const pad={l:28,r:8,t:8,b:22};
+  const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  // grid
+  ctx.strokeStyle='#f1f5f9';ctx.lineWidth=1;
+  [0.25,0.5,0.75,1].forEach(f=>{
+    const y=pad.t+iH*(1-f/1*maxP/maxP);
+    // just simple grid
+    const yy=pad.t+iH-f*iH/1;
+    ctx.beginPath();ctx.moveTo(pad.l,pad.t+iH*(1-f));ctx.lineTo(pad.l+iW,pad.t+iH*(1-f));ctx.stroke();
+  });
+  // bars
+  const bw=Math.max(2,(iW/(n+1))*0.7);
+  pmf.forEach((pv,k)=>{
+    const x=pad.l+(k/(n>0?n:1))*iW+iW/(n>0?n:1)/2-bw/2;
+    const bh=(pv/maxP)*iH;
+    const y=pad.t+iH-bh;
+    const mu_dist=Math.abs(k-mn);
+    const alpha=1-0.4*Math.min(mu_dist/(sd||1),1);
+    ctx.fillStyle=`rgba(30,95,168,${alpha})`;
+    ctx.fillRect(Math.round(x),Math.round(y),Math.ceil(bw),Math.ceil(bh));
+  });
+  // mean line
+  const mx=pad.l+(mn/n)*iW;
+  ctx.strokeStyle='#0f7c6b';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(mx,pad.t);ctx.lineTo(mx,pad.t+iH);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#0f7c6b';ctx.font=`bold 9px 'JetBrains Mono',monospace`;
+  ctx.textAlign='center';ctx.fillText('μ',mx,pad.t+7);
+  // x labels
+  ctx.fillStyle='#8899b0';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+  const step=Math.max(1,Math.ceil(n/10));
+  for(let k=0;k<=n;k+=step){
+    const x=pad.l+(k/n)*iW;
+    ctx.fillText(k,x,H-4);
+  }
+}
+
+// ── SLIDE 7: POISSON / BINOMIAL APPROX ──
+function drawPois(){
+  const c=setupCanvas('pois-cv');if(!c)return;
+  const{ctx,W,H}=c;
+  const lam=parseInt(document.getElementById('pl').value)/10;
+  const n=parseInt(document.getElementById('pn').value);
+  const p=lam/n;
+  document.getElementById('plv').textContent=lam.toFixed(1);
+  document.getElementById('pnv').textContent=n;
+  document.getElementById('p-lambda').textContent=lam.toFixed(1);
+  document.getElementById('p-prob').textContent=p.toFixed(4);
+  const kmax=Math.max(20,Math.ceil(lam+4*Math.sqrt(lam)));
+  const pmfPois=[],pmfBin=[];
+  let maxP=0;
+  for(let k=0;k<=kmax;k++){
+    const pv=poisPMF(k,lam);
+    const bv=binomPMF(n,k,p);
+    pmfPois.push(pv);pmfBin.push(bv);
+    if(pv>maxP)maxP=pv;if(bv>maxP)maxP=bv;
+  }
+  maxP*=1.15;
+  // max error
+  let err=0;for(let k=0;k<=kmax;k++)err=Math.max(err,Math.abs(pmfPois[k]-pmfBin[k]));
+  document.getElementById('p-err').textContent=err.toFixed(5);
+  const pad={l:28,r:8,t:8,b:22};
+  const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  const bw=Math.max(1.5,(iW/(kmax+1))*0.38);
+  // Binomial bars (orange, behind)
+  pmfBin.forEach((bv,k)=>{
+    const x=pad.l+(k/(kmax))*iW+bw*0.3;
+    const bh=(bv/maxP)*iH;
+    ctx.fillStyle='rgba(194,65,12,0.35)';
+    ctx.strokeStyle='rgba(194,65,12,0.7)';ctx.lineWidth=0.5;
+    ctx.fillRect(Math.round(x),Math.round(pad.t+iH-bh),Math.ceil(bw),Math.ceil(bh));
+  });
+  // Poisson bars (blue, front)
+  pmfPois.forEach((pv,k)=>{
+    const x=pad.l+(k/(kmax))*iW-bw*0.3;
+    const bh=(pv/maxP)*iH;
+    ctx.fillStyle='rgba(30,95,168,0.75)';
+    ctx.fillRect(Math.round(x),Math.round(pad.t+iH-bh),Math.ceil(bw),Math.ceil(bh));
+  });
+  // labels
+  ctx.fillStyle='#8899b0';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+  const step=Math.max(1,Math.ceil(kmax/10));
+  for(let k=0;k<=kmax;k+=step)ctx.fillText(k,pad.l+(k/kmax)*iW,H-4);
+}
+
+// ── SLIDE 11: NORMAL EXPLORER ──
+let normK=1;
+function setNK(k){
+  normK=k;
+  ['nk1','nk2','nk3','nkx'].forEach(id=>document.getElementById(id)?.classList.remove('sel'));
+  const ids=['nkx','nk1','nk2','nk3'];
+  if(ids[k])document.getElementById(ids[k])?.classList.add('sel');
+  drawNorm();
+}
+function drawNorm(){
+  const c=setupCanvas('norm-cv');if(!c)return;
+  const{ctx,W,H}=c;
+  const mu=parseInt(document.getElementById('nmu').value)/10;
+  const sig=parseInt(document.getElementById('nsig').value)/10;
+  document.getElementById('nmuv').textContent=mu.toFixed(1);
+  document.getElementById('nsigv').textContent=sig.toFixed(1);
+  const xmin=-6,xmax=6;
+  const pad={l:20,r:12,t:8,b:22};
+  const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  function xToP(x){return pad.l+(x-xmin)/(xmax-xmin)*iW;}
+  const ymax=normalPDF(0,0,0.5)*1.03;
+  function yToP(y){return pad.t+iH-y/ymax*iH;}
+  // baseline
+  ctx.strokeStyle='#d8e2f0';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t+iH);ctx.lineTo(pad.l+iW,pad.t+iH);ctx.stroke();
+  // shaded area
+  if(normK>0){
+    const a=mu-normK*sig,b=mu+normK*sig;
+    ctx.fillStyle='rgba(30,95,168,0.15)';
+    ctx.beginPath();
+    ctx.moveTo(xToP(a),pad.t+iH);
+    const steps=120;
+    for(let i=0;i<=steps;i++){
+      const x=a+(b-a)*i/steps;
+      ctx.lineTo(xToP(x),yToP(normalPDF(x,mu,sig)));
+    }
+    ctx.lineTo(xToP(b),pad.t+iH);
+    ctx.closePath();ctx.fill();
+  }
+  // curve
+  ctx.strokeStyle='#1e5fa8';ctx.lineWidth=2.5;ctx.beginPath();
+  const steps=200;
+  for(let i=0;i<=steps;i++){
+    const x=xmin+(xmax-xmin)*i/steps;
+    const y=normalPDF(x,mu,sig);
+    i===0?ctx.moveTo(xToP(x),yToP(y)):ctx.lineTo(xToP(x),yToP(y));
+  }
+  ctx.stroke();
+  // mean line
+  ctx.strokeStyle='#0f7c6b';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(xToP(mu),pad.t);ctx.lineTo(xToP(mu),pad.t+iH);ctx.stroke();
+  ctx.setLineDash([]);
+  // sigma marks
+  ctx.strokeStyle='rgba(30,95,168,0.3)';ctx.lineWidth=1;
+  [-3,-2,-1,1,2,3].forEach(k=>{
+    const x=mu+k*sig;
+    if(x>xmin&&x<xmax){
+      ctx.beginPath();ctx.moveTo(xToP(x),pad.t+iH-4);ctx.lineTo(xToP(x),pad.t+iH);ctx.stroke();
+      ctx.fillStyle='#8899b0';ctx.font=`7.5px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+      ctx.fillText(`${k>0?'+':''}${k}σ`,xToP(x),pad.t+iH-8);
+    }
+  });
+  ctx.fillStyle='#0f7c6b';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+  ctx.fillText('μ',xToP(mu),pad.t+12);
+  // x axis ticks
+  ctx.strokeStyle='#c7d3e6';ctx.lineWidth=1;
+  ctx.fillStyle='#8899b0';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+  [-6,-3,0,3,6].forEach(v=>{
+    const x=xToP(v);
+    ctx.beginPath();ctx.moveTo(x,pad.t+iH);ctx.lineTo(x,pad.t+iH+4);ctx.stroke();
+    ctx.fillText(v.toString(),x,H-4);
+  });
+  // prob label
+  if(normK>0){
+    const prob=normProb(mu,sig,mu-normK*sig,mu+normK*sig)*100;
+    document.getElementById('n-prob').textContent=`${prob.toFixed(2)}%`;
+  } else {
+    document.getElementById('n-prob').textContent='—';
+  }
+}
+
+// ── SLIDE 15: CHEBYCHEV ──
+function drawCheb(){
+  const c=setupCanvas('cheb-cv');if(!c)return;
+  const{ctx,W,H}=c;
+  const k=parseInt(document.getElementById('ck').value)/10;
+  document.getElementById('ckv').textContent=k.toFixed(1);
+  document.getElementById('c-k').textContent=k.toFixed(1);
+  const bound=Math.min(1,1/(k*k));
+  const actual=2*(1-normalCDF(k));
+  document.getElementById('c-bound').textContent=`${(bound*100).toFixed(2)}%`;
+  document.getElementById('c-actual').textContent=`${(actual*100).toFixed(2)}%`;
+  document.getElementById('c-ratio').textContent=actual>0?`${(bound/actual).toFixed(1)}×`:'∞';
+  // draw normal curve with tails shaded
+  const pad={l:12,r:12,t:14,b:22};
+  const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  const sig=1,mu=0;
+  const xmin=-4.5,xmax=4.5;
+  function xP(x){return pad.l+(x-xmin)/(xmax-xmin)*iW;}
+  function yP(y){const ym=normalPDF(0,0,1)*1.12;return pad.t+iH-y/ym*iH;}
+  // shade tails (actual)
+  const lim=k;
+  ctx.fillStyle='rgba(15,124,107,0.2)';
+  // left tail
+  ctx.beginPath();
+  ctx.moveTo(xP(xmin),pad.t+iH);
+  for(let i=0;i<=60;i++){const x=xmin+((-lim)-xmin)*i/60;ctx.lineTo(xP(x),yP(normalPDF(x,0,1)));}
+  ctx.lineTo(xP(-lim),pad.t+iH);ctx.closePath();ctx.fill();
+  // right tail
+  ctx.beginPath();
+  ctx.moveTo(xP(lim),pad.t+iH);
+  for(let i=0;i<=60;i++){const x=lim+(xmax-lim)*i/60;ctx.lineTo(xP(x),yP(normalPDF(x,0,1)));}
+  ctx.lineTo(xP(xmax),pad.t+iH);ctx.closePath();ctx.fill();
+  // curve
+  ctx.strokeStyle='#1e5fa8';ctx.lineWidth=2.5;ctx.beginPath();
+  for(let i=0;i<=200;i++){const x=xmin+(xmax-xmin)*i/200;i===0?ctx.moveTo(xP(x),yP(normalPDF(x,0,1))):ctx.lineTo(xP(x),yP(normalPDF(x,0,1)));}
+  ctx.stroke();
+  // k lines
+  ctx.strokeStyle='#dc2626';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);
+  [-lim,lim].forEach(x=>{if(x>xmin&&x<xmax){ctx.beginPath();ctx.moveTo(xP(x),pad.t);ctx.lineTo(xP(x),pad.t+iH);ctx.stroke();}});
+  ctx.setLineDash([]);
+  // bound bar at top
+  const bw=bound*iW;
+  ctx.fillStyle='rgba(185,28,28,0.25)';
+  ctx.fillRect(pad.l+iW/2-bw/2,pad.t,bw,8);
+  ctx.strokeStyle='#dc2626';ctx.lineWidth=1;
+  ctx.strokeRect(pad.l+iW/2-bw/2,pad.t,bw,8);
+  const aw=actual*iW;
+  ctx.fillStyle='rgba(15,124,107,0.35)';
+  ctx.fillRect(pad.l+iW/2-aw/2,pad.t+10,aw,8);
+  ctx.strokeStyle='#0f7c6b';ctx.lineWidth=1;
+  ctx.strokeRect(pad.l+iW/2-aw/2,pad.t+10,aw,8);
+  // labels
+  ctx.fillStyle='#dc2626';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+  ctx.fillText('Chebychev',pad.l+iW/2,pad.t+7);
+  ctx.fillStyle='#0f7c6b';
+  ctx.fillText('Normal',pad.l+iW/2,pad.t+19);
+  // x axis labels
+  ctx.fillStyle='#8899b0';ctx.font=`8px 'JetBrains Mono',monospace`;ctx.textAlign='center';
+  [-4,-3,-2,-1,0,1,2,3,4].forEach(x=>ctx.fillText(x,xP(x),H-4));
+  // k label
+  ctx.fillStyle='#dc2626';ctx.textAlign='center';
+  if(lim>xmin&&lim<xmax)ctx.fillText(`+${k.toFixed(1)}σ`,xP(lim),pad.t+iH-3);
+  if(-lim>xmin&&-lim<xmax)ctx.fillText(`-${k.toFixed(1)}σ`,xP(-lim),pad.t+iH-3);
+}
+
+window.addEventListener('resize',()=>{
+  if(cur===5)drawBinom();
+  if(cur===7)drawPois();
+  if(cur===11)drawNorm();
+  if(cur===15)drawCheb();
+});
+setTimeout(()=>{go(1);},300);
+window.addEventListener('load',()=>{setTimeout(()=>{if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise();},1000);});
+</script>
+</body>
+</html>

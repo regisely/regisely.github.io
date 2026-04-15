@@ -1,0 +1,44 @@
+- title: "Ementa"
+  filename: stat-ementa
+  dirname: teaching/stat
+  tldr: "Programa da disciplina de Estatística (Verão)."
+
+- title: "Notas de Aula"
+  filename: stat-notas
+  dirname: teaching/stat
+  tldr: "Probabilidade, variável aleatória, distribuições e amostras."
+
+- title: "Aula 1 - Teoria de probabilidade"
+  filename: secao1-probabilidade
+  dirname: teaching/stat
+  target_ext: html
+  source_ext: html
+  tldr: "Probabilidade condicional, independência, variáveis aleatórias e função de distribuição."
+
+- title: "Aula 2 - Transformação em variáveis aleatórias"
+  filename: secao2-transformacoes
+  dirname: teaching/stat
+  target_ext: html
+  source_ext: html
+  tldr: "Funções de variáveis aleatórias, valor esperado, variância, função geradora de momentos."
+
+- title: "Aula 3 - Distribuições de probabilidade"
+  filename: secao3-distribuicoes
+  dirname: teaching/stat
+  target_ext: html
+  source_ext: html
+  tldr: "Distribuições discretas e contínuas, relações entre distribuições e desigualdade de Chebychev."
+
+- title: "Aula 4 - Variáveis aleatórias múltiplas"
+  filename: secao4-multiplas
+  dirname: teaching/stat
+  target_ext: html
+  source_ext: html
+  tldr: "Distribuições conjuntas, marginais e condicionais, independência, mistura de distribuições e correlação."
+
+- title: "Aula 5 - Propriedades de amostras aleatórias"
+  filename: secao5-amostras
+  dirname: teaching/stat
+  target_ext: html
+  source_ext: html
+  tldr: "Amostras aleatórias, estatísticas, convergência, lei dos grandes números e teorema do limite central."

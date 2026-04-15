@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformações e Expectativas | Curso de Verão em Estatística</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},svg:{scale:1.05},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#dde2ec;
+  --w:#ffffff;
+  --navy:#1a2744;
+  --blue:#1e5fa8;
+  --blt:#e8f0fb;
+  --bbrd:#b8cce8;
+  --teal:#0f7c6b;
+  --tlt:#e0f4f1;
+  --amber:#7c3d00;
+  --alt:#fdf0e0;
+  --slate:#334155;
+  --dim:#5a6a80;
+  --dimmer:#8899b0;
+  --text:#1e293b;
+  --brd:#d4dcea;
+  --red:#b91c1c;
+  --green:#15803d;
+  --defn:#eef3fc;
+  --thm:#e6f3f0;
+  --exmp:#f6f6f4;
+  --rev:#fdf3e3;
+  --deck-scale:.65;
+  --cover-scale:calc(.75 / .65);
+  --slide-pad-top:3%;
+  --slide-pad-side:4.5%;
+  --slide-pad-bottom:2.5%;
+  --content-gap:.8%;
+  --grid-gap:.8%;
+}
+
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Source Sans 3',sans-serif;color:var(--text);}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+#deck{
+  position:relative;
+  width:min(100vw, calc(100vh * 16/9));
+  height:min(100vh, calc(100vw * 9/16));
+  background:var(--w);
+  overflow:hidden;
+  box-shadow:0 6px 36px rgba(0,0,0,.18);
+  --W: min(100vw, calc(100vh * 16/9));
+  --H: min(100vh, calc(100vw * 9/16));
+  font-size: calc(var(--W) * 0.021 * var(--deck-scale));
+}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--slide-pad-top) var(--slide-pad-side) var(--slide-pad-bottom);opacity:0;pointer-events:none;transition:opacity .32s ease,transform .32s ease;transform:translateX(20px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.hd{display:flex;align-items:center;gap:.6em;margin-bottom:1.2%;padding-bottom:.9%;border-bottom:2px solid var(--brd);flex-shrink:0;}
+.stag{font-family:'JetBrains Mono',monospace;font-size:.62em;color:var(--blue);text-transform:uppercase;letter-spacing:.15em;background:var(--blt);border:1px solid var(--bbrd);padding:.25em .65em;border-radius:.2em;white-space:nowrap;font-weight:500;}
+.stitle{font-family:'Playfair Display',serif;font-size:1.5em;font-weight:700;color:var(--navy);line-height:1.15;}
+.sc{flex:1;display:flex;flex-direction:column;gap:var(--content-gap);overflow:hidden;min-height:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8%;flex:1;min-height:0;}
+.g6040{display:grid;grid-template-columns:6fr 4fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g4060{display:grid;grid-template-columns:4fr 6fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g55{display:grid;grid-template-columns:55fr 45fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.vc{display:flex;flex-direction:column;gap:var(--content-gap);min-height:0;}
+.g2>*,.g3>*,.g6040>*,.g4060>*,.g55>*,.pg>*,.sgrid>*,.ecards>*{min-width:0;}
+.vc>*{flex-shrink:0;}
+.vc>.grow{flex:1;min-height:0;}
+.db{background:var(--defn);border-left:.25em solid var(--blue);border-radius:.25em;padding:.7em 1em;}
+.db .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.35em;font-weight:600;}
+.tb{background:var(--thm);border-left:.25em solid var(--teal);border-radius:.25em;padding:.7em 1em;}
+.tb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.35em;font-weight:600;}
+.eb{background:var(--exmp);border-left:.25em solid #94a3b8;border-radius:.25em;padding:.7em 1em;}
+.eb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:#64748b;margin-bottom:.35em;font-weight:600;}
+.rb{background:var(--rev);border-left:.25em solid var(--amber);border-radius:.25em;padding:.7em 1em;}
+.rb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:.35em;font-weight:600;}
+.hl{background:linear-gradient(135deg,#f0f4ff,#f8fbff);border:1px solid var(--bbrd);border-radius:.4em;padding:.65em 1em;}
+.bx{background:#f4f7fb;border:1px solid var(--brd);border-radius:.25em;padding:.6em .85em;}
+p{font-size:.92em;line-height:1.6;color:var(--text);}
+.em{color:var(--blue);font-style:italic;font-weight:600;}
+ul.dl,ol.nl{padding-left:1.1em;display:flex;flex-direction:column;gap:.2em;}
+ul.dl li,ol.nl li{font-size:.9em;line-height:1.55;color:var(--slate);}
+ul.dl li::marker{color:var(--blue);}
+.mc{text-align:center;padding:.3em 0;color:var(--navy);}
+.mc mjx-container{max-width:100%;overflow:hidden;}
+.ax{display:flex;gap:.6em;align-items:flex-start;padding:.35em 0;border-bottom:1px solid var(--brd);}
+.ax:last-child{border-bottom:none;}
+.anum{width:1.5em;height:1.5em;border-radius:50%;background:var(--blt);border:1.5px solid var(--bbrd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);flex-shrink:0;margin-top:.1em;font-weight:700;}
+.ab{flex:1;font-size:.88em;line-height:1.5;color:var(--slate);}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:.35em;}
+.pi{background:#f0f4fb;border:1px solid var(--brd);border-radius:.2em;padding:.4em .65em;font-size:.88em;line-height:1.4;color:var(--slate);}
+.pl{font-family:'JetBrains Mono',monospace;color:var(--blue);margin-right:.3em;font-size:.85em;font-weight:700;}
+.tg{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62em;padding:.1em .4em;border-radius:.15em;}
+.tgb{background:var(--blt);color:var(--blue);border:1px solid var(--bbrd);}
+.tgt{background:var(--tlt);color:var(--teal);border:1px solid #a0d8d0;}
+.scard{background:var(--w);border:1px solid var(--brd);border-radius:.3em;padding:.4em .7em;text-align:center;}
+.slb{font-family:'JetBrains Mono',monospace;font-size:.58em;color:var(--dimmer);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.15em;}
+.sv{font-family:'Playfair Display',serif;font-size:1.2em;font-weight:700;color:var(--navy);}
+.srow{display:flex;gap:.5em;}
+.sw{background:#f4f7fb;border:1.5px solid var(--brd);border-radius:.4em;padding:.7em .9em;display:flex;flex-direction:column;gap:.55em;}
+.sctrl{display:flex;gap:.4em;flex-wrap:wrap;}
+.sbtn{background:var(--w);border:1.5px solid var(--bbrd);color:var(--blue);padding:.3em .8em;border-radius:.25em;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7em;transition:all .15s;font-weight:500;}
+.sbtn:hover{background:var(--blt);}
+.sbtn.alt{border-color:#a0d8d0;color:var(--teal);background:#f8fffd;}.sbtn.alt:hover{background:var(--tlt);}
+.sbtn.sel{border-color:var(--teal);color:#0b6b5d;background:var(--tlt);box-shadow:inset 0 0 0 1px rgba(15,124,107,.18);}.sbtn.sel:hover{background:#d3efe9;}
+.sbtn.r{border-color:#fca5a5;color:var(--red);}.sbtn.r:hover{background:#fef2f2;}
+.cb{background:#f1f4f8;border:1px solid var(--brd);border-radius:.3em;padding:.65em .9em;font-family:'JetBrains Mono',monospace;font-size:.78em;line-height:1.7;overflow-x:auto;color:#334155;}
+.cb .kw{color:#1e5fa8;font-weight:700;}.cb .fn{color:#0f7c6b;font-weight:600;}.cb .st{color:#15803d;}.cb .cm{color:#8899b0;font-style:italic;}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.7em;flex:1;min-height:0;}
+.si{background:var(--w);border:1.5px solid var(--brd);border-radius:.4em;padding:.7em .9em;display:flex;gap:.7em;}
+.sn{font-family:'Playfair Display',serif;font-size:1.6em;font-weight:700;color:var(--blue);opacity:.18;line-height:1;min-width:.9em;}
+.sh h5{font-family:'Playfair Display',serif;font-size:.95em;color:var(--navy);margin-bottom:.25em;font-weight:700;}
+.sh p{font-size:.86em;color:var(--dim);line-height:1.52;}
+.tslide{justify-content:center;align-items:center;text-align:center;background:linear-gradient(155deg,#eef3ff 0%,#f8fbff 55%,#f3f7ee 100%);font-size:calc(1em * var(--cover-scale));}
+.tslide::before{content:'';position:absolute;top:0;left:0;right:0;height:.28em;background:linear-gradient(90deg,var(--blue),var(--teal));}
+.tbig{font-family:'JetBrains Mono',monospace;font-size:.78em;text-transform:uppercase;letter-spacing:.22em;color:var(--blue);margin-bottom:.5em;}
+.tslide h1{font-family:'Playfair Display',serif;font-size:2.8em;font-weight:700;line-height:1.12;color:var(--navy);margin-bottom:.25em;}
+.tsub{font-family:'Playfair Display',serif;font-size:1.3em;font-style:italic;color:var(--blue);margin-bottom:1em;}
+.tdiv{width:4em;height:.12em;background:linear-gradient(90deg,transparent,var(--blue),transparent);margin:.8em auto;}
+.tmeta{font-size:.88em;color:var(--dim);line-height:1.9;}
+.tocg{display:grid;grid-template-columns:1fr 1fr;gap:.45em;margin-top:1em;text-align:left;max-width:32em;}
+.toci{display:flex;gap:.55em;align-items:flex-start;background:var(--w);border:1px solid var(--brd);border-radius:.25em;padding:.45em .7em;}
+.tocn{font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);min-width:1.4em;font-weight:700;}
+.toct{font-size:.82em;color:var(--slate);line-height:1.35;}
+#nav{position:fixed;bottom:1%;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.8em;z-index:200;background:rgba(255,255,255,.94);border:1px solid var(--brd);border-radius:2em;padding:.35em .9em;box-shadow:0 4px 16px rgba(0,0,0,.1);backdrop-filter:blur(6px);}
+.nb{background:none;border:none;color:var(--dimmer);font-size:.85em;cursor:pointer;padding:.2em .4em;border-radius:.2em;transition:all .15s;}
+.nb:hover{color:var(--blue);background:var(--blt);}
+#sc{font-family:'JetBrains Mono',monospace;font-size:.72em;color:var(--dim);min-width:3.5em;text-align:center;}
+#pb{position:fixed;top:0;left:0;height:.18em;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .3s;z-index:200;}
+@keyframes fu{from{opacity:0;transform:translateY(.4em)}to{opacity:1;transform:translateY(0)}}
+.slide.active .fa{animation:fu .3s ease forwards;opacity:0;}
+.slide.active .fa:nth-child(1){animation-delay:.04s}
+.slide.active .fa:nth-child(2){animation-delay:.1s}
+.slide.active .fa:nth-child(3){animation-delay:.16s}
+.slide.active .fa:nth-child(4){animation-delay:.22s}
+.slide.active .fa:nth-child(5){animation-delay:.28s}
+canvas{border-radius:.25em;display:block;}
+input[type=range]{accent-color:var(--blue);cursor:pointer;width:100%;}
+.dist-row{display:flex;gap:.5em;align-items:center;}
+.dist-lbl{font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--dim);min-width:2em;}
+</style>
+</head>
+<body>
+<div id="pb"></div>
+<div id="stage"><div id="deck">
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — TÍTULO
+══════════════════════════════════════ -->
+<div class="slide tslide" data-s="1">
+  <div class="tbig">Curso de Verão em Estatística · PPGOM / UFPel</div>
+  <div class="tsub">Seção 2</div>
+  <h1>Transformações em<br>Variáveis Aleatórias</h1>
+  <div class="tdiv"></div>
+  <div class="tmeta">
+    Prof. Regis A. Ely &nbsp;·&nbsp; Programa de Pós-Graduação em Organizações e Mercados<br>
+    Referência: Casella &amp; Berger, <em>Statistical Inference</em>, Cap. 2
+  </div>
+  <div class="tocg">
+    <div class="toci"><div class="tocn">2.1</div><div class="toct">Distribuições de Funções de V.A.</div></div>
+    <div class="toci"><div class="tocn">2.2</div><div class="toct">Valor Esperado</div></div>
+    <div class="toci"><div class="tocn">2.3</div><div class="toct">Variância e Outros Momentos</div></div>
+    <div class="toci"><div class="tocn">2.4</div><div class="toct">Função Geradora de Momentos</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — §2.1 VISÃO GERAL
+══════════════════════════════════════ -->
+<div class="slide" data-s="2">
+  <div class="hd"><div class="stag">§ 2.1</div><div class="stitle">Distribuição de Funções de V.A. — Visão Geral</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa" style="flex:1">
+          <div class="bt">Motivação</div>
+          <p>Se $X$ é uma v.a. com cdf $F_X(x)$, qualquer função $Y = g(X)$ também é uma v.a. Queremos descrever o comportamento probabilístico de $Y$ em termos de $F_X$ e $g$.</p>
+          <div class="mc" style="margin:.5em 0">$$P(Y\in A)=P(g(X)\in A)=P\!\left(X\in g^{-1}(A)\right)$$</div>
+          <p>Onde a <span class="em">função inversa generalizada</span> é:</p>
+          <div class="mc">$$g^{-1}(A)=\{x\in\mathcal{X}: g(x)\in A\}$$</div>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4em">Suporte da distribuição</p>
+          <p>Usamos $\mathcal{X}=\{x: f_X(x)>0\}$ e $\mathcal{Y}=\{y: y=g(x)$ para algum $x\in\mathcal{X}\}$ para rastrear os espaços amostrais corretamente.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Caso Discreto — PMF de Y</div>
+          <p>Se $X$ é discreta, $\mathcal{X}$ é enumerável e $Y=g(X)$ também é discreta. A PMF de $Y$ é:</p>
+          <div class="mc" style="margin:.5em 0">$$f_Y(y)=\sum_{x\in g^{-1}(y)}f_X(x),\quad y\in\mathcal{Y}$$</div>
+          <p>Basta identificar $g^{-1}(y)$ para cada $y$ e somar as probabilidades correspondentes.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.1.1 — Transformação Binomial (C&amp;B)</div>
+          <p>Seja $X\sim\text{Binomial}(n,p)$ e $Y=n-X$. Como $g^{-1}(y)=\{n-y\}$:</p>
+          <div class="mc" style="margin:.3em 0">$$f_Y(y)=f_X(n-y)=\binom{n}{y}(1-p)^y p^{n-y}$$</div>
+          <p>Logo $Y\sim\text{Binomial}(n,1-p)$. A transformação troca papel de sucesso e fracasso.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — §2.1 FUNÇÕES MONÓTONAS
+══════════════════════════════════════ -->
+<div class="slide" data-s="3">
+  <div class="hd"><div class="stag">§ 2.1</div><div class="stitle">Funções Monótonas — CDF e PDF de Y</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Teorema 2.1.3 — CDF de Y via Função Monótona</div>
+          <p>Seja $X$ v.a. contínua com cdf $F_X(x)$, $Y=g(X)$, $\mathcal{X}$ e $\mathcal{Y}$ os suportes:</p>
+          <div style="display:flex;flex-direction:column;gap:.3em;margin-top:.4em">
+            <div class="pi">
+              <span class="pl">a.</span><strong>g crescente:</strong> $F_Y(y)=F_X\!\left(g^{-1}(y)\right)$
+            </div>
+            <div class="pi">
+              <span class="pl">b.</span><strong>g decrescente:</strong> $F_Y(y)=1-F_X\!\left(g^{-1}(y)\right)$
+            </div>
+          </div>
+          <p style="margin-top:.5em">A inversão da inequação na função decrescente ocorre pois $g(x)\leq y \Leftrightarrow x\geq g^{-1}(y)$ quando $g$ é decrescente.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema 2.1.5 — PDF via Jacobiano</div>
+          <p>Se $g$ é <strong>monótona</strong>, $f_X(x)$ contínua em $\mathcal{X}$, e $g^{-1}(y)$ diferenciável em $\mathcal{Y}$:</p>
+          <div class="mc" style="margin:.4em 0">$$\boxed{f_Y(y)=f_X\!\left(g^{-1}(y)\right)\left|\frac{d}{dy}g^{-1}(y)\right|, \quad y\in\mathcal{Y}}$$</div>
+          <p style="font-size:.82em;color:var(--dim)">O termo $|d g^{-1}/dy|$ é o <em>Jacobiano</em> da transformação.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Exemplo 2.1.4 — Uniforme → Exponencial (C&amp;B)</div>
+          <p>Seja $X\sim\text{Uniforme}(0,1)$, i.e. $F_X(x)=x$. Defina $Y=g(X)=-\log X$.</p>
+          <p style="margin-top:.3em">Como $g$ é <strong>decrescente</strong> em $(0,1)$ e $g^{-1}(y)=e^{-y}$:</p>
+          <div class="mc" style="margin:.3em 0">$$F_Y(y)=1-F_X(e^{-y})=1-e^{-y},\quad y>0$$</div>
+          <p>Derivando: $f_Y(y)=e^{-y}$, que é a PDF <span class="em">Exponencial(1)</span>.</p>
+          <div class="mc" style="margin:.3em 0;background:var(--blt);border-radius:.3em;padding:.4em">$X\sim\text{Unif}(0,1)\Rightarrow -\log X\sim\text{Exp}(1)$</div>
+          <p style="font-size:.82em;color:var(--dim)">Base da <em>transformação integral de probabilidade</em> — usada para gerar amostras de qualquer distribuição a partir de uniformes.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.1.6 — Gama Invertida (C&amp;B)</div>
+          <p>Seja $X\sim\text{Gama}(n,\beta)$ e $Y=1/X$. Com $g^{-1}(y)=1/y$:</p>
+          <div class="mc" style="margin:.2em 0">$$f_Y(y)=\frac{1}{(n-1)!\,\beta^n}\left(\frac{1}{y}\right)^{n+1}e^{-1/(\beta y)}$$</div>
+          <p>Distribuição <em>Gama Invertida</em>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — §2.1 FUNÇÕES NÃO MONÓTONAS
+══════════════════════════════════════ -->
+<div class="slide" data-s="4">
+  <div class="hd"><div class="stag">§ 2.1</div><div class="stitle">Funções Não Monótonas — Teorema da Partição</div></div>
+  <div class="sc">
+    <div class="g6040">
+      <div class="vc">
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Teorema 2.1.8 — Partes Monótonas</div>
+          <p>Seja $X$ com PDF $f_X(x)$ e $Y=g(X)$ onde $g$ não é monótona globalmente. Se existe uma partição $A_0,A_1,\ldots,A_k$ de $\mathcal{X}$ com $P(X\in A_0)=0$ tal que:</p>
+          <ol class="nl" style="margin:.3em 0 .3em .8em">
+            <li>$g(x)=g_i(x)$ em cada $A_i$</li>
+            <li>$g_i$ é monótona em $A_i$</li>
+            <li>$\mathcal{Y}=\{y=g_i(x): x\in A_i\}$ é o mesmo $\forall i$</li>
+            <li>$g_i^{-1}(y)$ tem derivada contínua em $\mathcal{Y}$</li>
+          </ol>
+          <p>Então:</p>
+          <div class="mc" style="margin:.3em 0">$$\boxed{f_Y(y)=\sum_{i=1}^{k}f_X\!\left(g_i^{-1}(y)\right)\left|\frac{d}{dy}g_i^{-1}(y)\right|,\quad y\in\mathcal{Y}}$$</div>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.1.7 — Transformação Quadrática (C&amp;B)</div>
+          <p>Seja $X$ contínua qualquer, $Y=X^2$. Partição: $A_1=(-\infty,0)$ com $g_1^{-1}(y)=-\sqrt{y}$ e $A_2=(0,\infty)$ com $g_2^{-1}(y)=\sqrt{y}$. Portanto:</p>
+          <div class="mc" style="margin:.3em 0">$$f_Y(y)=\frac{1}{2\sqrt{y}}\left[f_X(\sqrt{y})+f_X(-\sqrt{y})\right],\quad y>0$$</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Exemplo 2.1.9 — Normal → Qui-quadrada (C&amp;B)</div>
+          <p>Seja $X\sim N(0,1)$, $Y=X^2$. Aplicando o Teorema 2.1.8 com $f_X(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$:</p>
+          <div class="mc" style="margin:.3em 0">$$f_Y(y)=\frac{1}{\sqrt{2\pi}}\cdot\frac{1}{\sqrt{y}}e^{-y/2},\quad y>0$$</div>
+          <p style="margin-top:.3em">Isso é exatamente a PDF <span class="em">Qui-quadrada com 1 grau de liberdade</span>!</p>
+          <div class="mc" style="margin:.4em 0;background:var(--blt);border-radius:.3em;padding:.4em">$X\sim N(0,1)\;\Rightarrow\;X^2\sim\chi^2_1$</div>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4em">Transformação Integral de Probabilidade</p>
+          <p style="font-size:.86em"><strong>Teorema 2.1.10:</strong> Se $X$ tem cdf contínua $F_X$, então $Y=F_X(X)\sim\text{Uniforme}(0,1)$.</p>
+          <p style="font-size:.84em;margin-top:.3em;color:var(--dim)">Aplicação: gerar observações de qualquer distribuição a partir de uniformes — amostrar $U\sim\text{Unif}(0,1)$ e calcular $F_X^{-1}(U)$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — §2.1 INTERATIVO TRANSFORMAÇÃO
+══════════════════════════════════════ -->
+<div class="slide" data-s="5">
+  <div class="hd"><div class="stag">§ 2.1 · Interativo</div><div class="stitle">Visualização: Como g(X) Transforma uma Distribuição</div></div>
+  <div class="sc">
+    <div class="g4060">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Escolha a Transformação</div>
+          <div style="display:flex;flex-direction:column;gap:.4em;margin-top:.3em">
+            <button class="sbtn" id="btn-exp" onclick="setTrans('exp')" style="text-align:left">$Y=-\log X$, $X\sim\text{Unif}(0,1)$</button>
+            <button class="sbtn" id="btn-sq" onclick="setTrans('sq')" style="text-align:left">$Y=X^2$, $X\sim N(0,1)$</button>
+            <button class="sbtn" id="btn-abs" onclick="setTrans('abs')" style="text-align:left">$Y=|X|$, $X\sim N(0,1)$</button>
+            <button class="sbtn alt" onclick="newSample()" style="text-align:left">↺ Nova Amostra (n = 2000)</button>
+          </div>
+        </div>
+        <div class="tb fa" style="flex:1">
+          <div class="bt" id="trans-formula-lbl">Resultado Teórico</div>
+          <div class="mc" id="trans-result" style="font-size:1.05em"></div>
+          <p id="trans-desc" style="margin-top:.4em;font-size:.88em;color:var(--dim)"></p>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.84em">O <strong>histograma vermelho</strong> é a amostra de $X$. O <strong>histograma azul</strong> é a amostra de $Y=g(X)$. A <strong>curva verde</strong> é a PDF teórica de $Y$.</p>
+        </div>
+      </div>
+      <div class="vc fa" style="flex:1">
+        <div style="flex:1;background:#f8f9fb;border:1px solid var(--brd);border-radius:.4em;padding:.5em;display:flex;flex-direction:column;gap:.3em;min-height:0">
+          <div style="display:flex;gap:.5em;flex:1;min-height:0">
+            <div style="flex:1;display:flex;flex-direction:column;min-height:0">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:.6em;color:var(--dimmer);text-align:center;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2em">Distribuição de X</p>
+              <canvas id="cv-x" style="flex:1;width:100%;height:100%"></canvas>
+            </div>
+            <div style="width:1px;background:var(--brd);align-self:stretch"></div>
+            <div style="flex:1;display:flex;flex-direction:column;min-height:0">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:.6em;color:var(--dimmer);text-align:center;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2em">Distribuição de Y = g(X)</p>
+              <canvas id="cv-y" style="flex:1;width:100%;height:100%"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — §2.2 VALOR ESPERADO DEFINIÇÃO
+══════════════════════════════════════ -->
+<div class="slide" data-s="6">
+  <div class="hd"><div class="stag">§ 2.2</div><div class="stitle">Valor Esperado</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa" style="flex:1">
+          <div class="bt">Definição — Valor Esperado (Média)</div>
+          <p>O <span class="em">valor esperado</span> (ou média) de $g(X)$, denotado $Eg(X)$, é:</p>
+          <div class="mc" style="margin:.4em 0">$$Eg(X)=\begin{cases}\displaystyle\int_{-\infty}^{\infty}g(x)\,f_X(x)\,dx & \text{X contínua}\\[.6em]\displaystyle\sum_{x\in\mathcal{X}}g(x)\,f_X(x) & \text{X discreta}\end{cases}$$</div>
+          <p>desde que a integral/soma exista. Se $E|g(X)|=\infty$, dizemos que $Eg(X)$ <strong>não existe</strong>.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.2.4 — Distribuição de Cauchy (C&amp;B)</div>
+          <p>A v.a. de Cauchy tem PDF $f_X(x)=\frac{1}{\pi(1+x^2)}$, $-\infty<x<\infty$.</p>
+          <p style="margin-top:.3em">Como $E|X|=\frac{2}{\pi}\int_0^\infty\frac{x}{1+x^2}dx=\infty$, o valor esperado <span style="color:var(--red);font-weight:700">não existe</span>.</p>
+          <p style="margin-top:.3em;font-size:.85em;color:var(--dim)">⚠ $\int f_X=1$ é necessário mas não suficiente para que $EX$ exista.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.2.2 — Média da Exponencial (C&amp;B)</div>
+          <p>Seja $X\sim\text{Exp}(\lambda)$, $f_X(x)=\frac{1}{\lambda}e^{-x/\lambda}$, $x\geq 0$. Por integração por partes:</p>
+          <div class="mc" style="margin:.3em 0">$$EX=\int_0^\infty x\cdot\frac{1}{\lambda}e^{-x/\lambda}dx=\lambda$$</div>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.2.3 — Média da Binomial (C&amp;B)</div>
+          <p>Seja $X\sim\text{Bin}(n,p)$. Usando a identidade $x\binom{n}{x}=n\binom{n-1}{x-1}$:</p>
+          <div class="mc" style="margin:.3em 0">$$EX=\sum_{x=0}^{n}x\binom{n}{x}p^x(1-p)^{n-x}=np$$</div>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.2.6 — Minimizando a Distância (C&amp;B)</div>
+          <p>Queremos minimizar $E(X-b)^2$ sobre $b$. Usando $E(X-b)^2=\text{Var}(X)+(EX-b)^2$, a solução é:</p>
+          <div class="mc" style="margin:.3em 0">$$\min_b E(X-b)^2=E(X-EX)^2\quad\text{em }b=EX$$</div>
+          <p style="font-size:.84em;color:var(--dim)">A média é o melhor preditor no sentido de erro quadrático médio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — §2.2 PROPRIEDADES
+══════════════════════════════════════ -->
+<div class="slide" data-s="7">
+  <div class="hd"><div class="stag">§ 2.2</div><div class="stitle">Propriedades do Operador de Expectativas</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Teorema 2.2.5 — Linearidade e Monotonicidade</div>
+          <p>Seja $X$ v.a. e $a,b,c$ constantes. Para quaisquer $g_1(x)$ e $g_2(x)$ com esperanças que existem:</p>
+          <div style="display:flex;flex-direction:column;gap:.3em;margin-top:.4em">
+            <div class="pi"><span class="pl">a.</span>$E(ag_1(X)+bg_2(X)+c)=aEg_1(X)+bEg_2(X)+c$</div>
+            <div class="pi"><span class="pl">b.</span>$g_1(x)\geq0\;\forall x\Rightarrow Eg_1(X)\geq0$</div>
+            <div class="pi"><span class="pl">c.</span>$g_1(x)\geq g_2(x)\;\forall x\Rightarrow Eg_1(X)\geq Eg_2(X)$</div>
+            <div class="pi"><span class="pl">d.</span>$a\leq g_1(x)\leq b\;\forall x\Rightarrow a\leq Eg_1(X)\leq b$</div>
+          </div>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4em">Dois caminhos para $Eg(X)$</p>
+          <p>É possível calcular $Eg(X)$ de duas formas equivalentes:</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4em;margin-top:.35em">
+            <div class="bx" style="text-align:center">
+              <div style="font-size:.8em;color:var(--dim);margin-bottom:.2em">Caminho 1 (direto)</div>
+              <div>$\int g(x)\,f_X(x)\,dx$</div>
+            </div>
+            <div class="bx" style="text-align:center">
+              <div style="font-size:.8em;color:var(--dim);margin-bottom:.2em">Caminho 2 (via $f_Y$)</div>
+              <div>$\int y\,f_Y(y)\,dy$</div>
+            </div>
+          </div>
+          <p style="margin-top:.35em;font-size:.84em;color:var(--dim)">O exemplo 2.2.7 (Uniforme→Exp) mostra ambos chegando ao mesmo resultado.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Exemplo 2.2.7 — Uniforme-Exponencial (C&amp;B)</div>
+          <p>Seja $X\sim\text{Unif}(0,1)$ e $g(X)=-\log X$. Calculando diretamente:</p>
+          <div class="mc" style="margin:.3em 0">$$Eg(X)=\int_0^1(-\log x)\,dx=\left[x-x\log x\right]_0^1=1$$</div>
+          <p style="margin-top:.3em">Pelo Caminho 2: como $Y\sim\text{Exp}(1)$, temos $EY=1$. ✓</p>
+        </div>
+        <div class="bx fa" style="padding:.6em .85em">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.65em;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35em">Linearidade — Exemplo Prático</p>
+          <p style="font-size:.88em">Se $X\sim\text{Bin}(n,p)$, então $EX=np$. Logo:</p>
+          <div class="mc">$$E(X-np)=EX-np=0$$</div>
+          <p style="font-size:.84em;margin-top:.2em;color:var(--dim)">A variável centrada tem média zero.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Operador Linear</div>
+          <p>$E$ é um operador linear: $E(aX+b)=aEX+b$. O caso mais simples: se $Y=aX+b$, então a média de $Y$ é simplesmente uma transformação linear da média de $X$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — §2.2 INTERATIVO VALOR ESPERADO
+══════════════════════════════════════ -->
+<div class="slide" data-s="8">
+  <div class="hd"><div class="stag">§ 2.2 · Interativo</div><div class="stitle">Explorador de Valor Esperado</div></div>
+  <div class="sc">
+    <div class="g4060">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Escolha a Distribuição</div>
+          <div style="display:flex;flex-direction:column;gap:.3em;margin-top:.3em">
+            <button class="sbtn" id="ev-btn-norm" onclick="evSetDist('norm')">Normal $(\mu, \sigma^2)$</button>
+            <button class="sbtn" id="ev-btn-exp" onclick="evSetDist('exp')">Exponencial $(\lambda)$</button>
+            <button class="sbtn" id="ev-btn-bin" onclick="evSetDist('bin')">Binomial $(n, p)$</button>
+          </div>
+        </div>
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Parâmetros</div>
+          <div id="ev-sliders" style="display:flex;flex-direction:column;gap:.5em;margin-top:.3em"></div>
+        </div>
+        <div class="hl fa">
+          <div class="bt" style="font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.35em;font-weight:600">Resultados</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4em">
+            <div class="scard"><div class="slb">$E[X]$ (teórico)</div><div class="sv" id="ev-mean">—</div></div>
+            <div class="scard"><div class="slb">Var$(X)$ (teórico)</div><div class="sv" id="ev-var">—</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="vc fa" style="flex:1">
+        <div style="flex:1;background:#f8f9fb;border:1px solid var(--brd);border-radius:.4em;padding:.5em;display:flex;flex-direction:column;min-height:0">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.6em;color:var(--dimmer);text-align:center;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3em">PDF / PMF com E[X] (linha tracejada)</p>
+          <canvas id="ev-canvas" style="flex:1;width:100%;height:100%"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 9 — §2.3 MOMENTOS E VARIÂNCIA
+══════════════════════════════════════ -->
+<div class="slide" data-s="9">
+  <div class="hd"><div class="stag">§ 2.3</div><div class="stitle">Variância e Outros Momentos</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Momentos</div>
+          <p>O <span class="em">n-ésimo momento</span> de $X$ é $\mu'_n=EX^n$, e o <span class="em">n-ésimo momento central</span> é:</p>
+          <div class="mc" style="margin:.3em 0">$$\mu_n=E(X-\mu)^n,\quad\text{onde }\mu=\mu'_1=EX$$</div>
+        </div>
+        <div class="db fa">
+          <div class="bt">Definição — Variância e Desvio-padrão</div>
+          <p>A <span class="em">variância</span> é o segundo momento central:</p>
+          <div class="mc" style="margin:.3em 0">$$\text{Var}\,X=E(X-EX)^2$$</div>
+          <p>Fórmula alternativa: $\;\text{Var}\,X=EX^2-(EX)^2$</p>
+          <p style="margin-top:.3em">O <strong>desvio-padrão</strong> é $\sigma=\sqrt{\text{Var}\,X}$ (mesma unidade de $X$).</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema 2.3.4 — Variância sob Transformação Linear</div>
+          <div class="mc" style="margin:.3em 0">$$\text{Var}(aX+b)=a^2\,\text{Var}\,X$$</div>
+          <p style="font-size:.84em;color:var(--dim)">A constante $b$ translada a distribuição sem afetar a dispersão. O fator $a$ escala a dispersão quadraticamente.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.3.3 — Variância da Exponencial (C&amp;B)</div>
+          <p>Para $X\sim\text{Exp}(\lambda)$ com $EX=\lambda$, calculando por integração por partes:</p>
+          <div class="mc" style="margin:.3em 0">$$\text{Var}\,X=E(X-\lambda)^2=\int_0^\infty(x-\lambda)^2\frac{1}{\lambda}e^{-x/\lambda}dx=\lambda^2$$</div>
+          <p>Ou usando $\text{Var}\,X=EX^2-(EX)^2$.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 2.3.5 — Variância da Binomial (C&amp;B)</div>
+          <p>Para $X\sim\text{Bin}(n,p)$ com $EX=np$. Calculando $EX^2$ via manipulação de coeficientes binomiais:</p>
+          <div class="mc" style="margin:.3em 0">$$EX^2=n(n-1)p^2+np$$</div>
+          <p>Logo: $\;\text{Var}\,X=n(n-1)p^2+np-(np)^2=np(1-p)$</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.35em">Interpretação da Variância</p>
+          <p style="font-size:.88em">Mede a <em>dispersão média</em> em torno da média. Se $\text{Var}\,X=0$, então $P(X=EX)=1$. Valores maiores indicam maior variabilidade.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.3em;margin-top:.35em">
+            <div class="bx" style="text-align:center"><div style="font-size:.78em;color:var(--dim)">Exp($\lambda$)</div><div style="font-size:.9em">$\sigma^2=\lambda^2$</div></div>
+            <div class="bx" style="text-align:center"><div style="font-size:.78em;color:var(--dim)">Bin$(n,p)$</div><div style="font-size:.9em">$\sigma^2=np(1-p)$</div></div>
+            <div class="bx" style="text-align:center"><div style="font-size:.78em;color:var(--dim)">Normal</div><div style="font-size:.9em">$\sigma^2=\sigma^2$</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 10 — §2.3 INTERATIVO VARIÂNCIA
+══════════════════════════════════════ -->
+<div class="slide" data-s="10">
+  <div class="hd"><div class="stag">§ 2.3 · Interativo</div><div class="stitle">Variância: Efeito dos Parâmetros na Dispersão</div></div>
+  <div class="sc">
+    <div class="g4060">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Distribuição Normal $N(\mu,\sigma^2)$</div>
+          <div style="display:flex;flex-direction:column;gap:.5em;margin-top:.4em">
+            <div>
+              <div class="dist-row"><span class="dist-lbl">$\mu$</span><input type="range" id="var-mu" min="-3" max="3" step="0.1" value="0" oninput="drawVar()"><span id="var-mu-v" style="font-family:'JetBrains Mono',monospace;font-size:.72em;min-width:2em">0</span></div>
+            </div>
+            <div>
+              <div class="dist-row"><span class="dist-lbl">$\sigma$</span><input type="range" id="var-sigma" min="0.3" max="3" step="0.1" value="1" oninput="drawVar()"><span id="var-sigma-v" style="font-family:'JetBrains Mono',monospace;font-size:.72em;min-width:2em">1</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Métricas</div>
+          <div style="display:flex;flex-direction:column;gap:.35em;margin-top:.3em">
+            <div class="pi">$E[X]=\mu=$ <span id="var-ex" style="color:var(--blue);font-weight:700">0</span></div>
+            <div class="pi">$\text{Var}(X)=\sigma^2=$ <span id="var-varx" style="color:var(--teal);font-weight:700">1</span></div>
+            <div class="pi">$\text{DP}(X)=\sigma=$ <span id="var-sdx" style="color:var(--navy);font-weight:700">1</span></div>
+          </div>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.86em">Observe como $\mu$ <strong>translada</strong> a curva (sem mudar a forma) e $\sigma$ <strong>alarga ou estreita</strong> a curva. A área sob a curva é sempre 1.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Transformação Linear</div>
+          <p style="font-size:.86em">Se $Y=aX+b$: $EY=a\mu+b$ e $\text{Var}(Y)=a^2\sigma^2$. Mova os controles para ver o efeito.</p>
+        </div>
+      </div>
+      <div class="vc fa" style="flex:1">
+        <div style="flex:1;background:#f8f9fb;border:1px solid var(--brd);border-radius:.4em;padding:.6em;display:flex;flex-direction:column;min-height:0">
+          <canvas id="var-canvas" style="flex:1;width:100%;height:100%"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 11 — §2.4 MGF DEFINIÇÃO
+══════════════════════════════════════ -->
+<div class="slide" data-s="11">
+  <div class="hd"><div class="stag">§ 2.4</div><div class="stitle">Função Geradora de Momentos (MGF)</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — MGF</div>
+          <p>A <span class="em">função geradora de momentos</span> (FGM) de $X$ com cdf $F_X$ é:</p>
+          <div class="mc" style="margin:.4em 0">$$M_X(t)=Ee^{tX}$$</div>
+          <p>desde que este valor esperado exista para $t$ em alguma vizinhança de $0$. Explicitamente:</p>
+          <div class="mc" style="margin:.3em 0">$$M_X(t)=\begin{cases}\displaystyle\int_{-\infty}^{\infty}e^{tx}f_X(x)\,dx & \text{X contínua}\\[.5em]\displaystyle\sum_x e^{tx}P(X=x) & \text{X discreta}\end{cases}$$</div>
+        </div>
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Teorema 2.3.7 — Geração de Momentos</div>
+          <p>Se $X$ tem FGM $M_X(t)$, então o n-ésimo momento é a n-ésima derivada da FGM avaliada em $t=0$:</p>
+          <div class="mc" style="margin:.4em 0">$$\boxed{EX^n=M_X^{(n)}(0)=\frac{d^n}{dt^n}M_X(t)\bigg|_{t=0}}$$</div>
+          <p style="font-size:.84em;color:var(--dim)">A prova usa que $\frac{d}{dt}M_X(t)=EXe^{tX}$, avaliado em $t=0$ dá $EX$.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Exemplo 2.3.8 — MGF da Gama (C&amp;B)</div>
+          <p>Seja $X\sim\text{Gama}(\alpha,\beta)$, $f_X(x)=\frac{1}{\Gamma(\alpha)\beta^\alpha}x^{\alpha-1}e^{-x/\beta}$. A FGM é:</p>
+          <div class="mc" style="margin:.3em 0">$$M_X(t)=\frac{1}{\Gamma(\alpha)\beta^\alpha}\int_0^\infty e^{tx}x^{\alpha-1}e^{-x/\beta}dx$$</div>
+          <p style="margin-top:.3em">Reconhecendo o integrando como o núcleo de outra PDF Gama com escala $\beta/(1-\beta t)$:</p>
+          <div class="mc" style="margin:.3em 0">$$\boxed{M_X(t)=\left(\frac{1}{1-\beta t}\right)^\alpha,\quad t<\frac{1}{\beta}}$$</div>
+          <p style="margin-top:.3em">Derivando: $M_X'(0)=\alpha\beta=EX$ e $M_X''(0)=\alpha(\alpha+1)\beta^2$, logo $\text{Var}\,X=\alpha\beta^2$.</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4em">Usos Principais da FGM</p>
+          <ul class="dl">
+            <li><strong>Gerar momentos:</strong> derivadas em $t=0$ fornecem todos os momentos.</li>
+            <li><strong>Caracterizar distribuições:</strong> se duas v.a. têm a mesma FGM (numa vizinhança de 0), têm a mesma distribuição.</li>
+            <li><strong>Somas de v.a.:</strong> se $X\perp Y$, então $M_{X+Y}(t)=M_X(t)M_Y(t)$.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 12 — §2.4 MGF EXEMPLOS
+══════════════════════════════════════ -->
+<div class="slide" data-s="12">
+  <div class="hd"><div class="stag">§ 2.4</div><div class="stitle">FGM — Exemplos e Derivação de Momentos</div></div>
+  <div class="sc">
+    <div class="g3">
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Normal $N(\mu,\sigma^2)$</div>
+          <div class="mc" style="margin:.3em 0">$$M_X(t)=e^{\mu t+\frac{\sigma^2 t^2}{2}}$$</div>
+          <p style="font-size:.86em;margin-top:.3em"><strong>Momentos via FGM:</strong></p>
+          <div class="mc" style="margin:.2em 0">$$M_X'(0)=\mu$$</div>
+          <div class="mc" style="margin:.2em 0">$$M_X''(0)=\mu^2+\sigma^2$$</div>
+          <p style="font-size:.82em;color:var(--dim);margin-top:.2em">$\text{Var}=EX^2-(EX)^2=\sigma^2$ ✓</p>
+        </div>
+        <div class="bx fa" style="padding:.5em .75em">
+          <p style="font-size:.82em">Normal padrão ($\mu=0,\sigma=1$): $M_X(t)=e^{t^2/2}$</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Exponencial (caso especial Gama)</div>
+          <p style="font-size:.84em">$X\sim\text{Exp}(\beta)$: caso particular da Gama com $\alpha=1$:</p>
+          <div class="mc" style="margin:.3em 0">$$M_X(t)=\frac{1}{1-\beta t},\quad t<\frac{1}{\beta}$$</div>
+          <p style="font-size:.86em;margin-top:.3em"><strong>Derivando:</strong></p>
+          <div class="mc" style="margin:.2em 0">$$M_X'(t)=\frac{\beta}{(1-\beta t)^2}$$</div>
+          <div class="mc" style="margin:.2em 0">$$M_X'(0)=\beta=EX\checkmark$$</div>
+          <div class="mc" style="margin:.2em 0">$$M_X''(0)=2\beta^2\Rightarrow\text{Var}\,X=\beta^2\checkmark$$</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa" style="flex:1">
+          <div class="bt">Binomial $\text{Bin}(n,p)$</div>
+          <div class="mc" style="margin:.3em 0">$$M_X(t)=(pe^t+1-p)^n$$</div>
+          <p style="font-size:.86em;margin-top:.3em"><strong>Derivando:</strong></p>
+          <div class="mc" style="margin:.2em 0">$$M_X'(t)=npe^t(pe^t+1-p)^{n-1}$$</div>
+          <div class="mc" style="margin:.2em 0">$$M_X'(0)=np=EX\checkmark$$</div>
+          <p style="font-size:.82em;color:var(--dim);margin-top:.2em">$M_X''(0)=np(1-p)+n^2p^2$</p>
+          <p style="font-size:.82em;color:var(--dim)">$\Rightarrow\text{Var}=np(1-p)\checkmark$</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.82em"><strong>Propr. de somas:</strong> Se $X_i\sim\text{Bin}(n_i,p)$ independentes, então $M_{\sum X_i}(t)=\prod(pe^t+1-p)^{n_i}$, logo $\sum X_i\sim\text{Bin}(\sum n_i,p)$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 13 — INTERATIVO MGF
+══════════════════════════════════════ -->
+<div class="slide" data-s="13">
+  <div class="hd"><div class="stag">§ 2.4 · Interativo</div><div class="stitle">FGM: Derivando Momentos Graficamente</div></div>
+  <div class="sc">
+    <div class="g4060">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Distribuição Gama $(\alpha, \beta)$</div>
+          <p style="font-size:.85em;margin-bottom:.4em">$M_X(t)=\left(\frac{1}{1-\beta t}\right)^\alpha$, $\;\;t &lt; 1/\beta$</p>
+          <div style="display:flex;flex-direction:column;gap:.4em">
+            <div>
+              <div class="dist-row"><span class="dist-lbl">$\alpha$</span><input type="range" id="mgf-alpha" min="0.5" max="5" step="0.5" value="2" oninput="drawMGF()"><span id="mgf-alpha-v" style="font-family:'JetBrains Mono',monospace;font-size:.72em;min-width:2em">2</span></div>
+            </div>
+            <div>
+              <div class="dist-row"><span class="dist-lbl">$\beta$</span><input type="range" id="mgf-beta" min="0.5" max="3" step="0.5" value="1" oninput="drawMGF()"><span id="mgf-beta-v" style="font-family:'JetBrains Mono',monospace;font-size:.72em;min-width:2em">1</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Momentos via FGM</div>
+          <div style="display:flex;flex-direction:column;gap:.3em;margin-top:.3em">
+            <div class="pi">$E[X]=\alpha\beta=$ <span id="mgf-ex" style="color:var(--blue);font-weight:700">2</span></div>
+            <div class="pi">$E[X^2]=\alpha(\alpha+1)\beta^2=$ <span id="mgf-ex2" style="color:var(--teal);font-weight:700">6</span></div>
+            <div class="pi">$\text{Var}(X)=\alpha\beta^2=$ <span id="mgf-var" style="color:var(--navy);font-weight:700">2</span></div>
+          </div>
+          <p style="margin-top:.5em;font-size:.83em;color:var(--dim)">A linha <span style="color:#dc2626;font-weight:700">vermelha</span> marca a derivada $M'_X(0)=EX$.</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.84em">O gráfico mostra $M_X(t)$ para $t\in(-1/\beta, 1/\beta)$. A <em>inclinação da tangente em $t=0$</em> é exatamente $EX=\alpha\beta$.</p>
+        </div>
+      </div>
+      <div class="vc fa" style="flex:1">
+        <div style="flex:1;background:#f8f9fb;border:1px solid var(--brd);border-radius:.4em;padding:.6em;display:flex;flex-direction:column;min-height:0">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.6em;color:var(--dimmer);text-align:center;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3em">$M_X(t) = (1-\beta t)^{-\alpha}$ — Inclinação em $t=0$ é $EX$</p>
+          <canvas id="mgf-canvas" style="flex:1;width:100%;height:100%"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 14 — RESUMO
+══════════════════════════════════════ -->
+<div class="slide" data-s="14">
+  <div class="hd"><div class="stag">Revisão</div><div class="stitle">Resumo — Seção 2: Transformações e Expectativas</div></div>
+  <div class="sc">
+    <div class="sgrid">
+      <div class="si fa"><div class="sn">1</div><div class="sh"><h5>Distribuição de $Y=g(X)$</h5><p>Discreto: $f_Y(y)=\sum_{x\in g^{-1}(y)}f_X(x)$. Contínuo: usa CDF $F_Y(y)=P(g(X)\leq y)$ e diferencia. Teorema do Jacobiano para $g$ monótona.</p></div></div>
+      <div class="si fa"><div class="sn">2</div><div class="sh"><h5>Funções Não Monótonas</h5><p>Particionamos $\mathcal{X}$ em partes $A_i$ onde $g_i$ é monótona. A PDF de $Y$ é a soma das contribuições de cada parte: $f_Y(y)=\sum_i f_X(g_i^{-1}(y))|g_i^{-1}{}'(y)|$.</p></div></div>
+      <div class="si fa"><div class="sn">3</div><div class="sh"><h5>Valor Esperado</h5><p>$EX=\int x f_X(x)dx$ ou $\sum x f_X(x)$. Operador linear: $E(aX+b)=aEX+b$. Pode não existir (ex: Cauchy). $EX$ minimiza $E(X-b)^2$.</p></div></div>
+      <div class="si fa"><div class="sn">4</div><div class="sh"><h5>Variância e Momentos</h5><p>$\text{Var}(X)=E(X-EX)^2=EX^2-(EX)^2$. Momento central de ordem 2. $\text{Var}(aX+b)=a^2\text{Var}(X)$. Exp: $\lambda^2$; Bin: $np(1-p)$.</p></div></div>
+      <div class="si fa"><div class="sn">5</div><div class="sh"><h5>Função Geradora de Momentos</h5><p>$M_X(t)=Ee^{tX}$. O n-ésimo momento é $M_X^{(n)}(0)$. Caracteriza a distribuição. Para $X\perp Y$: $M_{X+Y}(t)=M_X(t)M_Y(t)$.</p></div></div>
+      <div class="si fa"><div class="sn">6</div><div class="sh"><h5>FGM da Gama e Casos Especiais</h5><p>Gama: $M_X(t)=(1-\beta t)^{-\alpha}$. Casos: Exponencial ($\alpha=1$), Qui-quadrada ($\alpha=p/2, \beta=2$). Normal: $M_X(t)=e^{\mu t+\sigma^2t^2/2}$.</p></div></div>
+    </div>
+    <div class="hl fa" style="text-align:center">
+      <p>▶ Próxima seção: <span class="em">Distribuições de Probabilidade</span> (§ 3) — Discretas e Contínuas, Desigualdade de Chebychev</p>
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+<nav id="nav">
+  <button class="nb" onclick="nav(-1)">◀</button>
+  <div id="sc">1 / 14</div>
+  <button class="nb" onclick="nav(1)">▶</button>
+</nav>
+
+<script>
+// ── NAVIGATION ──
+const slides=document.querySelectorAll('.slide');
+const tot=slides.length;let cur=0;
+function show(n){
+  slides[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(tot-1,n));
+  slides[cur].classList.add('active');
+  document.getElementById('sc').textContent=`${cur+1} / ${tot}`;
+  document.getElementById('pb').style.width=`${((cur+1)/tot)*100}%`;
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([slides[cur]]).catch(()=>{});
+  // Trigger canvas redraws when switching to those slides
+  if(cur===4)setTimeout(()=>{initTrans();},100);
+  if(cur===7)setTimeout(()=>{evSetDist('norm');},100);
+  if(cur===9)setTimeout(()=>{drawVar();},100);
+  if(cur===12)setTimeout(()=>{drawMGF();},100);
+}
+function nav(d){show(cur+d);}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();nav(1);}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();nav(-1);}
+});
+let tx=null;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)nav(d<0?1:-1);tx=null;});
+show(0);
+
+function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+
+function setupCanvas(cv){
+  if(!cv)return null;
+  const W=cv.offsetWidth,H=cv.offsetHeight;
+  if(!W||!H)return null;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  const ctx=cv.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  return {ctx,W,H};
+}
+
+function fitTextX(ctx,text,x,align,minX,maxX,pad=6){
+  const width=ctx.measureText(text).width;
+  let left=x,right=x;
+  if(align==='center'){left=x-width/2;right=x+width/2;}
+  else if(align==='right'||align==='end'){left=x-width;right=x;}
+  else {left=x;right=x+width;}
+  if(left<minX+pad)x+=minX+pad-left;
+  if(right>maxX-pad)x-=right-(maxX-pad);
+  return x;
+}
+
+function drawSafeText(ctx,text,x,y,{font,color,align='center',baseline='alphabetic',minX=0,maxX=Infinity,pad=6}={}){
+  ctx.save();
+  if(font)ctx.font=font;
+  ctx.textAlign=align;
+  ctx.textBaseline=baseline;
+  if(Number.isFinite(maxX))x=fitTextX(ctx,text,x,align,minX,maxX,pad);
+  if(color)ctx.fillStyle=color;
+  ctx.fillText(text,x,y);
+  ctx.restore();
+  return x;
+}
+
+// ══════════════════════════════════════
+// SLIDE 5 — TRANSFORMATION VISUALIZER
+// ══════════════════════════════════════
+let transMode='exp';
+let transX=[],transY=[];
+
+const transInfo={
+  exp:{
+    label:'$Y=-\\log X$, $X\\sim\\text{Unif}(0,1)$',
+    result:'$Y\\sim\\text{Exp}(1)$',
+    desc:'A transformação logarítmica converte a Uniforme em Exponencial.',
+    gx: x=>-Math.log(x),
+    sampleX: ()=>Math.random(),
+    pdfY: y=>Math.exp(-y),
+    xRange:[0,1], yRange:[0,4],
+    pdfX: x=>(x>0&&x<1)?1:0,
+    xLabel:'Unif(0,1)', yLabel:'Exp(1)'
+  },
+  sq:{
+    label:'$Y=X^2$, $X\\sim N(0,1)$',
+    result:'$Y\\sim\\chi^2_1$',
+    desc:'Quadrado de uma Normal padrão gera a Qui-quadrada com 1 g.l.',
+    gx: x=>x*x,
+    sampleX: ()=>{let u,v,s;do{u=2*Math.random()-1;v=2*Math.random()-1;s=u*u+v*v;}while(s>=1);return u*Math.sqrt(-2*Math.log(s)/s);},
+    pdfY: y=>(y>0)?(1/Math.sqrt(2*Math.PI*y))*Math.exp(-y/2):0,
+    xRange:[-3.5,3.5], yRange:[0,3],
+    pdfX: x=>(1/Math.sqrt(2*Math.PI))*Math.exp(-x*x/2),
+    xLabel:'N(0,1)', yLabel:'χ²(1)'
+  },
+  abs:{
+    label:'$Y=|X|$, $X\\sim N(0,1)$',
+    result:'$Y\\sim\\text{Metade-Normal}$',
+    desc:'Valor absoluto de Normal: distribuição Metade-Normal (semi-normal).',
+    gx: x=>Math.abs(x),
+    sampleX: ()=>{let u,v,s;do{u=2*Math.random()-1;v=2*Math.random()-1;s=u*u+v*v;}while(s>=1);return u*Math.sqrt(-2*Math.log(s)/s);},
+    pdfY: y=>(y>=0)?Math.sqrt(2/Math.PI)*Math.exp(-y*y/2):0,
+    xRange:[-3.5,3.5], yRange:[0,3.5],
+    pdfX: x=>(1/Math.sqrt(2*Math.PI))*Math.exp(-x*x/2),
+    xLabel:'N(0,1)', yLabel:'|N(0,1)|'
+  }
+};
+
+function setTrans(mode){
+  transMode=mode;
+  document.querySelectorAll('[id^="btn-"]').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('btn-'+mode).classList.add('sel');
+  const info=transInfo[mode];
+  document.getElementById('trans-formula-lbl').textContent='Resultado Teórico';
+  document.getElementById('trans-result').textContent='';
+  document.getElementById('trans-desc').textContent=info.desc;
+  if(window.MathJax&&MathJax.typesetPromise){
+    document.getElementById('trans-result').innerHTML=info.result;
+    MathJax.typesetPromise([document.getElementById('trans-result')]).catch(()=>{});
+  }
+  newSample();
+}
+
+function newSample(){
+  const info=transInfo[transMode];
+  const N=2000;
+  transX=[];transY=[];
+  for(let i=0;i<N;i++){const x=info.sampleX();transX.push(x);transY.push(info.gx(x));}
+  drawTransCanvases();
+}
+
+function initTrans(){setTrans('exp');}
+
+function drawHistCanvas(canvasId, data, range, pdfFn, color, bgColor){
+  const cv=document.getElementById(canvasId);if(!cv)return;
+  const setup=setupCanvas(cv);if(!setup)return;
+  const {ctx,W,H}=setup;
+
+  const [lo,hi]=range;
+  const bins=30;
+  const binW=(hi-lo)/bins;
+  const counts=new Array(bins).fill(0);
+  const valid=data.filter(d=>d>=lo&&d<=hi);
+  valid.forEach(d=>{const i=Math.min(bins-1,Math.floor((d-lo)/binW));if(i>=0)counts[i]++;});
+  const total=valid.length*binW;
+  const maxDens=Math.max(...counts)/total;
+
+  // axes
+  const pad={l:32,r:14,t:16,b:30};
+  const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  [0.25,0.5,0.75,1].forEach(f=>{
+    const y=pad.t+ph*(1-f/1);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
+  });
+
+  // histogram
+  ctx.fillStyle=bgColor;
+  for(let i=0;i<bins;i++){
+    const dens=counts[i]/total;
+    const bx=pad.l+(i/bins)*pw;
+    const bh=(dens/maxDens)*ph;
+    ctx.fillRect(bx+1,pad.t+ph-bh,pw/bins-2,bh);
+  }
+
+  // pdf curve
+  ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.beginPath();
+  let first=true;
+  for(let px=0;px<pw;px++){
+    const xv=lo+((px+.5)/pw)*(hi-lo);
+    const yv=Math.min(pdfFn(xv)/maxDens,1.02);
+    if(!Number.isFinite(yv)||yv<0)continue;
+    const cy=pad.t+ph-yv*ph;
+    if(first){ctx.moveTo(pad.l+px,cy);first=false;}else ctx.lineTo(pad.l+px,cy);
+  }
+  ctx.stroke();
+
+  // x axis
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);ctx.lineTo(pad.l+pw,pad.t+ph);ctx.stroke();
+  const axisFontSize=Math.max(10,Math.min(14,W*.028));
+  const axisFont=`${axisFontSize}px 'JetBrains Mono',monospace`;
+  [lo,lo+(hi-lo)/2,hi].forEach((v,i)=>{
+    const px=pad.l+((v-lo)/(hi-lo))*pw;
+    drawSafeText(ctx,v.toFixed(1),px,pad.t+ph+8,{
+      font:axisFont,
+      color:'#94a3b8',
+      align:i===0?'left':i===2?'right':'center',
+      baseline:'top',
+      minX:pad.l,
+      maxX:pad.l+pw,
+      pad:2
+    });
+  });
+}
+
+function drawTransCanvases(){
+  const info=transInfo[transMode];
+  drawHistCanvas('cv-x',transX,info.xRange,info.pdfX,'#dc2626','rgba(220,38,38,0.15)');
+  // Keep the transformed axis fixed so comparisons are stable across samples.
+  drawHistCanvas('cv-y',transY,info.yRange,info.pdfY,'#1e5fa8','rgba(30,95,168,0.15)');
+}
+
+// ══════════════════════════════════════
+// SLIDE 8 — EXPECTED VALUE EXPLORER
+// ══════════════════════════════════════
+let evDist='norm';
+const evDists={
+  norm:{
+    params:[
+      {id:'ev-mu',label:'μ',min:-3,max:3,step:0.5,def:0},
+      {id:'ev-sig',label:'σ',min:0.3,max:3,step:0.3,def:1}
+    ],
+    mean: p=>p[0],
+    variance: p=>p[1]*p[1],
+    pdf: (x,p)=>(1/(p[1]*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(x-p[0],2)/(2*p[1]*p[1])),
+    plotRange:[-8,8],
+    ticks:[-8,-4,0,4,8]
+  },
+  exp:{
+    params:[
+      {id:'ev-lam',label:'λ',min:0.3,max:3,step:0.3,def:1}
+    ],
+    mean: p=>p[0],
+    variance: p=>p[0]*p[0],
+    pdf: (x,p)=>(x>=0)?( (1/p[0])*Math.exp(-x/p[0])):0,
+    plotRange:[0,15],
+    ticks:[0,5,10,15]
+  },
+  bin:{
+    params:[
+      {id:'ev-n',label:'n',min:5,max:30,step:5,def:10},
+      {id:'ev-p',label:'p',min:0.1,max:0.9,step:0.1,def:0.4}
+    ],
+    mean: p=>p[0]*p[1],
+    variance: p=>p[0]*p[1]*(1-p[1]),
+    pmf: (x,p)=>{
+      const n=p[0],pr=p[1];
+      if(x<0||x>n||!Number.isInteger(x))return 0;
+      let lc=0;for(let i=0;i<x;i++)lc+=Math.log(n-i)-Math.log(i+1);
+      return Math.exp(lc+x*Math.log(pr)+(n-x)*Math.log(1-pr));
+    },
+    discrete:true,
+    plotRange:[0,30],
+    ticks:[0,10,20,30]
+  }
+};
+
+function evSetDist(d){
+  evDist=d;
+  ['norm','exp','bin'].forEach(k=>{
+    const b=document.getElementById('ev-btn-'+k);
+    if(b)b.classList.toggle('sel',k===d);
+  });
+  const spec=evDists[d];
+  const sl=document.getElementById('ev-sliders');
+  sl.innerHTML='';
+  spec.params.forEach(pr=>{
+    sl.innerHTML+=`<div><div class="dist-row"><span class="dist-lbl">$${pr.label}$</span><input type="range" id="${pr.id}" min="${pr.min}" max="${pr.max}" step="${pr.step}" value="${pr.def}" oninput="drawEV()"><span id="${pr.id}-v" style="font-family:'JetBrains Mono',monospace;font-size:.72em;min-width:2.5em">${pr.def}</span></div></div>`;
+  });
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([sl]).catch(()=>{});
+  setTimeout(drawEV,50);
+}
+
+function getEVParams(){
+  const spec=evDists[evDist];
+  return spec.params.map(p=>{const el=document.getElementById(p.id);return el?parseFloat(el.value):p.def;});
+}
+
+function drawEV(){
+  const spec=evDists[evDist];
+  const params=getEVParams();
+  spec.params.forEach((p,i)=>{const v=document.getElementById(p.id+'-v');if(v)v.textContent=params[i].toFixed(1);});
+  const mu=spec.mean(params);
+  const vr=spec.variance(params);
+  document.getElementById('ev-mean').textContent=mu.toFixed(3);
+  document.getElementById('ev-var').textContent=vr.toFixed(3);
+  const cv=document.getElementById('ev-canvas');if(!cv)return;
+  const setup=setupCanvas(cv);if(!setup)return;
+  const {ctx,W,H}=setup;
+
+  const [lo,hi]=spec.plotRange;
+  const pad={l:24,r:14,t:30,b:26};
+  const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  const labelFont=`${Math.max(10,Math.min(16,W*.03))}px 'JetBrains Mono',monospace`;
+  const axisFont=`${Math.max(10,Math.min(14,W*.028))}px 'JetBrains Mono',monospace`;
+
+  // grid
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  [0.25,0.5,0.75].forEach(f=>{ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph*(1-f));ctx.lineTo(pad.l+pw,pad.t+ph*(1-f));ctx.stroke();});
+
+  if(spec.discrete){
+    const n=Math.round(params[0]),pr=params[1];
+    let maxP=0;
+    for(let x=0;x<=n;x++)maxP=Math.max(maxP,spec.pmf(x,params));
+    const stepW=pw/Math.max(1,(hi-lo));
+    const barW=Math.max(2,stepW*0.72);
+    ctx.fillStyle='rgba(30,95,168,0.5)';
+    for(let x=0;x<=n;x++){
+      const p=spec.pmf(x,params);
+      const bx=pad.l+((x-lo)/(hi-lo))*pw;
+      const bh=(p/maxP)*ph;
+      ctx.fillRect(bx-barW/2,pad.t+ph-bh,barW,bh);
+    }
+    // mean line
+    const mx=pad.l+((mu-lo)/(hi-lo))*pw;
+    ctx.strokeStyle='#dc2626';ctx.lineWidth=2;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(mx,pad.t);ctx.lineTo(mx,pad.t+ph);ctx.stroke();ctx.setLineDash([]);
+    drawSafeText(ctx,`E[X]=${mu.toFixed(1)}`,mx,pad.t-8,{
+      font:labelFont,
+      color:'#dc2626',
+      minX:pad.l,
+      maxX:pad.l+pw,
+      pad:4
+    });
+  } else {
+    const N=250;
+    let maxY=0;
+    for(let i=0;i<=N;i++){const xv=lo+(i/N)*(hi-lo);maxY=Math.max(maxY,spec.pdf(xv,params));}
+    ctx.fillStyle='rgba(30,95,168,0.12)';
+    ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);
+    for(let i=0;i<=N;i++){const xv=lo+(i/N)*(hi-lo);const yv=spec.pdf(xv,params)/maxY;ctx.lineTo(pad.l+(i/N)*pw,pad.t+ph-yv*ph);}
+    ctx.lineTo(pad.l+pw,pad.t+ph);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='#1e5fa8';ctx.lineWidth=2;ctx.beginPath();
+    for(let i=0;i<=N;i++){const xv=lo+(i/N)*(hi-lo);const yv=spec.pdf(xv,params)/maxY;const cx=pad.l+(i/N)*pw,cy=pad.t+ph-yv*ph;i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);}
+    ctx.stroke();
+    // mean line
+    const mx=pad.l+((mu-lo)/(hi-lo))*pw;
+    ctx.strokeStyle='#dc2626';ctx.lineWidth=2;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(mx,pad.t);ctx.lineTo(mx,pad.t+ph);ctx.stroke();ctx.setLineDash([]);
+    drawSafeText(ctx,`E[X]=${mu.toFixed(2)}`,mx,pad.t-8,{
+      font:labelFont,
+      color:'#dc2626',
+      minX:pad.l,
+      maxX:pad.l+pw,
+      pad:4
+    });
+  }
+  // x axis
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);ctx.lineTo(pad.l+pw,pad.t+ph);ctx.stroke();
+  (spec.ticks||[lo,(lo+hi)/2,hi]).forEach((v,i,arr)=>{
+    const px=pad.l+((v-lo)/(hi-lo))*pw;
+    ctx.beginPath();ctx.moveTo(px,pad.t+ph);ctx.lineTo(px,pad.t+ph+4);ctx.stroke();
+    drawSafeText(ctx,Number.isInteger(v)?String(v):v.toFixed(1),px,pad.t+ph+7,{
+      font:axisFont,
+      color:'#94a3b8',
+      align:i===0?'left':i===arr.length-1?'right':'center',
+      baseline:'top',
+      minX:pad.l,
+      maxX:pad.l+pw,
+      pad:2
+    });
+  });
+}
+
+// ══════════════════════════════════════
+// SLIDE 10 — VARIANCE VISUALIZER
+// ══════════════════════════════════════
+function drawVar(){
+  const mu=parseFloat(document.getElementById('var-mu').value);
+  const sig=parseFloat(document.getElementById('var-sigma').value);
+  document.getElementById('var-mu-v').textContent=mu.toFixed(1);
+  document.getElementById('var-sigma-v').textContent=sig.toFixed(1);
+  document.getElementById('var-ex').textContent=mu.toFixed(2);
+  document.getElementById('var-varx').textContent=(sig*sig).toFixed(2);
+  document.getElementById('var-sdx').textContent=sig.toFixed(2);
+
+  const cv=document.getElementById('var-canvas');if(!cv)return;
+  const setup=setupCanvas(cv);if(!setup)return;
+  const {ctx,W,H}=setup;
+
+  const lo=mu-5,hi=mu+5;
+  const pad={l:28,r:18,t:36,b:34};
+  const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  const labelFont=`${Math.max(10,Math.min(16,W*.03))}px 'JetBrains Mono',monospace`;
+  const axisFont=`${Math.max(10,Math.min(14,W*.028))}px 'JetBrains Mono',monospace`;
+
+  // ref distributions with lower opacity
+  [[mu,0.5,'rgba(100,150,255,0.2)','#a0b4f0'],[mu,2,'rgba(100,200,150,0.2)','#80c8a0']].forEach(([m,s,fill,stroke])=>{
+    const maxY=1/(s*Math.sqrt(2*Math.PI));
+    ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);
+    for(let i=0;i<=200;i++){const xv=lo+(i/200)*(hi-lo);const yv=(1/(s*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(xv-m,2)/(2*s*s))/maxY;ctx.lineTo(pad.l+(i/200)*pw,pad.t+ph-yv*ph);}
+    ctx.lineTo(pad.l+pw,pad.t+ph);ctx.closePath();ctx.fill();
+    ctx.strokeStyle=stroke;ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();
+    for(let i=0;i<=200;i++){const xv=lo+(i/200)*(hi-lo);const yv=(1/(s*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(xv-m,2)/(2*s*s))/maxY;const cx=pad.l+(i/200)*pw,cy=pad.t+ph-yv*ph;i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);}
+    ctx.stroke();ctx.setLineDash([]);
+  });
+
+  // main distribution
+  const maxY=1/(sig*Math.sqrt(2*Math.PI));
+  const nml=(x)=>(1/(sig*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(x-mu,2)/(2*sig*sig));
+  ctx.fillStyle='rgba(30,95,168,0.18)';ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);
+  for(let i=0;i<=300;i++){const xv=lo+(i/300)*(hi-lo);const yv=nml(xv)/maxY;ctx.lineTo(pad.l+(i/300)*pw,pad.t+ph-yv*ph);}
+  ctx.lineTo(pad.l+pw,pad.t+ph);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='#1e5fa8';ctx.lineWidth=2.5;ctx.beginPath();
+  for(let i=0;i<=300;i++){const xv=lo+(i/300)*(hi-lo);const yv=nml(xv)/maxY;const cx=pad.l+(i/300)*pw,cy=pad.t+ph-yv*ph;i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);}
+  ctx.stroke();
+
+  // mean line
+  const mx=pad.l+((mu-lo)/(hi-lo))*pw;
+  ctx.strokeStyle='#dc2626';ctx.lineWidth=2;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(mx,pad.t);ctx.lineTo(mx,pad.t+ph);ctx.stroke();ctx.setLineDash([]);
+
+  // ±σ shading
+  const s1lo=pad.l+((mu-sig-lo)/(hi-lo))*pw;
+  const s1hi=pad.l+((mu+sig-lo)/(hi-lo))*pw;
+  ctx.fillStyle='rgba(30,95,168,0.06)';
+  ctx.fillRect(s1lo,pad.t,s1hi-s1lo,ph);
+  ctx.strokeStyle='rgba(30,95,168,0.35)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+  [s1lo,s1hi].forEach(x=>{ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();});
+  ctx.setLineDash([]);
+
+  // labels
+  drawSafeText(ctx,`μ=${mu.toFixed(1)}`,mx,pad.t-10,{
+    font:labelFont,
+    color:'#64748b',
+    minX:pad.l,
+    maxX:pad.l+pw,
+    pad:4
+  });
+  drawSafeText(ctx,`σ=${sig.toFixed(1)}`,(s1lo+s1hi)/2,pad.t+ph-8,{
+    font:labelFont,
+    color:'rgba(30,95,168,0.6)',
+    minX:pad.l,
+    maxX:pad.l+pw,
+    pad:4
+  });
+  // x axis
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);ctx.lineTo(pad.l+pw,pad.t+ph);ctx.stroke();
+  [lo,mu,hi].forEach((v,i)=>{
+    const px=pad.l+((v-lo)/(hi-lo))*pw;
+    drawSafeText(ctx,v.toFixed(0),px,pad.t+ph+8,{
+      font:axisFont,
+      color:'#94a3b8',
+      align:i===0?'left':i===2?'right':'center',
+      baseline:'top',
+      minX:pad.l,
+      maxX:pad.l+pw,
+      pad:2
+    });
+  });
+}
+
+// ══════════════════════════════════════
+// SLIDE 13 — MGF VISUALIZER
+// ══════════════════════════════════════
+function drawMGF(){
+  const alpha=parseFloat(document.getElementById('mgf-alpha').value);
+  const beta=parseFloat(document.getElementById('mgf-beta').value);
+  document.getElementById('mgf-alpha-v').textContent=alpha.toFixed(1);
+  document.getElementById('mgf-beta-v').textContent=beta.toFixed(1);
+  const ex=alpha*beta;
+  const ex2=alpha*(alpha+1)*beta*beta;
+  const vr=alpha*beta*beta;
+  document.getElementById('mgf-ex').textContent=ex.toFixed(3);
+  document.getElementById('mgf-ex2').textContent=ex2.toFixed(3);
+  document.getElementById('mgf-var').textContent=vr.toFixed(3);
+
+  const cv=document.getElementById('mgf-canvas');if(!cv)return;
+  const setup=setupCanvas(cv);if(!setup)return;
+  const {ctx,W,H}=setup;
+
+  const tMax=Math.min(0.9/beta,2);
+  const tMin=-tMax;
+  const mgf=(t)=>Math.pow(1/(1-beta*t),alpha);
+  const mgfDeriv=()=>alpha*beta; // at t=0
+
+  // find y range
+  let yMax=0;
+  for(let i=0;i<=200;i++){const t=tMin+(i/200)*(tMax-tMin);const v=mgf(t);if(Number.isFinite(v)&&v>0)yMax=Math.max(yMax,v);}
+  yMax=Math.min(yMax,mgf(0)*4.5)*1.05;
+
+  const pad={l:38,r:18,t:28,b:40};
+  const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  const labelFont=`${Math.max(10,Math.min(18,W*.03))}px 'JetBrains Mono',monospace`;
+  const axisFontSize=Math.max(10,Math.min(14,W*.026));
+  const axisFont=`${axisFontSize}px 'JetBrains Mono',monospace`;
+
+  // grid
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  [0.25,0.5,0.75,1].forEach(f=>{ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph*(1-f));ctx.lineTo(pad.l+pw,pad.t+ph*(1-f));ctx.stroke();});
+  // t=0 vertical
+  const t0x=pad.l+((-tMin)/(tMax-tMin))*pw;
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(t0x,pad.t);ctx.lineTo(t0x,pad.t+ph);ctx.stroke();
+
+  // fill area under curve
+  ctx.fillStyle='rgba(30,95,168,0.08)';ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);
+  for(let i=0;i<=300;i++){
+    const t=tMin+(i/300)*(tMax-tMin);
+    const v=Math.min(mgf(t),yMax);
+    if(!Number.isFinite(v)){ctx.moveTo(pad.l+(i/300)*pw,pad.t+ph);continue;}
+    const cx=pad.l+(i/300)*pw,cy=pad.t+ph-(v/yMax)*ph;
+    i===0?ctx.lineTo(cx,cy):ctx.lineTo(cx,cy);
+  }
+  ctx.lineTo(pad.l+pw,pad.t+ph);ctx.closePath();ctx.fill();
+
+  // MGF curve
+  ctx.strokeStyle='#1e5fa8';ctx.lineWidth=2.5;ctx.beginPath();
+  let firstPt=true;
+  for(let i=0;i<=300;i++){
+    const t=tMin+(i/300)*(tMax-tMin);
+    const v=Math.min(mgf(t),yMax);
+    if(!Number.isFinite(v)||v<=0){firstPt=true;continue;}
+    const cx=pad.l+(i/300)*pw,cy=pad.t+ph-(v/yMax)*ph;
+    if(firstPt){ctx.moveTo(cx,cy);firstPt=false;}else ctx.lineTo(cx,cy);
+  }
+  ctx.stroke();
+
+  // M(0) point
+  const m0=mgf(0);
+  const m0y=pad.t+ph-(m0/yMax)*ph;
+  ctx.fillStyle='#1e5fa8';ctx.beginPath();ctx.arc(t0x,m0y,5,0,Math.PI*2);ctx.fill();
+
+  // tangent at t=0 (slope = E[X] = alpha*beta)
+  const slope=mgfDeriv();
+  const tangentRange=tMax*0.6;
+  const tx1=t0x-tangentRange/((tMax-tMin)/pw);
+  const tx2=t0x+tangentRange/((tMax-tMin)/pw);
+  const ty1=m0y+tangentRange*(slope/yMax)*ph/(1);
+  const ty2=m0y-tangentRange*(slope/yMax)*ph/(1);
+  ctx.strokeStyle='#dc2626';ctx.lineWidth=2;ctx.setLineDash([5,3]);
+  ctx.beginPath();ctx.moveTo(tx1,ty1);ctx.lineTo(tx2,ty2);ctx.stroke();ctx.setLineDash([]);
+
+  // labels
+  const inclText=`Incl.=E[X]=${ex.toFixed(2)}`;
+  ctx.save();ctx.font=labelFont;
+  const inclAlign=(pad.l+pw-(t0x+12))>ctx.measureText(inclText).width+6?'left':'right';
+  ctx.restore();
+  drawSafeText(ctx,inclText,inclAlign==='left'?t0x+12:t0x-12,clamp(m0y-10,pad.t+16,pad.t+ph-10),{
+    font:labelFont,
+    color:'#dc2626',
+    align:inclAlign,
+    minX:pad.l,
+    maxX:pad.l+pw,
+    pad:4
+  });
+
+  // axes
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph);ctx.lineTo(pad.l+pw,pad.t+ph);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t);ctx.lineTo(pad.l,pad.t+ph);ctx.stroke();
+  [tMin,0,tMax].forEach((v,i)=>{
+    const px=pad.l+((v-tMin)/(tMax-tMin))*pw;
+    drawSafeText(ctx,v.toFixed(1),px,pad.t+ph+8,{
+      font:axisFont,
+      color:'#94a3b8',
+      align:i===0?'left':i===2?'right':'center',
+      baseline:'top',
+      minX:pad.l,
+      maxX:pad.l+pw,
+      pad:2
+    });
+  });
+  drawSafeText(ctx,'t',pad.l+pw,pad.t+ph+axisFontSize*1.4,{
+    font:axisFont,
+    color:'#94a3b8',
+    align:'right',
+    baseline:'top',
+    minX:pad.l,
+    maxX:pad.l+pw
+  });
+  drawSafeText(ctx,'M(t)',pad.l+4,pad.t+4,{
+    font:axisFont,
+    color:'#94a3b8',
+    align:'left',
+    baseline:'top',
+    minX:pad.l,
+    maxX:pad.l+pw
+  });
+}
+
+window.addEventListener('resize',()=>{
+  if(cur===4)drawTransCanvases();
+  if(cur===7)drawEV();
+  if(cur===9)drawVar();
+  if(cur===12)drawMGF();
+});
+window.addEventListener('load',()=>{
+  setTimeout(()=>{if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise();},1000);
+});
+</script>
+</body>
+</html>

@@ -18,6 +18,6 @@ Esta página contém os links para as disciplinas que leciono, bem como apresent
 
 ## Pós-graduação
 
-- [Estatística (verão)]()
+- [Estatística (verão)](/pt/stat)
 - [Macroeconomia]()
 - [Séries de Tempo](/timeseries)

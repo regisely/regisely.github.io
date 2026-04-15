@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variáveis Aleatórias Múltiplas | Curso de Verão em Estatística</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},svg:{scale:1.1},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#dde2ec;
+  --w:#ffffff;
+  --navy:#1a2744;
+  --blue:#1e5fa8;
+  --blt:#e8f0fb;
+  --bbrd:#b8cce8;
+  --teal:#0f7c6b;
+  --tlt:#e0f4f1;
+  --amber:#7c3d00;
+  --alt:#fdf0e0;
+  --slate:#334155;
+  --dim:#5a6a80;
+  --dimmer:#8899b0;
+  --text:#1e293b;
+  --brd:#d4dcea;
+  --red:#b91c1c;
+  --green:#15803d;
+  --defn:#eef3fc;
+  --thm:#e6f3f0;
+  --exmp:#f6f6f4;
+  --rev:#fdf3e3;
+  --deck-scale:.62;
+  --cover-scale:calc(.75 / .62);
+  --slide-pad-top:3%;
+  --slide-pad-side:4.5%;
+  --slide-pad-bottom:2.5%;
+  --content-gap:.75%;
+  --grid-gap:.75%;
+}
+
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Source Sans 3',sans-serif;color:var(--text);}
+
+/* ── TRUE 16:9 STAGE ── */
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+
+#deck{
+  position:relative;
+  width:min(100vw, calc(100vh * 16/9));
+  height:min(100vh, calc(100vw * 9/16));
+  background:var(--w);
+  overflow:hidden;
+  box-shadow:0 6px 36px rgba(0,0,0,.18);
+  /* ALL sizing inside is relative to THIS box */
+  --W: min(100vw, calc(100vh * 16/9));
+  --H: min(100vh, calc(100vw * 9/16));
+  /* Deck-wide scale while preserving the existing responsive proportions */
+  font-size: calc(var(--W) * 0.021 * var(--deck-scale));
+}
+
+/* ── SLIDES ── */
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding: var(--slide-pad-top) var(--slide-pad-side) var(--slide-pad-bottom);
+  opacity:0;pointer-events:none;
+  transition:opacity .32s ease,transform .32s ease;
+  transform:translateX(20px);
+}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+
+/* ── ROOMY SLIDES ── */
+.slide.roomy{
+  font-size:1.1em;
+  --content-gap:.9%;
+  --grid-gap:.85%;
+}
+.slide.roomy.soft{font-size:1.02em;}
+.slide.roomy .hd{margin-bottom:1%;padding-bottom:.8%;}
+.slide.roomy .db,
+.slide.roomy .tb,
+.slide.roomy .eb,
+.slide.roomy .rb,
+.slide.roomy .hl,
+.slide.roomy .bx{padding:.78em 1.05em;}
+.slide.roomy p{line-height:1.58;}
+.slide.roomy ul.dl,
+.slide.roomy ol.nl{gap:.18em;}
+.slide.roomy ul.dl li,
+.slide.roomy ol.nl li{font-size:.92em;line-height:1.52;}
+.slide.roomy .ax{gap:.65em;padding:.4em 0;}
+.slide.roomy .ab{font-size:.92em;line-height:1.52;}
+.slide.roomy .pi{padding:.46em .72em;font-size:.92em;line-height:1.46;}
+.slide.roomy .jt{font-size:.74em;}
+.slide.roomy .jt th,
+.slide.roomy .jt td{padding:.24em .34em;}
+.slide.roomy .sbtn{font-size:.75em;padding:.34em .88em;}
+.slide.roomy #dcell{font-size:.8em;padding:.34em .55em;}
+.slide.roomy #dexy{font-size:.92em;padding:.34em .55em;}
+.slide.roomy .sv{font-size:1.26em;}
+.slide.roomy.soft .db,
+.slide.roomy.soft .tb,
+.slide.roomy.soft .eb,
+.slide.roomy.soft .rb,
+.slide.roomy.soft .hl,
+.slide.roomy.soft .bx{padding:.72em .96em;}
+.slide.roomy.soft .ax{padding:.36em 0;}
+.slide.table-roomy .jt{font-size:.78em;}
+.slide.table-roomy .jt th,
+.slide.table-roomy .jt td{padding:.26em .36em;}
+
+/* ── HEADER ── */
+.hd{display:flex;align-items:center;gap:.6em;margin-bottom:1.2%;padding-bottom:.9%;border-bottom:2px solid var(--brd);flex-shrink:0;}
+.stag{font-family:'JetBrains Mono',monospace;font-size:.62em;color:var(--blue);text-transform:uppercase;letter-spacing:.15em;background:var(--blt);border:1px solid var(--bbrd);padding:.25em .65em;border-radius:.2em;white-space:nowrap;font-weight:500;}
+.stitle{font-family:'Playfair Display',serif;font-size:1.5em;font-weight:700;color:var(--navy);line-height:1.15;}
+
+/* ── CONTENT AREA ── */
+.sc{flex:1;display:flex;flex-direction:column;gap:var(--content-gap);overflow:hidden;min-height:0;}
+
+/* ── GRID LAYOUTS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8%;flex:1;min-height:0;}
+.g6040{display:grid;grid-template-columns:6fr 4fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g4060{display:grid;grid-template-columns:4fr 6fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g55{display:grid;grid-template-columns:55fr 45fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.g3565{display:grid;grid-template-columns:35fr 65fr;gap:var(--grid-gap);flex:1;min-height:0;}
+.vc{display:flex;flex-direction:column;gap:var(--content-gap);min-height:0;}
+.g2 > *, .g3 > *, .g6040 > *, .g4060 > *, .g55 > *, .g3565 > *, .pg > *, .sgrid > *, .ecards > *{min-width:0;}
+.vc > *{flex-shrink:0;}
+.vc > .grow{flex:1;min-height:0;}
+
+/* ── BOXES (padding in em so it scales) ── */
+.db{background:var(--defn);border-left:.25em solid var(--blue);border-radius:.25em;padding:.7em 1em;}
+.db .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.35em;font-weight:600;}
+.tb{background:var(--thm);border-left:.25em solid var(--teal);border-radius:.25em;padding:.7em 1em;}
+.tb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.35em;font-weight:600;}
+.eb{background:var(--exmp);border-left:.25em solid #94a3b8;border-radius:.25em;padding:.7em 1em;}
+.eb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:#64748b;margin-bottom:.35em;font-weight:600;}
+.rb{background:var(--rev);border-left:.25em solid var(--amber);border-radius:.25em;padding:.7em 1em;}
+.rb .bt{font-family:'JetBrains Mono',monospace;font-size:.62em;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:.35em;font-weight:600;}
+.hl{background:linear-gradient(135deg,#f0f4ff,#f8fbff);border:1px solid var(--bbrd);border-radius:.4em;padding:.65em 1em;}
+.bx{background:#f4f7fb;border:1px solid var(--brd);border-radius:.25em;padding:.6em .85em;}
+
+/* ── TYPOGRAPHY ── */
+p{font-size:.92em;line-height:1.6;color:var(--text);}
+.em{color:var(--blue);font-style:italic;font-weight:600;}
+ul.dl,ol.nl{padding-left:1.1em;display:flex;flex-direction:column;gap:.2em;}
+ul.dl li,ol.nl li{font-size:.9em;line-height:1.55;color:var(--slate);}
+ul.dl li::marker{color:var(--blue);}
+.mc{text-align:center;padding:.3em 0;color:var(--navy);}
+.mc mjx-container{max-width:100%;overflow:hidden;}
+
+/* ── AXIOM ROWS ── */
+.ax{display:flex;gap:.6em;align-items:flex-start;padding:.35em 0;border-bottom:1px solid var(--brd);}
+.ax:last-child{border-bottom:none;}
+.anum{width:1.5em;height:1.5em;border-radius:50%;background:var(--blt);border:1.5px solid var(--bbrd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);flex-shrink:0;margin-top:.1em;font-weight:700;}
+.ab{flex:1;font-size:.88em;line-height:1.5;color:var(--slate);}
+
+/* ── PROP GRID ── */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:.35em;}
+.pi{background:#f0f4fb;border:1px solid var(--brd);border-radius:.2em;padding:.4em .65em;font-size:.88em;line-height:1.4;color:var(--slate);}
+.pl{font-family:'JetBrains Mono',monospace;color:var(--blue);margin-right:.3em;font-size:.85em;font-weight:700;}
+
+/* ── TAGS ── */
+.tg{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62em;padding:.1em .4em;border-radius:.15em;}
+.tgb{background:var(--blt);color:var(--blue);border:1px solid var(--bbrd);}
+.tgt{background:var(--tlt);color:var(--teal);border:1px solid #a0d8d0;}
+
+/* ── STAT CARDS ── */
+.scard{background:var(--w);border:1px solid var(--brd);border-radius:.3em;padding:.4em .7em;text-align:center;}
+.slb{font-family:'JetBrains Mono',monospace;font-size:.58em;color:var(--dimmer);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.15em;}
+.sv{font-family:'Playfair Display',serif;font-size:1.2em;font-weight:700;color:var(--navy);}
+.srow{display:flex;gap:.5em;}
+
+/* ── SIM ── */
+.sw{background:#f4f7fb;border:1.5px solid var(--brd);border-radius:.4em;padding:.7em .9em;display:flex;flex-direction:column;gap:.55em;}
+.sctrl{display:flex;gap:.4em;flex-wrap:wrap;}
+.sbtn{background:var(--w);border:1.5px solid var(--bbrd);color:var(--blue);padding:.3em .8em;border-radius:.25em;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7em;transition:all .15s;font-weight:500;}
+.sbtn:hover{background:var(--blt);}
+.sbtn.t{border-color:#a0d8d0;color:var(--teal);}.sbtn.t:hover{background:var(--tlt);}
+.sbtn.r{border-color:#fca5a5;color:var(--red);}.sbtn.r:hover{background:#fef2f2;}
+
+/* ── SUMMARY GRID ── */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.7em;flex:1;min-height:0;}
+.si{background:var(--w);border:1.5px solid var(--brd);border-radius:.4em;padding:.7em .9em;display:flex;gap:.7em;}
+.sn{font-family:'Playfair Display',serif;font-size:1.6em;font-weight:700;color:var(--blue);opacity:.18;line-height:1;min-width:.9em;}
+.sh h5{font-family:'Playfair Display',serif;font-size:.95em;color:var(--navy);margin-bottom:.25em;font-weight:700;}
+.sh p{font-size:.86em;color:var(--dim);line-height:1.52;}
+
+/* ── TITLE SLIDE ── */
+.tslide{justify-content:center;align-items:center;text-align:center;background:linear-gradient(155deg,#eef3ff 0%,#f8fbff 55%,#f3f7ee 100%);font-size:calc(1em * var(--cover-scale));}
+.tslide::before{content:'';position:absolute;top:0;left:0;right:0;height:.28em;background:linear-gradient(90deg,var(--blue),var(--teal));}
+.tbig{font-family:'JetBrains Mono',monospace;font-size:.78em;text-transform:uppercase;letter-spacing:.22em;color:var(--blue);margin-bottom:.5em;}
+.tslide h1{font-family:'Playfair Display',serif;font-size:2.8em;font-weight:700;line-height:1.12;color:var(--navy);margin-bottom:.25em;}
+.tsub{font-family:'Playfair Display',serif;font-size:1.3em;font-style:italic;color:var(--blue);margin-bottom:1em;}
+.tdiv{width:4em;height:.12em;background:linear-gradient(90deg,transparent,var(--blue),transparent);margin:.8em auto;}
+.tmeta{font-size:.88em;color:var(--dim);line-height:1.9;}
+.tocg{display:grid;grid-template-columns:1fr 1fr;gap:.45em;margin-top:1em;text-align:left;max-width:32em;}
+.toci{display:flex;gap:.55em;align-items:flex-start;background:var(--w);border:1px solid var(--brd);border-radius:.25em;padding:.45em .7em;}
+.tocn{font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--blue);min-width:1.4em;font-weight:700;}
+.toct{font-size:.82em;color:var(--slate);line-height:1.35;}
+
+/* ── NAV ── */
+#nav{position:fixed;bottom:1%;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.8em;z-index:200;background:rgba(255,255,255,.94);border:1px solid var(--brd);border-radius:2em;padding:.35em .9em;box-shadow:0 4px 16px rgba(0,0,0,.1);backdrop-filter:blur(6px);}
+.nb{background:none;border:none;color:var(--dimmer);font-size:.85em;cursor:pointer;padding:.2em .4em;border-radius:.2em;transition:all .15s;}
+.nb:hover{color:var(--blue);background:var(--blt);}
+#sc{font-family:'JetBrains Mono',monospace;font-size:.72em;color:var(--dim);min-width:3.5em;text-align:center;}
+
+#pb{position:fixed;top:0;left:0;height:.18em;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .3s;z-index:200;}
+
+/* ── ANIMATIONS ── */
+@keyframes fu{from{opacity:0;transform:translateY(.4em)}to{opacity:1;transform:translateY(0)}}
+.slide.active .fa{animation:fu .3s ease forwards;opacity:0;}
+.slide.active .fa:nth-child(1){animation-delay:.04s}
+.slide.active .fa:nth-child(2){animation-delay:.1s}
+.slide.active .fa:nth-child(3){animation-delay:.16s}
+.slide.active .fa:nth-child(4){animation-delay:.22s}
+.slide.active .fa:nth-child(5){animation-delay:.28s}
+
+canvas{border-radius:.25em;display:block;}
+
+/* ── JOINT PMF TABLE ── */
+.jtwrap{overflow:auto;flex:1;min-height:0;}
+.jt{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.65em;}
+.jt th,.jt td{border:1px solid var(--brd);padding:.2em .28em;text-align:center;line-height:1.4;}
+.jt .xhd{background:var(--blt);color:var(--blue);font-weight:700;}
+.jt .yhd{background:var(--tlt);color:var(--teal);font-weight:700;}
+.jt .cell{color:var(--dimmer);cursor:pointer;transition:background .15s;}
+.jt .cell:hover,.jt .cell.hi{background:var(--blt);color:var(--navy);font-weight:700;}
+.jt .marg-x,.jt .marg-y{background:#fff7ed;color:#c2410c;font-style:italic;}
+.jt .nz{color:var(--navy);}
+#dcell{font-family:'JetBrains Mono',monospace;font-size:.76em;padding:.3em .5em;border-radius:.25em;background:var(--blt);color:var(--blue);border:1px solid var(--bbrd);}
+#dexy{font-family:'Playfair Display',serif;font-size:.88em;padding:.3em .5em;border-radius:.25em;background:var(--tlt);color:var(--teal);border:1px solid #a0d8d0;}
+/* slider */
+.rng-wrap{display:flex;align-items:center;gap:.6em;margin-bottom:.3em;}
+.rng-wrap label{font-family:'JetBrains Mono',monospace;font-size:.7em;color:var(--dim);white-space:nowrap;min-width:9em;}
+.rng{flex:1;accent-color:var(--blue);}
+.lbl-val{font-family:'Playfair Display',serif;font-size:1.05em;font-weight:700;color:var(--navy);min-width:2.8em;text-align:right;}
+</style>
+</head>
+<body>
+<div id="pb"></div>
+<div id="stage"><div id="deck">
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — TÍTULO
+══════════════════════════════════════ -->
+<div class="slide tslide" data-s="1">
+  <div class="tbig">Curso de Verão em Estatística · PPGOM / UFPel</div>
+  <div class="tsub">Seção 4</div>
+  <h1>Variáveis Aleatórias Múltiplas</h1>
+  <div class="tdiv"></div>
+  <div class="tmeta">
+    Prof. Regis A. Ely &nbsp;·&nbsp; Programa de Pós-Graduação em Organizações e Mercados<br>
+    Referência: Casella &amp; Berger, <em>Statistical Inference</em>, Cap. 4
+  </div>
+  <div class="tocg">
+    <div class="toci"><div class="tocn">4.1</div><div class="toct">Distribuições Conjuntas e Marginais</div></div>
+    <div class="toci"><div class="tocn">4.2</div><div class="toct">Distribuição Condicional e Independência</div></div>
+    <div class="toci"><div class="tocn">4.3</div><div class="toct">Mistura de Distribuições</div></div>
+    <div class="toci"><div class="tocn">4.4</div><div class="toct">Covariância e Correlação</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — VETOR ALEATÓRIO E PMF CONJUNTA
+══════════════════════════════════════ -->
+<div class="slide" data-s="2">
+  <div class="hd"><div class="stag">§ 4.1</div><div class="stitle">Vetor Aleatório e PMF Conjunta Discreta</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Vetor Aleatório</div>
+          <p>Um <span class="em">vetor aleatório</span> $n$-dimensional é uma função do espaço amostral $S$ para $\mathbb{R}^n$. Um vetor bidimensional é denotado $(X,Y)$.</p>
+        </div>
+        <div class="db fa">
+          <div class="bt">Definição — PMF Conjunta Discreta</div>
+          <p>Seja $(X,Y)$ um vetor aleatório discreto. A <span class="em">função massa de probabilidade conjunta</span> é:</p>
+          <div class="mc">$$f_{X,Y}(x,y)=P(X=x,\,Y=y)$$</div>
+          <p style="margin-top:.3em">Para qualquer conjunto $A\subset\mathbb{R}^2$:</p>
+          <div class="mc">$$P\!\left((X,Y)\in A\right)=\sum_{(x,y)\in A}f(x,y)$$</div>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Propriedades</div>
+          <div class="ax" style="margin-top:.2em"><div class="anum">i</div><div class="ab">$f(x,y)\geq0$ para todo $(x,y)$</div></div>
+          <div class="ax"><div class="anum">ii</div><div class="ab">$\displaystyle\sum_{(x,y)\in\mathbb{R}^2}f(x,y)=1$</div></div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Valor Esperado de Função do Vetor</div>
+          <p>Para $g(x,y)$ qualquer função de $(X,Y)$ discreto:</p>
+          <div class="mc" style="margin:.4em 0">$$Eg(X,Y)=\sum_{(x,y)\in\mathbb{R}^2}g(x,y)\,f(x,y)$$</div>
+          <p>O operador é linear — para funções $g_1,g_2$ e constantes $a,b,c$:</p>
+          <div class="mc">$$E(ag_1+bg_2+c)=aEg_1+bEg_2+c$$</div>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.66em;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4em">Por que modelos multivariados?</p>
+          <p style="font-size:.88em">Experimentos reais raramente medem uma só variável. Ao medir peso e pressão sanguínea de uma pessoa, temos $(X,Y)$ e precisamos capturar a <em>relação</em> entre elas — as distribuições marginais isoladas não bastam.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — PMF MARGINAL
+══════════════════════════════════════ -->
+<div class="slide" data-s="3">
+  <div class="hd"><div class="stag">§ 4.1</div><div class="stitle">Funções de Probabilidade Marginais</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Teorema — PMF Marginal (Discreto)</div>
+          <p>Seja $(X,Y)$ discreto com pmf conjunta $f_{X,Y}(x,y)$. As <span class="em">pmfs marginais</span> são:</p>
+          <div class="mc" style="margin:.4em 0">$$f_X(x)=\sum_{y\in\mathcal{R}}f_{X,Y}(x,y)$$</div>
+          <div class="mc">$$f_Y(y)=\sum_{x\in\mathcal{R}}f_{X,Y}(x,y)$$</div>
+          <p style="margin-top:.35em;font-size:.87em;color:var(--dim)">Prova: $f_X(x)=P(X=x)=P(X=x,\,-\infty &lt; Y &lt; \infty)=\sum_y f_{X,Y}(x,y)$.</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.66em;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35em">Observação Importante</p>
+          <p style="font-size:.88em">As distribuições marginais de $X$ e $Y$ <strong>não determinam univocamente</strong> a distribuição conjunta. Podem existir várias distribuições conjuntas com as mesmas marginais.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa" style="flex:1">
+          <div class="bt">Caso Contínuo — PDF Conjunta e Marginais</div>
+          <p>$f(x,y)$ é a <span class="em">pdf conjunta</span> do vetor contínuo $(X,Y)$ se $\forall\,A\subset\mathbb{R}^2$:</p>
+          <div class="mc" style="margin:.35em 0">$$P\!\left((X,Y)\in A\right)=\iint_A f(x,y)\,dx\,dy$$</div>
+          <p>As <span class="em">pdfs marginais</span> são obtidas integrando:</p>
+          <div class="mc" style="margin:.35em 0">$$f_X(x)=\int_{-\infty}^{\infty}f(x,y)\,dy$$</div>
+          <div class="mc">$$f_Y(y)=\int_{-\infty}^{\infty}f(x,y)\,dx$$</div>
+        </div>
+        <div class="db fa">
+          <div class="bt">Definição — CDF Conjunta</div>
+          <p>$F(x,y)=P(X\leq x,\,Y\leq y)$. Para o caso contínuo, $\dfrac{\partial^2 F}{\partial x\,\partial y}=f(x,y)$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — INTERATIVO: PMF DADOS
+══════════════════════════════════════ -->
+<div class="slide roomy table-roomy" data-s="4">
+  <div class="hd"><div class="stag">Exemplo 4.1.2 — § 4.1</div><div class="stitle">PMF Conjunta: Dois Dados Justos</div></div>
+  <div class="sc">
+    <div class="g3565">
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Configuração (Casella &amp; Berger Ex. 4.1.2)</div>
+          <p>Lançam-se dois dados. $X=$ soma, $Y=|$diferença$|$. Os 36 resultados são igualmente prováveis.</p>
+          <ul class="dl" style="margin-top:.3em">
+            <li>$X\in\{2,3,\ldots,12\}$</li>
+            <li>$Y\in\{0,1,2,3,4,5\}$</li>
+          </ul>
+        </div>
+        <div class="fa" style="display:flex;flex-direction:column;gap:.35em">
+          <div class="sctrl">
+            <button class="sbtn" onclick="toggleMargX()">Marginal de X</button>
+            <button class="sbtn t" onclick="toggleMargY()">Marginal de Y</button>
+          </div>
+          <div class="sctrl">
+            <button class="sbtn" style="flex:1" onclick="showEXY()">Calcular E[XY]</button>
+            <button class="sbtn r" onclick="resetDice()">↺</button>
+          </div>
+          <div id="dcell" class="fa" style="font-family:'JetBrains Mono',monospace;font-size:.76em;padding:.3em .5em;border-radius:.25em;background:var(--blt);color:var(--blue);border:1px solid var(--bbrd);">&#8592; Clique em uma célula</div>
+          <div id="dexy" style="display:none;font-family:'Playfair Display',serif;font-size:.88em;padding:.3em .5em;border-radius:.25em;background:var(--tlt);color:var(--teal);border:1px solid #a0d8d0;"></div>
+        </div>
+      </div>
+      <div class="vc fa grow">
+        <div style="flex:1;overflow:auto;min-height:0;">
+          <table class="jt" id="dtbl"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — EXEMPLOS 4.1.9, 4.1.11, 4.1.12
+══════════════════════════════════════ -->
+<div class="slide roomy" data-s="5">
+  <div class="hd"><div class="stag">§ 4.1</div><div class="stitle">Exemplos: Mesmas Marginais ≠ Mesma Conjunta; PDF Contínua</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.1.9 — Mesmo Marginal, PMF Diferente</div>
+          <p style="font-size:.87em">As duas pmfs abaixo têm <em>mesmas</em> marginais ($f_X(0)=\tfrac{1}{3}$, $f_X(1)=\tfrac{2}{3}$, $f_Y(0)=f_Y(1)=\tfrac{1}{2}$) mas são <strong>diferentes</strong>:</p>
+          <div class="pg" style="margin-top:.4em">
+            <div class="pi">
+              <p style="font-size:.84em;font-weight:600;color:var(--blue);margin-bottom:.2em">PMF — Ex. 4.1.5</p>
+              <p style="font-size:.83em">$f(0,0)=f(0,1)=\tfrac{1}{6}$</p>
+              <p style="font-size:.83em">$f(1,0)=f(1,1)=\tfrac{1}{3}$</p>
+              <p style="font-size:.83em;color:var(--teal);margin-top:.25em">$P(X=Y)=\tfrac{1}{2}$</p>
+            </div>
+            <div class="pi">
+              <p style="font-size:.84em;font-weight:600;color:var(--blue);margin-bottom:.2em">PMF — Ex. 4.1.9</p>
+              <p style="font-size:.83em">$f(0,0)=\tfrac{1}{12}$, $f(1,0)=\tfrac{5}{12}$</p>
+              <p style="font-size:.83em">$f(0,1)=f(1,1)=\tfrac{3}{12}$</p>
+              <p style="font-size:.83em;color:var(--teal);margin-top:.25em">$P(X=Y)=\tfrac{1}{3}$</p>
+            </div>
+          </div>
+          <p style="font-size:.84em;color:var(--dim);margin-top:.4em">As marginais <em>não determinam</em> a distribuição conjunta.</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.88em">A distribuição conjunta contém <strong>mais informação</strong> do que as marginais combinadas. Ela captura a estrutura de dependência entre $X$ e $Y$.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.1.11 — PDF Conjunta Contínua</div>
+          <p style="font-size:.87em">Seja $f(x,y)=6xy^2$ para $0 &lt; x &lt; 1$ e $0 &lt; y &lt; 1$ (zero fora).</p>
+          <p style="font-size:.87em;margin-top:.3em"><strong>Verificação:</strong> $\int_0^1\!\int_0^1 6xy^2\,dx\,dy=\int_0^1 3y^2\,dy=1$ ✓</p>
+          <div class="pg" style="margin-top:.4em">
+            <div class="pi">
+              <p style="font-size:.84em"><strong>$P(X+Y\geq1)$</strong></p>
+              <p style="font-size:.83em">$=\!\int_0^1\!\int_{1-y}^1\!6xy^2\,dx\,dy=\dfrac{9}{10}$</p>
+            </div>
+            <div class="pi">
+              <p style="font-size:.84em"><strong>Marginal $f_X(x)$</strong></p>
+              <p style="font-size:.83em">$=\!\int_0^1\!6xy^2\,dy=2x$, $\;0 &lt; x &lt; 1$</p>
+            </div>
+          </div>
+          <div class="pi" style="margin-top:.35em">
+            <p style="font-size:.84em">$P\!\left(\tfrac{1}{2} &lt; X &lt; \tfrac{3}{4}\right)=\int_{1/2}^{3/4}2x\,dx=\dfrac{5}{16}$</p>
+          </div>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.1.12 — Suporte Triangular</div>
+          <p style="font-size:.87em">Seja $f(x,y)=e^{-y}$ para $0 &lt; x &lt; y &lt; \infty$.</p>
+          <div class="mc" style="font-size:.92em;margin:.3em 0">$$P(X+Y\geq1)=2e^{-1/2}-e^{-1}\approx0{,}580$$</div>
+          <p style="font-size:.85em;color:var(--dim)">Integrando sobre $B^c$ (complementar da região triangular).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — DISTRIBUIÇÃO CONDICIONAL
+══════════════════════════════════════ -->
+<div class="slide roomy soft" data-s="6">
+  <div class="hd"><div class="stag">§ 4.2</div><div class="stitle">Distribuição Condicional</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição 4.2.1 / 4.2.3 — PMF e PDF Condicional</div>
+          <p>Para $f_X(x)&gt;0$, a <span class="em">pmf/pdf condicional</span> de $Y$ dado $X=x$ é:</p>
+          <div class="mc" style="margin:.4em 0">$$f(y|x)=\frac{f(x,y)}{f_X(x)}$$</div>
+          <p>Verifica-se que $f(y|x)\geq0$ e $\sum_y f(y|x)=1$ (ou $\int f(y|x)\,dy=1$).</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Valor Esperado Condicional</div>
+          <div class="mc" style="margin:.3em 0">$$E(g(Y)|x)=\sum_y g(y)f(y|x)\quad\text{ou}\quad\int g(y)f(y|x)\,dy$$</div>
+          <p style="font-size:.87em;color:var(--dim)"><strong>Nota:</strong> $E(g(Y)|X)$ é uma <em>variável aleatória</em> (depende de $X$), enquanto $E(g(Y))$ é uma constante.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.2.4 — PDF Condicional Contínua</div>
+          <p style="font-size:.87em">Com $f(x,y)=e^{-y}$, $0 &lt; x &lt; y &lt; \infty$: $f_X(x)=e^{-x}$. Logo:</p>
+          <div class="mc" style="font-size:.92em">$$f(y|x)=\frac{e^{-y}}{e^{-x}}=e^{-(y-x)},\quad y&gt;x$$</div>
+          <p style="font-size:.87em;margin-top:.3em">$E(Y|X=x)=1+x\;$ — distribuição Exponencial com localização $x$.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.2.2 — PMF Condicional Discreta</div>
+          <p style="font-size:.87em">PMF conjunta: $f(0,10)=f(0,20)=\tfrac{2}{18}$, $f(1,10)=f(1,30)=\tfrac{3}{18}$, $f(1,20)=\tfrac{4}{18}$, $f(2,30)=\tfrac{4}{18}$.</p>
+          <p style="font-size:.87em;margin-top:.35em">Marginais: $f_X(0)=\tfrac{4}{18}$, $f_X(1)=\tfrac{10}{18}$, $f_X(2)=\tfrac{4}{18}$.</p>
+          <div class="pg" style="margin-top:.4em">
+            <div class="pi">
+              <p style="font-size:.84em"><strong>Para $x=0$</strong></p>
+              <p style="font-size:.83em">$f(10|0)=f(20|0)=\tfrac{1}{2}$</p>
+            </div>
+            <div class="pi">
+              <p style="font-size:.84em"><strong>Para $x=2$</strong></p>
+              <p style="font-size:.83em">$f(30|2)=1$</p>
+              <p style="font-size:.83em;color:var(--dim)">($Y$ determinado)</p>
+            </div>
+          </div>
+          <p style="font-size:.87em;margin-top:.35em">$P(Y&gt;10\mid X=1)=f(20|1)+f(30|1)=\tfrac{7}{10}$</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.66em;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35em">Variância Condicional</p>
+          <div class="mc" style="font-size:.92em">$$\text{Var}(Y|x)=E(Y^2|x)-[E(Y|x)]^2$$</div>
+          <p style="font-size:.87em;margin-top:.3em">No Ex. 4.2.4: $\text{Var}(Y|x)=1$ para todo $x$. A variância marginal de $Y$ é $\text{Var}\,Y=2$ (Gama(2,1)). Conhecer $X$ <em>reduz</em> a variabilidade em $Y$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — INDEPENDÊNCIA
+══════════════════════════════════════ -->
+<div class="slide roomy" data-s="7">
+  <div class="hd"><div class="stag">§ 4.2</div><div class="stitle">Independência entre Variáveis Aleatórias</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição 4.2.5 — Variáveis Independentes</div>
+          <p>$X$ e $Y$ são <span class="em">independentes</span> se para todo $x\in\mathbb{R}$ e $y\in\mathbb{R}$:</p>
+          <div class="mc" style="margin:.4em 0">$$f(x,y)=f_X(x)\,f_Y(y)$$</div>
+          <p style="font-size:.87em">Consequência: $f(y|x)=f_Y(y)$ — o conhecimento de $X$ nada acrescenta sobre $Y$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Lema 4.2.7 — Critério de Fatoração</div>
+          <p>$X$ e $Y$ são independentes se e somente se existem funções $g(x)$ e $h(y)$ tais que:</p>
+          <div class="mc" style="margin:.35em 0">$$f(x,y)=g(x)\,h(y)$$</div>
+          <p style="font-size:.87em;color:var(--dim)"><strong>Atenção:</strong> o suporte também deve ser um produto cartesiano $A\times B$. Se o suporte depende conjuntamente de $x$ e $y$ (ex.: $0 &lt; x &lt; y$), as variáveis <em>não</em> são independentes.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.2.8 — Fatoração</div>
+          <p style="font-size:.87em">$f(x,y)=\tfrac{1}{384}x^2y^4e^{-x/2}e^{-y}$, $x,y&gt;0$: basta escrever $g(x)=x^2e^{-x/2}$ e $h(y)=y^4e^{-y}/384$. Suporte é produto cartesiano. Logo $X\perp Y$. ✓</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa">
+          <div class="bt">Teorema 4.2.10 — Consequências da Independência</div>
+          <div class="ax" style="margin-top:.3em">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">a</div>
+            <div class="ab">$P(X\in A,\,Y\in B)=P(X\in A)\,P(Y\in B)$</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">b</div>
+            <div class="ab">$E[g(X)h(Y)]=(Eg(X))(Eh(Y))$</div>
+          </div>
+          <p style="font-size:.86em;margin-top:.4em"><strong>Ex. 4.2.11:</strong> $X,Y\sim\text{Exp}(1)$ independentes. $E[X^2Y]=(EX^2)(EY)=(\text{Var}\,X+(EX)^2)\cdot1=2$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema 4.2.12 / 4.2.14 — Soma de Independentes</div>
+          <p>$M_{X+Y}(t)=M_X(t)M_Y(t)$. &nbsp;Para normais independentes:</p>
+          <div class="mc" style="margin:.35em 0">$$X\sim N(\mu,\sigma^2),\;Y\sim N(\gamma,\tau^2)\;\Rightarrow\;X+Y\sim N(\mu+\gamma,\,\sigma^2+\tau^2)$$</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — MISTURA DE DISTRIBUIÇÕES
+══════════════════════════════════════ -->
+<div class="slide roomy" data-s="8">
+  <div class="hd"><div class="stag">§ 4.3</div><div class="stitle">Mistura de Distribuições e Modelos Hierárquicos</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição 4.4.4 — Distribuição Mista</div>
+          <p>Uma v.a. $X$ tem <span class="em">distribuição mista</span> se sua distribuição depende de uma quantidade que também possui uma distribuição de probabilidade.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.4.1 — Hierarquia Binomial-Poisson</div>
+          <p style="font-size:.87em">Um inseto bota ovos, cada um sobrevivendo com probabilidade $p$:</p>
+          <div class="mc" style="margin:.3em 0">$X\mid Y\sim\text{Bin}(Y,\,p),\quad Y\sim\text{Poisson}(\lambda)$</div>
+          <p style="font-size:.87em;margin-top:.3em"><strong>Resultado (Ex. 4.4.2):</strong> $X\sim\text{Poisson}(\lambda p)$, portanto $EX=\lambda p$.</p>
+        </div>
+        <div class="eb fa">
+          <div class="bt">Exemplo 4.4.6 — Hierarquia Beta-Binomial</div>
+          <p style="font-size:.87em">$X\mid P\sim\text{Bin}(n,P)$, $\;P\sim\text{Beta}(\alpha,\beta)$:</p>
+          <div class="mc" style="font-size:.92em">$$EX=E[nP]=n\cdot\frac{\alpha}{\alpha+\beta}$$</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa">
+          <div class="bt">Teorema — Lei das Expectativas Totais</div>
+          <p>Para quaisquer v.a.s $X$ e $Y$:</p>
+          <div class="mc" style="margin:.4em 0">$$EX=E\!\left[E(X\mid Y)\right]$$</div>
+          <p style="font-size:.87em;color:var(--dim)">O "E" interno é sobre $X|Y$; o "E" externo é sobre $Y$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema — Identidade da Variância Condicional</div>
+          <div class="mc" style="margin:.4em 0">$$\text{Var}\,X=E\!\left[\text{Var}(X\mid Y)\right]+\text{Var}\!\left[E(X\mid Y)\right]$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Variância total = variância intragrupo + variância entre grupos.</p>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.88em">Hierarquias simplificam tanto a <em>compreensão</em> quanto os <em>cálculos</em>. O Exemplo 4.4.5 mostra que uma hierarquia de 3 estágios (Binomial–Poisson–Exponencial) é equivalente a uma Binomial Negativa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 9 — SIMULAÇÃO HIERARQUIA
+══════════════════════════════════════ -->
+<div class="slide" data-s="9">
+  <div class="hd"><div class="stag">Simulação — § 4.3</div><div class="stitle">Exemplo 4.4.2 — Hierarquia Binomial-Poisson</div></div>
+  <div class="sc">
+    <div class="g55">
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Hierarquia (Ex. 4.4.1)</div>
+          <p>Ovos: $Y\sim\text{Poisson}(\lambda)$</p>
+          <p>Sobreviventes: $X\mid Y\sim\text{Bin}(Y,p)$</p>
+          <p style="margin-top:.4em;color:var(--teal)"><strong>Resultado:</strong> $X\sim\text{Poisson}(\lambda p)$</p>
+          <div class="mc" style="margin:.3em 0">$$EX=E[pY]=p\lambda$$</div>
+        </div>
+        <div class="sw fa grow">
+          <div class="rng-wrap">
+            <label>$\lambda$ (taxa de ovos):</label>
+            <input type="range" class="rng" id="hlam" min="1" max="10" step="0.5" value="5" oninput="updateHier()">
+            <span class="lbl-val" id="vhlam">5.0</span>
+          </div>
+          <div class="rng-wrap">
+            <label>$p$ (sobrevivência):</label>
+            <input type="range" class="rng" id="hprob" min="0.1" max="0.9" step="0.05" value="0.4" oninput="updateHier()">
+            <span class="lbl-val" id="vhprob">0.40</span>
+          </div>
+          <div class="srow">
+            <div class="scard" style="flex:1"><div class="slb">$\lambda p$ = E[X]</div><div class="sv" id="hexp">2.0</div></div>
+            <div class="scard" style="flex:1"><div class="slb">Var(X) = $\lambda p$</div><div class="sv" id="hvar">2.0</div></div>
+          </div>
+          <canvas id="hcanvas" style="width:100%;height:7em"></canvas>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa">
+          <div class="bt">Prova via Lei das Expectativas Totais</div>
+          <div class="mc" style="font-size:.87em;margin:.3em 0">$$P(X=x)=\sum_{y=x}^{\infty}\!\binom{y}{x}p^x(1-p)^{y-x}\frac{e^{-\lambda}\lambda^y}{y!}$$</div>
+          <p style="font-size:.86em;color:var(--dim);margin-top:.25em">Cancelando termos e aplicando o Teorema Binomial:</p>
+          <div class="mc" style="font-size:.9em;margin:.3em 0">$$P(X=x)=\frac{(\lambda p)^x e^{-\lambda p}}{x!}\quad\Rightarrow\quad X\sim\text{Poisson}(\lambda p)$$</div>
+        </div>
+        <div class="hl fa">
+          <p style="font-size:.88em">A hierarquia facilita o entendimento: ovos são Poisson, sobrevivência é Binomial, e o marginal (sobreviventes) é Poisson com taxa $\lambda p$ — produto das duas taxas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 10 — COVARIÂNCIA E CORRELAÇÃO
+══════════════════════════════════════ -->
+<div class="slide roomy" data-s="10">
+  <div class="hd"><div class="stag">§ 4.4</div><div class="stitle">Covariância e Correlação</div></div>
+  <div class="sc">
+    <div class="g2">
+      <div class="vc">
+        <div class="db fa">
+          <div class="bt">Definição — Covariância</div>
+          <div class="mc" style="margin:.35em 0">$$\text{Cov}(X,Y)=E\!\left[(X-\mu_X)(Y-\mu_Y)\right]=EXY-\mu_X\mu_Y$$</div>
+        </div>
+        <div class="db fa">
+          <div class="bt">Definição — Correlação</div>
+          <div class="mc" style="margin:.35em 0">$$\rho_{XY}=\frac{\text{Cov}(X,Y)}{\sigma_X\,\sigma_Y}$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Valor padronizado; permite comparar relações em contextos distintos.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema — Independência implica Cov = 0</div>
+          <p>Se $X$ e $Y$ são independentes, então $\text{Cov}(X,Y)=0$ e $\rho_{XY}=0$.</p>
+          <p style="font-size:.87em;color:var(--red);margin-top:.3em"><strong>Atenção:</strong> a recíproca <em>não</em> é verdadeira. Cov $= 0$ não implica independência.</p>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="tb fa">
+          <div class="bt">Teorema — Variância da Soma Linear</div>
+          <div class="mc" style="margin:.35em 0">$$\text{Var}(aX+bY)=a^2\text{Var}\,X+b^2\text{Var}\,Y+2ab\,\text{Cov}(X,Y)$$</div>
+          <p style="font-size:.87em;color:var(--dim)">Se $X\perp Y$: $\text{Var}(aX+bY)=a^2\text{Var}\,X+b^2\text{Var}\,Y$.</p>
+        </div>
+        <div class="tb fa">
+          <div class="bt">Teorema — Limites da Correlação</div>
+          <div class="ax" style="margin-top:.3em">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">a</div>
+            <div class="ab">$-1\leq\rho_{XY}\leq1$</div>
+          </div>
+          <div class="ax">
+            <div class="anum" style="background:var(--tlt);border-color:var(--teal);color:var(--teal)">b</div>
+            <div class="ab">$|\rho_{XY}|=1\;\Leftrightarrow\;\exists\,a\neq0,b:\;P(Y=aX+b)=1$. Se $\rho=1$: $a&gt;0$; se $\rho=-1$: $a&lt;0$.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 11 — SIMULAÇÃO CORRELAÇÃO
+══════════════════════════════════════ -->
+<div class="slide" data-s="11">
+  <div class="hd"><div class="stag">Simulação — § 4.4</div><div class="stitle">Dispersão e Correlação — Normal Bivariada</div></div>
+  <div class="sc">
+    <div class="g4060">
+      <div class="vc">
+        <div class="eb fa">
+          <div class="bt">Construção</div>
+          <p>$X\sim N(0,1)$, $\;Y=\rho X+\sqrt{1-\rho^2}\,Z$</p>
+          <p>com $Z\sim N(0,1)$ independente de $X$.</p>
+          <div class="mc" style="margin:.3em 0">$$\text{Cor}(X,Y)=\rho$$</div>
+        </div>
+        <div class="sw fa grow">
+          <div class="rng-wrap">
+            <label>$\rho=$</label>
+            <input type="range" class="rng" id="crho" min="-0.99" max="0.99" step="0.01" value="0" oninput="updateCorr()">
+            <span class="lbl-val" id="vrhoc" style="font-size:1.3em;color:var(--navy)">0.00</span>
+          </div>
+          <div class="srow">
+            <div class="scard" style="flex:1"><div class="slb">$\rho$ Teórico</div><div class="sv" id="crt">0.00</div></div>
+            <div class="scard" style="flex:1"><div class="slb">$\hat\rho$ Amostral</div><div class="sv" id="crs">—</div></div>
+          </div>
+          <button class="sbtn" onclick="updateCorr()" style="width:100%">↺ Nova Amostra ($n=200$)</button>
+          <div class="bx">
+            <ul class="dl">
+              <li style="font-size:.84em">$\rho=0$: nuvem circular, sem associação</li>
+              <li style="font-size:.84em">$\rho\to1$: reta crescente; $\rho\to-1$: decrescente</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="vc fa grow">
+        <canvas id="ccanvas" style="width:100%;flex:1;min-height:0"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 12 — RESUMO
+══════════════════════════════════════ -->
+<div class="slide" data-s="12">
+  <div class="hd"><div class="stag">Revisão</div><div class="stitle">Resumo — Seção 4: Variáveis Aleatórias Múltiplas</div></div>
+  <div class="sc">
+    <div class="sgrid">
+      <div class="si fa"><div class="sn">4.1</div><div class="sh"><h5>Distribuições Conjuntas e Marginais</h5><p>Vetor aleatório $(X,Y)$: pmf/pdf conjunta $f(x,y)$. Marginais: soma/integral sobre a outra variável. As marginais <strong>não determinam</strong> a conjunta. CDF: $F(x,y)=P(X\leq x,Y\leq y)$; caso contínuo: $\partial^2F/\partial x\partial y=f(x,y)$.</p></div></div>
+      <div class="si fa"><div class="sn">4.2</div><div class="sh"><h5>Condicional e Independência</h5><p>$f(y|x)=f(x,y)/f_X(x)$. Independência: $f(x,y)=f_X(x)f_Y(y)$ — critério de fatoração (Lema 4.2.7). Para independentes: $E[g(X)h(Y)]=Eg(X)\cdot Eh(Y)$ e $M_{X+Y}(t)=M_X(t)M_Y(t)$. Soma de normais independentes é normal.</p></div></div>
+      <div class="si fa"><div class="sn">4.3</div><div class="sh"><h5>Mistura de Distribuições</h5><p>$X$ tem distribuição mista se sua distribuição depende de uma quantidade aleatória. <strong>Lei das expectativas totais:</strong> $EX=E(E(X|Y))$. <strong>Identidade da variância:</strong> $\text{Var}\,X=E[\text{Var}(X|Y)]+\text{Var}(E(X|Y))$.</p></div></div>
+      <div class="si fa"><div class="sn">4.4</div><div class="sh"><h5>Covariância e Correlação</h5><p>$\text{Cov}(X,Y)=EXY-\mu_X\mu_Y$. $\rho=\text{Cov}/(\sigma_X\sigma_Y)\in[-1,1]$. Independência $\Rightarrow$ Cov $=0$ (não o inverso). $|\rho|=1$ $\Leftrightarrow$ relação linear perfeita. $\text{Var}(aX+bY)=a^2\text{Var}X+b^2\text{Var}Y+2ab\,\text{Cov}(X,Y)$.</p></div></div>
+    </div>
+    <div class="hl fa" style="text-align:center">
+      <p>&#9654; Próxima seção: <span class="em">Propriedades de Amostras Aleatórias</span> (§ 5) — Estatísticas, Distribuições Amostrais, Lei dos Grandes Números, Teorema do Limite Central</p>
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+<nav id="nav">
+  <button class="nb" onclick="nav(-1)">&#9664;</button>
+  <div id="sc">1 / 12</div>
+  <button class="nb" onclick="nav(1)">&#9654;</button>
+</nav>
+
+<script>
+// ── NAVIGATION ──
+const slides=document.querySelectorAll('.slide');
+const tot=slides.length;let cur=0;
+function show(n){
+  slides[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(tot-1,n));
+  slides[cur].classList.add('active');
+  document.getElementById('sc').textContent=`${cur+1} / ${tot}`;
+  document.getElementById('pb').style.width=`${((cur+1)/tot)*100}%`;
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([slides[cur]]).catch(()=>{});
+  if(cur===3)buildDice();
+  if(cur===8)initHier();
+  if(cur===10)initCorr();
+}
+function nav(d){show(cur+d);}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();nav(1);}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();nav(-1);}
+});
+let tx=null;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)nav(d<0?1:-1);tx=null;});
+show(0);
+
+// ── DICE JOINT PMF (Slide 4) ──
+const dj={};
+for(let a=1;a<=6;a++)for(let b=1;b<=6;b++){const k=`${a+b},${Math.abs(a-b)}`;dj[k]=(dj[k]||0)+1;}
+let dtbuilt=false,mxOn=false,myOn=false;
+const xs=Array.from({length:11},(_,i)=>i+2);
+const ys=[0,1,2,3,4,5];
+
+function fr(n){
+  if(n===0)return'';
+  const g=(a,b)=>b===0?a:g(b,a%b);
+  const d=g(n,36);
+  return n/d===1&&36/d===1?'1':(n/d===1?`1/${36/d}`:`${n/d}/${36/d}`);
+}
+
+function buildDice(){
+  if(dtbuilt)return;dtbuilt=true;
+  const tbl=document.getElementById('dtbl');
+  const mx={},my={};
+  xs.forEach(x=>{mx[x]=ys.reduce((s,y)=>s+(dj[`${x},${y}`]||0),0);});
+  ys.forEach(y=>{my[y]=xs.reduce((s,x)=>s+(dj[`${x},${y}`]||0),0);});
+  let h='<thead><tr><th class="yhd">Y\\X</th>';
+  xs.forEach(x=>h+=`<th class="xhd">${x}</th>`);
+  h+='<th class="xhd marg-y" id="mxhd" style="display:none">$f_Y$</th></tr></thead><tbody>';
+  ys.forEach(y=>{
+    h+=`<tr><th class="yhd">${y}</th>`;
+    xs.forEach(x=>{const v=dj[`${x},${y}`]||0;h+=`<td class="cell${v?' nz':''}" onclick="clickDice(${x},${y})">${fr(v)}</td>`;});
+    h+=`<td class="marg-y" id="mry${y}" style="display:none">${fr(my[y])}</td></tr>`;
+  });
+  h+='</tbody><tfoot><tr><th class="xhd marg-x" id="myhd" style="display:none">$f_X$</th>';
+  xs.forEach(x=>h+=`<td class="marg-x" id="mrx${x}" style="display:none">${fr(mx[x])}</td>`);
+  h+='<td class="marg-x" id="mrt" style="display:none">1</td></tr></tfoot>';
+  tbl.innerHTML=h;
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([tbl]).catch(()=>{});
+}
+
+function clickDice(x,y){
+  document.querySelectorAll('.jt .cell').forEach(c=>c.classList.remove('hi'));
+  document.querySelectorAll(`.jt .cell`).forEach(c=>{
+    const m=c.getAttribute('onclick');if(m&&m.includes(`${x},${y}`))c.classList.add('hi');
+  });
+  const v=dj[`${x},${y}`]||0;
+  const d=document.getElementById('dcell');
+  d.textContent=v?`P(X=${x}, Y=${y}) = ${fr(v)}`:`P(X=${x}, Y=${y}) = 0`;
+}
+
+function toggleMargX(){
+  mxOn=!mxOn;
+  xs.forEach(x=>{const e=document.getElementById(`mrx${x}`);if(e)e.style.display=mxOn?'':'none';});
+  const h=document.getElementById('myhd');if(h)h.style.display=mxOn?'':'none';
+  const t=document.getElementById('mrt');if(t)t.style.display=mxOn?'':'none';
+}
+function toggleMargY(){
+  myOn=!myOn;
+  ys.forEach(y=>{const e=document.getElementById(`mry${y}`);if(e)e.style.display=myOn?'':'none';});
+  const h=document.getElementById('mxhd');if(h)h.style.display=myOn?'':'none';
+}
+function showEXY(){
+  let s=0;
+  for(let a=1;a<=6;a++)for(let b=1;b<=6;b++){s+=(a+b)*Math.abs(a-b);}
+  const d=document.getElementById('dexy');
+  d.style.display='block';
+  d.textContent=`E[XY] = ${s}/36 = ${s}/36 ≈ ${(s/36).toFixed(4)}  (Ex. 4.1.4)`;
+}
+function resetDice(){
+  document.querySelectorAll('.jt .cell').forEach(c=>c.classList.remove('hi'));
+  document.getElementById('dcell').textContent='\u2190 Clique em uma c\u00e9lula';
+  document.getElementById('dexy').style.display='none';
+  if(mxOn)toggleMargX();if(myOn)toggleMargY();
+}
+
+// ── HIERARCHY (Slide 9) ──
+function poisPMF(l,k){
+  if(l<=0)return k===0?1:0;
+  let p=k*Math.log(l)-l;for(let i=1;i<=k;i++)p-=Math.log(i);
+  return Math.exp(p);
+}
+function initHier(){updateHier();}
+function updateHier(){
+  const l=parseFloat(document.getElementById('hlam').value);
+  const p=parseFloat(document.getElementById('hprob').value);
+  document.getElementById('vhlam').textContent=l.toFixed(1);
+  document.getElementById('vhprob').textContent=p.toFixed(2);
+  const lp=l*p;
+  document.getElementById('hexp').textContent=lp.toFixed(2);
+  document.getElementById('hvar').textContent=lp.toFixed(2);
+  drawHier(lp);
+}
+function drawHier(lp){
+  const cv=document.getElementById('hcanvas');if(!cv)return;
+  const W=cv.offsetWidth||400,H=cv.offsetHeight||112;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#f8faff';ctx.fillRect(0,0,W,H);
+  const K=20,pl={l:8,r:8,t:14,b:20};
+  const bw=(W-pl.l-pl.r)/(K+1);
+  const pr=Array.from({length:K+1},(_,k)=>poisPMF(lp,k));
+  const mx=Math.max(...pr,0.001);
+  const bh=H-pl.t-pl.b;
+  [.25,.5,.75,1].forEach(f=>{
+    ctx.strokeStyle='#e2e8f0';ctx.lineWidth=.5;
+    ctx.beginPath();ctx.moveTo(pl.l,pl.t+bh*(1-f));ctx.lineTo(W-pl.r,pl.t+bh*(1-f));ctx.stroke();
+  });
+  pr.forEach((v,k)=>{
+    const bH=Math.max(0,(v/mx)*bh);const x=pl.l+k*bw;const y=pl.t+bh-bH;
+    ctx.fillStyle=`rgba(30,95,168,${Math.min(1,v*5+.15)})`;
+    ctx.fillRect(x+1,y,bw-2,bH);
+    if(bw>10){ctx.fillStyle='#64748b';ctx.font=`${Math.max(7,Math.floor(bw*.7))}px 'JetBrains Mono',monospace`;ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText(k,x+bw/2,H-pl.b+2);}
+  });
+  const ex=pl.l+lp*bw+bw/2;
+  ctx.strokeStyle='#0f7c6b';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(ex,pl.t);ctx.lineTo(ex,H-pl.b);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#0f7c6b';ctx.font=`9px 'JetBrains Mono',monospace`;ctx.textAlign='center';ctx.fillText('E[X]',ex,pl.t-2);
+}
+
+// ── CORRELATION (Slide 11) ──
+let cpts=[];
+function randn(){const u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function initCorr(){updateCorr();}
+function updateCorr(){
+  const rho=parseFloat(document.getElementById('crho').value);
+  document.getElementById('vrhoc').textContent=rho.toFixed(2);
+  document.getElementById('crt').textContent=rho.toFixed(2);
+  const n=200;cpts=[];
+  for(let i=0;i<n;i++){const x=randn(),z=randn();cpts.push([x,rho*x+Math.sqrt(1-rho*rho)*z]);}
+  const mx=cpts.reduce((s,p)=>s+p[0],0)/n,my=cpts.reduce((s,p)=>s+p[1],0)/n;
+  let sx=0,sy=0,sxy=0;
+  cpts.forEach(([x,y])=>{sx+=(x-mx)**2;sy+=(y-my)**2;sxy+=(x-mx)*(y-my);});
+  document.getElementById('crs').textContent=(sxy/Math.sqrt(sx*sy)).toFixed(2);
+  drawCorr(rho);
+}
+function drawCorr(rho){
+  const cv=document.getElementById('ccanvas');if(!cv||!cpts.length)return;
+  const W=cv.offsetWidth||400,H=cv.offsetHeight||300;
+  const dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#f8faff';ctx.fillRect(0,0,W,H);
+  const pad=28,sc=Math.min((W-2*pad)/6,(H-2*pad)/6);
+  const cx=W/2,cy=H/2;
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=.5;
+  [-3,-2,-1,0,1,2,3].forEach(v=>{
+    ctx.beginPath();ctx.moveTo(pad,cy-v*sc);ctx.lineTo(W-pad,cy-v*sc);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+v*sc,pad);ctx.lineTo(cx+v*sc,H-pad);ctx.stroke();
+  });
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad,cy);ctx.lineTo(W-pad,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,pad);ctx.lineTo(cx,H-pad);ctx.stroke();
+  const col=Math.abs(rho)>0.6?'rgba(15,124,107,.55)':Math.abs(rho)<0.25?'rgba(148,163,184,.55)':'rgba(30,95,168,.5)';
+  cpts.forEach(([x,y])=>{
+    const px=cx+x*sc,py=cy-y*sc;
+    if(px<pad||px>W-pad||py<pad||py>H-pad)return;
+    ctx.beginPath();ctx.arc(px,py,2.5,0,2*Math.PI);ctx.fillStyle=col;ctx.fill();
+  });
+  ctx.fillStyle='#1a2744';ctx.font=`bold 13px 'Playfair Display',serif`;ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText(`\u03c1 = ${rho.toFixed(2)}`,pad+4,pad+2);
+}
+
+window.addEventListener('resize',()=>{
+  if(cur===8)updateHier();
+  if(cur===10)drawCorr(parseFloat(document.getElementById('crho').value));
+});
+window.addEventListener('load',()=>{setTimeout(()=>{if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise();},800);});
+</script>
+</body>
+</html>

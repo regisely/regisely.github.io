@@ -18,6 +18,6 @@ This page contains links to the courses I teach, as well as presentations and se
 
 ## Pós-graduação
 
-- [Estatística (verão)]()
+- [Estatística (verão)](/stat)
 - [Macroeconomia]()
 - [Séries de Tempo](/timeseries)
