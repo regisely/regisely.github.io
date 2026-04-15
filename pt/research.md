@@ -13,6 +13,8 @@ Abaixo você encontra uma lista de publicações recentes selecionadas e working
 
 ## Publicações Recentes Selecionadas
 
+<div class="publication-list" markdown="1">
+
 Ayub, Marcelo, Felipe G. Ribeiro, Regis A. Ely e Guilherme Stein. 2025. "[O impacto econômico do fim de um monopólio estatal: o caso do mercado de resseguros no Brasil](https://periodicos.fgv.br/rbe/article/view/92676)". *Revista Brasileira de Economia* 79: 1-24.
 
 Lima, Gustavo L. R., Regis A. Ely e Daniel O. Cajueiro. 2024. "[Interactions between monetary and macroprudential policies](https://www.tandfonline.com/doi/full/10.1080/14697688.2024.2327065)". *Quantitative Finance* 24: 481-498.
@@ -30,3 +32,5 @@ transmission mechanisms of macroprudential policies on bank
 risk](https://www.sciencedirect.com/science/article/abs/pii/S0264999319313379)". *Economic Modelling* 94: 598-630.
 
 Ely, Regis A., Rafael Parfitt, André Carraro e Felipe G. Ribeiro. 2019. "[Rural credit and the time allocation of agricultural households: the case of Pronaf in Brazil](https://onlinelibrary.wiley.com/doi/abs/10.1111/rode.12606)". *Review of Development Economics* 23(4): 1863-1890.
+
+</div>

@@ -7,7 +7,7 @@ alt_lang: en
 alt_url: /blog/
 ---
 
-Esta página inclui análises, comunicados e textos sobre uma variedade de assuntos, tendo conteúdo educativo e exploratório.
+Esta página inclui análises, comunicados e textos sobre uma variedade de assuntos, tendo conteúdo educativo e exploratório. Os textos são disponibilizados na língua original, seja inglês ou português.
 
 <section class="post-categories">
     <p class="post-categories__label">Categorias</p>

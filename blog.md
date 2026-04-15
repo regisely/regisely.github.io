@@ -7,7 +7,7 @@ alt_lang: pt
 alt_url: /pt/blog/
 ---
 
-This page gathers analyses, notes, and essays on a range of subjects — with educational and exploratory content. Most posts are written in Portuguese.
+This page gathers analyses, notes, and essays on a range of subjects — with educational and exploratory content. Texts are made available in their original language, whether English or Portuguese.
 
 <section class="post-categories">
     <p class="post-categories__label">Categorias</p>
