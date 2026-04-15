@@ -7,9 +7,13 @@ alt_lang: en
 alt_url: /research/
 ---
 
+<div class="research-intro" markdown="1">
+
 Meu principal foco de pesquisa é a interseção entre mercados financeiros e políticas públicas ou intervenções regulatórias. Isso significa que utilizo estatística e econometria para medir os efeitos dessas intervenções sobre os mercados financeiros e de crédito. As minhas áreas de interesse incluem finanças, bancos, séries temporais, previsão e aprendizado de máquinas.
 
 Abaixo você encontra uma lista de publicações recentes selecionadas e working paper dos últimos 5 anos. Sinta-se à vontade para entrar em contato caso tenha interesse em algum desses projetos. [Meu CV](/pt/cv/) contém mais informações sobre minha pesquisa.
+
+</div>
 
 ## Publicações Recentes Selecionadas
 
